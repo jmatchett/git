@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.2" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.2" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_949">
+                    <section class="normal" id="section-gitbook_1022">
                     
                         <h1 id="nahr-v-n-zm-n-do-repozit-e">Nahrávání změn do repozitáře</h1>
 <p>Nyní máte vytvořen repozitář Git a checkout nebo pracovní kopii souborů k projektu. Řekněme, že potřebujete udělat pár změn a zapsat snímky těchto změn do svého repozitáře pokaždé, kdy se projekt dostane do stavu, v němž ho chcete nahrát.</p>
@@ -865,83 +868,83 @@
 <h2 id="kontrola-stavu-soubor-">Kontrola stavu souborů</h2>
 <p>Hlavním nástrojem na zjišťování stavu jednotlivých souborů je příkaz <code>git status</code>. Spustíte-li tento příkaz bezprostředně po klonování, objeví se zhruba následující:</p>
 <pre><code>$ git status
-<span class="hljs-comment"># On branch master</span>
-nothing <span class="hljs-built_in">to</span> commit (working <span class="hljs-built_in">directory</span> clean)
+# On branch master
+nothing to commit (working directory clean)
 </code></pre><p>To znamená, že žádné soubory nejsou připraveny k zapsání a pracovní adresář je čistý. Jinými slovy žádné sledované soubory nebyly změněny. Git také neví o žádných nesledovaných souborech, jinak by byly ve výčtu uvedeny. Příkaz vám dále sděluje, na jaké větvi (branch) se nacházíte. Pro tuto chvíli nebudeme situaci komplikovat a výchozí bude vždy hlavní větev (<code>master</code> branch). Větve a reference budou podrobně popsány v následující kapitole.</p>
 <p>Řekněme, že nyní přidáte do projektu nový soubor, například soubor <code>README</code>. Pokud soubor neexistoval dříve a vy spustíte příkaz <code>git status</code>, bude nesledovaný soubor uveden takto:</p>
 <pre><code>$ vim README
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Untracked files:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to include in what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    README</span>
-nothing added to commit but untracked files present (use <span class="hljs-string">"git add"</span> to track)
+# On branch master
+# Untracked files:
+#   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+#
+#    README
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
 </code></pre><p>Vidíte, že nový soubor <code>README</code> není sledován, protože je ve výpisu stavů uveden v části „Untracked files“. Není-li soubor sledován, obecně to znamená, že Git ví o souboru, který nebyl v předchozím snímku (v předchozí revizi), a nezařadí ho ani do dalších snímků, dokud mu k tomu nedáte výslovný příkaz. Díky tomu se nemůže stát, že budou do revizí nedopatřením zahrnuty vygenerované binární soubory nebo jiné soubory, které si nepřejete zahrnout. Vy si ale přejete soubor README zahrnout, a proto spusťme jeho sledování.</p>
 <h2 id="sledov-n-nov-ch-soubor-">Sledování nových souborů</h2>
 <p>K zahájení sledování nových souborů se používá příkaz <code>git add</code>. Chcete-li zahájit sledování souboru <code>README</code>, můžete zadat příkaz:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
+<pre><code>$ git add README
 </code></pre><p>Když nyní znovu provedete příkaz k výpisu stavů (git status), uvidíte, že je nyní soubor <code>README</code> sledován a připraven k zapsání:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#
 </code></pre><p>Můžeme říci, že je připraven k zapsání, protože je uveden v části „Changes to be committed“, tedy „Změny k zapsání“. Pokud v tomto okamžiku zapíšete revizi, v historickém snímku bude verze souboru z okamžiku, kdy jste spustili příkaz <code>git add</code>. Možná si vzpomínáte, že když jste před časem spustili příkaz <code>git init</code>, provedli jste potom příkaz <code>git add (soubory)</code>. Příkaz jste zadávali kvůli zahájení sledování souborů ve vašem adresáři. Příkaz <code>git add</code> je doplněn uvedením cesty buď k souboru, nebo k adresáři. Pokud se jedná o adresář, příkaz přidá rekurzivně všechny soubory v tomto adresáři.</p>
 <h2 id="p-ipraven-zm-n-n-ch-soubor-">Připravení změněných souborů</h2>
 <p>Nyní provedeme změny v souboru, který už byl sledován. Pokud změníte už dříve sledovaný soubor s názvem <code>benchmarks.rb</code> a poté znovu spustíte příkaz <code>status</code>, zobrazí se výpis podobného obsahu:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Soubor <code>benchmarks.rb</code> je uveden v části „Changes not staged for commit“ (Změněno, ale neaktualizováno). Znamená to, že soubor, který je sledován, byl v pracovním adresáři změněn, avšak ještě nebyl připraven k zapsání. Chcete-li ho připravit, spusťte příkaz <code>git add</code> (jedná se o univerzální příkaz – používá se k zahájení sledování nových souborů, k připravení souborů a k dalším operacím, jako např. k označení souborů, které kolidovaly při sloučení, za vyřešené). Spusťme nyní příkaz <code>git add</code> k připravení souboru <code>benchmarks.rb</code> k zapsání a následně znovu příkaz <code>git status</code>:</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Oba soubory jsou nyní připraveny k zapsání a budou zahrnuty do příští revize. Nyní předpokládejme, že jste si vzpomněli na jednu malou změnu, kterou chcete ještě před zapsáním revize provést v souboru <code>benchmarks.rb</code>. Soubor znovu otevřete a provedete změnu. Soubor je připraven k zapsání. Spusťme však ještě jednou příkaz <code>git status</code>:</p>
 <pre><code>$ vim benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#    modified:   benchmarks.rb
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Co to má být? Soubor <code>benchmarks.rb</code> je nyní uveden jak v části připraveno k zapsání (Changes to be committed), tak v části nepřipraveno k zapsání (Changes not staged for commit). Jak je tohle možné? Věc se má tak, že Git po spuštění příkazu <code>git add</code> připraví soubor přesně tak, jak je. Pokud nyní revizi zapíšete, bude obsahovat soubor <code>benchmarks.rb</code> tak, jak vypadal když jste naposledy spustili příkaz <code>git add</code>, nikoli v té podobě, kterou měl v pracovním adresáři v okamžiku, když jste spustili příkaz <code>git commit</code>. Pokud upravíte soubor po provedení příkazu <code>git add</code>, je třeba spustit <code>git add</code> ještě jednou, aby byla připravena aktuální verze souboru:</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#    modified:   benchmarks.rb
+#
 </code></pre><h2 id="ignorovan-soubory">Ignorované soubory</h2>
 <p>Často se ve vašem adresáři vyskytne skupina souborů, u nichž nebudete chtít, aby je Git automaticky přidával nebo aby je vůbec uváděl jako nesledované. Jedná se většinou o automaticky vygenerované soubory, jako soubory log nebo soubory vytvořené sestavovacím systémem. V takovém případě můžete vytvořit soubor <code>.gitignore</code>, který specifikuje ignorované soubory. Tady je malý příklad souboru <code>.gitignore</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>cat .gitignore
+<pre><code>$ cat .gitignore
 *.[oa]
 *~
 </code></pre><p>První řádek říká systému Git, že má ignorovat všechny soubory končící na <code>.o</code> nebo <code>.a</code> – objektové a archivní soubory, které mohou být výsledkem vytváření kódu. Druhý řádek systému Git říká, aby ignoroval všechny soubory končící vlnovkou (<code>~</code>), již mnoho textových editorů (např. Emacs) používá k označení dočasných souborů. Můžete rovněž přidat adresář <code>log</code>, <code>tmp</code> nebo <code>pid</code>, automaticky vygenerovanou dokumentaci apod. Nastavit soubor <code>.gitignore</code>, ještě než se pustíte do práce, bývá většinou dobrý nápad. Alespoň se vám nestane, že byste nedopatřením zapsali také soubory, o které v repozitáři Git nestojíte.</p>
@@ -954,195 +957,195 @@ $ git status
 </ul>
 <p>Masky souborů jsou jako zjednodušené regulární výrazy, které používá shell. Hvězdička (<code>*</code>) označuje žádný nebo více znaků; <code>[abc]</code> označuje jakýkoli znak uvedený v závorkách (v tomto případě <code>a</code>, <code>b</code> nebo <code>c</code>); otazník (<code>?</code>) označuje jeden znak; znaky v závorkách oddělené pomlčkou (<code>[0-9]</code>) označují jakýkoli znak v daném rozmezí (v našem případě 0 až 9).</p>
 <p>Tady je další příklad souboru <code>.gitignore</code>:</p>
-<pre><code><span class="hljs-preprocessor"># komentář – ignoruje se</span>
-<span class="hljs-preprocessor"># žádné soubory s příponou .a</span>
+<pre><code># komentář – ignoruje se
+# žádné soubory s příponou .a
 *.a
-<span class="hljs-preprocessor"># ale sleduj soubor lib.a, přestože máš ignorovat soubory s příponou .a</span>
+# ale sleduj soubor lib.a, přestože máš ignorovat soubory s příponou .a
 !lib.a
-<span class="hljs-preprocessor"># ignoruj soubor TODO pouze v kořenovém adresáři, ne v podadresářích</span>
+# ignoruj soubor TODO pouze v kořenovém adresáři, ne v podadresářích
 /TODO
-<span class="hljs-preprocessor"># ignoruj všechny soubory v adresáři build/</span>
+# ignoruj všechny soubory v adresáři build/
 build/
-<span class="hljs-preprocessor"># ignoruj doc/notes.txt, ale nikoli doc/server/arch.txt</span>
-doc<span class="hljs-comment">/*.txt</span>
+# ignoruj doc/notes.txt, ale nikoli doc/server/arch.txt
+doc/*.txt
 </code></pre><h2 id="zobrazen-p-ipraven-ch-a-nep-ipraven-ch-zm-n">Zobrazení připravených a nepřipravených změn</h2>
 <p>Je-li pro vaše potřeby příkaz <code>git status</code> příliš neurčitý – chcete přesně vědět, co jste změnili, nejen které soubory – můžete použít příkaz <code>git diff</code>. Podrobněji se budeme příkazu <code>git diff</code> věnovat později. Vy ho však nejspíš budete nejčastěji využívat k zodpovězení těchto dvou otázek: Co jste změnili, ale ještě nepřipravili k zapsání? A co jste připravili a nyní může být zapsáno? Zatímco příkaz <code>git status</code> vám tyto otázky zodpoví velmi obecně, příkaz <code>git diff</code> přesně zobrazí přidané a odstraněné řádky – tedy samotná záplata.</p>
 <p>Řekněme, že znovu upravíte a připravíte soubor <code>README</code> a poté bez připravení upravíte soubor <code>benchmarks.rb</code>. Po spuštění příkazu <code>status</code> se zobrazí zhruba toto:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Chcete-li vidět, co jste změnili, avšak ještě nepřipravili k zapsání, zadejte příkaz <code>git diff</code> bez dalších parametrů:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..da65585 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..da65585 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-           @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-         <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+           @commit.parents[0].parents[0].parents[0]
+         end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-         run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-           <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-           <span class="hljs-built_in">log</span>.size
+         run_code(x, &#39;commits 2&#39;) do
+           log = git.commits(&#39;master&#39;, 15)
+           log.size
 </code></pre><p>Tento příkaz srovná obsah vašeho pracovního adresáře a oblasti připravených změn. Výsledek vám ukáže provedené změny, které jste dosud nepřipravili k zapsání.</p>
 <p>Chcete-li vidět, co jste připravili a co bude součástí příští revize, použijte příkaz <code>git diff --cached</code>. (Ve verzích Git 1.6.1 a novějších můžete použít také příkaz <code>git diff --staged</code>, který se možná snáze pamatuje.) Tento příkaz srovná připravené změny s poslední revizí:</p>
 <pre><code>$ git diff --cached
 diff --git a/README b/README
 new file mode 100644
 index 0000000..03902a1
-<span class="hljs-header">--- /dev/null</span>
-<span class="hljs-header">+++ b/README2</span>
-<span class="hljs-chunk">@@ -0,0 +1,5 @@</span>
-<span class="hljs-addition">+grit</span>
-<span class="hljs-addition">+ by Tom Preston-Werner, Chris Wanstrath</span>
-<span class="hljs-addition">+ http://github.com/mojombo/grit</span>
-<span class="hljs-addition">+</span>
-<span class="hljs-addition">+Grit is a Ruby library for extracting information from a Git repository</span>
+--- /dev/null
++++ b/README2
+@@ -0,0 +1,5 @@
++grit
++ by Tom Preston-Werner, Chris Wanstrath
++ http://github.com/mojombo/grit
++
++Grit is a Ruby library for extracting information from a Git repository
 </code></pre><p>K tomu je třeba poznamenat, že příkaz <code>git diff</code> sám o sobě nezobrazí všechny změny provedené od poslední revize, ale jen změny, které zatím nejsou připraveny. To může být občas matoucí, protože pokud jste připravili všechny provedené změny, výstup příkazu <code>git diff</code> bude prázdný.</p>
 <p>V dalším příkladu ukážeme situaci, kdy jste připravili soubor <code>benchmarks.rb</code> a poté ho znovu upravili. Příkaz <code>git diff</code> můžete nyní použít k zobrazení změn v souboru, které byly připraveny, a změn, které nejsou připraveny:</p>
 <pre><code>$ git add benchmarks.rb
-$ echo <span class="hljs-string">'# test line'</span> &gt;&gt; benchmarks.rb
+$ echo &#39;# test line&#39; &gt;&gt; benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes to be committed:
+#
+#    modified:   benchmarks.rb
+#
+# Changes not staged for commit:
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Příkaz <code>git diff</code> nyní můžete použít k zobrazení změn, které dosud nejsou připraveny:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index e445e28.<span class="hljs-number">.86</span>b2f7c <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index e445e28..86b2f7c 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">127</span>,<span class="hljs-number">3</span> +<span class="hljs-number">127</span>,<span class="hljs-number">4</span> @@ <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -127,3 +127,4 @@ end
  main()
 
- <span class="hljs-comment">##pp Grit::GitRuby.cache_client.stats</span>
-+<span class="hljs-comment"># test line</span>
+ ##pp Grit::GitRuby.cache_client.stats
++# test line
 </code></pre><p>A příkaz <code>git diff --cached</code> ukáže změny, které už připraveny jsou:</p>
-<pre><code>$ git diff <span class="hljs-comment">--cached</span>
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..e445e28 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+<pre><code>$ git diff --cached
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..e445e28 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-          @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+          @commit.parents[0].parents[0].parents[0]
+        end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-        run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-          <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-          <span class="hljs-built_in">log</span>.size
+        run_code(x, &#39;commits 2&#39;) do
+          log = git.commits(&#39;master&#39;, 15)
+          log.size
 </code></pre><h2 id="zapisov-n-zm-n">Zapisování změn</h2>
 <p>Nyní, když jste seznam připravených změn nastavili podle svých představ, můžete začít zapisovat změny. Nezapomeňte, že všechno, co dosud nebylo připraveno k zapsání – všechny soubory, které jste vytvořili nebo změnili a na které jste po úpravách nepoužili příkaz <code>git add</code> – nebudou do revize zahrnuty. Zůstanou na vašem disku ve stavu „změněno“.
 Když jsme v našem případě naposledy spustili příkaz <code>git status</code>, viděli jste, že všechny soubory byly připraveny k zapsání. Nyní může proběhnout samotné zapsání změn. Nejjednodušším způsobem zapsání je zadat příkaz <code>git commit</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit
+<pre><code>$ git commit
 </code></pre><p>Po zadání příkazu se otevře zvolený editor. (Ten je nastaven proměnnou prostředí <code>$EDITOR</code> vašeho shellu. Většinou se bude jednat o editor vim nebo emacs, ale pomocí příkazu <code>git config --global core.editor</code> můžete nastavit i jakýkoli jiný – viz kapitola 1.)</p>
 <p>Editor zobrazí následující text (tento příklad je z editoru Vim):</p>
-<pre><code><span class="hljs-preprocessor"># Please enter the commit message for your changes. Lines starting</span>
-<span class="hljs-preprocessor"># with '#' will be ignored, and an empty message aborts the commit.</span>
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       new file:   README</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
+<pre><code># Please enter the commit message for your changes. Lines starting
+# with &#39;#&#39; will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       new file:   README
+#       modified:   benchmarks.rb
 ~
 ~
 ~
-<span class="hljs-string">".git/COMMIT_EDITMSG"</span> <span class="hljs-number">10</span>L, <span class="hljs-number">283</span>C
+&quot;.git/COMMIT_EDITMSG&quot; 10L, 283C
 </code></pre><p>Jak vidíte, výchozí zpráva k revizi (commit message) obsahuje zakomentovaný aktuální výstup příkazu <code>git status</code> a nahoře jeden prázdný řádek. Tyto komentáře můžete odstranit a napsat vlastní zprávu k revizi, nebo je můžete v souboru ponechat, abyste si lépe vzpomněli, co bylo obsahem dané revize. (Chcete-li zařadit ještě podrobnější informace o tom, co jste měnili, můžete k příkazu <code>git commit</code> přidat parametr <code>-v</code>. V editoru se pak zobrazí také výstup „diff“ ke konkrétním změnám a vy přesně uvidíte, co bylo změněno.) Jakmile editor zavřete, Git vytvoří revizi se zprávou, kterou jste napsali (s odstraněnými komentáři a rozdíly).</p>
 <p>Zprávu k revizi můžete rovněž napsat do řádku k příkazu <code>commit</code>. Jako zprávu ji označíte tak, že před ni vložíte příznak <code>-m</code>:</p>
-<pre><code>$ git commit -m "Story 182: Fix benchmarks for speed"
-[<span class="hljs-link_reference">master</span>]:<span class="hljs-link_url"> created 463dc4f: "Fix benchmarks for speed"</span><span class="hljs-link_url">
- 2 files changed, 3 insertions(+), 0 deletions(-)</span><span class="hljs-link_url">
- create mode 100644 README</span>
+<pre><code>$ git commit -m &quot;Story 182: Fix benchmarks for speed&quot;
+[master]: created 463dc4f: &quot;Fix benchmarks for speed&quot;
+ 2 files changed, 3 insertions(+), 0 deletions(-)
+ create mode 100644 README
 </code></pre><p>Nyní jste vytvořili svou první revizi! Vidíte, že se po zapsání revize zobrazil výpis s informacemi: do jaké větve jste revizi zapsali (hlavní, <code>master</code>), jaký kontrolní součet SHA-1 revize dostala (<code>463dc4f</code>), kolik souborů bylo změněno a statistiku přidaných a odstraněných řádků revize.</p>
 <p>Nezapomeňte, že revize zaznamená snímek projektu, jak je obsažen v oblasti připravených změn. Vše, co jste nepřipravili k zapsání, zůstane ve stavu „změněno“ na vašem disku. Chcete-li i tyto soubory přidat do své historie, zapište další revizi. Pokaždé, když zapíšete revizi, nahrajete snímek svého projektu, k němuž se můžete později vrátit nebo ho můžete použít k srovnání.</p>
 <h2 id="p-esko-en-oblasti-p-ipraven-ch-zm-n">Přeskočení oblasti připravených změn</h2>
 <p>Přestože může být oblast připravených změn opravdu užitečným nástrojem pro přesné vytváření revizí, je někdy při daném pracovním postupu zbytečným mezikrokem. Chcete-li oblast připravených změn úplně přeskočit, nabízí Git jednoduchou zkratku. Přidáte-li k příkazu <code>git commit</code> parametr <code>-a</code>, Git do revize automaticky zahrne každý soubor, který je sledován. Zcela tak odpadá potřeba zadávat příkaz <code>git add</code>:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-$ git commit -a -m <span class="hljs-string">'added new benchmarks'</span>
-[master <span class="hljs-number">83e38</span>c7] added <span class="hljs-keyword">new</span> benchmarks
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">5</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+# On branch master
+#
+# Changes not staged for commit:
+#
+#    modified:   benchmarks.rb
+#
+$ git commit -a -m &#39;added new benchmarks&#39;
+[master 83e38c7] added new benchmarks
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 </code></pre><p>Tímto způsobem není nutné provádět před zapsáním revize příkaz <code>git add</code> pro soubor <code>benchmarks.rb</code>.</p>
 <h2 id="odstra-ov-n-soubor-">Odstraňování souborů</h2>
 <p>Chcete-li odstranit soubor ze systému Git, musíte ho odstranit ze sledovaných souborů (přesněji řečeno odstranit z oblasti připravených změn) a zapsat revizi. Odstranění provedete příkazem <code>git rm</code>, který odstraní soubor zároveň z vašeho pracovního adresáře, a proto ho už příště neuvidíte mezi nesledovanými soubory.</p>
 <p>Pokud soubor jednoduše odstraníte z pracovního adresáře, zobrazí se ve výpisu <code>git status</code> v části „Changes not staged for commit“ (tedy nepřipraveno):</p>
 <pre><code>$ rm grit.gemspec
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add/rm &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       deleted:    grit.gemspec</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes not staged for commit:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+#
+#       deleted:    grit.gemspec
+#
 </code></pre><p>Pokud nyní provedete příkaz <code>git rm</code>, bude k zapsání připraveno odstranění souboru:</p>
 <pre><code>$ git rm grit.gemspec
-rm <span class="hljs-string">'grit.gemspec'</span>
+rm &#39;grit.gemspec&#39;
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       deleted:    grit.gemspec</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       deleted:    grit.gemspec
+#
 </code></pre><p>Po příštím zapsání revize soubor zmizí a nebude sledován. Pokud už jste soubor upravili a přidali do indexu, musíte odstranění provést pomocí parametru <code>-f</code>. Jedná se o bezpečnostní funkci, jež má zabránit nechtěnému odstranění dat, která ještě nebyla nahrána do snímku, a nemohou proto být ze systému Git obnovena.</p>
 <p>Další užitečnou možností, která se vám může hodit, je zachování souboru v pracovním stromě a odstranění z oblasti připravených změn. Soubor tak ponecháte na svém pevném disku, ale ukončíte jeho sledování systémem Git. To může být užitečné zejména v situaci, kdy něco zapomenete přidat do souboru <code>.gitignore</code>, a omylem to tak zahrnete do revize, např. velký log soubor nebo pár zkompilovaných souborů s příponou <code>.a</code>. V takovém případě použijte parametr <code>--cached</code>:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">rm</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">cached</span> <span class="hljs-comment">readme</span><span class="hljs-string">.</span><span class="hljs-comment">txt</span>
+<pre><code>$ git rm --cached readme.txt
 </code></pre><p>Příkaz <code>git rm</code> lze používat v kombinaci se soubory, adresáři a maskami souborů. Můžete tak zadat například příkaz ve tvaru:</p>
-<pre><code>$ git rm <span class="hljs-keyword">log</span>/\*.<span class="hljs-keyword">log</span>
+<pre><code>$ git rm log/\*.log
 </code></pre><p>Všimněte si tu zpětného lomítka (<code>\</code>) před znakem <code>*</code>. Je tu proto, že Git provádí své vlastní nahrazování masek souborů nad to, které provádí váš shell. Tímto příkazem odstraníte všechny soubory s příponou <code>.log</code> z adresáře <code>log/</code>. Provést můžete také tento příkaz:</p>
-<pre><code><span class="hljs-variable">$ </span>git rm \*~
+<pre><code>$ git rm \*~
 </code></pre><p>Tento příkaz odstraní všechny soubory, které končí vlnovkou (<code>~</code>).</p>
 <h2 id="p-esouv-n-soubor-">Přesouvání souborů</h2>
 <p>Na rozdíl od ostatních systémů VCS nesleduje Git explicitně přesouvání souborů. Pokud přejmenujete v systému Git soubor, neuloží se žádná metadata s informací, že jste soubor přejmenovali. Git však používá jinou fintu, aby zjistil, že byl soubor přejmenován. Na ni se podíváme později.</p>
 <p>Může se zdát zvláštní, že Git přesto používá příkaz <code>mv</code>. Chcete-li v systému Git přejmenovat soubor, můžete spustit třeba příkaz</p>
-<pre><code><span class="hljs-variable">$ </span>git mv původní_název nový_název
+<pre><code>$ git mv původní_název nový_název
 </code></pre><p>a vše funguje na výbornou. A skutečně, pokud takový příkaz provedete a podíváte se na stav souboru, uvidíte, že ho Git považuje za přejmenovaný (renamed):</p>
 <pre><code>$ git mv README.txt README
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Your branch is ahead of 'origin/master' by 1 commit.</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       renamed:    README.txt -&gt; README</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Your branch is ahead of &#39;origin/master&#39; by 1 commit.
+#
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       renamed:    README.txt -&gt; README
+#
 </code></pre><p>Výsledek je však stejný, jako byste provedli následující:</p>
-<pre><code><span class="hljs-variable">$ </span>mv <span class="hljs-constant">README</span>.txt <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git rm <span class="hljs-constant">README</span>.txt
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
+<pre><code>$ mv README.txt README
+$ git rm README.txt
+$ git add README
 </code></pre><p>Git implicitně zjistí, že se jedná o přejmenování, a proto nehraje roli, zda přejmenujete soubor tímto způsobem, nebo pomocí příkazu <code>mv</code>. Jediným skutečným rozdílem je, že <code>mv</code> je jediný příkaz, zatímco u druhého způsobu potřebujete příkazy tři — příkaz <code>mv</code> je pouze zjednodušením. Důležitější je, že můžete použít jakýkoli způsob přejmenování a příkaz add/rm provést později, před zapsáním revize.</p>
 
                     
@@ -1162,9 +1165,9 @@ $ git status
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

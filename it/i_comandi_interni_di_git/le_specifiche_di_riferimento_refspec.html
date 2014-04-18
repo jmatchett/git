@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -779,54 +782,54 @@
                         <h1 id="le-specifiche-di-riferimento-refspec-">Le specifiche di riferimento (<em>refspec</em>)</h1>
 <p>In questo libro abbiamo sempre usato delle semplici mappature, dai branch remoti ai riferimenti locali, ma possono essere anche molto più complessi.
 Immagina di aggiungere un repository remoto:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add origin git@github.com:schacon/simplegit-progit.git
 </code></pre><p>Questo aggiunge una sezione al tuo <code>.git/config</code> specificando, del repository remoto, il nome (<code>origin</code>), l’URL e le specifiche di riferimento per ottenere le modifiche remote:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
 </code></pre><p>Il formato delle specifiche di riferimento è un <code>+</code> (opzionale) seguito da <code>&lt;src&gt;:&lt;dst&gt;</code>, dove <code>&lt;src&gt;</code> è lo schema per i riferimenti remoti e <code>&lt;dst&gt;</code> per gli stessi salvati in locale. Il <code>+</code> dice a Git di aggiornare i riferimenti anche se non si tratta di un avanti-veloce (<em>fast-forward</em>).</p>
 <p>Nel caso predefinito, che viene scritto da git quando si usa il comando <code>git remote add</code>, Git recupera tutti i riferimenti sul server di <code>refs/heads/</code> e li scrive localmente in <code>refs/remotes/origin/</code>. Quindi, se hai un branch <code>master</code> sul server, puoi accedere localmente al log di questo branch così:</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/master
-<span class="hljs-variable">$ </span>git log remotes/origin/master
-<span class="hljs-variable">$ </span>git log refs/remotes/origin/master
+<pre><code>$ git log origin/master
+$ git log remotes/origin/master
+$ git log refs/remotes/origin/master
 </code></pre><p>Sono tutti equivalenti perché Git li espande tutti a <code>refs/remotes/origin/master</code>.</p>
 <p>Se vuoi, invece di scaricare tutti i branch dal server, Git può scaricare solo il <code>master</code> cambiando la riga del fetch così</p>
-<pre><code><span class="hljs-attribute">fetch </span>=<span class="hljs-string"> +refs/heads/master:refs/remotes/origin/master</span>
+<pre><code>fetch = +refs/heads/master:refs/remotes/origin/master
 </code></pre><p>Questa è la specifica di riferimento predefinito per questo repository remoto quando si esegue il comando <code>git fetch</code>. Se vuoi fare qualcosa una sola volta, puoi sempre specificare le specifiche di riferimento alla riga di comando. Per fare un <em>pull</em> del <code>master</code> sul repository remoto dal branch locale <code>origin/mymaster</code>, puoi eseguire</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch origin <span class="hljs-symbol">master:</span>refs/remotes/origin/mymaster
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster
 </code></pre><p>Puoi anche specificare più specifiche di riferimento alla riga di comando, per fare una <em>pull</em> di più branch allo stesso tempo:</p>
-<pre><code>$ git fetch origin <span class="hljs-attribute">master</span>:refs/remotes/origin/mymaster \
-   <span class="hljs-attribute">topic</span>:refs/remotes/origin/topic
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit
- ! [rejected]        master<span class="hljs-function">     -&gt;</span> origin/mymaster  (non fast forward)
- * [<span class="hljs-keyword">new</span> branch]      topic<span class="hljs-function">      -&gt;</span> origin/topic
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster \
+   topic:refs/remotes/origin/topic
+From git@github.com:schacon/simplegit
+ ! [rejected]        master     -&gt; origin/mymaster  (non fast forward)
+ * [new branch]      topic      -&gt; origin/topic
 </code></pre><p>In questo caso la <em>pull</em> verso il master è stata rifiutata perché non era un riferimento <em>fast-forward</em>. Puoi modificare questo comportamento aggiungendo un <code>+</code> prima delle specifiche di riferimento.</p>
 <p>Puoi anche specificare più specifiche di riferimento nel tuo file di configurazione. Se vuoi prendere sempre il master e il branch sperimentale puoi aggiungere queste due righe:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git@<span class="hljs-filename">github.com</span>:schacon/simplegit-<span class="hljs-filename">progit.git
-       fetch = +refs/heads/master</span>:refs/remotes/origin/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
        fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 </code></pre><p>Non puoi usare schemi parziali, e quindi l’impostazione seguente non è valida:</p>
-<pre><code>fetch = +refs/heads/qa*<span class="hljs-symbol">:refs/remotes/origin/qa*</span>
+<pre><code>fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 </code></pre><p>Ma puoi usare la nomenclatura per ottenere lo stesso risultato. Se hai un gruppo di QA che faccia la <em>push</em> di una serie di branch e tu vuoi prendere il master e qualsiasi branch del gruppo di QA e nient’altro, puoi usare questa configurazione:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/<span class="hljs-symbol">master:</span>refs/remotes/origin/master
-       fetch = +refs/heads/qa/*<span class="hljs-symbol">:refs/remotes/origin/qa/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
+       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 </code></pre><p>Se hai un flusso di lavoro complesso, dove il gruppo di QA e gli sviluppatori fanno la <em>push</em> di branch e il gruppo d’integrazione che fa la push e collabora su branch remoti, puoi enumerarli facilmente come abbiamo appena visto.</p>
 <h2 id="le-push-con-le-specifiche-di-riferimento">Le push con le specifiche di riferimento</h2>
 <p>È bello che tu possa nominare i riferimenti in questo modo, ma come fanno, in primo luogo, i membri del gruppo di QA a mettere i loro branch in <code>qa/</code>? Puoi farlo usando le specifiche di riferimento anche per la <em>push</em>.</p>
 <p>Se il gruppo di QA vuole fare la <em>push</em> del loro <code>master</code> in <code>qa/master</code> sul server remoto, possono eseguire</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>$ git push origin master:refs/heads/qa/master
 </code></pre><p>Se vogliono che Git lo faccia automaticamente ogni volta che eseguano <code>git push origin</code> basta che aggiungano una riga <code>push</code> al loro file di configurazione:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
-       push = refs/heads/<span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
+       push = refs/heads/master:refs/heads/qa/master
 </code></pre><p>Questo fa si che eseguendo <code>git push origin</code>, Git faccia sempre una <em>push</em> del <code>master</code> locale in <code>qa/master</code> del server remoto.</p>
 <h2 id="eliminare-i-riferimenti">Eliminare i riferimenti</h2>
 <p>Puoi usare le specifiche di riferimento anche per eliminare dei riferimenti ai server remoti:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:topic</span>
+<pre><code>$ git push origin :topic
 </code></pre><p>Poiché il formato delle specifiche è <code>&lt;src&gt;:&lt;dst&gt;</code>, omettendo la parte <code>&lt;src&gt;</code> è come dire che il branch remoto è “niente” e quindi lo si cancella.</p>
 
                     
@@ -846,9 +849,9 @@ From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_611">
+                    <section class="normal" id="section-gitbook_824">
                     
                         <h1 id="protocoles">Protocoles</h1>
 <p>Git peut utiliser quatre protocoles réseau majeurs pour transporter des données : local, <em>Secure Shell</em> (SSH), Git et HTTP.
@@ -857,16 +860,16 @@ Ce dernier cas n&#39;est pas optimum car tous les dépôts seraient hébergés d
 <p>Si vous disposez d&#39;un système de fichiers partagé, vous pouvez cloner, pousser et tirer avec un dépôt local.
 Pour cloner un dépôt ou pour l&#39;utiliser comme dépôt distant d&#39;un projet existant, utilisez le chemin vers le dépôt comme URL.
 Par exemple, pour cloner un dépôt local, vous pouvez lancer ceci :</p>
-<pre><code><span class="hljs-variable">$ </span>git clone /opt/git/projet.git
+<pre><code>$ git clone /opt/git/projet.git
 </code></pre><p>Ou bien cela :</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">file:</span>/<span class="hljs-regexp">//opt</span><span class="hljs-regexp">/git/projet</span>.git
+<pre><code>$ git clone file:///opt/git/projet.git
 </code></pre><p>Git opère légèrement différemment si vous spécifiez explicitement le protocole <code>file://</code> au début de l&#39;URL.
 Si vous spécifiez simplement le chemin, Git tente d&#39;utiliser des liens durs ou une copie des fichiers nécessaires.
 Si vous spécifiez le protocole <code>file://</code>, Git lance un processus d&#39;accès au travers du réseau, ce qui est généralement moins efficace.
 La raison d&#39;utiliser spécifiquement le préfixe <code>file://</code> est la volonté d&#39;obtenir une copie propre du dépôt, sans aucune référence ou aucun objet supplémentaire qui pourraient résulter d&#39;un import depuis un autre système de gestion de version ou d&#39;une action similaire (voir chapitre 9 pour les tâches de maintenance).
 Nous utiliserons les chemins normaux par la suite car c&#39;est la méthode la plus efficace.</p>
 <p>Pour ajouter un dépôt local à un projet Git existant, lancez ceci :</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> proj_local /opt/git/projet<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add proj_local /opt/git/projet.git
 </code></pre><p>Ensuite, vous pouvez pousser vers et tirer depuis ce dépôt distant de la même manière que vous le feriez pour un dépôt accessible sur le réseau.</p>
 <h3 id="avantages">Avantages</h3>
 <p>Les avantages des dépôts accessibles sur le système de fichiers sont qu&#39;ils sont simples et qu&#39;ils utilisent les permissions du système de fichiers.
@@ -888,9 +891,9 @@ Cela est aussi dû au fait que SSH est le seul protocole permettant facilement d
 Les deux autres protocoles réseau (HTTP et Git) sont généralement en lecture seule et s&#39;ils peuvent être utiles pour la publication, le protocole SSH est nécessaire pour les mises à jour.
 SSH est un protocole authentifié ; et comme il est très répandu, il est généralement facile à mettre en œuvre et à utiliser.</p>
 <p>Pour cloner un dépôt Git à travers SSH, spécifiez le préfixe <code>ssh://</code> dans l&#39;URL comme ceci :</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">ssh:</span>/<span class="hljs-regexp">/utilisateur@serveur/projet</span>.git
+<pre><code>$ git clone ssh://utilisateur@serveur/projet.git
 </code></pre><p>ou vous pouvez utiliser la syntaxe scp habituelle avec le protocole SSH :</p>
-<pre><code><span class="hljs-variable">$ </span>git clone utilisateur<span class="hljs-variable">@serveur</span><span class="hljs-symbol">:projet</span>.git
+<pre><code>$ git clone utilisateur@serveur:projet.git
 </code></pre><p>Vous pouvez aussi ne pas spécifier de nom d&#39;utilisateur et Git utilisera par défaut le nom de login.</p>
 <h3 id="avantages">Avantages</h3>
 <p>Les avantages liés à l&#39;utilisation de SSH sont nombreux.
@@ -929,15 +932,15 @@ La beauté d&#39;HTTP ou HTTPS tient dans la simplicité à le mettre en place.
 Tout ce qu&#39;il y a à faire, c&#39;est de simplement copier un dépôt Git nu sous votre racine de document HTTP et de paramétrer un crochet <code>post-update</code> et c&#39;est prêt (voir chapitre 7 pour les détails sur les crochets de Git).
 À partir de ceci, toute personne possédant un accès au serveur web sur lequel vous avez copié votre dépôt peut le cloner.
 Pour autoriser un accès en lecture à votre dépôt sur HTTP, faites ceci :</p>
-<pre><code><span class="hljs-variable">$ </span>cd /var/www/htdocs/
-<span class="hljs-variable">$ </span>git clone --bare /chemin/vers/git_projet projetgit.git
-<span class="hljs-variable">$ </span>cd projetgit.git
-<span class="hljs-variable">$ </span>mv hooks/post-update.sample hooks/post-update
-<span class="hljs-variable">$ </span>chmod a+x hooks/post-update
+<pre><code>$ cd /var/www/htdocs/
+$ git clone --bare /chemin/vers/git_projet projetgit.git
+$ cd projetgit.git
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>C&#39;est tout.
 Le crochet <code>post-update</code> qui est livré avec Git par défaut lance la commande appropriée (<code>git update-server-info</code>) pour permettre un fonctionnement correct du clonage et de la récupération par HTTP.
 Cette commande est lancée lorsque vous poussez vers ce dépôt par SSH ; ainsi, les autres personnes peuvent cloner via la commande :</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/exemple.com/projetgit</span>.git
+<pre><code>$ git clone http://exemple.com/projetgit.git
 </code></pre><p>Dans ce cas particulier, nous utilisons le chemin <code>/var/www/htdocs</code> qui est commun pour les installations d&#39;Apache, mais vous pouvez utiliser n&#39;importe quel serveur web de pages statiques — il suffit de placer le dépôt nu dans le chemin d&#39;accès.
 Les données Git sont servies comme des simples fichiers statiques (voir chapitre 9 pour la manière détaillée dont ils sont servis).</p>
 <p>Il est possible de faire pousser Git à travers HTTP, bien que cette technique ne soit pas utilisée et nécessite de gérer les exigences complexes de WebDAV.
@@ -979,9 +982,9 @@ Pour plus d&#39;information sur les différences d&#39;efficacité entre le prot
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

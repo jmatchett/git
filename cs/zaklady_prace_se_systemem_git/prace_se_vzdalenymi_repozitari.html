@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,70 +857,70 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_950">
+                    <section class="normal" id="section-gitbook_1021">
                     
                         <h1 id="pr-ce-se-vzd-len-mi-repozit-i">Práce se vzdálenými repozitáři</h1>
 <p>Abyste mohli spolupracovat na projektech v systému Git, je třeba vědět, jak manipulovat se vzdálenými repozitáři (remote repositories). Vzdálené repozitáře jsou verze vašeho projektu umístěné na internetu nebo kdekoli v síti. Vzdálených repozitářů můžete mít hned několik, každý pro vás přitom bude buď pouze ke čtení (read-only) nebo ke čtení a zápisu (read write). Spolupráce s ostatními uživateli zahrnuje také manipulaci s těmito vzdálenými repozitáři. Chcete-li svou práci sdílet, je nutné ji posílat do repozitářů a také ji z nich stahovat.
 Při manipulaci se vzdálenými repozitáři je nutné vědět, jak lze přidat vzdálený repozitář, jak odstranit repozitář, který už není platný, jak spravovat různé vzdálené větve, jak je definovat jako sledované či nesledované apod. V této části se zaměříme právě na správu vzdálených repozitářů.</p>
 <h2 id="zobrazen-vzd-len-ch-server-">Zobrazení vzdálených serverů</h2>
 <p>Chcete-li zjistit, jaké vzdálené servery máte nakonfigurovány, můžete použít příkaz <code>git remote</code>. Systém vypíše zkrácené názvy všech identifikátorů vzdálených repozitářů, jež máte zadány. Pokud byl váš repozitář vytvořen klonováním, měli byste vidět přinejmenším server origin. Origin je výchozí název, který Git dává serveru, z nějž jste repozitář klonovali.</p>
-<pre><code>$ git clone git:<span class="hljs-comment">//github.com/schacon/ticgit.git</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /<span class="hljs-keyword">private</span>/tmp/ticgit/.git/
-remote: Counting objects: <span class="hljs-number">595</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">269</span>/<span class="hljs-number">269</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">595</span> (delta <span class="hljs-number">255</span>), reused <span class="hljs-number">589</span> (delta <span class="hljs-number">253</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">595</span>/<span class="hljs-number">595</span>), <span class="hljs-number">73.31</span> KiB | <span class="hljs-number">1</span> KiB/s, <span class="hljs-keyword">done</span>.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">255</span>/<span class="hljs-number">255</span>), <span class="hljs-keyword">done</span>.
+<pre><code>$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
 $ cd ticgit
 $ git remote
 origin
 </code></pre><p>Můžete rovněž zadat parametr <code>-v</code>, jenž zobrazí adresu URL, kterou má Git uloženou pro zkrácený název, který si přejete rozepsat.</p>
 <pre><code>$ git remote -v
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (fetch)
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (<span class="hljs-keyword">push</span>)
+origin  git://github.com/schacon/ticgit.git (fetch)
+origin  git://github.com/schacon/ticgit.git (push)
 </code></pre><p>Pokud máte více než jeden vzdálený repozitář, příkaz je vypíše všechny. Například můj repozitář Grit vypadá takto:</p>
 <pre><code>$ cd grit
 $ git remote -v
-bakkdoor  git://github<span class="hljs-preprocessor">.com</span>/bakkdoor/grit<span class="hljs-preprocessor">.git</span>
-cho45     git://github<span class="hljs-preprocessor">.com</span>/cho45/grit<span class="hljs-preprocessor">.git</span>
-defunkt   git://github<span class="hljs-preprocessor">.com</span>/defunkt/grit<span class="hljs-preprocessor">.git</span>
-koke      git://github<span class="hljs-preprocessor">.com</span>/koke/grit<span class="hljs-preprocessor">.git</span>
-origin    git@github<span class="hljs-preprocessor">.com</span>:mojombo/grit<span class="hljs-preprocessor">.git</span>
+bakkdoor  git://github.com/bakkdoor/grit.git
+cho45     git://github.com/cho45/grit.git
+defunkt   git://github.com/defunkt/grit.git
+koke      git://github.com/koke/grit.git
+origin    git@github.com:mojombo/grit.git
 </code></pre><p>To znamená, že můžeme velmi snadno stáhnout příspěvky od kteréhokoli z těchto uživatelů. Nezapomeňte však, že pouze vzdálený server origin je SSH URL, a je tedy jediným repozitářem, kam lze posílat soubory (důvod objasníme v kapitole 4).</p>
 <h2 id="p-id-v-n-vzd-len-ch-repozit-">Přidávání vzdálených repozitářů</h2>
 <p>V předchozích částech už jsem se letmo dotkl přidávání vzdálených repozitářů. V této části se dostávám k tomu, jak přesně při přidávání postupovat. Chcete-li přidat nový vzdálený repozitář Git ve formě zkráceného názvu, na nějž lze snadno odkazovat, spusťte příkaz <code>git remote add [zkrácený název] [url]</code>:</p>
 <pre><code>$ git remote
 origin
-$ git remote <span class="hljs-keyword">add</span> pb git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+$ git remote add pb git://github.com/paulboone/ticgit.git
 $ git remote -v
-origin    git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span>
-pb    git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+origin    git://github.com/schacon/ticgit.git
+pb    git://github.com/paulboone/ticgit.git
 </code></pre><p>Řetězec <code>pb</code> nyní můžete používat na příkazovém řádku místo kompletní adresy URL. Pokud například chcete vyzvednout (fetch) všechny informace, které má Paul, ale vy je ještě nemáte ve svém repozitáři, můžete spustit příkaz <code>git fetch pb</code>:</p>
 <pre><code>$ git fetch pb
-remote: Counting objects: <span class="hljs-number">58</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">41</span>/<span class="hljs-number">41</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">44</span> (delta <span class="hljs-number">24</span>), reused <span class="hljs-number">1</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-keyword">done</span>.
-From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
- * [<span class="hljs-keyword">new</span> branch]      master     -&gt; pb/master
- * [<span class="hljs-keyword">new</span> branch]      ticgit     -&gt; pb/ticgit
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit
 </code></pre><p>Paulova hlavní větev (master branch) je lokálně dostupná jako <code>pb/master</code>. Můžete ji začlenit do některé ze svých větví nebo tu můžete provést checkout lokální větve, jestliže si ji chcete prohlédnout.</p>
 <h2 id="vyzved-v-n-a-stahov-n-ze-vzd-len-ch-repozit-">Vyzvedávání a stahování ze vzdálených repozitářů</h2>
 <p>Jak jste právě viděli, data ze vzdálených projektů můžete získat pomocí příkazu:</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch [název vzdáleného repozitáře]
+<pre><code>$ git fetch [název vzdáleného repozitáře]
 </code></pre><p>Příkaz zamíří do vzdáleného projektu a stáhne z něj všechna data, která ještě nevlastníte. Poté byste měli mít reference na všechny větve tohoto vzdáleného projektu. Nyní je můžete kdykoli slučovat nebo prohlížet. (Podrobněji se budeme větvím a jejich použití věnovat v kapitole 3.)</p>
 <p>Pokud jste naklonovali repozitář, příkaz automaticky přiřadí tento vzdálený repozitář pod název „origin“. Příkaz <code>git fetch origin</code> tak vyzvedne veškerou novou práci, která byla na server poslána (push) od okamžiku, kdy jste odsud klonovali (popř. odsud naposledy vyzvedávali práci). Měli bychom zmínit, že příkaz <code>fetch</code> stáhne data do vašeho lokálního repozitáře, v žádném případě ale data automaticky nesloučí s vaší prací ani jinak nezmění nic z toho, na čem právě pracujete. Data ručně sloučíte se svou prací, až to uznáte za vhodné.</p>
 <p>Pokud máte větev nastavenou ke sledování vzdálené větve (více informací naleznete v následující části a v kapitole 3), můžete použít příkaz <code>git pull</code>, který automaticky vyzvedne a poté začlení vzdálenou větev do vaší aktuální větve. Tento postup pro vás může být snazší a pohodlnější. Standardně přitom příkaz <code>git clone</code> automaticky nastaví vaši lokální hlavní větev, aby sledovala vzdálenou hlavní větev na serveru, z nějž jste klonovali (za předpokladu, že má vzdálený server hlavní větev). Příkaz <code>git pull</code> většinou vyzvedne data ze serveru, z nějž jste původně klonovali, a automaticky se pokusí začlenit je do kódu, na němž právě pracujete.</p>
 <h2 id="pos-l-n-do-vzd-len-ch-repozit-">Posílání do vzdálených repozitářů</h2>
 <p>Pokud se váš projekt nachází ve fázi, kdy ho chcete sdílet s ostatními, můžete ho odeslat (push) na vzdálený server. Příkaz pro tuto akci je jednoduchý: <code>git push [název vzdáleného repozitáře] [název větve]</code>. Pokud chcete poslat svou hlavní větev na server <code>origin</code> (i tady platí, že proces klonování vám nastaví názvy <code>master</code> i <code>origin</code> automaticky), můžete k odeslání své práce na server použít tento příkaz:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git push origin master
 </code></pre><p>Tento příkaz bude funkční, pouze pokud jste klonovali ze serveru, k němuž máte oprávnění pro zápis, a pokud sem od vašeho klonování nikdo neposílal svou práci. Pokud spolu s vámi provádí současně klonování ještě někdo další a ten poté svou práci odešle na server, vaše později odesílaná práce bude oprávněně odmítnuta. Nejprve musíte stáhnout práci ostatních a začlenit ji do své, teprve potom vám server umožní odeslání. Více informací o odesílání na vzdálené servery najdete v kapitole 3.</p>
 <h2 id="prohl-en-vzd-len-ch-repozit-">Prohlížení vzdálených repozitářů</h2>
 <p>Jestliže chcete získat více informací o konkrétním vzdáleném repozitáři, můžete použít příkaz <code>git remote show [název vzdáleného repozitáře]</code>. Pokud použijete tento příkaz v kombinaci s konkrétním zkráceným názvem (např. <code>origin</code>), bude výstup vypadat zhruba následovně:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git://github.com/schacon/ticgit.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  URL: git://github.com/schacon/ticgit.git
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
   Tracked remote branches
     master
@@ -926,14 +929,14 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
 <p>Toto je jednoduchý příklad, s nímž se můžete setkat. Pokud však Git používáte na pokročilé bázi, příkaz <code>git remote show</code> vám patrně zobrazí podstatně více informací:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git@github.com:defunkt/github.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">issues</span></span>
+  URL: git@github.com:defunkt/github.git
+  Remote branch merged with &#39;git pull&#39; while on branch issues
     issues
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
-  New remote branches (next fetch will store <span class="hljs-operator">in</span> remotes/origin)
+  New remote branches (next fetch will store in remotes/origin)
     caching
-  Stale tracking branches (use <span class="hljs-string">'git remote prune'</span>)
+  Stale tracking branches (use &#39;git remote prune&#39;)
     libwalker
     walker2
   Tracked remote branches
@@ -943,19 +946,19 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
     issues
     master
     postgres
-  Local branch pushed <span class="hljs-operator">with</span> <span class="hljs-string">'git push'</span>
+  Local branch pushed with &#39;git push&#39;
     master:master
 </code></pre><p>Tento příkaz vám ukáže, která větev bude automaticky odeslána, pokud spustíte příkaz <code>git push</code> na určitých větvích. Příkaz vám také oznámí, které vzdálené větve na serveru ještě nemáte, které vzdálené větve máte, jež už byly ze serveru odstraněny, a několik větví, které budou automaticky sloučeny, jestliže spustíte příkaz <code>git pull</code>.</p>
 <h2 id="p-esouv-n-a-p-ejmenov-v-n-vzd-len-ch-repozit-">Přesouvání a přejmenovávání vzdálených repozitářů</h2>
 <p>Chcete-li přejmenovat vzdálený repozitář, můžete v novějších verzích systému Git spustit příkaz <code>git remote rename</code>. Příkazem lze změnit zkrácený název vzdáleného repozitáře. Pokud například chcete přejmenovat repozitář z <code>pb</code> na <code>paul</code>, můžete tak učinit pomocí příkazu <code>git remote rename</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rename pb paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rename pb paul
+$ git remote
 origin
 paul
 </code></pre><p>Za zmínku stojí, že tímto příkazem změníte zároveň i názvy vzdálených větví. Z původní reference <code>pb/master</code> se tak nyní stává <code>paul/master</code>.</p>
 <p>Chcete-li, ať už z jakéhokoli důvodu, odstranit referenci (např. jste přesunuli server nebo už nepoužíváte dané zrcadlo, popř. přispěvatel přestal přispívat), můžete využít příkaz <code>git remote rm</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rm paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rm paul
+$ git remote
 origin
 </code></pre>
                     
@@ -975,9 +978,9 @@ origin
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

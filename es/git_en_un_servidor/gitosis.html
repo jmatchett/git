@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.7" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.7" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -841,100 +844,100 @@
 <p>En este punto, es posible que desees cambiar a un popular programa llamado Gitosis. Gitosis es básicamente un conjunto de scripts que te ayudarán a gestionar el archivo &#39;authorized_keys&#39;, así como a implementar algunos controles de acceso simples. Lo interesante de la interfaz de usuario para esta herramienta de gestión de usuarios y de control de accesos, es que, en lugar de un interface web, es un repositorio especial de Git. Preparas la información en ese proyecto especial, y cuando la envias (push), Gitosis reconfigura el servidor en base a ella. ¡Realmente interesante!.</p>
 <p>Instalar Gitosis no es precisamente sencillo. Pero tampoco demasiado complicado. Es más sencillo hacerlo si utilizas un servidor Linux --estos ejemplos se han hecho sobre un servidor Ubuntu 8.10--.</p>
 <p>Gitosis necesita de ciertas herramientas Python, por lo que la  primera tarea será instalar el paquete de herramientas Pyton. En Ubuntu viene como el paquete python-setuptools:</p>
-<pre><code>$ sudo apt<span class="hljs-attribute">-get</span> install python<span class="hljs-attribute">-setuptools</span>
+<pre><code>$ sudo apt-get install python-setuptools
 </code></pre><p>A continuación, has de clonar e instalar Gitosis desde el repositorio principal de su proyecto:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/github.com/tv</span>42/gitosis.git
-<span class="hljs-variable">$ </span>cd gitosis
-<span class="hljs-variable">$ </span>sudo python setup.py install
+<pre><code>$ git clone https://github.com/tv42/gitosis.git
+$ cd gitosis
+$ sudo python setup.py install
 </code></pre><p>Esto instala un par de ejecutables, que serán los que Gitosis utilice. Gitosis intentará instalar sus repositorios bajo la carpeta &#39;/home/git&#39;, lo cual está bien. Pero si, en lugar de en esa, has instalado tus repositorios bajo la carpeta &#39;/opt/git&#39;. Sin necesidad de reconfigurarlo todo, tan solo has de crear un enlace virtual:</p>
-<pre><code>$ ln <span class="hljs-operator">-s</span> /opt/git /home/git/repositories
+<pre><code>$ ln -s /opt/git /home/git/repositories
 </code></pre><p>Gitosis manejará tus claves por tí, por lo que tendrás que quitar el archivo actual, añadir de nuevo las claves más tarde, y dejar que Gitosis tome automáticamente el control del archivo &#39;authorized_keys&#39;. Para empezar, mueve el archivo &#39;authorized_keys a otro lado:</p>
-<pre><code>$ mv /home/git/<span class="hljs-preprocessor">.ssh</span>/authorized_keys /home/git/<span class="hljs-preprocessor">.ssh</span>/ak<span class="hljs-preprocessor">.bak</span>
+<pre><code>$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
 </code></pre><p>A continuación, restaura el inicio de sesión (shell) para el usuario &#39;git&#39;, (si es que lo habias cambiado al comando &#39;git-shell&#39;). Los usuarios no podrán todavia iniciar sesión, pero Gitosis se encargará de ello. Así pues, cambia esta línea en tu archivo &#39;/etc/passwd&#39;:</p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/usr/bin/git-shellgit</span><span class="hljs-symbol">:x</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/usr/bin/git-shell</span>
+<pre><code>git:x:1000:1000::/home/git:/usr/bin/git-shellgit:x:1000:1000::/home/git:/usr/bin/git-shell
 </code></pre><p>de vuelta a:</p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/bin/shgit</span><span class="hljs-symbol">:x</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/bin/sh</span>
+<pre><code>git:x:1000:1000::/home/git:/bin/shgit:x:1000:1000::/home/git:/bin/sh
 </code></pre><p>Y, en este punto, ya podemos inicializar Gitosis. Lo puedes hacer lanzando el comando &#39;gitosis-init&#39; con tu clave pública personal. Si tu clave pública personal no está en el servidor, la has de copiar a él:</p>
-<pre><code>$ sudo <span class="hljs-attribute">-H</span> <span class="hljs-attribute">-u</span> git gitosis<span class="hljs-attribute">-init</span> <span class="hljs-subst">&lt;</span> /tmp/id_dsa<span class="hljs-built_in">.</span>pub
-Initialized empty Git repository <span class="hljs-keyword">in</span> /opt/git/gitosis<span class="hljs-attribute">-admin</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
-Reinitialized existing Git repository <span class="hljs-keyword">in</span> /opt/git/gitosis<span class="hljs-attribute">-admin</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
+<pre><code>$ sudo -H -u git gitosis-init &lt; /tmp/id_dsa.pub
+Initialized empty Git repository in /opt/git/gitosis-admin.git/
+Reinitialized existing Git repository in /opt/git/gitosis-admin.git/
 </code></pre><p>Esto habilita al usuario con dicha clave pública para que pueda modificar el repositorio principal de Git, y, con ello, pueda controlar la instalación de Gitosis. A continuanción, has de ajustar manualmente el bit de ejecución en el script &#39;post-update&#39; de tu nuevo repositorio de contrrol:</p>
-<pre><code>$ sudo chmod <span class="hljs-number">755</span> /opt/git/gitosis<span class="hljs-attribute">-admin</span><span class="hljs-built_in">.</span>git/hooks/post<span class="hljs-attribute">-update</span>
+<pre><code>$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 </code></pre><p>Y ya estás preparado para trabajar. Si lo has configurado todo correctamente, puedes intentar conectarte, vía SSH, a tu servidor como el usuario con cuya clave pública has inicializado Gitosis. Y deberás ver algo así como esto:</p>
 <pre><code>$ ssh git@gitserver
-PTY allocation request failed <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">channel</span> <span class="hljs-title">0</span></span>
-fatal: unrecognized <span class="hljs-command"><span class="hljs-keyword">command</span> <span class="hljs-string">'gitosis-serve schacon@quaternion'</span></span>
-  Connection <span class="hljs-built_in">to</span> gitserver closed.
+PTY allocation request failed on channel 0
+fatal: unrecognized command &#39;gitosis-serve schacon@quaternion&#39;
+  Connection to gitserver closed.
 </code></pre><p>Indicandote que Gitosis te ha reconocido, pero te está hechando debido a que no estás intentando lanzar ningún comando Git. Por tanto, intentalo con un comando Git real --por ejemplo, clonar el propio repositorio de control de Gitosis a tu ordenador personal-- </p>
-<pre><code><span class="hljs-variable">$ </span>git clone git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:gitosis-admin</span>.git
+<pre><code>$ git clone git@gitserver:gitosis-admin.git
 </code></pre><p>Con ello, tendrás una carpeta denominada &#39;gitosis-admin&#39;, con dos partes principales dentro de ella:</p>
-<pre><code><span class="hljs-variable">$ </span>cd gitosis-admin
-<span class="hljs-variable">$ </span>find .
+<pre><code>$ cd gitosis-admin
+$ find .
 ./gitosis.conf
 ./keydir
 ./keydir/scott.pub
 </code></pre><p>El archivo &#39;gitosis.conf&#39; es el archivo de control que usarás para especificar usuarios, repositorios y permisos. La carpeta &#39;keydir&#39; es donde almacenarás las claves públicas para los usuarios con acceso a tus repositorios --un archivo por usuario--. El nombre del archivo en la carpeta &#39;keydir&#39; (&#39;scott.pub&#39; en el ejemplo), puede ser diferente en tu instalación, (Gitosis lo obtiene a partir de la descripción existente al final de la clave pública que haya sido importada con el script &#39;gitosis-init&#39;).</p>
 <p>Si miras dentro del archivo &#39;gitosis.conf&#39;, encontrarás únicamente información sobre el proyecto &#39;gitosis-admin&#39; que acabas de clonar:</p>
-<pre><code>$ cat gitosis<span class="hljs-built_in">.</span>conf 
-<span class="hljs-preprocessor">[</span>gitosis<span class="hljs-preprocessor">]</span><span class="hljs-markup">
+<pre><code>$ cat gitosis.conf 
+[gitosis]
 
-</span><span class="hljs-preprocessor">[</span><span class="hljs-keyword">group</span> gitosis<span class="hljs-attribute">-admin</span><span class="hljs-preprocessor">]</span><span class="hljs-markup">
+[group gitosis-admin]
 writable = gitosis-admin
-members = scott</span>
+members = scott
 </code></pre><p>Indicando que el usuario &#39;scott&#39; --el usuario con cuya clave pública se ha inicializado Gitosis-- es el único con acceso al proyecto &#39;gitosis-admin&#39;.</p>
 <p>A partir de ahora, puedes añadir nuevos proyectos. Por ejemplo, puedes añadir una nueva sección denominada &#39;mobile&#39;, donde poner la lista de los desarrolladores en tu equipo movil y los proyectos donde estos vayan a trabajar. Por ser &#39;scott&#39; el único usuario que tienes definido por ahora, lo añadirás como el único miembro. Y puedes crear además un proyecto llamado &#39;iphone_project&#39; para empezar:</p>
-<pre><code><span class="hljs-title">[group mobile]</span>
-<span class="hljs-setting">writable = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members = <span class="hljs-value">scott</span></span>
+<pre><code>[group mobile]
+writable = iphone_project
+members = scott
 </code></pre><p>Cada cambio en el proyecto &#39;gitosis-admin&#39;, lo has de confirmar (commit) y enviar (push) de vuelta al servidor, para que tenga efecto sobre él:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'add iphone_project and mobile group'</span>
-[master]<span class="hljs-symbol">:</span> created <span class="hljs-number">8962</span><span class="hljs-symbol">da8:</span> <span class="hljs-string">"changed name"</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">4</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
-<span class="hljs-variable">$ </span>git push
-<span class="hljs-constant">Counting</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">5</span>, done.
-<span class="hljs-constant">Compressing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">2</span>/<span class="hljs-number">2</span>), done.
-<span class="hljs-constant">Writing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-number">272</span> bytes, done.
-<span class="hljs-constant">Total</span> <span class="hljs-number">3</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:/opt/git/gitosis-admin</span>.git
-   fb27aec..<span class="hljs-number">8962</span>da8  master -&gt; master
+<pre><code>$ git commit -am &#39;add iphone_project and mobile group&#39;
+[master]: created 8962da8: &quot;changed name&quot;
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+$ git push
+Counting objects: 5, done.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 272 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To git@gitserver:/opt/git/gitosis-admin.git
+   fb27aec..8962da8  master -&gt; master
 </code></pre><p>Puedes crear tu nuevo proyecto &#39;iphone_project&#39; simplemente añadiendo tu servidor como un remoto a tu versión local del proyecto de control y enviando (push). Ya no necesitarás crear manualmente repositorios básicos vacios para los nuevos proyectos en el servidor. Gitosis se encargará de hacerlo por tí, en cuanto realices el primer envio (push) de un nuevo proyecto:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote add origin git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:iphone_project</span>.git
-<span class="hljs-variable">$ </span>git push origin master
-<span class="hljs-constant">Initialized</span> empty <span class="hljs-constant">Git</span> repository <span class="hljs-keyword">in</span> /opt/git/iphone_project.git/
-<span class="hljs-constant">Counting</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">3</span>, done.
-<span class="hljs-constant">Writing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-number">230</span> bytes, done.
-<span class="hljs-constant">Total</span> <span class="hljs-number">3</span> (delta <span class="hljs-number">0</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:iphone_project</span>.git
+<pre><code>$ git remote add origin git@gitserver:iphone_project.git
+$ git push origin master
+Initialized empty Git repository in /opt/git/iphone_project.git/
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 230 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@gitserver:iphone_project.git
  * [new branch]      master -&gt; master
 </code></pre><p>Ten en cuenta que no es necesario indicar expresamente un camino (path), --de hecho, si lo haces, no funcionará--. Simplemente, has de poner un punto y el nombre del proyecto, --Gitosis se encargará de encontrarlo--.</p>
 <p>Si deseas compartir el proyecto con tus compañeros, tienes que añadir de nuevo sus claves públicas. Pero en lugar de hacerlo manualmente sobre el archivo <code>~/.ssh/authorized_keys</code> de tu servidor, has de hacerlo --un archivo por clave-- en la carpeta &#39;keydir&#39; del proyecto de control. Según pongas los nombres a estos archivos, así tendrás que referirte a los usuarios en el archivo &#39;gitosis.conf&#39;. Por ejemplo, para añadir las claves públicas de John, Josie y Jessica:</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor">.john</span><span class="hljs-preprocessor">.pub</span> keydir/john<span class="hljs-preprocessor">.pub</span>
-$ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor">.josie</span><span class="hljs-preprocessor">.pub</span> keydir/josie<span class="hljs-preprocessor">.pub</span>
-$ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor">.jessica</span><span class="hljs-preprocessor">.pub</span> keydir/jessica<span class="hljs-preprocessor">.pub</span>
+<pre><code>$ cp /tmp/id_rsa.john.pub keydir/john.pub
+$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
+$ cp /tmp/id_rsa.jessica.pub keydir/jessica.pub
 </code></pre><p>Y para añadirlos al equipo &#39;mobile&#39;, dándoles permisos de lectura y escritura sobre el proyecto &#39;phone_project&#39;:</p>
-<pre><code><span class="hljs-title">[group mobile]</span>
-<span class="hljs-setting">writable = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members = <span class="hljs-value">scott john josie jessica</span></span>
+<pre><code>[group mobile]
+writable = iphone_project
+members = scott john josie jessica
 </code></pre><p>Tras confirmar (commit) y enviar (push) estos cambios, los cuatro usuarios podrán acceder a leer y escribir sobre el proyecto.</p>
 <p>Gitosis permite también sencillos controles de acceso. Por ejemplo, si quieres que John tenga únicamente acceso de lectura sobre el proyecto, puedes hacer:</p>
-<pre><code><span class="hljs-title">[group mobile]</span>
-<span class="hljs-setting">writable = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members = <span class="hljs-value">scott josie jessica</span></span>
+<pre><code>[group mobile]
+writable = iphone_project
+members = scott josie jessica
 
-<span class="hljs-title">[group mobile_ro]</span>
-<span class="hljs-setting">readonly = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members = <span class="hljs-value">john</span></span>
+[group mobile_ro]
+readonly = iphone_project
+members = john
 </code></pre><p>Habilitandole así para clonar y recibir actualizaciónes desde el servidor; pero impidiendole enviar de vuelta cambios al proyecto. Puedes crear tantos grupos como desees, para diferentes usuarios y proyectos. También puedes indicar un grupo como miembro de otro (utilizado el prefijo &#39;@&#39;), para incluir todos sus miembros automáticamente:</p>
-<pre><code><span class="hljs-title">[group mobile_committers]</span>
-<span class="hljs-setting">members = <span class="hljs-value">scott josie jessica</span></span>
+<pre><code>[group mobile_committers]
+members = scott josie jessica
 
-<span class="hljs-title">[group mobile]</span>
-<span class="hljs-setting">writable  = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members   = <span class="hljs-value">@mobile_committers</span></span>
+[group mobile]
+writable  = iphone_project
+members   = @mobile_committers
 
-<span class="hljs-title">[group mobile_2]</span>
-<span class="hljs-setting">writable  = <span class="hljs-value">another_iphone_project</span></span>
-<span class="hljs-setting">members   = <span class="hljs-value">@mobile_committers john</span></span>
+[group mobile_2]
+writable  = another_iphone_project
+members   = @mobile_committers john
 </code></pre><p>Si tienes problemas, puede ser util añadir <code>loglevel=DEBUG</code> en la sección <code>[gitosis]</code>. Si, por lo que sea, pierdes acceso de envio (push) de nuevos cambios, (por ejemplo, tras haber enviado una configuración problemática); siempre puedes arreglar manualmente ,en el propio servidor, el archivo &#39;/home/git/.gitosis.conf&#39;, (el archivo del que Gitosis lee su configuración). Un envio (push) de cambios al proyecto, coge el archivo &#39;gitosis.conf&#39; enviado y sobreescribe con él el del servidor. Si lo editas manualmente, permanecerá como lo dejes; hasta el próximo envio (push) al proyecto &#39;gitosis-admin&#39;.</p>
 
                     
@@ -954,9 +957,9 @@ $ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

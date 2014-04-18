@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397503663161">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397847843407">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -293,8 +296,8 @@
 <p>على نظام ويندوز، ستقوم Git بتفحص <code>.gitconfig</code> في مجلد الـ <code>$HOME</code> (عادة تكون <code>C:\Documents and Settings\$USER</code>). ستقوم Git أيضاً بتفقد ملف /etc/gitconfig، والذي يكون مبنياً على مكان وجود MSys، والذي تحدده أنت عندما تقوم بتنصيب Git على نظامك.</p>
 <h2 id="-">شخصيتك</h2>
 <p>أول شيء عليك فعله بعد تنصيبك لـ Git هو اعداد اسمك وبريدك الالكتروني. أهمية هذا الأمر تكمن في أن كل عملية Commit في Git ستستخدم هذه المعلومات وسيتم لصقها بشكل غير قابل للتغيير في كل عملياتك:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>وطبعاً، اذا أردت أن تتحدد هذه المعلومات على كامل النظام، عليك اضافة &#39;--global&#39; الى الأمر. واذا أردت تجاوز هذا الأمر وتحديد معلومات مختلفة لمشروع معين، عليك تشغيل هذا الأمر بدون &#39;--global&#39; داخل مشروعك.</p>
 <h2 id="-">محرر النصوص</h2>
 <p>والآن وبعد اعداد شخصيتك، يمكنك تعيين محرر النصوص الإفتراضي والذي ستستخدمه Git عندما تحتاج منك الى ادخال رسالة ما. افتراضياً، ستستخدم Git المحرر الإفتراضي المحدد للنظام، والذي يكون عادة Vi أو Vim.  إذا أردت استخدام محرر آخر، مثل Emacs، يمكن كتابة مايلي:
@@ -302,7 +305,7 @@
     $ git config --global core.editor emacs</p>
 <h2 id="-diff-tool">أداة عرض الإختلافات Diff Tool</h2>
 <p>أمر آخر قد تهتم بتعديله عن الخيار الإفتراضي هو أداة عرض الإختلافات Diff tool والتي ستستخدمها لحل التعارضات بين الإصدارات عن الدمج. فعلى سبيل المثال، لإستخدام أداة vimdiff:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>تقبل Git كلا من: kdiff3، tkdiff، meld، xxdiff، emerge، vimdiff، gvimdiff، ecmerge و opendiff كأدوات فعالة، يمكنك إضافة خيارات أخرى خاصة أيضاً، انظر الفصل السابع لمعلومات اخرى عن كيفية القيام بهذا.</p>
 <h2 id="-">تغيير الإعدادات</h2>
 <p>اذا أردت القاء نظرة على إعداداتك، يمكنك استخدام أمر &#39;git config --list&#39; لعرض قائمة بكافة الخيارات التي أعددتها في Git:</p>
@@ -313,11 +316,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>من الممكن أن ترى هذه المفاتيح أكثر من مرة، ذلك لأن Git تقوم بقراءة هذه المفاتيح من الملفات المختلفة (<code>/etc/gitconfig</code> و <code>~/.gitconfig</code>, على سبيل المثال). في هذه الحاله، تقوم Git باستخدام آخر قيمة موجودة لكل مفتاح مختلف.</p>
 <p>يمكنك أيضاً تفحص القيمة التي &quot;تتعامل&quot; معها Git لأي مفتاح مختلف عن طريق الأمر <code>git config {key}</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -336,9 +339,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

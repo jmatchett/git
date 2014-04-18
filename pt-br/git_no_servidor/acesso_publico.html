@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,34 +847,34 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_863">
+                    <section class="normal" id="section-gitbook_722">
                     
                         <h1 id="acesso-p-blico">Acesso Público</h1>
 <p>E se você quiser acesso anônimo de leitura ao seu projeto? Talvez ao invés de armazenar um projeto privado interno, você queira armazenar um projeto de código aberto. Ou talvez você tenha alguns servidores de compilação automatizados ou servidores de integração contínua que estão sempre sendo modificados, e você não queira gerar chaves SSH o tempo todo — você simplesmente quer permitir acesso de leitura anônimo.</p>
 <p>Provavelmente o jeito mais fácil para pequenas configurações é rodar um servidor web estático com o documento raiz onde os seus repositórios Git estão, e então ativar o gancho (hook) <code>post-update</code> que mencionamos na primeira seção deste capítulo. Vamos trabalhar a partir do exemplo anterior. Vamos dizer que você tenha seus repositórios no diretório <code>/opt/git</code>, e um servidor Apache rodando na máquina. Novamente, você pode usar qualquer servidor web para fazer isso; mas para esse exemplo, vamos demonstrar algumas configurações básicas do Apache para te dar uma ideia do que você vai precisar:</p>
 <p>Primeiro você tem que habilitar o gancho:</p>
 <pre><code>$ cd project.git
-$ mv hooks/<span class="hljs-built_in">post</span>-update.sample hooks/<span class="hljs-built_in">post</span>-update
-$ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in">post</span>-update
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>Se você estiver usando uma versão do Git anterior à 1.6, o comando <code>mv</code> não é necessário — o Git começou a nomear os exemplos de gancho com o sufixo .sample apenas recentemente.</p>
 <p>O que este gancho <code>post-update</code> faz? Ele se parece basicamente com isso aqui:</p>
 <pre><code>$ cat .git/hooks/post-update
-<span class="hljs-shebang">#!/bin/sh</span>
-<span class="hljs-keyword">exec</span> git-update-server-info
+#!/bin/sh
+exec git-update-server-info
 </code></pre><p>Isto significa que quando você enviar para o servidor via SSH, o Git irá executar este comando para atualizar os arquivos necessários para fetch via HTTP.</p>
 <p>Em seguida, você precisa adicionar uma entrada VirtualHost na sua configuração do Apache com a opção DocumentRoot apontando para o diretório raiz dos seus projetos Git. Aqui, assumimos que você tem uma entrada DNS para enviar <code>*.gitserver</code> para a máquina que você está usando para rodar tudo isso:</p>
-<pre><code><span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
-    <span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> git.gitserver
-    <span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /opt/git
-    <span class="hljs-tag">&lt;Directory /opt/git/&gt;</span>
-        <span class="hljs-keyword"><span class="hljs-common">Order</span></span> allow, deny
-        <span class="hljs-keyword"><span class="hljs-common">allow</span></span> from <span class="hljs-literal">all</span>
-    <span class="hljs-tag">&lt;/Directory&gt;</span>
-<span class="hljs-tag">&lt;/VirtualHost&gt;</span>
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName git.gitserver
+    DocumentRoot /opt/git
+    &lt;Directory /opt/git/&gt;
+        Order allow, deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
 </code></pre><p>Você também precisará configurar o grupo de usuários dos diretórios em <code>/opt/git</code> para <code>www-data</code> para que o seu servidor web possa ler os repositórios, pelo fato do script CGI do Apache rodar (padrão) como este usuário:</p>
-<pre><code>$ chgrp -<span class="hljs-type">R</span> www-<span class="hljs-typedef"><span class="hljs-keyword">data</span> /opt/git</span>
+<pre><code>$ chgrp -R www-data /opt/git
 </code></pre><p>Quando você reiniciar o Apache, você deve poder clonar os repositórios dentro daquele diretório especificando a URL para o projeto:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/git.gitserver/project</span>.git
+<pre><code>$ git clone http://git.gitserver/project.git
 </code></pre><p>Deste jeito, você pode configurar um servidor HTTP com acesso de leitura para os seus projetos para vários usuários em minutos. Outra opção simples para acesso público sem autenticação é iniciar um daemon Git, embora isso necessite que você daemonize o processo - iremos cobrir esta opção na próxima seção, se você preferir esta rota.</p>
 
                     
@@ -891,9 +894,9 @@ $ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in"
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

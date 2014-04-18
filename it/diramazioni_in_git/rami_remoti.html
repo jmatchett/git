@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -798,42 +801,42 @@
 <p>Quando vuoi condividere un ramo con il mondo, hai bisogno di inviarlo su di un server remoto su cui hai accesso in scrittura. I tuoi rami locali non sono automaticamente sincronizzati sul remoto in cui scrivi — devi esplicitamente dire di inviare il ramo che vuoi condividere. In questo modo, puoi usare rami privati per il lavoro che non vuoi condividere ed inviare solamente i rami su cui vuoi collaborare.</p>
 <p>Se hai un ramo chiamato <code>serverfix</code> su cui vuoi lavorare con altri, puoi inviarlo nello stesso modo con cui hai inviato il primo ramo. Lancia <code>git push (remote) (branch)</code>:</p>
 <pre><code>$ git push origin serverfix
-Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-number">1.74</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 20, done.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 1.74 KiB, done.
+Total 15 (delta 5), reused 0 (delta 0)
 To git@github.com:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> branch]      serverfix -&gt; serverfix
+ * [new branch]      serverfix -&gt; serverfix
 </code></pre><p>Questa è una piccola abbreviazione. Git automaticamente espande il nome del ramo <code>serverfix</code> to <code>refs/heads/serverfix:refs/heads/serverfix</code>, questo significa, “Prendi il mio ramo locale serverfix ed invialo per aggiornare il ramo remoto serverfix.“ Vedremo in modo più approfondito la parte <code>refs/heads/</code> nel Capitolo 9, ma puoi generalmente lasciare perdere. Puoi anche fare <code>git push origin serverfix:serverfix</code>, che fa la stessa cosa — questo dice, “Prendi il mio serverfix e crea il serverfix remoto.“ Puoi usare questo formato per inviare rami locali in rami remoti che hanno nomi differenti. Se non vuoi chiamare il ramo remoto <code>serverfix</code>, puoi avviare <code>git push origin serverfix:awesomebranch</code> per inviare il tuo ramo locale <code>serverfix</code> in <code>awesomebranch</code> sul progetto remoto.</p>
 <p>La prossima volta che i tuoi collaboratori preleveranno dal server, avranno un riferimento di dove si trova la versione del server di <code>serverfix</code> nel ramo <code>origin/serverfix</code>:</p>
 <pre><code>$ git fetch origin
-remote: Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (15/15), done.
 From git@github.com:schacon/simplegit
- * [<span class="hljs-keyword">new</span> branch]      serverfix    -&gt; origin/serverfix
+ * [new branch]      serverfix    -&gt; origin/serverfix
 </code></pre><p>É importante notare che quando fai un prelievo di un nuovo ramo, non hai automaticamente un ramo locale modificabile. In altre parole, in questo caso, non hai un nuovo ramo <code>serverfix</code> — hai solamente il puntatore <code>origin/serverfix</code> che non puoi modificare.</p>
 <p>Per fondere questo lavoro nel ramo corrente, puoi avviare <code>git merge origin/serverfix</code>. Se vuoi il tuo ramo <code>serverfix</code> su cui poter lavorare, puoi basarlo sul ramo remoto:</p>
 <pre><code>$ git checkout -b serverfix origin/serverfix
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Questo ti fornirà un ramo locale da dove si trovava <code>origin/serverfix</code> su cui tu puoi iniziare a lavorare.</p>
 <h2 id="rami-di-monitoraggio">Rami di Monitoraggio</h2>
 <p>Quando crei e ti sposti in un ramo locale partendo da un ramo remoto crei quello che viene chiamato <em>ramo di monitoraggio</em>. Questi sono rami locali che hanno una relazione diretta con il ramo remoto. Se ti trovi su uno di questi rami e dai <code>git push</code>, Git automaticamente sa a quale server e ramo inviare i dati. Inoltre, avviando <code>git pull</code> mentre si è su uno di questi rami si prelevano tutte le referenze remote ed automaticamente si fa la fusione dei corrispondenti rami remoti.</p>
 <p>Quando cloni un repository, generalmente crea automaticamente un ramo <code>master</code> che traccia <code>origin/master</code>. Questa è la ragione per cui <code>git push</code> e <code>git pull</code> lavorano senza argomenti dall&#39;inizio. Tuttavia, puoi impostare altri rami di monitoraggio se vuoi — che non monitorano i rami su <code>origin</code> e non monitorano il ramo <code>master</code>. Il caso più semplice è l&#39;esempio che hai già visto, lancia <code>git checkout -b [branch] [remotename]/[branch]</code>. Se hai una versione 1.6.2 o successiva di Git, puoi inoltre usare l&#39;abbreviazione <code>--track</code>:</p>
-<pre><code>$ git checkout <span class="hljs-comment">--track origin/serverfix</span>
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+<pre><code>$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Per impostare un ramo locale con un nome differente rispetto al remoto, puoi facilmente usare la prima versione con un nome locale diverso:</p>
 <pre><code>$ git checkout -b sf origin/serverfix
-Branch sf <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"sf"</span>
+Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;sf&quot;
 </code></pre><p>Ora il tuo ramo locale sf verrà automaticamente collegato a origin/serverfix.</p>
 <h2 id="eliminazione-di-rami-remoti">Eliminazione di Rami Remoti</h2>
 <p>Supponiamo che tu stia lavorando con un ramo remoto — diciamo che tu e i tuoi collaboratori avete finito con una funzionalità e l&#39;avete fusa nel ramo remoto <code>master</code> (o qualsiasi ramo stabile del progetto). Puoi eliminare un ramo remoto con una sintassi abbastanza ottusa <code>git push [remotename] :[branch]</code>. Se vuoi eliminare il ramo <code>serverfix</code>, lancia il seguente comando:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:serverfix</span>
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit.git
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
  - [deleted]         serverfix
 </code></pre><p>Boom. Non c&#39;è più il ramo sul server. Tieni d&#39;occhio questa pagina perché avrai bisogno di questo comando e dimenticherai facilmente la sintassi. Un modo per ricordare questo comando è richiamare la sintassi <code>git push [remotename] [localbranch]:[remotebranch]</code> che abbiamo visto precedentemente. Se lasci bianca la porzione <code>[localbranch]</code>, stai dicendo, “Non prendere niente dalla mia parte e rendila <code>[remotebranch]</code>.“</p>
 
@@ -854,9 +857,9 @@ Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</sp
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

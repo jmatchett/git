@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.3" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.3" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -774,47 +777,47 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_371">
+                    <section class="normal" id="section-gitbook_373">
                     
                         <h1 id="subtree-merging">Subtree Merging</h1>
 <p>Ora che hai visto quali sono le difficoltà del sistema dei moduli vediamo un’alternativa per risolvere lo stesso problema. Quando Git fa dei merge vede prima quello di cui deve fare il merge e poi decide quale sia la strategia migliore da usare. Se stai facendo il merge due branch Git userà la strategia <em>ricorsiva</em> (<em>recursive</em> in inglese). Se stai facendo il merge di più di due branch Git userà la strategia del polpo (<em>octopus</em> in inglese). Queste strategie sono scelte automaticamente, perché la strategia ricorsiva può gestire situazioni complesse di merge a tre vie (quando ci sono per esempio più antenati), ma può gestire solamente due branch alla volta. La strategia del polpo può gestire branch multipli ma agisce con più cautela per evitare conflitti difficili da risolvere, ed è quindi scelta come strategia predefinita se stai facendo il merge di più di due branch.</p>
 <p>Ci sono comunque altre strategie tra cui scegliere. Una di questa è il merge <em>subtree</em> e la puoi usare per risolvere i problemi dei subprogetti. Vedremo ora come includere lo stesso rack come abbiamo fatto nella sezione precedente, usando però il merge subtree.</p>
 <p>L’idea del merge subtree è che tu hai due progetti e uno di questi è mappato su una subdirectory dell’altro e viceversa. Quando specifichi il merge subtree Git è abbastanza intelligente da capire che uno è un albero dell’altro e farne il merge nel migliore dei modi: è piuttosto incredibile.</p>
 <p>Aggiungi prima l’applicazione Rack al tuo progetto e aggiungi il progetto Rack come un riferimento remoto al tuo progetto, quindi fanne il checkout in un suo branch:</p>
-<pre><code>$ git remote add rack_remote git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/rack.git
+<pre><code>$ git remote add rack_remote git@github.com:schacon/rack.git
 $ git fetch rack_remote
-<span class="hljs-attribute">warning</span>: <span class="hljs-literal">no</span> common commits
-<span class="hljs-attribute">remote</span>: Counting <span class="hljs-attribute">objects</span>: <span class="hljs-number">3184</span>, done.
-<span class="hljs-attribute">remote</span>: Compressing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">1465</span>/<span class="hljs-number">1465</span>), done.
-<span class="hljs-attribute">remote</span>: Total <span class="hljs-number">3184</span> (delta <span class="hljs-number">1952</span>), reused <span class="hljs-number">2770</span> (delta <span class="hljs-number">1675</span>)
-Receiving <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">3184</span>/<span class="hljs-number">3184</span>), <span class="hljs-number">677.42</span> KiB | <span class="hljs-number">4</span> KiB/s, done.
-Resolving <span class="hljs-attribute">deltas</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">1952</span>/<span class="hljs-number">1952</span>), done.
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/rack
- * [<span class="hljs-keyword">new</span> branch]      build<span class="hljs-function">      -&gt;</span> rack_remote/build
- * [<span class="hljs-keyword">new</span> branch]      master<span class="hljs-function">     -&gt;</span> rack_remote/master
- * [<span class="hljs-keyword">new</span> branch]      rack-<span class="hljs-number">0.4</span><span class="hljs-function">   -&gt;</span> rack_remote/rack-<span class="hljs-number">0.4</span>
- * [<span class="hljs-keyword">new</span> branch]      rack-<span class="hljs-number">0.9</span><span class="hljs-function">   -&gt;</span> rack_remote/rack-<span class="hljs-number">0.9</span>
+warning: no common commits
+remote: Counting objects: 3184, done.
+remote: Compressing objects: 100% (1465/1465), done.
+remote: Total 3184 (delta 1952), reused 2770 (delta 1675)
+Receiving objects: 100% (3184/3184), 677.42 KiB | 4 KiB/s, done.
+Resolving deltas: 100% (1952/1952), done.
+From git@github.com:schacon/rack
+ * [new branch]      build      -&gt; rack_remote/build
+ * [new branch]      master     -&gt; rack_remote/master
+ * [new branch]      rack-0.4   -&gt; rack_remote/rack-0.4
+ * [new branch]      rack-0.9   -&gt; rack_remote/rack-0.9
 $ git checkout -b rack_branch rack_remote/master
 Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
-Switched to a <span class="hljs-keyword">new</span> branch <span class="hljs-string">"rack_branch"</span>
+Switched to a new branch &quot;rack_branch&quot;
 </code></pre><p>Ora hai la root del progetto Rack nel tuo branch <code>rack_branch</code> e il tuo progetto nel branch <code>master</code>. Se scarichi prima uno e poi l’altro vedrai che avranno due progetti sorgenti:</p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">AUTHORS</span>           <span class="hljs-constant">KNOWN</span>-<span class="hljs-constant">ISSUES</span>   <span class="hljs-constant">Rakefile</span>      contrib           lib
-<span class="hljs-constant">COPYING</span>           <span class="hljs-constant">README</span>         bin           example           test
-<span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
-<span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">README</span>
+<pre><code>$ ls
+AUTHORS           KNOWN-ISSUES   Rakefile      contrib           lib
+COPYING           README         bin           example           test
+$ git checkout master
+Switched to branch &quot;master&quot;
+$ ls
+README
 </code></pre><p>Ora vuoi inviare il progetto Rack nel tuo progetto <code>master</code> come una sottodirectory e in Git puoi farlo con <code>git read-tree</code>. Conoscerai meglio <code>read-tree</code> e i suoi amici nel Capitolo 9, ma per ora sappi che legge la radice di un branch nella tua area di staging della tua directory di lavoro. Sei appena ritornato nel tuo branch <code>master</code> e hai scaricato il branch <code>rack</code> nella directory <code>rack</code> del branch <code>master</code> del tuo progetto principale:</p>
-<pre><code>$ git <span class="hljs-built_in">read</span>-tree <span class="hljs-comment">--prefix=rack/ -u rack_branch</span>
+<pre><code>$ git read-tree --prefix=rack/ -u rack_branch
 </code></pre><p>Quando fai la commit sembra che tutti i file di Rack siano nella directory, come se li avessi copiati da un archivio. La cosa interessante è che può fare facilmente il merge da un branch all’altro, così che puoi importare gli aggiornamenti del progetto Rack passando a quel branch e facendo la pull:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout rack_branch
-<span class="hljs-variable">$ </span>git pull
+<pre><code>$ git checkout rack_branch
+$ git pull
 </code></pre><p>Tutte le modifiche del progetto Rack project vengono incorporate e sono pronte per essere committate in locale. Puoi fare anche l’opposto: modificare la directory <code>rack</code> e poi fare il merge nel branch <code>rack_branch</code> per inviarlo al mantenitore o farne la push al server remoto.</p>
 <p>Per fare un confronto tra quello che hai nella directory <code>rack</code> e il codice nel branch <code>rack_branch</code> (e vedere se devi fare un merge o meno) non puoi usare il normale comando <code>diff</code>: devi usare invece <code>git diff-tree</code> con il branch con cui vuoi fare il confronto:</p>
-<pre><code>$ git diff<span class="hljs-attribute">-tree</span> <span class="hljs-attribute">-p</span> rack_branch
+<pre><code>$ git diff-tree -p rack_branch
 </code></pre><p>O confrontare quello che c’è nella directory <code>rack</code> con quello che c’era nel branch <code>master</code> l’ultima volta che l’hai scaricato, col comando</p>
-<pre><code>$ git diff<span class="hljs-attribute">-tree</span> <span class="hljs-attribute">-p</span> rack_remote/master
+<pre><code>$ git diff-tree -p rack_remote/master
 </code></pre>
                     
                     </section>
@@ -833,9 +836,9 @@ Switched to a <span class="hljs-keyword">new</span> branch <span class="hljs-str
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

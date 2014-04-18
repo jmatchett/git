@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397503664233">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397847843648">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="使い始める" class="chapter done new-chapter" data-progress="2" style="left: 0%;"></a>
     
         <a href="../git.html" title="最初のGitの構成" class="chapter done " data-progress="2.5" style="left: 5.882352941176471%;"></a>
     
@@ -748,51 +751,51 @@
 <p>Gitolite のインストールは非常に簡単で、豊富な付属ドキュメントを読まなくてもインストールできます。必要なものは、何らかの Unix 系サーバのアカウントです。root アクセス権は不要です。Git や Perl、そして OpenSSH 互換の SSH サーバは既にインストールされているものとします。以下の例では、<code>gitserver</code> というホストにあるアカウント <code>git</code> を使います。</p>
 <p>Gitolite は、いわゆる &quot;サーバー&quot; ソフトウェアとしては少し変わっています。アクセスは SSH 経由で行うので、サーバー上のすべての userid が &quot;gitolite host&quot; となり得ます。もっともシンプルなインストール方法をこれから解説していきますので､その他の方法についてはドキュメントを確認してください｡</p>
 <p>まずは､ユーザー<code>git</code>をインストール先のサーバー上に作成し､そのユーザーでログインします｡sshの公開鍵(デフォルト設定で<code>ssh-keygen</code>を実行している場合は､<code>~/.ssh/id_rsa.pub</code>がそれに当たります)をあなたのワークステーションからコピーし､ファイル名を<code>&lt;yourname&gt;.pub</code> (以下の例では<code>scott.pub</code>を使用します)に変更しておきます｡次に､以下のコマンドを実行します:</p>
-<pre><code>git <span class="hljs-keyword">clone</span> git:<span class="hljs-comment">//github.com/sitaramc/gitolite</span>
+<pre><code>git clone git://github.com/sitaramc/gitolite
 gitolite/install -ln
-    <span class="hljs-comment"># $HOME/bin が存在し､かつPATHが通っているものとします</span>
-gitolite setup -pk <span class="hljs-variable">$HOME</span>/scott.pub
+    # $HOME/bin が存在し､かつPATHが通っているものとします
+gitolite setup -pk $HOME/scott.pub
 </code></pre><p><code>gitolite-admin</code>という名前のGitリポジトリが､最後のコマンドにより作成されます｡</p>
 <p>最後に､あなたのワークステーションに戻って､<code>git clone git@gitserver:gitolite-admin</code>を実行します｡これで完了です! Gitolite はサーバにインストールされ、<code>gitolite-admin</code> という新しいリポジトリがあなたのワークステーションにできあがりました。Gitolite の設定を管理するには、このリポジトリに変更を加えてプッシュします。</p>
 <h2 id="-">インストールのカスタマイズ</h2>
 <p>デフォルトのインストールは素早く済ませられ、たいていの人にとってはこれで十分でしょう。しかし、必要に応じてインストール方法をカスタマイズすることもできます。rcファイルを変更してカスタマイズすることも可能ですし､もしそれ以上を望むのであれば､gitoliteのカスタマイズについてのドキュメントを確認してください｡</p>
 <h2 id="-">設定ファイルおよびアクセス制御ルール</h2>
 <p>インストールが終わったら、あなたのワークステーションにクローンしたばかりの<code>gitolite-admin</code> リポジトリに移動して､中をのぞいてみましょう。</p>
-<pre><code><span class="hljs-variable">$ </span>cd ~<span class="hljs-regexp">/gitolite-admin/</span>
-<span class="hljs-variable">$ </span>ls
+<pre><code>$ cd ~/gitolite-admin/
+$ ls
 conf/  keydir/
-<span class="hljs-variable">$ </span>find conf keydir -type f
+$ find conf keydir -type f
 conf/gitolite.conf
 keydir/scott.pub
-<span class="hljs-variable">$ </span>cat conf/gitolite.conf
+$ cat conf/gitolite.conf
 
 repo gitolite-admin
-    <span class="hljs-constant">RW</span>+                 = scott
+    RW+                 = scott
 
 repo testing
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@all</span>
+    RW+                 = @all
 </code></pre><p>&quot;scott&quot; (先ほどの <code>gitolite setup</code> コマンドで、指定した公開鍵の名前です) が、<code>gitolite-admin</code> リポジトリおよび同名の公開鍵ファイルへの読み書き権限を持っていることに注目しましょう。</p>
 <p>ユーザーを追加するのは簡単です｡&quot;alice&quot;というユーザーを追加するなら､彼女の公開鍵を取得し､<code>alice.pub</code>に名前を変更､そしてそれをあなたのワークステーションにクローンされたgitolite-adminレポジトリ内の<code>keydir</code>ディレクトリにコピーします｡変更を追加し､コミットし､プッシュすれば､ユーザーの追加は完了です｡</p>
 <p>Gitolite の設定ファイルの構文はドキュメントに詳しく書かれているので、ここでは大事なところに絞って説明します。</p>
 <p>ユーザやリポジトリをグループにまとめることもできます。グループ名は単なるマクロのようなものです。グループを定義する際には、それがユーザであるかプロジェクトであるかは無関係です。実際にその「マクロ」を <em>使う</em> 段階になって初めてそれらを区別することになります。</p>
-<pre><code><span class="hljs-variable">@oss_repos</span>      = linux perl rakudo git gitolite
-<span class="hljs-variable">@secret_repos</span>   = fenestra pear
+<pre><code>@oss_repos      = linux perl rakudo git gitolite
+@secret_repos   = fenestra pear
 
-<span class="hljs-variable">@admins</span>         = scott
-<span class="hljs-variable">@interns</span>        = ashok
-<span class="hljs-variable">@engineers</span>      = sitaram dilbert wally alice
-<span class="hljs-variable">@staff</span>          = <span class="hljs-variable">@admins</span> <span class="hljs-variable">@engineers</span> <span class="hljs-variable">@interns</span>
+@admins         = scott
+@interns        = ashok
+@engineers      = sitaram dilbert wally alice
+@staff          = @admins @engineers @interns
 </code></pre><p>パーミッションは、&quot;ref&quot; レベルで設定することができます。次の例では、インターン (@interns) は &quot;int&quot; ブランチにしかプッシュできないように設定しています。エンジニア (@engineers) は名前が &quot;eng-&quot; で始まるすべてのブランチにプッシュでき、また &quot;rc&quot; のあとに一桁の数字が続く名前のタグにもプッシュできます。また、管理者 (@admins) はすべての ref に対してあらゆることができます。</p>
-<pre><code>repo <span class="hljs-variable">@oss_repos</span>
-    <span class="hljs-constant">RW</span>  int<span class="hljs-variable">$ </span>               = <span class="hljs-variable">@interns</span>
-    <span class="hljs-constant">RW</span>  eng-                = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>  refs/tags/rc[<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]   = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                     = <span class="hljs-variable">@admins</span>
+<pre><code>repo @oss_repos
+    RW  int$                = @interns
+    RW  eng-                = @engineers
+    RW  refs/tags/rc[0-9]   = @engineers
+    RW+                     = @admins
 </code></pre><p><code>RW</code> や <code>RW+</code> の後に書かれている式は正規表現 (regex) で、これにマッチする refname (ref) が対象となります。なので、これに &quot;refex&quot; と名付けました! もちろん、refex はこの例で示したよりずっと強力なものです。Perl の正規表現になじめない人は、あまりやりすぎないようにしましょう。</p>
 <p>また、すでにお気づきかもしれませんが、<code>refs/</code> で始まらない refex を指定すると、Gitolite はその先頭に <code>refs/heads/</code> がついているものとみなします。これは構文上の利便性を意識したものです。</p>
 <p>設定ファイルの構文の中でも重要なのは、ひとつのリポジトリに対するルールをすべてひとまとめにしなくてもよいということです。共通の設定をひとまとめにして上の例のように <code>oss_repos</code> に対してルールを設定し、その後で個々の場合について個別のルールを追加していくこともできます。</p>
-<pre><code><span class="hljs-attribute">repo gitolite
-    RW+                     </span>=<span class="hljs-string"> sitaram</span>
+<pre><code>repo gitolite
+    RW+                     = sitaram
 </code></pre><p>このルールは、<code>gitolite</code> リポジトリのルール群に追加されます。</p>
 <p>で、実際のアクセス制御ルールはどのように書けばいいの? と思われたことでしょう。簡単に説明します。</p>
 <p>Gitolite のアクセス制御には二段階のレベルがあります。まず最初はリポジトリレベルのアクセス制御です。あるリポジトリへの読み込み (書き込み) アクセス権を持っているということは、そのリポジトリの <em>すべての</em> ref に対する読み込み (書き込み) 権限を持っていることを意味します。Gitosisにはこのレベルのアクセス制御しかありませんでした｡</p>
@@ -800,16 +803,16 @@ repo testing
 <h2 id="-">&quot;拒否&quot; ルールによる高度なアクセス制御</h2>
 <p>これまでに見てきた権限は <code>R</code>、<code>RW</code> あるいは <code>RW+</code> だけでした。しかし、Gitolite にはそれ以外の権限もあります。それが <code>-</code> で、&quot;禁止&quot; をあらわすものです。これを使えばより強力なアクセス制御ができるようになりますが、少し設定は複雑になります。マッチしなければアクセスを拒否するというだけでなく、ルールを書く順番もからんでくることになるからです。</p>
 <p>上の例で、エンジニアは master と integ <em>以外</em> のすべてのブランチを巻き戻せるように設定しようとすると、次のようになります。</p>
-<pre><code>    <span class="hljs-constant">RW</span>  master integ    = <span class="hljs-variable">@engineers</span>
-    -   master integ    = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@engineers</span>
+<pre><code>    RW  master integ    = @engineers
+    -   master integ    = @engineers
+    RW+                 = @engineers
 </code></pre><p>この場合も上から順にルールを適用し、最初にマッチしたアクセス権をあてはめます。何もマッチしなければアクセスは拒否されます。master や integ に対する巻き戻し以外のプッシュは、最初のルールにマッチするので許可されます。これらのブランチに対する巻き戻しのプッシュは最初のルールにマッチしません。そこで二番目のルールに移動し、この時点で拒否されます。master と integ 以外への (巻き戻しを含む) 任意のプッシュは最初の二つのルールのいずれにもマッチしないので、三番目のルールが適用されます。</p>
 <h2 id="-">ファイル単位でのプッシュの制限</h2>
 <p>変更をプッシュすることのできるブランチを制限するだけでなく、変更できるファイルを制限することも可能です。たとえば、Makefile (あるいはその他のプログラム) などは誰もが変更できるというものではないでしょう。このファイルはさまざまなものに依存しており、変更によっては壊れてしまうことがあるかもしれないからです。そんな場合は次のように設定します。</p>
 <pre><code>repo foo
-    <span class="hljs-constant">RW</span>                      =   <span class="hljs-variable">@junior_devs</span> <span class="hljs-variable">@senior_devs</span>
+    RW                      =   @junior_devs @senior_devs
 
-    -   <span class="hljs-constant">VREF</span>/<span class="hljs-constant">NAME</span>/<span class="hljs-constant">Makefile</span>  =   <span class="hljs-variable">@junior_devs</span>
+    -   VREF/NAME/Makefile  =   @junior_devs
 </code></pre><p>この機能には大幅な変更が加えられているので､Gitoliteの旧バージョンから移行してきたユーザーは気をつけてください｡移行の手引きを確認してください｡</p>
 <h2 id="-">個人ブランチ</h2>
 <p>Gitolite には &quot;個人ブランチ&quot; (&quot;個人的なブランチ用の名前空間&quot; と言ったほうがいいでしょうか) という機能があります。これは、法人の環境では非常に便利なものです。</p>
@@ -822,13 +825,13 @@ repo testing
 <p>最後にその他の機能の例を紹介しましょう。これらについての詳しい説明は、ドキュメントにあります。</p>
 <p><strong>ログ記録</strong>: Gitolite は、成功したアクセスをすべてログに記録します。巻き戻し権限 (<code>RW+</code>) を与えているときに、誰かが <code>master</code> を吹っ飛ばしてしまったとしましょう。そんなときにはログファイルが救世主となります。ログを見れば、問題を起こした SHA をすぐに発見できるでしょう。</p>
 <p><strong>アクセス権の報告</strong>: もうひとつの便利な機能は、サーバに ssh で接続したときに起こります。gitolite はあなたがアクセスするリポジトリとどのようなアクセスができるかを表示します。たとえばこんな感じです。</p>
-<pre><code>    hello scott, this is git@git running gitolite3 v3<span class="hljs-number">.01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span><span class="hljs-attribute">-g9609868</span> <span class="hljs-keyword">on</span> git <span class="hljs-number">1.7</span><span class="hljs-number">.4</span><span class="hljs-number">.4</span>
+<pre><code>    hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
-         R     anu<span class="hljs-attribute">-wsd</span>
+         R     anu-wsd
          R     entrans
-         R  W  git<span class="hljs-attribute">-notes</span>
+         R  W  git-notes
          R  W  gitolite
-         R  W  gitolite<span class="hljs-attribute">-admin</span>
+         R  W  gitolite-admin
          R     indic_web_input
          R     shreelipi_converter
 </code></pre><p><strong>委譲</strong>: 大規模な環境では、特定のリポジトリのグループに対する責任を委譲して個別に管理させることもできます。こうすれば主管理者の負荷が軽減され、主管理者がボトルネックとなることも少なくなります。</p>
@@ -851,9 +854,9 @@ repo testing
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397503694381">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397847855018">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -824,7 +827,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_421">
+                    <section class="normal" id="section-gitbook_418">
                     
                         <h1 id="komendy-plumbing-i-porcelain">Komendy Plumbing i Porcelain</h1>
 <!-- # Plumbing and Porcelain -->
@@ -838,8 +841,8 @@
 <p>Kiedy uruchomisz <code>git init</code> w nowym lub istniejącym katalogu, Git stworzy katalog <code>.git</code>, w którym praktycznie wszystko czego używa Git jest umieszczone. Kiedy chcesz wykonać kopię zapasową lub sklonować repozytorium, skopiowanie tylko tego katalogu da Ci praktycznie wszystko czego potrzebujesz. Praktycznie cały ten rozdział dotyczy rzeczy które są umieszczone w tym katalogu. Wygląda on tak:</p>
 <!-- When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like: -->
 
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">HEAD</span>
+<pre><code>$ ls
+HEAD
 branches/
 config
 description
@@ -872,9 +875,9 @@ refs/
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

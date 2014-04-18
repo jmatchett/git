@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,14 +847,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_799">
+                    <section class="normal" id="section-gitbook_800">
                     
                         <h1 id="-">Что такое ветка?</h1>
 <p>Чтобы на самом деле разобраться в том, как Git работает с ветками, мы должны сделать шаг назад и рассмотреть, как Git хранит свои данные. Как вы, наверное, помните из главы 1, Git хранит данные не как последовательность изменений или дельт, а как последовательность снимков состояния (snapshot).</p>
 <p>Когда вы создаёте коммит в Git&#39;е, Git записывает в базу объект-коммит, который содержит указатель на снимок состояния, записанный ранее в индекс, метаданные автора и комментария и ноль и более указателей на коммиты, являющиеся прямыми предками этого коммита: ноль предков для первого коммита, один — для обычного коммита и несколько — для коммита, полученного в результате слияния двух или более веток.</p>
 <p>Для наглядности давайте предположим, что у вас есть каталог, содержащий три файла, и вы хотите добавить их все в индекс и сделать коммит. При добавлении файлов в индекс для каждого из них вычислится контрольная сумма (SHA-1 хеш, о котором мы упоминали в главе 1), затем эти версии файлов будут сохранены в Git-репозиторий (Git обращается к ним как к двоичным данным), а их контрольные суммы добавятся в индекс:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span> test.rb <span class="hljs-constant">LICENSE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit of my project'</span>
+<pre><code>$ git add README test.rb LICENSE
+$ git commit -m &#39;initial commit of my project&#39;
 </code></pre><p>Когда вы создаёте коммит, выполняя <code>git commit</code>, Git вычисляет контрольную сумму каждого подкаталога (в нашем случае только корневого каталога) и сохраняет эти объекты-деревья в Git-репозиторий. Затем Git создаёт объект для коммита, в котором есть метаданные и указатель на объект-дерево для корня проекта. Таким образом, Git сможет воссоздать текущее состояние, когда будет нужно.</p>
 <p>Ваш Git-репозиторий теперь содержит пять объектов: по одному блобу для содержимого каждого из трёх файлов, одно дерево, в котором перечислено содержимое каталога и определено соответствие имён файлов и блобов, и один коммит с указателем на тот самый объект-дерево для корня и со всеми метаданными коммита. Схематично данные в этом Git-репозитории выглядят так, как показано на рисунке 3-1.</p>
 <p><img src="http://git-scm.com/figures/18333fig0301-tn.png" alt=""></p>
@@ -863,7 +866,7 @@
 <p><img src="http://git-scm.com/figures/18333fig0303-tn.png" alt=""></p>
 <p>Рисунок 3-3. Ветка указывает на историю коммитов.</p>
 <p>Что произойдёт, если вы создадите новую ветку? Итак, этим вы создадите новый указатель, который можно будет перемещать. Скажем, создадим новую ветку под названием <code>testing</code>. Это делается командой <code>git branch</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch testing
+<pre><code>$ git branch testing
 </code></pre><p>Эта команда создаст новый указатель на тот самый коммит, на котором вы сейчас находитесь (см. рис. 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Рисунок 3-4. Несколько веток, указывающих на историю коммитов.</p>
@@ -871,25 +874,25 @@
 <p><img src="http://git-scm.com/figures/18333fig0305-tn.png" alt=""></p>
 <p>Рисунок 3-5. Файл HEAD указывает на текущую ветку.</p>
 <p>Чтобы перейти на существующую ветку, вам надо выполнить команду <code>git checkout</code>. Давайте перейдём на новую ветку <code>testing</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout testing
+<pre><code>$ git checkout testing
 </code></pre><p>Это действие передвинет HEAD так, чтобы тот указывал на ветку <code>testing</code> (см. рис. 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Рисунок 3-6. HEAD указывает на другую ветку после переключения веток.</p>
 <p>В чём же важность этого? Давайте сделаем ещё один коммит:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made a change'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made a change&#39;
 </code></pre><p>На рисунке 3-7 показан результат.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Рисунок 3-7. Ветка, на которую указывает HEAD, движется вперёд с каждым коммитом.</p>
 <p>Это интересно, потому что теперь ваша ветка <code>testing</code> передвинулась вперёд, но ветка <code>master</code> всё ещё указывает на коммит, на котором вы были, когда выполняли <code>git checkout</code>, чтобы переключить ветки. Давайте перейдём обратно на ветку <code>master</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>На рисунке 3-8 можно увидеть результат.</p>
 <p><img src="http://git-scm.com/figures/18333fig0308-tn.png" alt=""></p>
 <p>Рисунок 3-8. HEAD перемещается на другую ветку при checkout&#39;е.</p>
 <p>Эта команда выполнила два действия. Она передвинула указатель HEAD назад на ветку <code>master</code> и вернула файлы в вашем рабочем каталоге назад, в соответствие со снимком состояния, на который указывает <code>master</code>. Это также означает, что изменения, которые вы делаете, начиная с этого момента, будут ответвляться от старой версии проекта. Это, по сути, откатывает изменения, которые вы временно делали на ветке <code>testing</code>, так что дальше вы можете двигаться в другом направлении.</p>
 <p>Давайте снова внесём немного изменений и сделаем коммит:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made other changes'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made other changes&#39;
 </code></pre><p>Теперь история вашего проекта разветвилась (см. рис. 3-9). Вы создали новую ветку, перешли на неё, поработали на ней немного, переключились обратно на основную ветку и выполнили другую работу. Оба эти изменения изолированы в отдельных ветках: вы можете переключаться туда и обратно между ветками и слить их, когда будете готовы. И всё это было сделано простыми командами <code>branch</code> и <code>checkout</code>.</p>
 <p><img src="http://git-scm.com/figures/18333fig0309-tn.png" alt=""></p>
 <p>Рисунок 3-9. История с разошедшимися ветками.</p>
@@ -914,9 +917,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

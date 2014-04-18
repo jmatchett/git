@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_883">
+                    <section class="normal" id="section-gitbook_741">
                     
                         <h1 id="rebasing">Rebasing</h1>
 <p>No Git, existem duas maneiras principais de integrar mudanças de um branch em outro: o <code>merge</code> e o <code>rebase</code>. Nessa seção você aprenderá o que é rebase, como fazê-lo, por que é uma ferramenta sensacional, e em quais casos você não deve usá-la.</p>
@@ -859,8 +862,8 @@
 <p>Nesse exemplo, se você executar o seguinte:</p>
 <pre><code>$ git checkout experiment
 $ git rebase master
-First, rewinding head <span class="hljs-built_in">to</span> replay your work <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">top</span> <span class="hljs-title">of</span> <span class="hljs-title">it</span>...</span>
-Applying: added staged <span class="hljs-command"><span class="hljs-keyword">command</span></span>
+First, rewinding head to replay your work on top of it...
+Applying: added staged command
 </code></pre><p>Ele vai ao ancestral comum dos dois branches (no que você está e no qual será feito o rebase), pega a diferença (diff) de cada commit do branch que você está, salva elas em um arquivo temporário, restaura o brach atual para o mesmo commit do branch que está sendo feito o rebase e, finalmente, aplica uma mudança de cada vez. A Figura 3-29 ilustra esse processo.</p>
 <p><img src="http://git-scm.com/figures/18333fig0329-tn.png" alt=""></p>
 <p>Figura 3-29. Fazendo o rebase em C4 de mudanças feitas em C3.</p>
@@ -875,26 +878,26 @@ Applying: added staged <span class="hljs-command"><span class="hljs-keyword">com
 <p><img src="http://git-scm.com/figures/18333fig0331-tn.png" alt=""></p>
 <p>Figura 3-31. Histórico com um branch tópico a partir de outro.</p>
 <p>Digamos que você decide fazer um merge das mudanças entre seu branch com mudanças do lado cliente na linha de trabalho principal para lançar uma versão, mas quer segurar as mudanças do lado servidor até que elas sejam testadas melhor. Você pode pegar as mudanças que não estão no servidor (C8 e C9) e incluí-las no seu branch master usando a opção <code>--onto</code> do <code>git rebase</code>:</p>
-<pre><code>$ git rebase --onto master <span class="hljs-keyword">server</span> <span class="hljs-keyword">client</span>
+<pre><code>$ git rebase --onto master server client
 </code></pre><p>Isto basicamente diz, &quot;Faça o checkout do branch client, verifique as mudanças a partir do ancestral em comum aos branches <code>client</code> e <code>server</code>, e coloque-as no <code>master</code>.” É um pouco complexo, mas o resultado, mostrado na Figura 3-32, é muito legal:</p>
 <p><img src="http://git-scm.com/figures/18333fig0332-tn.png" alt=""></p>
 <p>Figura 3-32. Fazendo o rebase de um branch tópico em outro.</p>
 <p>Agora você pode avançar (fast-forward) seu branch master (veja Figura 3-33):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge client
+<pre><code>$ git checkout master
+$ git merge client
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0333-tn.png" alt=""></p>
 <p>Figura 3-33. Avançando o seu branch master para incluir as mudanças do branch client.</p>
 <p>Digamos que você decidiu obter o branch do seu servidor também. Você pode fazer o rebase do branch do servidor no seu branch master sem ter que fazer o checkout primeiro com o comando <code>git rebase [branchbase] [branchtopico]</code> — que faz o checkout do branch tópico (nesse caso, <code>server</code>) pra você e aplica-o no branch base (<code>master</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git rebase master server
+<pre><code>$ git rebase master server
 </code></pre><p>Isso aplica o seu trabalho em <code>server</code> após aquele existente em <code>master</code>, como é mostrado na Figura 3-34:</p>
 <p><img src="http://git-scm.com/figures/18333fig0334-tn.png" alt=""></p>
 <p>Figura 3-34. Fazendo o rebase do seu branch server após seu branch master.</p>
 <p>Em seguida, você pode avançar seu branch base (<code>master</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge server
+<pre><code>$ git checkout master
+$ git merge server
 </code></pre><p>Você pode apagar os branches <code>client</code> e <code>server</code> pois todo o trabalho já foi integrado e você não precisa mais deles, deixando seu histórico de todo esse processo parecendo com a Figura 3-35:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> client
-$ git branch <span class="hljs-operator">-d</span> server
+<pre><code>$ git branch -d client
+$ git branch -d server
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0335-tn.png" alt=""></p>
 <p>Figura 3-35. Histórico final de commits.</p>
 <h2 id="os-perigos-do-rebase">Os Perigos do Rebase</h2>
@@ -934,9 +937,9 @@ $ git branch <span class="hljs-operator">-d</span> server
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

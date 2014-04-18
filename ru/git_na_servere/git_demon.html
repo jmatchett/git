@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.9" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.9" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -850,40 +853,40 @@
 <p>Для предоставления публичного неаутентифицируемого доступа на чтение к своим проектам стоит продвинуться дальше, чем протокол HTTP, и начать использовать Git-протокол. Основное его преимущество — скорость. Git-протокол гораздо эффективнее и следовательно быстрее чем HTTP, поэтому, используя его, вы можете сэкономить своим пользователям время.</p>
 <p>Напомним, что он годится только для доступа на чтение без аутентификации. Если вы запустили его на сервере не загороженном сетевым экраном, то он должен использоваться только для проектов, которые публично видны внешнему миру. Если сервер, на котором вы его запускаете, находится за сетевым экраном, тогда его вполне можно использовать для проектов, к которым нужно иметь доступ только на чтение для большого числа людей или компьютеров (серверов непрерывной интеграции или сборки), если вы не хотите для каждого из них заводить свой SSH-ключ.</p>
 <p>В любом случае, Git-протокол относительно просто настроить. По сути, вам нужно запустить следующую команду в демонизированной форме:</p>
-<pre><code>git daemon --reuseaddr --base-path=<span class="hljs-regexp">/opt/git</span><span class="hljs-regexp">/ /opt</span><span class="hljs-regexp">/git/</span>
+<pre><code>git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 </code></pre><p>Опция <code>--reuseaddr</code> позволит серверу перезапускаться без ожидания окончания старых соединений, <code>--base-path</code> позволит людям не указывать полный путь при клонировании проекта, а путь в конце говорит Git-демону, где искать экспортируемые репозитории. Если у вас запущен сетевой экран, то ещё необходимо проделать в нём дырочку, открыв порт 9418 на машине, на которой это всё запущено.</p>
 <p>Вы можете демонизировать этот процесс несколькими путями, в зависимости от операционной системы. На машине с Ubuntu используйте Upstart-сценарий. Итак, в этот файл</p>
-<pre><code>/etc/event<span class="hljs-built_in">.</span>d/<span class="hljs-built_in">local</span><span class="hljs-attribute">-git</span><span class="hljs-attribute">-daemon</span>
+<pre><code>/etc/event.d/local-git-daemon
 </code></pre><p>поместите такой сценарий:</p>
 <pre><code>start on startup
 stop on shutdown
 exec /usr/bin/git daemon \
-    -<span class="ruby">-user=git --group=git \
-</span>    -<span class="ruby">-reuseaddr \
-</span>    -<span class="ruby">-base-path=<span class="hljs-regexp">/opt/git</span><span class="hljs-regexp">/ \
-</span></span><span class="hljs-comment">    /opt/git/</span>
+    --user=git --group=git \
+    --reuseaddr \
+    --base-path=/opt/git/ \
+    /opt/git/
 respawn
 </code></pre><p>По соображениям безопасности крайне желательно, чтобы вы запускали этот демон от пользователя с правами только на чтение на репозитории — вы легко можете сделать это, создав пользователя &#39;git-ro&#39; и запустив этот демон из-под него. Для простоты мы запустим его от того же пользователя &#39;git&#39;, от которого запущен Gitosis.</p>
 <p>Когда вы перезапустите машину, Git-демон запустится автоматически, и возродится, если вдруг завершится. Чтобы запустить его без перезагрузки машины, выполните следующее:</p>
-<pre><code>initctl start <span class="hljs-built_in">local</span><span class="hljs-attribute">-git</span><span class="hljs-attribute">-daemon</span>
+<pre><code>initctl start local-git-daemon
 </code></pre><p>На других системах вы можете использовать <code>xinetd</code>, сценарий для системы <code>sysvinit</code>, или что-то другое — главное, чтобы вы могли эту команду как-либо демонизировать и перезапускать в случае завершения.</p>
 <p>Затем, вы должны указать Gitosis-серверу, к каким репозиториям предоставить неаутентифицируемый доступ через Git-сервер. Если вы добавили по секции для каждого репозитория, вы можете указать, из каких из них Git-демону позволено читать. Если вы хотите предоставить доступ по Git-протоколу к <code>iphone_project</code>, добавьте следующее в конец своего файла <code>gitosis.conf</code>:</p>
-<pre><code><span class="hljs-title">[repo iphone_project]</span>
-<span class="hljs-setting">daemon = <span class="hljs-value"><span class="hljs-keyword">yes</span></span></span>
+<pre><code>[repo iphone_project]
+daemon = yes
 </code></pre><p>Когда это зафиксировано и отправлено, ваш запущенный демон должен начать обслуживать запросы к проекту от всех, у кого есть доступ к порту 9418 на вашем сервере.</p>
 <p>Если вы решили не использовать Gitosis, но хотите установить Git-демон, вам необходимо выполнить следующее в каждом проекте, который должен обслуживаться Git-демоном:</p>
-<pre><code>$ cd /path/<span class="hljs-keyword">to</span>/project<span class="hljs-built_in">.</span>git
-$ touch git<span class="hljs-attribute">-daemon</span><span class="hljs-attribute">-export</span><span class="hljs-attribute">-ok</span>
+<pre><code>$ cd /path/to/project.git
+$ touch git-daemon-export-ok
 </code></pre><p>Наличие этого файла скажет Git&#39;у, что этот проект можно обслуживать без аутентификации.</p>
 <p>Gitosis также может контролировать, какие проекты будет показывать GitWeb. Вам нужно добавить что-то вроде этого в файл <code>/etc/gitweb.conf</code>:</p>
-<pre><code><span class="hljs-variable">$projects_list</span> = <span class="hljs-string">"/home/git/gitosis/projects.list"</span>;
-<span class="hljs-variable">$projectroot</span> = <span class="hljs-string">"/home/git/repositories"</span>;
-<span class="hljs-variable">$export_ok</span> = <span class="hljs-string">"git-daemon-export-ok"</span>;
-<span class="hljs-variable">@git_base_url_list</span> = (<span class="hljs-string">'git://gitserver'</span>);
+<pre><code>$projects_list = &quot;/home/git/gitosis/projects.list&quot;;
+$projectroot = &quot;/home/git/repositories&quot;;
+$export_ok = &quot;git-daemon-export-ok&quot;;
+@git_base_url_list = (&#39;git://gitserver&#39;);
 </code></pre><p>Вы можете контролировать, какие проекты GitWeb будет позволять просматривать пользователям, добавляя или удаляя пункт настройки <code>gitweb</code> в конфигурационном файле Gitosis&#39;а. Например, если вы хотите, чтобы <code>iphone_project</code> просматривался в GitWeb, сделайте так, чтобы секция настроек <code>repo</code> выглядела следующим образом:</p>
-<pre><code><span class="hljs-title">[repo iphone_project]</span>
-<span class="hljs-setting">daemon = <span class="hljs-value"><span class="hljs-keyword">yes</span></span></span>
-<span class="hljs-setting">gitweb = <span class="hljs-value"><span class="hljs-keyword">yes</span></span></span>
+<pre><code>[repo iphone_project]
+daemon = yes
+gitweb = yes
 </code></pre><p>Теперь, если вы зафиксируете и отправите изменения, GitWeb автоматически начнёт показывать ваш проект для iphone.</p>
 
                     
@@ -903,9 +906,9 @@ $ touch git<span class="hljs-attribute">-daemon</span><span class="hljs-attribut
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

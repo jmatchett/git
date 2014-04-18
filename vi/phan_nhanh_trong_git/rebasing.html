@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397503670765">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,7 +367,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_261">
+                    <section class="normal" id="section-gitbook_235">
                     
                         <h1 id="rebasing">Rebasing</h1>
 <p>Trong Git, có hai cách chính để tích hợp các thay đổi từ nhánh này vào nhánh khác: đó là <code>merge</code> và <code>rebase</code>. Trong phần này bạn sẽ được tìm hiểu rebase là gì, sử dụng nó như thế nào, tại sao nó được coi là một công cụ khá tuyệt vời, và trong trường hợp nào thì không nên sử dụng nó.</p>
@@ -379,8 +382,8 @@
 <p>Trong ví dụ này, bạn thực hiện như sau:</p>
 <pre><code>$ git checkout experiment
 $ git rebase master
-First, rewinding head <span class="hljs-built_in">to</span> replay your work <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">top</span> <span class="hljs-title">of</span> <span class="hljs-title">it</span>...</span>
-Applying: added staged <span class="hljs-command"><span class="hljs-keyword">command</span></span>
+First, rewinding head to replay your work on top of it...
+Applying: added staged command
 </code></pre><p>Nó thực hiện bằng cách đi tới commit cha chung của hai nhánh (nhánh bạn đang làm việc và nhánh bạn đang muốn rebase), tìm sự khác biệt trong mỗi commit của nhánh mà bạn đang làm việc, lưu lại các thay đổi đó vào một tập tin tạm thời, khôi phục lại nhánh hiện tại về cùng một commit với nhánh bạn đang rebase, và cuối cùng áp dụng lần lượt các thay đổi. Hình 3-29 minh họa toàn bộ quá trình này.</p>
 <p><img src="http://git-scm.com/figures/18333fig0329-tn.png" alt=""></p>
 <p>Hình 3-29. Quá trình rebase thay đổi ở C3 vào C4.</p>
@@ -395,26 +398,26 @@ Applying: added staged <span class="hljs-command"><span class="hljs-keyword">com
 <p><img src="http://git-scm.com/figures/18333fig0331-tn.png" alt=""></p>
 <p>Hình 3-31. Nhánh chủ đề được tạo từ một nhánh chủ đề khác.</p>
 <p>Giả sử bạn quyết định tích hợp các thay đổi phía client vào nhánh chính cho bản phát hành sắp tới, nhưng bạn vẫn muốn giữ các thay đổi server-side cho đến khi nó được kiểm tra kỹ lưỡng. Bạn có thể lấy các thay đổi ở client mà không có mặt ở server (C8 và C9) sau đó chạy lại (replay) chúng trên nhánh master bằng cách sử dụng lựa chọn <code>--onto</code> cho lệnh <code>git rebase</code>:</p>
-<pre><code>$ git rebase --onto master <span class="hljs-keyword">server</span> <span class="hljs-keyword">client</span>
+<pre><code>$ git rebase --onto master server client
 </code></pre><p>Lệnh này cơ bản nói rằng, &quot;Hãy check out nhánh client, tìm ra các bản vá từ commit chung của nhánh <code>client</code> và <code>server</code>, sau đó thực thi lại vào nhánh <code>master</code>.&quot; Nó hơi phức tạp một chút nhưng kết quả như Hình 3-32 thì lại rất tuyệt.</p>
 <p><img src="http://git-scm.com/figures/18333fig0332-tn.png" alt=""></p>
 <p>Hình 3-32. Quá trình rebase nhánh chủ đề khỏi một nhánh chủ đề khác.</p>
 <p>Bây giờ bạn có thể di chuyển con trỏ của nhánh master tiến lên phía trước (xem Hình 3-33):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge client
+<pre><code>$ git checkout master
+$ git merge client
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0333-tn.png" alt=""></p>
 <p>Hình 3-33. Di chuyển nhánh master lên phía trước để bao gồm các thay đổi của nhánh client.</p>
 <p>Giả sử rằng bạn quyết định kéo về cả nhánh trên máy chủ. Bạn có thể rebase nhánh trên máy chủ đó vào nhánh master mà không phải checkout trước bằng lệnh <code>git rebase [basebranch] [topicbranch]</code> - lệnh này sẽ checkout nhánh chủ để (trong trường hợp này là <code>server</code>) cho bạn và áp dụng lại các thay đổi vào nhánh cơ sở (base) <code>master</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git rebase master server
+<pre><code>$ git rebase master server
 </code></pre><p>Lệnh này sẽ thực hiện lại các thay đổi trên nhánh <code>server</code> chèn vào nhánh <code>master</code> như trong Hình 3-34.</p>
 <p><img src="http://git-scm.com/figures/18333fig0334-tn.png" alt=""></p>
 <p>Hình 3-34. Rebase nhánh server chèn lên nhánh master. </p>
 <p>Sau đó bạn có thể di chuyển con trỏ nhánh base (<code>master</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge server
+<pre><code>$ git checkout master
+$ git merge server
 </code></pre><p>Bạn có thể xóa nhánh <code>client</code> và <code>server</code> vì tất cả công việc đã được tích hợp vào master và bạn không cần đến chúng nữa, lịch sử quả toàn bộ quá trình vừa rồi giống như Hình 3-35:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> client
-$ git branch <span class="hljs-operator">-d</span> server
+<pre><code>$ git branch -d client
+$ git branch -d server
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0335-tn.png" alt=""></p>
 <p>Hình 3-35. Lịch sử commit cuối cùng.</p>
 <h2 id="r-i-ro-c-a-rebase">Rủi Ro của Rebase</h2>
@@ -454,9 +457,9 @@ $ git branch <span class="hljs-operator">-d</span> server
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.7" data-basepath=".." data-revision="1397503670764">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.7" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,48 +367,48 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_225">
+                    <section class="normal" id="section-gitbook_251">
                     
                         <h1 id="i-pu-lar-">İpuçları</h1>
 <p>Git&#39;in temelleri hakkındaki bu bölümü tamamlamadan önce, Git deneyiminizi kolaylaştırabilmek için birkaç ipucu vermekte yarar var. Pek çok insan Git&#39;i bu ipuçlarına başvurmadan kullanıyor; bu ipuçlarından ileride tekrar söz etmeyeceğimiz gibi bunları bilmeniz gerektiğini de varsaymıyoruz; ama yine de bilmeniz yararınıza olacaktır.</p>
 <h2 id="otomatik-tamamlama">Otomatik Tamamlama</h2>
 <p>Eğer Bash -shell<em>&#39;ini kullanıyorsanız, Git&#39;in otomatik tamamlama betiğini (_script</em>) kullanabilirsiniz. Git kaynak kodunu indirip <code>contrib/completion</code> klasörüne bakın; orada <code>git-completion.bash</code> adında bir dosya olmalı. Bu dosyayı ev dizininize (<em>home</em>) kopyalayıp <code>.bashrc</code> dosyanıza ekleyin:</p>
-<pre><code>source ~/<span class="hljs-preprocessor">.git</span>-completion<span class="hljs-preprocessor">.bash</span>
+<pre><code>source ~/.git-completion.bash
 </code></pre><p>Otomatik tamamlama özelliğinin bütün Git kullanıcıları için geçerli olmasını istiyorsanız, bu betik dosyasını Mac sistemler için <code>/opt/local/etc/bash_completion.d</code> konumuna Linux sistemlerde <code>/etc/bash_completion.d/</code> konumuna kopyalayın. Bu, Bash&#39;ın otomatik olarak yükleyeceği betiklerin bulunduğu bir klasördür.</p>
 <p>Eğer bir Windows kullanıcısıysanız ve Git Bash kullanıyorsanız- ki bu msysGit&#39;le kurulum yaptığınızdaki öntanımlı programdır, otomatik tamamlama kendiliğinden gelecektir.</p>
 <p>Bir Git komutu yazarken Sekme tuşuna bastığınızda, karşınıza bir dizi seçenek getirir:</p>
-<pre><code>$ git co<span class="hljs-tag">&lt;<span class="hljs-title">selme</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">sekme</span>&gt;</span>
+<pre><code>$ git co&lt;selme&gt;&lt;sekme&gt;
 commit config
 </code></pre><p>Bu örnekte, <code>git co</code> yazıp Sekme tuşuna iki kez basmak <code>commit</code> ve <code>config</code> komutlarını öneriyor. Komutun devamında <code>m</code> yazıp bir kez daha Sekme tuşuna basacak olursanız, komut otomatik olarak <code>git commit</code>&#39;e tamamlanır.</p>
 <p>Bu, seçeneklerde de kullanılabilir, ki muhtemelen daha yararlı olacaktır. Örneğin, <code>git log</code> komutunu çalıştırırken seçeneklerden birisini hatırlayamadınız, seçeneği yazmaya başlayıp Sekme tuşuna basarak eşleşen seçenekleri görebilirsiniz:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">log</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">s</span>&lt;<span class="hljs-comment">sekme</span>&gt;
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">shortstat</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">since=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">src</span><span class="hljs-literal">-</span><span class="hljs-comment">prefix=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">stat</span>   <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">summary</span>
+<pre><code>$ git log --s&lt;sekme&gt;
+--shortstat  --since=  --src-prefix=  --stat   --summary
 </code></pre><p>Bu güzel özellik sizi zaman kazandırabileceği gibi ikide bir belgelendirmeye bakma gereğini de ortadan kaldırır.</p>
 <h2 id="takma-adlar">Takma Adlar</h2>
 <p>Bir komutun bir kısmını yazdığınızda Git bunu anlamayacaktır. Komutların uzun adlarını kullanmak istemezseniz, <code>git config</code> komutunu kullanarak bunların yerine daha kısa takma adlar belirleyebilirsiniz. Kullanmak isteyebileceğiniz bazı takma adları buraya aldık:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.co checkout
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.br branch
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.ci commit
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.st status
+<pre><code>$ git config --global alias.co checkout
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status
 </code></pre><p>Bu durumda, örneğin,  <code>git commit</code> yazmak yerine <code>git ci</code> yazmanız yeterli olacaktır. Git&#39;i kullandıkça sık kullandığınız başka komutlar da olacaktır, o zaman o komutlar için de takma adlar oluşturabilirsiniz.</p>
 <p>Bu teknik, eksikliğini hissettiğiniz komutları oluşturmakta da yararlı olabilir. Örneğin, bir dosyayı hazırlık alanından kaldırmak için yapılması gerekenleri yeni bir komut olarak tanımlayabilirsiniz:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.unstage <span class="hljs-string">'reset HEAD --'</span>
+<pre><code>$ git config --global alias.unstage &#39;reset HEAD --&#39;
 </code></pre><p>Bu durumda şu iki komut eşdeğer olacaktır:</p>
-<pre><code><span class="hljs-variable">$ </span>git unstage fileA
-<span class="hljs-variable">$ </span>git reset <span class="hljs-constant">HEAD</span> fileA
+<pre><code>$ git unstage fileA
+$ git reset HEAD fileA
 </code></pre><p>Biraz daha temiz değil mi? Bir <code>last</code> komutu eklemek de oldukça yaygındır:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.last <span class="hljs-string">'log -1 HEAD'</span>
+<pre><code>$ git config --global alias.last &#39;log -1 HEAD&#39;
 </code></pre><p>Böylece son kaydı kolaylıkla görebilirsiniz:</p>
 <pre><code>$ git last
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">66938</span>dae3329c7aebe598c2246a8e6af90d04646
+commit 66938dae3329c7aebe598c2246a8e6af90d04646
 Author: Josh Goebel &lt;dreamer3@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Aug <span class="hljs-number">26</span> <span class="hljs-number">19</span>:<span class="hljs-number">48</span>:<span class="hljs-number">51</span> <span class="hljs-number">2008</span> +<span class="hljs-number">0800</span>
+Date:   Tue Aug 26 19:48:51 2008 +0800
 
-    test <span class="hljs-keyword">for</span> <span class="hljs-keyword">current</span> head
+    test for current head
 
-    Signed-off-<span class="hljs-keyword">by</span>: Scott Chacon &lt;schacon@example.com&gt;</span>
+    Signed-off-by: Scott Chacon &lt;schacon@example.com&gt;
 </code></pre><p>Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka bir program kullanmak istiyorsunuz. Bu durumda komutun başına <code>!</code> karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,<code>gitk</code>&#39;yi çalıştırmak için <code>git visual</code> diye yeni bir takma ad tanımlayabiliriz:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.visual <span class="hljs-string">'!gitk'</span>
+<pre><code>$ git config --global alias.visual &#39;!gitk&#39;
 </code></pre>
                     
                     </section>
@@ -424,9 +427,9 @@ Author: Josh Goebel &lt;dreamer3@example.com&gt;
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

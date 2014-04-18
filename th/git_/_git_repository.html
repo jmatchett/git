@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397503663097">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397847843374">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -238,7 +241,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="เริ่มต้นใช้งาน" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="../_version_control.html" title="เกี่ยวกับ Version Control" class="chapter done " data-progress="1.1" style="left: 6.666666666666667%;"></a>
     
@@ -281,19 +284,19 @@
 <p>คุณสามารถสร้างโปรเจคใน Git โดยใช้สองวิธีหลัก วิธีแรกคือการนำเข้าโปรเจคหรือแฟ้มข้อมูลที่มีอยู่แล้วเข้าไปใน Git ส่วนวิธีที่สองคือการ clone จาก repository ที่อยู่ในเซิร์ฟเวอร์อื่น</p>
 <h2 id="-repository-">การสร้าง Repository จากแฟ้มข้อมูลที่มีอยู่แล้ว</h2>
 <p>สำหรับวิธีนี้ ให้ไปที่แฟ้มข้อมูลที่คุณต้องการเริ่มใช้งาน Git และพิมพ์คำสั่ง</p>
-<pre><code><span class="hljs-variable">$ </span>git init
+<pre><code>$ git init
 </code></pre><p>คำสั่งนี้จะสร้างแฟ้มข้อมูลย่อยชื่อ .git ซึ่งเก็บแฟ้มโครงสร้างของ Git repository เปล่า ๆ ที่ยังไม่มีเนื้อหาใด   ในขั้นตอนนี้แฟ้มที่อยู่ในโปรเจคของคุณจะยังไม่ถูก track โดย Git (กรุณาอ่านบทที่ 9 ถ้าคุณต้องการรู้ว่าแฟ้มที่อยู่ใน .git ที่คุณเพิ่งสร้างขึ้นมานั้นเก็บข้อมูลอะไรบ้าง)</p>
 <p>เพื่อที่จะเริ่มเก็บประวัติการแก้ไขของแฟ้มที่มีอยู่ คุณจะต้องเพิ่มแฟ้มเข้าไปใน repository เสียก่อน โดยใช้คำสั่ง git add กับแฟ้มที่คุณต้องการเก็บประวัติ ตามด้วยการ commit:</p>
-<pre><code><span class="hljs-variable">$ </span>git add *.c
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit –m <span class="hljs-string">'เริ่มเก็บประวัติ'</span>
+<pre><code>$ git add *.c
+$ git add README
+$ git commit –m &#39;เริ่มเก็บประวัติ&#39;
 </code></pre><p>หลังจาก commit คุณก็จะได้ repository ที่เริ่มเก็บประวัติของแฟ้มต่าง ๆ ในโปรเจคของคุณแล้ว</p>
 <h2 id="-clone-repository-">การ clone จาก repository ที่มีอยู่แล้ว</h2>
 <p>ถ้าคุณต้องการคัดลอก repository ที่มีอยู่แล้ว - ยกตัวอย่างเช่น จากโปรเจคที่คุณอยากมีส่วนร่วม - คำสั่งที่คุณต้องใช้คือ git clone  ถ้าคุณเคยใช้ระบบ VCS อื่นอย่าง Subversion คุณจะสังเกตเห็นว่าคำสั่งคือ clone ไม่ใช่ checkout ซึ่งความแตกต่างนี้เป็นความแตกต่างที่สำคัญมาก เพราะมันหมายความว่า Git ทำการคัดลอกข้อมูลเกือบทุกอย่างที่อยู่ในเซิร์ฟเวอร์ ทุกเวอร์ชั่นของทุกแฟ้มมีมีในประวัติของโปรเจคจะถูกคัดลอกมายังเครื่องของคุณเมื่อคุณใช้คำสั่ง <code>git clone</code>  ในความเป็นจริงถ้าเกิดดิสก์ของเซิร์ฟเวอร์เกิดเสียขึ้นมา คุณสามารถใช้ clone ตัวใดก็ได้เพื่อกู้ข้อมูลกลับไป ณ ตอนที่คุณทำการสร้าง clone นั้น (แต่คุณก็อาจเสีย server-side hooks ฯลฯ ที่มีอยู่ในเซิร์ฟเวอร์ไป - อ่านข้อมูลเพิ่มเติมที่บทที่ 4)</p>
 <p>คุณจะต้องใช้คำสั่ง <code>git clone [url]</code> เพื่อทำการ clone repository  ยกตัวอย่างเช่น ถ้าคุณต้องการ clone ไลบรารี่ Ruby ที่ชื่อ Grit คุณสามารถทำได้โดยใช้คำสั่งดังนี้:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git
 </code></pre><p>คำสั่งดังกล่าวจะสร้างไดเรกทอรี่ชื่อ &quot;grit&quot; และสร้างไดเรกทอรี่ย่อยชื่อ <code>.git</code> จากนั้นจะทำการดึงข้อมูลทั้งหมดทีมีอยู่ใน repository และ check out working copy เวอร์ชั่นล่าสุด  ถ้าคุณดูใน <code>grit</code> คุณจะเห็นแฟ้มที่อยู่ในโปรเจคทั้งหมดที่คุณสามารถเริ่มใช้งานได้ทันที ถ้าคุณต้องการ clone repository ไปที่ไดเรกทอรี่ชื่ออื่น คุณสามารถระบุชื่อที่คุณต้องการได้ต่อท้ายคำสั่งด้านบน:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git mygrit</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git mygrit
 </code></pre><p>คำสั่งนี้ทำงานเหมือนคำสั่งด้านบน แต่เก็บข้อมูลในไดเรกทอรี่ mygrit แทน</p>
 <p>Git มีโพรโทคอลสำหรับโอนข้อมูลหลายแบบ ตัวอย่างด้านบนใช้โพรโทคอล <code>git://</code> แต่คุณสามารถใช้ <code>http(s)://</code> หรือ <code>user@server:path.git</code> ซึ่งใช้ SSH ได้เหมือนกัน  ลองอ่านบทที่ 4 เพื่อดูวิธีตั้งค่าเครื่องเซิร์ฟเวอร์ของคุณ และข้อดีและข้อเสียของแต่ละโพรโตคอล</p>
 
@@ -314,9 +317,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

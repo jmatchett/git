@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,27 +847,27 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_570">
+                    <section class="normal" id="section-gitbook_641">
                     
                         <h1 id="git-op-een-server-krijgen">Git op een server krijgen</h1>
 <p>Om een Git server initieel op te zetten, moet je een bestaande repository naar een kale repository exporteren – een repository dat geen werkmap bevat. Dit is over het algemeen eenvoudig te doen.
 Om je repository te clonen met als doel het maken van een kale repository, voer je het clone commando uit met de <code>--bare</code> optie. Als conventie eindigen de namen van kale repository directories met <code>.git</code>, zoals hier:</p>
 <pre><code>$ git clone --bare my_project my_project.git
-Cloning into bare repository <span class="hljs-string">'my_project.git'</span><span class="hljs-keyword">...</span>
+Cloning into bare repository &#39;my_project.git&#39;...
 done.
 </code></pre><p>De output van dit commando is een beetje verwarrend. Het commando <code>clone</code> is eigenlijk een <code>git init</code> en dan een <code>git fetch</code>, wat we hier zien is de output van het <code>git init</code> gedeelte wat een lege directory aanmaakt. De eigenlijke object overdracht geeft geen output, maar het gebeurt wel. Nu zou je een kopie van de Git directory data in je <code>my_project.git</code> directory moeten hebben.</p>
 <p>Dit is grofweg gelijk aan dit</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> -Rf my_project/<span class="hljs-preprocessor">.git</span> my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ cp -Rf my_project/.git my_project.git
 </code></pre><p>Er zijn een paar kleine verschillen in het configuratie bestand, maar het komt op hetzelfde neer. Het neemt de Git repository zelf, zonder een werkdirectory, en maakt een directory specifiek hiervoor aan.</p>
 <h2 id="de-kale-repository-op-een-server-zetten">De Kale Repository op een Server Zetten</h2>
 <p>Nu je een kale kopie van je repository hebt, is het enige dat je moet doen het op een server zetten en je protocollen instellen. Laten we aannemen dat je een server ingericht hebt die <code>git.example.com</code> heet, waar je SSH toegang op hebt, en waar je al je Git repositories wilt opslaan onder de <code>/opt/git</code> directory. Je kunt je nieuwe repository beschikbaar stellen door je kale repository ernaartoe te kopiëren:</p>
-<pre><code>$ scp -r my_project<span class="hljs-preprocessor">.git</span> user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git
+<pre><code>$ scp -r my_project.git user@git.example.com:/opt/git
 </code></pre><p>Vanaf dat moment kunnen andere gebruikers, die SSH toegang hebben tot dezelfde server en lees-toegang hebben tot de <code>/opt/git</code> directory, jouw repository clonen door dit uit te voeren:</p>
-<pre><code>$ git clone user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git/my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone user@git.example.com:/opt/git/my_project.git
 </code></pre><p>Als een gebruiker met SSH op een server inlogt en schrijftoegang heeft tot de <code>/opt/git/my_project.git</code> directory, dan hebben ze automatisch ook push toegang. Git zal automatisch de correcte groep schrijfrechten aan een repository toekennen als je het <code>git init</code> commando met de <code>--shared</code> optie uitvoert.</p>
-<pre><code><span class="hljs-variable">$ </span>ssh user<span class="hljs-variable">@git</span>.example.com
-<span class="hljs-variable">$ </span>cd /opt/git/my_project.git
-<span class="hljs-variable">$ </span>git init --bare --shared
+<pre><code>$ ssh user@git.example.com
+$ cd /opt/git/my_project.git
+$ git init --bare --shared
 </code></pre><p>Je ziet hoe eenvoudig het is om een Git repository te nemen, een kale versie aan te maken, en het op een server plaatsen waar jij en je medewerkers SSH toegang tot hebben. Nu zijn jullie klaar om aan hetzelfde project samen te werken.</p>
 <p>Het is belangrijk om op te merken dat dit letterlijk alles is wat je moet doen om een bruikbare Git server te draaien waarop meerdere mensen toegang hebben: maak alleen een paar accounts met SSH toegang aan op een server, en stop een kale repository ergens waar al die gebruikers lees- en schrijftoegang toe hebben. Je bent er klaar voor – je hebt niets anders nodig.</p>
 <p>In de volgende paragrafen zul je zien hoe je meer ingewikkelde opstellingen kunt maken. Deze bespreking zal het niet hoeven aanmaken van gebruikers accounts voor elke gebruiker, publieke leestoegang tot repositories, grafische web interfaces, het gebruik van de Gitosis applicatie en meer omvatten. Maar, hou in gedachten dat om samen te kunnen werken met mensen op een privé project, alles wat je <em>nodig</em> hebt een SSH server is en een kale repository.</p>
@@ -894,9 +897,9 @@ done.
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

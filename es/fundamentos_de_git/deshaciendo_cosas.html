@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -840,59 +843,59 @@
 <p>En cualquier momento puedes querer deshacer algo. En esta sección veremos algunas herramientas básicas para deshacer cambios. Ten cuidado, porque no siempre puedes volver atrás después de algunas de estas operaciones. Ésta es una de las pocas áreas de Git que pueden provocar que pierdas datos si haces las cosas incorrectamente.</p>
 <h2 id="modificando-tu-ltima-confirmaci-n">Modificando tu última confirmación</h2>
 <p>Uno de los casos más comunes en el que quieres deshacer cambios es cuando confirmas demasiado pronto y te olvidas de añadir algún archivo, o te confundes al introducir el mensaje de confirmación. Si quieres volver a hacer la confirmación, puedes ejecutar un <code>commit</code> con la opción <code>--amend</code>:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><p>Este comando utiliza lo que haya en tu área de preparación para la confirmación. Si no has hecho ningún cambio desde la última confirmación (por ejemplo, si ejecutas este comando justo después de tu confirmación anterior), esta instantánea será exactamente igual, y lo único que cambiarás será el mensaje de confirmación.</p>
 <p>Se lanzará el editor de texto para que introduzcas tu mensaje, pero ya contendrá el mensaje de la confirmación anterior. Puedes editar el mensaje, igual que siempre, pero se sobreescribirá tu confirmación anterior.</p>
 <p>Por ejemplo, si confirmas y luego te das cuenta de que se te olvidó preparar los cambios en uno de los archivos que querías añadir, puedes hacer algo así:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
-<span class="hljs-variable">$ </span>git add forgotten_file
-<span class="hljs-variable">$ </span>git commit --amend
+<pre><code>$ git commit -m &#39;initial commit&#39;
+$ git add forgotten_file
+$ git commit --amend
 </code></pre><p>Estos tres comandos acabarán convirtiéndose en una única confirmación —la segunda confirmación reemplazará los resultados de la primera—.</p>
 <h2 id="deshaciendo-la-preparaci-n-de-un-archivo">Deshaciendo la preparación de un archivo</h2>
 <p>Las dos secciones siguientes muestran cómo trabajar con las modificaciones del área de preparación y del directorio de trabajo. Lo bueno es que el comando que usas para determinar el estado de ambas áreas te recuerda como deshacer sus modificaciones. Por ejemplo, digamos que has modificado dos archivos, y quieres confirmarlos como cambios separados, pero tecleas accidentalmente <code>git add *</code> y preparas ambos. ¿Cómo puedes sacar uno de ellos del área de preparación? El comando <code>git status</code> te lo recuerda:</p>
 <pre><code>$ git add .
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   README.txt</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#       modified:   benchmarks.rb
+#
 </code></pre><p>Justo debajo de la cabecera “Cambios a confirmar” (“Changes to be committed”), dice que uses <code>git reset HEAD &lt;archivo&gt;...</code> para sacar un archivo del área de preparación. Vamos a aplicar ese consejo sobre benchmarks.rb:</p>
-<pre><code>$ git reset<span class="hljs-constant"> HEAD </span>benchmarks.rb
+<pre><code>$ git reset HEAD benchmarks.rb
 benchmarks.rb: locally modified
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   README.txt</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   benchmarks.rb
+#
 </code></pre><p>El comando es un poco extraño, pero funciona. El archivo benchmarks.rb ahora está modificado, no preparado.</p>
 <h2 id="deshaciendo-la-modificaci-n-de-un-archivo">Deshaciendo la modificación de un archivo</h2>
 <p>¿Qué pasa si te das cuenta de que no quieres mantener las modificaciones que has hecho sobre el archivo benchmarks.rb? ¿Cómo puedes deshacerlas fácilmente —revertir el archivo al mismo estado en el que estaba cuando hiciste tu última confirmación— (o cuando clonaste el repositorio, o como quiera que metieses el archivo en tu directorio de trabajo)? Afortunadamente, <code>git status</code> también te dice como hacer esto. En la salida del último ejemplo, la cosa estaba así:</p>
-<pre><code><span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+<pre><code># Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   benchmarks.rb
+#
 </code></pre><p>Te dice de forma bastante explícita cómo descartar las modificaciones que hayas hecho (al menos las versiones de Git a partir de la 1.6.1 lo hacen —si tienes una versión más antigua, te recomendamos encarecidamente que la actualices para obtener algunas de estas mejoras de usabilidad—). Vamos a hacer lo que dice:</p>
 <pre><code>$ git checkout -- benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   README.txt</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#
 </code></pre><p>Puedes ver que se han revertido los cambios. También deberías ser consciente del peligro de este comando: cualquier modificación hecha sobre este archivo ha desaparecido —acabas de sobreescribirlo con otro archivo—. Nunca uses este comando a no ser que estés absolutamente seguro de que no quieres el archivo. Si lo único que necesitas es olvidarte de él momentáneamente, veremos los conceptos de apilamiento (stashing) y ramificación (branching) en el próximo capítulo; en general son formas más adecuadas de trabajar.</p>
 <p>Recuerda, cualquier cosa que esté confirmada en Git casi siempre puede ser recuperada. Incluso confirmaciones sobre ramas que han sido eliminadas, o confirmaciones sobreescritas con la opción <code>--amend</code>, pueden recuperarse (véase el Capítulo 9 para conocer más sobre recuperación de datos). Sin embargo, cualquier cosa que pierdas y que no estuviese confirmada, probablemente no vuelvas a verla nunca más.</p>
 
@@ -913,9 +916,9 @@ $ git status
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

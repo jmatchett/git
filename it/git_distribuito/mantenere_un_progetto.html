@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="5.3" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="5.3" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -781,119 +784,119 @@
 <h2 id="lavorare-coi-branch-per-argomento">Lavorare coi branch per argomento</h2>
 <p>Quando pensi di integrare un nuovo lavoro generalmente è una buona idea provarlo in un branch per argomento: un branch temporaneo, creato specificatamente per provare le modifiche dalla patch. In questo modo è semplice verificare la singola patch e, se questa non funziona, lasciarla intalterata fino a quando non avrai il tempo di ritornarci. Se crei un branch col nome dell&#39;argomento della patch che proverai, per esempio <code>ruby_client</code> o qualcosa ugualmente descrittiva, ti sarà facile individuarlo nel caso tu debba temporaneamente lasciare il lavoro sulla patch per ritornarci più avanti. Il mantenitore del progetto Git  usa dare uno gerarchia ai nomi di questi branch: come <code>sc/ruby_client</code>, dove <code>sc</code> sono le iniziali della persona che ha realizzato la patch.
 Come ricorderai, puoi creare un branch partendo dal tuo master così:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch sc/ruby_client master
+<pre><code>$ git branch sc/ruby_client master
 </code></pre><p>E, se vuoi passare immediatamente al nuovo branch, puoi usare il comando <code>checkout -b</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b sc/ruby_client master
+<pre><code>$ git checkout -b sc/ruby_client master
 </code></pre><p>Ora sei pronto per aggiungere il lavoro a questo branch e decidere se vuoi unirlo a uno dei branch principali del tuo progetto.</p>
 <h2 id="applicare-le-patch-da-un-e-mail">Applicare le patch da un&#39;e-mail</h2>
 <p>Se ricevi le patch via e-mail e le vuoi integrarle nel tuo progetto, devi prima applicarle per poterle giudicare. Ci sono due modi per applicare una patch ricevuta via email: con <code>git apply</code> o con <code>git am</code>.</p>
 <h3 id="applicare-una-patch-con-apply">Applicare una patch con apply</h3>
 <p>Se hai ricevuto la patch da qualcuno che l&#39;ha generata usando il comando <code>git diff</code> o un qualsiasi comando Unix <code>diff</code>, puoi applicarla usando <code>git apply</code>. Se hai salvato la patch in <code>/tmp/patch-ruby-client.patch</code>, puoi applicarla così:</p>
-<pre><code>$ git apply /tmp/<span class="hljs-keyword">patch</span>-ruby-client.<span class="hljs-keyword">patch</span>
+<pre><code>$ git apply /tmp/patch-ruby-client.patch
 </code></pre><p>Ciò modifica i file nella tua directory corrente. E&#39; quasi uguale ad eseguire il comando <code>patch -p1</code> per applicare la patch, anche se questo comando è più paranoico e accetta meno corrispondenze di patch. Gstisce anche l&#39;aggiunta, la rimozione e il cambio del nome dei file se ciò è descritto nel formato di <code>git diff</code>, cose che non fa <code>patch</code>. Infine <code>git apply</code> segue il modello &quot;applica tutto o rigetta tutto&quot; per cui o vengono applicato tutte le modifiche oppure nessuna, mentre <code>patch</code> può anche applicarne solo alcune, lasciando la tua directory corrente in uno stato intermedio. <code>git apply</code> è in generale molto più paranoico di <code>patch</code>. Non creerà una commit per te: una volta eseguito devi eseguire manualmente lo stage delle modifiche e farne la commit.</p>
 <p>Puoi anche usare <code>git apply</code> per verificare se una patch può essere applicata in maniera pulita, prima di applicarla veramente eseguendo <code>git apply --check</code> sulla patch:</p>
-<pre><code>$ git apply <span class="hljs-subst">--</span>check <span class="hljs-number">0001</span><span class="hljs-attribute">-seeing</span><span class="hljs-attribute">-if</span><span class="hljs-attribute">-this</span><span class="hljs-attribute">-helps</span><span class="hljs-attribute">-the</span><span class="hljs-attribute">-gem</span><span class="hljs-built_in">.</span>patch
-error: patch failed: ticgit<span class="hljs-built_in">.</span>gemspec:<span class="hljs-number">1</span>
-error: ticgit<span class="hljs-built_in">.</span>gemspec: patch does <span class="hljs-literal">not</span> apply
+<pre><code>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
 </code></pre><p>Se non viene visualizzato alcun output, allora la patch può essere applicata in maniera pulita. Questo comando restituisce un valore diverso da zero se la verifica fallisce, quindi puoi usarlo anche in uno script.</p>
 <h3 id="applicare-una-patch-con-am">Applicare una patch con am</h3>
 <p>Se il contributore è un utente Git ed è stato abbastanza bravo a usare il comando <code>format-patch</code> per generare la sua patch, allora il tuo lavoro sarà più facile perché la patch già contiene le informazioni sull&#39;autore e un messaggio di commit. Se pouoi, per generare le patch per te, incoraggia i tuoi collaboratori ad utilizzare <code>format-patch</code> invece di <code>diff</code>. Dovresti dover usare solo <code>git apply</code> per le patch precedenti e altre cose del genere.</p>
 <p>Per applicare una patch generata con <code>format-patch</code>, userai <code>git am</code>. Tecnicamente <code>git am</code> è fatto per leggere un file mbox, che è un file piatto di puro testo per memorizzare uno o più messaggi email in un solo file. Assomiglia a questo:</p>
-<pre><code>From <span class="hljs-number">330090432754092</span>d704da8e76ca5c05c198e71a8 Mon Sep <span class="hljs-number">17</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2001</span>
+<pre><code>From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 From: Jessica Smith &lt;jessica@example.com&gt;
-Date: Sun, <span class="hljs-number">6</span> Apr <span class="hljs-number">2008</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> -<span class="hljs-number">0700</span>
-Subject: [PATCH <span class="hljs-number">1</span>/<span class="hljs-number">2</span>] <span class="hljs-built_in">add</span> limit <span class="hljs-built_in">to</span> <span class="hljs-built_in">log</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
+Date: Sun, 6 Apr 2008 10:17:23 -0700
+Subject: [PATCH 1/2] add limit to log function
 
-Limit <span class="hljs-built_in">log</span> functionality <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> <span class="hljs-number">20</span>
+Limit log functionality to the first 20
 </code></pre><p>Questo è l&#39;inizio dell&#39;output del comando &#39;format-patch&#39; che hai visto nella sezione precedente, ma è anche un formato valido per mbox per le email. Se qualcuno ti ha inviato la patch usando &#39;git send-email&#39; e l&#39;hai scaricata nel formato mbox, allora puoi selezionare il file mbox in &#39;git am&#39; che inizierà ad applicare tutte le patch che trovi. Se hai un client di posta elettronica che ti permette di salvare più messaggi in un file mbox allora puoi salvare tutta una serie di patch in un singolo file e usare <code>git am</code> per applicarle tutte assieme.</p>
 <p>Se invece qualcuno ha caricato una patch generata con <code>format-patch</code> su un sistema di ticket e tracciamento, puoi salvare localmente il file e passarlo a <code>git am</code> perché lo applichi:</p>
-<pre><code>$ git am <span class="hljs-number">0001</span>-limit-log-<span class="hljs-function"><span class="hljs-keyword">function</span>.<span class="hljs-title">patch</span>
-<span class="hljs-title">Applying</span><span class="hljs-type">: add</span> <span class="hljs-title">limit</span> <span class="hljs-title">to</span> <span class="hljs-title">log</span> <span class="hljs-title">function</span></span>
+<pre><code>$ git am 0001-limit-log-function.patch
+Applying: add limit to log function
 </code></pre><p>Puoi vedere che ha applicato senza errori le modifiche e ha creato automaticamente una nuova commit per te. Le informazioni sull&#39;autore e la data della commit vengono prese delle intestazioni <code>From</code>  e <code>Date</code> dell&#39;email, mentre il messaggio della commit è preso dal <code>Subject</code> e dal corpo dell&#39;email che precede la patch. Se questa patch fosse stata applicata dall&#39;esempio dell&#39;mbox appena mostrato, la commit generata apparirebbe così:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=fuller -1</span>
-commit <span class="hljs-number">6</span>c5e70b984a60b3cecd395edd5b48a7575bf58e0
+<pre><code>$ git log --pretty=fuller -1
+commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 Author:     Jessica Smith &lt;jessica@example.com&gt;
-AuthorDate: Sun Apr <span class="hljs-number">6</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+AuthorDate: Sun Apr 6 10:17:23 2008 -0700
 Commit:     Scott Chacon &lt;schacon@gmail.com&gt;
-CommitDate: Thu Apr <span class="hljs-number">9</span> <span class="hljs-number">09</span>:<span class="hljs-number">19</span>:<span class="hljs-number">06</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+CommitDate: Thu Apr 9 09:19:06 2009 -0700
 
-   <span class="hljs-built_in">add</span> limit <span class="hljs-built_in">to</span> <span class="hljs-built_in">log</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
+   add limit to log function
 
-   Limit <span class="hljs-built_in">log</span> functionality <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> <span class="hljs-number">20</span>
+   Limit log functionality to the first 20
 </code></pre><p><code>Commit</code> indica chi ha applicato la patch e <code>CommitDate</code> quando. <code>Author</code> chi ha creato la patch originariamente e quando.</p>
 <p>Ma è possibile che la patch non sia applicabile correttamente. Il tuo branch principale potrebbe essere cambiato troppo rispetto al branch da cui deriva la patch o che la patch dipenda da altre che non hai ancora applicato. In questo caso il processo di <code>git am</code> fallirà e ti chiederà cosa voglia fareprocess will fail and ask you what you want to do:</p>
-<pre><code>$ git am <span class="hljs-number">0001</span>-seeing-<span class="hljs-keyword">if</span>-this-helps-<span class="hljs-keyword">the</span>-gem.patch
-Applying: seeing <span class="hljs-keyword">if</span> this helps <span class="hljs-keyword">the</span> gem
-<span class="hljs-keyword">error</span>: patch failed: ticgit.gemspec:<span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: ticgit.gemspec: patch <span class="hljs-keyword">does</span> <span class="hljs-keyword">not</span> apply
-Patch failed <span class="hljs-keyword">at</span> <span class="hljs-number">0001.</span>
-When you have resolved this problem <span class="hljs-command">run</span> <span class="hljs-string">"git am --resolved"</span>.
-If you would prefer <span class="hljs-keyword">to</span> skip this patch, instead <span class="hljs-command">run</span> <span class="hljs-string">"git am --skip"</span>.
-To restore <span class="hljs-keyword">the</span> original branch <span class="hljs-keyword">and</span> stop patching <span class="hljs-command">run</span> <span class="hljs-string">"git am --abort"</span>.
+<pre><code>$ git am 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Patch failed at 0001.
+When you have resolved this problem run &quot;git am --resolved&quot;.
+If you would prefer to skip this patch, instead run &quot;git am --skip&quot;.
+To restore the original branch and stop patching run &quot;git am --abort&quot;.
 </code></pre><p>Questo comando aggiunge dei marcatori di conflicco in ciascun file che presenti un problema, similmente a quanto avviene nelle operazioni di merge o rebase. E tu risolverai il problema allo stesso modo: modifica il file per risolvere il conflitto, mettilo nello stage ed esegui <code>git am --resolved</code> per continuare con la patch successiva:</p>
-<pre><code>$ (fix <span class="hljs-operator">the</span> <span class="hljs-built_in">file</span>)
-$ git <span class="hljs-built_in">add</span> ticgit.gemspec
-$ git am <span class="hljs-comment">--resolved</span>
-Applying: seeing <span class="hljs-keyword">if</span> this helps <span class="hljs-operator">the</span> gem
+<pre><code>$ (fix the file)
+$ git add ticgit.gemspec
+$ git am --resolved
+Applying: seeing if this helps the gem
 </code></pre><p>Se vuoi che Git provi a risolvere i conflitti più intelligentemente, puoi passargli l&#39;opzione <code>-3</code>, e Git proverà a eseguire un merge a 3-vie. Quest&#39;opzione non è attiva di default perché non funziona se la patch si basa su una commit che non hai nel tuo repository. Se invece hai quella commit (ovvero se la patch è basata su una commit pubblica) allora generalmente l&#39;opzione <code>-3</code> è più intelligente nell&#39;applicare una patch con conflitti:</p>
-<pre><code>$ git am <span class="hljs-subst">-</span><span class="hljs-number">3</span> <span class="hljs-number">0001</span><span class="hljs-attribute">-seeing</span><span class="hljs-attribute">-if</span><span class="hljs-attribute">-this</span><span class="hljs-attribute">-helps</span><span class="hljs-attribute">-the</span><span class="hljs-attribute">-gem</span><span class="hljs-built_in">.</span>patch
-Applying: seeing <span class="hljs-keyword">if</span> this helps the gem
-error: patch failed: ticgit<span class="hljs-built_in">.</span>gemspec:<span class="hljs-number">1</span>
-error: ticgit<span class="hljs-built_in">.</span>gemspec: patch does <span class="hljs-literal">not</span> apply
-Using index info <span class="hljs-keyword">to</span> reconstruct a base tree<span class="hljs-attribute">...</span>
-Falling back <span class="hljs-keyword">to</span> patching base <span class="hljs-literal">and</span> <span class="hljs-number">3</span><span class="hljs-attribute">-way</span> merge<span class="hljs-attribute">...</span>
-No changes <span class="hljs-subst">--</span> Patch already applied<span class="hljs-built_in">.</span>
+<pre><code>$ git am -3 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+No changes -- Patch already applied.
 </code></pre><p>In questo caso sto cercando di applicare una patch che ho già applicato. Senza l&#39;opzione <code>-3</code> sembrerebbe che ci sia un conflitto.</p>
 <p>Se stai applicando una serie di patch da un file mbox puoi eseguire il comando <code>am</code> anche in modalità interattiva, che si ferma ogni volta che incontra una patch per chiederti se vuoi applicarla:</p>
 <pre><code>$ git am -3 -i mbox
-<span class="hljs-header">Commit Body is:
---------------------------</span>
-<span class="hljs-header">seeing if this helps the gem
---------------------------</span>
+Commit Body is:
+--------------------------
+seeing if this helps the gem
+--------------------------
 Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 </code></pre><p>Questo è utile se hai una serie di patch salvate, perché se non ti ricordi cosa sia puoi rivedere la patch, o non applicarla se l&#39;hai già applicata.</p>
 <p>Quando tutte la patch per l&#39;orgomento sono state applicate e committate nel tuo branch, puoi decidere se e come integrarle in un branch principale.</p>
 <h2 id="scaricare-branch-remoti">Scaricare branch remoti</h2>
 <p>Se la contribuzione viene da un utente Git che ha un proprio repository su cui ha pubblicato una serie di modifiche e ti ha mandato l&#39;indirizzo del repository e il nome del branch remoto in cui sono le stesse, puoi aggiungerlo come remoto e unirle localmente.</p>
 <p>Se, per esempio, Jessica ti invia un&#39;email dicendoti che nel branch <code>ruby-client</code> del suo repository ha sviluppato un&#39;interessante funzionalità, tu puoi testarla aggiungendo il branch remoto e scaricarlo come uno localmente:</p>
-<pre><code><span class="hljs-char">$ </span>git remote add jessica <span class="hljs-method">git:</span>//github.com/jessica/myproject.git
-<span class="hljs-char">$ </span>git fetch jessica
-<span class="hljs-char">$ </span>git checkout -b rubyclient jessica/ruby-client
+<pre><code>$ git remote add jessica git://github.com/jessica/myproject.git
+$ git fetch jessica
+$ git checkout -b rubyclient jessica/ruby-client
 </code></pre><p>Se successivamente t&#39;invia un&#39;altra email con un altro branch che contenga un&#39;altra funzionalità interessante tu puoi scaricarla più velocemente perché hai già configurato il repository remoto.</p>
 <p>Questa configurazione è molto utile se lavori molto con una persona. Se qualcuno produce una sola patch di tanto in tanto può essere più rapido accettarle per email, invece di chiedere a tutti di avere un proprio server pubblico e aggiungere in continuazione dei repository remoti per poche modifiche. Allo stesso tempo non vorrai centinaia di repository remoti per qualcuno che contribuisce solo con una patch o due. In ogni caso degli script o servizi di hostin possono rendere il tutto più semplice e principalmente dipende da come sviluppate tu e i tuoi contributori.</p>
 <p>L&#39;altro vantaggio di questo approccio è che in aggiunta ricevi la cronologia delle commit. Sebbene tu possa avere problemi coi merge saprai su quale parte della tua cronologia si basi il lavoro dei contributori, il merge a 3-vie è il default e non richiede di specificare l&#39;opzione <code>-3</code> e la patch potrebbe essere generata da una commit pubblica a cui tu abbia accesso.</p>
 <p>Se non lavori spesso con una persona ma vuoi comunque prendere le modifiche in questo modo puoi sempre passare l&#39;URL del repository remoto al comando <code>git pull</code>. Questo farà una pull una tantum senza salvare l&#39;URL come un riferimento remoto:</p>
-<pre><code>$ git pull git:<span class="hljs-comment">//github.com/onetimeguy/project.git</span>
-<span class="hljs-keyword">From</span> git:<span class="hljs-comment">//github.com/onetimeguy/project</span>
+<pre><code>$ git pull git://github.com/onetimeguy/project.git
+From git://github.com/onetimeguy/project
  * branch            HEAD       -&gt; FETCH_HEAD
-Merge made <span class="hljs-keyword">by</span> recursive.
+Merge made by recursive.
 </code></pre><h2 id="determinare-cos-stato-introdotto">Determinare cos&#39;è stato introdotto</h2>
 <p>Hai un branch che contiene il lavoro di un contributore. A questo punto puoi decidere cosa farne. Questa sezione rivisita un paio di comandi così che tu possa vedere come usarli per revisionare con precisione cosa introdurrai se unissi queste modifiche al tuo branch principale.</p>
 <p>Spesso è utile revisionare le commit del branch che non sono ancora nel tuo master. Puoi escludere le commit di un branch aggiungendo l&#39;opzione <code>--not</code> prima del nome del branch. Se un tuo contributore ti manda due patch e tu crei un branch chiamato <code>contrib</code> dove applichi le patch, puoi eseguire:</p>
-<pre><code>$ git log contrib <span class="hljs-comment">--not master</span>
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">5</span>b6235bd297351589efc4d73316f0a68d484f118
+<pre><code>$ git log contrib --not master
+commit 5b6235bd297351589efc4d73316f0a68d484f118
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri Oct <span class="hljs-number">24</span> <span class="hljs-number">09</span>:<span class="hljs-number">53</span>:<span class="hljs-number">59</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Fri Oct 24 09:53:59 2008 -0700
 
-    seeing <span class="hljs-keyword">if</span> this helps the gem
+    seeing if this helps the gem
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">7482e0</span>d16d04bea79d0dba8988cc78df655f16a0
+commit 7482e0d16d04bea79d0dba8988cc78df655f16a0
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Oct <span class="hljs-number">22</span> <span class="hljs-number">19</span>:<span class="hljs-number">38</span>:<span class="hljs-number">36</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Oct 22 19:38:36 2008 -0700
 
-    updated the gemspec <span class="hljs-keyword">to</span> hopefully <span class="hljs-keyword">work</span> better</span>
+    updated the gemspec to hopefully work better
 </code></pre><p>Ricorda che puoi passare l&#39;opzione <code>-p</code> a <code>git log</code> per vedere le modifiche di ciascuna commit, così che all&#39;output aggiungerà le differenze introdotte da ciascuna commit.</p>
 <p>Per vedere tutte le differenze che verrebbero applicate se unissi il branch attuale con un altro dovrai usare un trucchetto per vedere il risultato corretto. Potresti pensare di usare:</p>
-<pre><code><span class="hljs-variable">$ </span>git diff master
+<pre><code>$ git diff master
 </code></pre><p>Ed effettivamente questo comando esegue una differenza, ma può essere causa di errori. Se il tuo branch <code>master</code> si fosse spostato in avanti rispetto a quando hai creato il branch vedrai risultati strani. Questo succede perché Git confronta direttamente l&#39;istantanea (&#39;snapshots&#39;) dell&#39;ultima commit del branch con l&#39;istantanea dell&#39;ultima commit di <code>master</code>. Se, per esempio, hai aggiunto una riga in un file su <code>master</code> branch, un confronto diretto delle istantanee sembrerà indicare che il branch rimuova quella riga.</p>
 <p>Se <code>master</code> è un antenato diretto del branch allora non sarà un problema, ma se le due cronologie si sono biforcate ti apparirà che stai aggiungendo tutte le cose nuove del tuo branch e rimuovendo tutto ciò che è solo in <code>master</code>.</p>
 <p>Quello che vuoi realmente vedere sono le modifiche aggiunte nel branch: il lavoro che effettivamente introdurrai se le unissi al master. Potrai ottenerlo facendo si che Git confronti l&#39;ultima commit del branch col primo antenato comune con il branch master.</p>
 <p>Tecnicamente puoi farlo tu scoprendo l&#39;antenato comune ed eseguendo quindi la diff:</p>
-<pre><code><span class="hljs-variable">$ </span>git merge-base contrib master
-<span class="hljs-number">36</span>c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-<span class="hljs-variable">$ </span>git diff <span class="hljs-number">36</span>c7db
+<pre><code>$ git merge-base contrib master
+36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
+$ git diff 36c7db
 </code></pre><p>Questo però è scomodo e Git fornisce un modo più veloce per farlo: i tre punti. Nel contesto del comando <code>diff</code>, puoi usare tre punti dopo il nome di un branch per eseguire una <code>diff</code> tra l&#39;ultima commit del branch in cui sei e l&#39;antenato comune con un altro branch:</p>
-<pre><code><span class="hljs-variable">$ </span>git diff master...contrib
+<pre><code>$ git diff master...contrib
 </code></pre><p>Questo comando ti mostra solo le modifiche introdotte dal branch attuale a partire dall&#39;antenato comune con master. Questa sintassi è molto utile da ricordare.</p>
 <h2 id="integrare-il-lavoro-dei-contributori">Integrare il lavoro dei contributori</h2>
 <p>Quando tutto il lavoro del tuo branch è pronto per essere integrato in un branch principale nasce il prblema di come farlo. Inoltre, quale workflow vuoi usare per mantenere il tuo progetto? Hai una serie di scelte e ne tratterò alcune.</p>
@@ -929,63 +932,63 @@ Puoi estendere questo concetto avendo un branch in cui integri tutto il nuovo la
 <p>Se vuoi introdurre la commit <code>e43a6</code> nel tuo master puoi eseguire</p>
 <pre><code>$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 Finished one cherry-pick.
-[<span class="hljs-link_reference">master</span>]:<span class="hljs-link_url"> created a0a41a9: "More friendly message when locking the index fails."</span><span class="hljs-link_url">
- 3 files changed, 17 insertions(+), 3 deletions(-)</span>
+[master]: created a0a41a9: &quot;More friendly message when locking the index fails.&quot;
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 </code></pre><p>Che replica le stesse modifiche introdotte in <code>e43a6</code>, ma produce una nuova commit con un suo SHA-1 differente perché le date sono diverse. La tua cronologia ora assomiglia a quella in Figura 5-27.</p>
 <p><img src="http://git-scm.com/figures/18333fig0527-tn.png" alt=""></p>
 <p>Figura 5-27. Cronologia dopo lo <em>cherry-picking</em> dal branch funzionale.</p>
 <p>Puoi ora eliminare il branch funzionale e cancellare le commit che non vuoi integrare.</p>
 <h2 id="tagga-i-tuoi-rilasci">Tagga i tuoi rilasci</h2>
 <p>Quando hai deciso di eseguire un rilascio probabilmente vorrai anche taggarla, così che tu possa ricrearla in qualsiasi momento nel futuro. Puoi aggiungere un nuovo tag come discusso nel Capitolo 2. Se vuoi firmare il tag in quanto mantenitore, il tag potrebbe apparire come il seguente:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-s</span> v1<span class="hljs-number">.5</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my signed 1.5 tag'</span>
-You need a passphrase <span class="hljs-keyword">to</span> unlock the secret key for
-user: <span class="hljs-string">"Scott Chacon &lt;schacon@gmail.com&gt;"</span>
-<span class="hljs-number">1024</span><span class="hljs-attribute">-bit</span> DSA key, ID F721C45A, created <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">09</span>
+<pre><code>$ git tag -s v1.5 -m &#39;my signed 1.5 tag&#39;
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;schacon@gmail.com&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09
 </code></pre><p>Se firmi il tuo tag potresti avere il problema di distribuire la chiave PGP usata per firmarlo. Il mantenitore del progetto Git lo ha risolto includendo le chiavi dei mantenitori come un blob sul repository e aggiungendo quindi un tag che vi punti direttamente. Per farlo dovrai identificare la chiave che vuoi esportare eseguendo <code>gpg --list-keys</code>:</p>
 <pre><code>$ gpg --list-keys
-<span class="hljs-header">/Users/schacon/.gnupg/pubring.gpg
----------------------------------</span>
+/Users/schacon/.gnupg/pubring.gpg
+---------------------------------
 pub   1024D/F721C45A 2009-02-09 [expires: 2010-02-09]
 uid                  Scott Chacon &lt;schacon@gmail.com&gt;
 sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 </code></pre><p>Potrai quindi importare la chiave direttamente nel database di Git esportandola e mettendola in pipe con <code>git hash-object</code>, che scrive in Git un nuovo blob con il suo contenuto e ti restituisce l&#39;hash SHA-1:</p>
-<pre><code>$ gpg <span class="hljs-attribute">-a</span> <span class="hljs-subst">--</span>export F721C45A <span class="hljs-subst">|</span> git hash<span class="hljs-attribute">-object</span> <span class="hljs-attribute">-w</span> <span class="hljs-subst">--</span>stdin
-<span class="hljs-number">659</span>ef797d181633c87ec71ac3f9ba29fe5775b92
+<pre><code>$ gpg -a --export F721C45A | git hash-object -w --stdin
+659ef797d181633c87ec71ac3f9ba29fe5775b92
 </code></pre><p>Ora che hai importato il contenuto della tua chiave in Git puoi creare un tag che vi punti direttamente, specificando l&#39;SHA-1 appena ottenuto:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> maintainer<span class="hljs-attribute">-pgp</span><span class="hljs-attribute">-pub</span> <span class="hljs-number">659</span>ef797d181633c87ec71ac3f9ba29fe5775b92
+<pre><code>$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 </code></pre><p>Se esegui <code>git push --tags</code> verrà condiviso con tutti il tag <code>maintainer-pgp-pub</code>. Se qualcuno volesse verificare il tag potrà farlo importando la tua chiave PGP scaricando il blob dal database e importandolo in GPG:</p>
-<pre><code>$ git show maintainer<span class="hljs-attribute">-pgp</span><span class="hljs-attribute">-pub</span> <span class="hljs-subst">|</span> gpg <span class="hljs-subst">--</span><span class="hljs-keyword">import</span>
+<pre><code>$ git show maintainer-pgp-pub | gpg --import
 </code></pre><p>Può quindi usare la chiave per verificare tutti i tag che hai firmato. Inoltre, se aggiungi delle istruzioni nel messaggio del tag, eseguendo <code>git show &lt;tag&gt;</code> darai all&#39;utente finale maggiori informazioni specifiche su come verificare il tag.</p>
 <h2 id="generare-un-numero-di-build">Generare un numero di build</h2>
 <p>Poiché Git non usa una numerazione incrementale come &#39;v123&#39; o un equivalente associato a ciascuna commit, se vuoi un nome per una commit che sia intellegibile, puoi usare il comando <code>git describe</code> su quella commit. Git restituirà il nome del tag più vicino assieme al numero di commit successivi e una parte dell&#39;SHA-1 della commit che vuoi descrivere:</p>
 <pre><code>$ git describe master
-v1<span class="hljs-number">.6</span><span class="hljs-number">.2</span><span class="hljs-attribute">-rc1</span><span class="hljs-subst">-</span><span class="hljs-number">20</span><span class="hljs-attribute">-g8c5b85c</span>
+v1.6.2-rc1-20-g8c5b85c
 </code></pre><p>In questo modo puoi esportare un&#39;istantanea o una build  echiamarla in modo che le persone possano capire. Se infatti fai una build di Git dai sorgenti clonati dal repository di Git repository, <code>git --version</code> ti restituirà qualcosa che gli assomigli. Se vuoi descrivere una commit che hai taggato, Git ti darà il nome del tag.</p>
 <p>Il comando <code>git describe</code> predilige i tag annotati (i tags creati con<code>-a</code> o <code>-s</code>) e quindi i tag dei rilasci dovrebbero essere creati in questo modo se usi <code>git describe</code>, per assicurarsi che le commit vengano denominate correttamente quando vengono descritte. Puoi usare questa stringa per i comandi <code>checkout</code> o <code>show</code>, sebbene il basarsi sull&#39;SHA-1 abbreviato potrebbe renderla non valida per sempre. Per esempio, recentemente il kernel di Linux è passato recentemente da 8 a 10 caratteri per garantire l&#39;unicità degli SHA-1 abbreviati, e quindi gli output precedenti di <code>git describe</code> non sono più validi.</p>
 <h2 id="pronti-per-il-rilascio">Pronti per il rilascio</h2>
 <p>Vuoi ora rilasciare una build. Una delle cose che vorrai fare sarà creare un archivio con l&#39;ultima istantanea del tuo codice per quelle anime dannate che non usano Git. Il comando è <code>git archive</code>:</p>
-<pre><code>$ git archive master <span class="hljs-subst">--</span>prefix<span class="hljs-subst">=</span><span class="hljs-string">'project/'</span> <span class="hljs-subst">|</span> gzip <span class="hljs-subst">&gt;</span> <span class="hljs-string">`git describe master`</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
-$ ls <span class="hljs-subst">*</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
-v1<span class="hljs-number">.6</span><span class="hljs-number">.2</span><span class="hljs-attribute">-rc1</span><span class="hljs-subst">-</span><span class="hljs-number">20</span><span class="hljs-attribute">-g8c5b85c</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
+<pre><code>$ git archive master --prefix=&#39;project/&#39; | gzip &gt; `git describe master`.tar.gz
+$ ls *.tar.gz
+v1.6.2-rc1-20-g8c5b85c.tar.gz
 </code></pre><p>Quando qualcuno aprirà questo  tarball, troverà l&#39;ultima versione del tuo progetto nella directory <code>project</code>. Allo stesso modo puoi creare un archivio zip passando l&#39;opzione <code>--format=zip</code> a <code>git archive</code>:</p>
-<pre><code>$ git archive master --prefix=<span class="hljs-string">'project/'</span> --<span class="hljs-keyword">format</span>=zip &gt; <span class="hljs-string">`git describe master`</span>.zip
+<pre><code>$ git archive master --prefix=&#39;project/&#39; --format=zip &gt; `git describe master`.zip
 </code></pre><p>Ora hai un tarball e uno zip del rilascio del tuo progetto che puoi caricare sul tuo sito o inviare per email.</p>
 <h2 id="lo-shortlog">Lo Shortlog</h2>
 <p>È il momento di inviare un&#39;email alla lista di persone che vogliono sapere cosa succede nel tuo progetto. Un modo piacevole per produrre una specie di changelog delle modifiche dall&#39;ultimo rilascio o dall&#39;ultima email è usando il comando <code>git shortlog</code>, che riassume tutte le commit nell&#39;intervallo dato. L&#39;esempio seguente produce il sommario di tutte le commit dall&#39;ultimo rilascio, assumento che lo abbia chiamato v1.0.1:</p>
-<pre><code>$ git shortlog --no-merges master --<span class="hljs-keyword">not</span> v1.<span class="hljs-number">0.1</span>
-Chris Wanstrath (<span class="hljs-number">8</span>):
-      <span class="hljs-keyword">Add</span> support <span class="hljs-keyword">for</span> annotated tags <span class="hljs-keyword">to</span> Grit::Tag
-      <span class="hljs-keyword">Add</span> <span class="hljs-keyword">packed</span>-refs annotated tag support.
-      <span class="hljs-keyword">Add</span> Grit::Commit#to_patch
-      Update version <span class="hljs-keyword">and</span> History.txt
-      <span class="hljs-keyword">Remove</span> stray `puts`
+<pre><code>$ git shortlog --no-merges master --not v1.0.1
+Chris Wanstrath (8):
+      Add support for annotated tags to Grit::Tag
+      Add packed-refs annotated tag support.
+      Add Grit::Commit#to_patch
+      Update version and History.txt
+      Remove stray `puts`
       Make ls_tree ignore nils
 
-Tom Preston-Werner (<span class="hljs-number">4</span>):
-      fix dates <span class="hljs-keyword">in</span> history
-      <span class="hljs-keyword">dynamic</span> version <span class="hljs-function"><span class="hljs-keyword">method</span>
-      <span class="hljs-title">Version</span> <span class="hljs-title">bump</span> <span class="hljs-title">to</span> 1.0.2
-      <span class="hljs-title">Regenerated</span> <span class="hljs-title">gemspec</span> <span class="hljs-title">for</span> <span class="hljs-title">version</span> 1.0.2</span>
+Tom Preston-Werner (4):
+      fix dates in history
+      dynamic version method
+      Version bump to 1.0.2
+      Regenerated gemspec for version 1.0.2
 </code></pre><p>Ottieni un sommario pulito di tutte le commit dalla v1.0.1, raggruppate per autore che puoi quindi inviare per email alla tua lista.</p>
 
                     
@@ -1005,9 +1008,9 @@ Tom Preston-Werner (<span class="hljs-number">4</span>):
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

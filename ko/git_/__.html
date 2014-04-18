@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.6" data-basepath=".." data-revision="1397503683046">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.6" data-basepath=".." data-revision="1397847849763">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="시작하기" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="../__git_.html" title="짧게 보는 Git의 역사" class="chapter done " data-progress="1.2" style="left: 2.7777777777777777%;"></a>
     
@@ -776,99 +779,99 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_306">
+                    <section class="normal" id="section-gitbook_303">
                     
                         <h1 id="-">데이터 전송 프로토콜</h1>
 <p>Git에서 데이터를 전송할 때 보통 두 가지 종류의 프로토콜을 사용한다. 하나는 HTTP 프로토콜이고 다른 종류는 스마트 프로토콜이다. <code>file://</code>, <code>ssh://</code>, and <code>git://</code> 프로토콜이 스마트 프로토콜이다. 주로 사용하는 두 종류 프로토콜을 통해 Git이 어떻게 데이터를 전송하는지 살펴본다.</p>
 <h2 id="dumb-">Dumb 프로토콜</h2>
 <p>Git에서는 HTTP 프로토콜을 Dumb 프로토콜이라고 부른다. 서버가 데이터를 전송할 때 Git에 최적화된 코드를 전혀 사용하지 않는다. Fetch 과정은 GET 요청을 여러개 보내는 과정이다. 서버의 Git 저장소 레이아웃은 특별하지 않다고 가정한다. <code>simplegit</code> 라이브러리에 대한 <code>http-fetch</code> 과정을 살펴보자:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/simplegit-progit.git</span>
+<pre><code>$ git clone http://github.com/schacon/simplegit-progit.git
 </code></pre><p>처음에는 <code>info/refs</code> 파일을 내려받는다. 이 파일은 <code>update-server-info</code> 명령으로 작성되기 때문에 <code>post-receive</code> 훅에서 <code>update-server-info</code> 명령을 호출해줘야만 HTTP를 사용할 수 있다.</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> info/refs
-</span>ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
+<pre><code>=&gt; GET info/refs
+ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 </code></pre><p>리모트 레퍼런스와 SHA 값이 든 목록을 가져왔고 다음은 HEAD 레퍼런스를 찾는다. 이 HEAD 레퍼런스 덕택에 데이터를 내려받고 나서 어떤 레퍼런스를 Checkout할 지 알게 된다:</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> <span class="hljs-constant">HEAD</span>
-</span>ref: refs/heads/master
+<pre><code>=&gt; GET HEAD
+ref: refs/heads/master
 </code></pre><p>그래서 나중에 데이터 전송을 마치면 <code>master</code> 브랜치를 Checkout해야 한다. 지금은 아직 전송을 시작하는 시점이다. <code>info/refs</code>에 <code>ca82a6</code> 커밋에서 시작해야 한다고 나와 있다. 그래서 그 커밋을 기점으로 Fetch한다:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/ca/<span class="hljs-number">82</span>a6dff817ec66f44342007202690a93763949
-(<span class="hljs-number">179</span> bytes <span class="hljs-keyword">of</span> binary <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/ca/82a6dff817ec66f44342007202690a93763949
+(179 bytes of binary data)
 </code></pre><p>서버에 Loose 포맷으로 돼 있기 때문에 HTTP 서버에서 정적 파일을 가져오듯이 개체를 가져오면 된다. 이렇게 서버로부터 얻어온 개체를 zlib로 압축을 풀고 header를 떼어 내면 아래와 같은 모습이 된다:</p>
-<pre><code>$ git cat-<span class="hljs-built_in">file</span> -p ca82a6dff817ec66f44342007202690a93763949
+<pre><code>$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
-parent <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-author Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1205815931</span> -<span class="hljs-number">0700</span>
-committer Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1240030591</span> -<span class="hljs-number">0700</span>
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;schacon@gmail.com&gt; 1205815931 -0700
+committer Scott Chacon &lt;schacon@gmail.com&gt; 1240030591 -0700
 
-changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+changed the version number
 </code></pre><p>아직 개체를 두 개 더 내려받아야 한다. <code>cfda3b</code> 개체는 방금 내려받은 커밋의 Tree 개체이고, <code>085bb3</code> 개체는 부모 커밋 개체이다:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/<span class="hljs-number">08</span>/<span class="hljs-number">5</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-(<span class="hljs-number">179</span> bytes <span class="hljs-keyword">of</span> <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+(179 bytes of data)
 </code></pre><p>커밋 개체는 내려받았다. 하지만, Tree 개체를 내려받으려고 하면:</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
-</span>(404 - Not Found)
+<pre><code>=&gt; GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
+(404 - Not Found)
 </code></pre><p>이런! 존재하지 않는다는 404 메시지가 뜬다. 해당 Tree 개체가 서버에 Loose 포맷으로 저장돼 있지 않을 수 있다. 해당 개체가 다른 저장소에 있거나 저장소의 Packfile 속에 들어 있을 때 그렇다. 우선 Git은 다른 저장소 목록에서 찾는다:</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> objects/info/http-alternates
-</span>(empty file)
+<pre><code>=&gt; GET objects/info/http-alternates
+(empty file)
 </code></pre><p>다른 저장소 목록에 없으면 Git은 Packfile에서 해당 개체를 찾는다. 그래서 프로젝트를 Fork해도 디스크 공간을 효율적으로 사용할 수 있다. 우선 서버에서 받은 다른 저장소 목록에는 없기 때문에 개체는 확실히 Packfile 속에 있다. 어떤 Packfile이 있는지는 <code>objects/info/packs</code> 파일에 들어 있다. 이 파일도 <code>update-server-info</code> 명령이 생성한다.</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> objects/info/packs
-</span>P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
+<pre><code>=&gt; GET objects/info/packs
+P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 </code></pre><p>서버에는 Packfile이 하나 있다. 개체는 이 파일 속에 있다. 이 개체가 있는지 Packfile의 Index(Packfile이 포함하는 파일의 목록)에서 찾는다. 서버에 Packfile이 여러 개 있으면 이런 식으로 개체가 어떤 Packfile에 있는지 찾는다:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/pack/pack-<span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835.idx
-(<span class="hljs-number">4</span>k <span class="hljs-keyword">of</span> binary <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
+(4k of binary data)
 </code></pre><p>이제 Packfile의 Index를 가져와서 개체가 있는지 확인한다. Packfile Index에서 해당 개체의 SHA 값과 오프셋을 파악한다. 개체를 찾았으면 해당 Packfile을 내려받는다:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/pack/pack-<span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835.pack
-(<span class="hljs-number">13</span>k <span class="hljs-keyword">of</span> binary <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
+(13k of binary data)
 </code></pre><p>Tree 개체를 얻어 오고 나면 커밋 데이터를 가져 온다. 아마도 방금 내려받은 Packfile 속에 모든 커밋 데이터가 들어 있을 것이다. 서버에 다시 전송 요청을 보내지 않는다. 다 끝나면 Git은 HEAD가 가리키는 <code>master</code> 브랜치의 소스코드를 복원해놓는다.</p>
 <p>이 과정에서 출력하는 것을 한 번에 모아 보면 아래와 같다:</p>
-<pre><code>$ git <span class="hljs-keyword">clone</span> http:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
-Initialized <span class="hljs-keyword">empty</span> Git repository in /<span class="hljs-keyword">private</span>/tmp/simplegit-progit/.git/
+<pre><code>$ git clone http://github.com/schacon/simplegit-progit.git
+Initialized empty Git repository in /private/tmp/simplegit-progit/.git/
 got ca82a6dff817ec66f44342007202690a93763949
 walk ca82a6dff817ec66f44342007202690a93763949
-got <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-Getting alternates <span class="hljs-keyword">list</span> <span class="hljs-keyword">for</span> http:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
-Getting pack <span class="hljs-keyword">list</span> <span class="hljs-keyword">for</span> http:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
-Getting index <span class="hljs-keyword">for</span> pack <span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835
-Getting pack <span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835
+got 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Getting alternates list for http://github.com/schacon/simplegit-progit.git
+Getting pack list for http://github.com/schacon/simplegit-progit.git
+Getting index for pack 816a9b2334da9953e530f27bcac22082a9f5b835
+Getting pack 816a9b2334da9953e530f27bcac22082a9f5b835
  which contains cfda3bf379e4f8dba8717dee55aab78aef7f4daf
-walk <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+walk 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 walk a11bef06a3f659402fe7563abf99ad00de2209e6
 </code></pre><h2 id="-">스마트 프로토콜</h2>
 <p>HTTP 프로토콜은 매우 단순하다는 장점이 있으나 효율적으로 전송하지 못한다. 스마트 프로토콜로 데이터를 전송하는 것이 더 일반적이다. 이 프로토콜은 리모트 서버에서 처리하는 일이 있다. 서버는 클라이언트가 어떤 데이터를 갖고 있고 어떤 데이터가 필요한지 분석하여 실제로 전송할 데이터를 추려낸다. 데이터를 업로드할 때 하는 일과 다운로드할 때 하는 일이 다르다.</p>
 <h3 id="-">데이터 업로드</h3>
 <p>리모트 서버로 데이터를 업로드하는 과정은 <code>send-pack</code> 과 <code>receive-pack</code> 과정으로 나눌 수 있다. 클라이언트에서 실행되는 <code>send-pack</code>과 서버의 <code>receive-pack</code>은 서로 연결된다.</p>
 <p><code>origin</code> URL이 SSH URL인 상태에서 <code>git push origin master</code> 명령을 실행하면 Git은 <code>send-pack</code>을 시작한다. 이 과정에서는 SSH 연결을 만들고 이 SSH 연결을 통해서 다음과 같은 명령어를 실행한다:</p>
-<pre><code>$ ssh <span class="hljs-attribute">-x</span> git@github<span class="hljs-built_in">.</span>com <span class="hljs-string">"git-receive-pack 'schacon/simplegit-progit.git'"</span>
-<span class="hljs-number">005</span>bca82a6dff817ec66f4437202690a93763949 refs/heads/master report<span class="hljs-attribute">-status</span> delete<span class="hljs-attribute">-refs</span>
-<span class="hljs-number">003e085</span>bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
-<span class="hljs-number">0000</span>
+<pre><code>$ ssh -x git@github.com &quot;git-receive-pack &#39;schacon/simplegit-progit.git&#39;&quot;
+005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
+003e085bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
+0000
 </code></pre><p><code>git-receive-pack</code> 명령은 레퍼런스 정보를 한 줄에 하나씩 보여준다. 첫 번째 줄에는 <code>master</code> 브랜치의 이름과 SHA 체크섬을 보여주는데 여기에 서버의 Capability도 함께 보여준다(여기서는 <code>report-status</code>와 <code>delete-refs</code>이다).</p>
 <p>각 줄의 처음은 4 바이트는 뒤어 이어지는 나머지 데이터의 길이를 나타낸다. 첫 줄을 보자. 005b로 시작하는데 10진수로 91을 나타낸다. 첫 줄의 처음 4 바이트를 제외한 나머지 길이가 91바이트라는 뜻이다. 다음 줄의 값은 003b이고 이는 62바이트를 나타낸다. 마지막 줄은 값은 0000이다. 이는 서버가 레퍼런스 목록의 출력을 끝냈다는 것을 의미한다.</p>
 <p>서버에 뭐가 있는지 알기 때문에 이제 서버에 없는 커밋이 무엇인지 알 수 있다. Push할 레퍼런스에 대한 정보는 <code>send-pack</code> 과정에서 서버의 <code>receive-pack</code> 과정으로 전달된다. 예를 들어 <code>master</code> 브랜치를 업데이트하고 <code>experiment</code> 브랜치를 추가할 때는 아래와 같은 정보를 서버에 보낸다:</p>
-<pre><code><span class="hljs-number">0085</span>ca82a6dff817ec66f44342007202690a93763949  <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6 refs/heads/master <span class="hljs-keyword">report</span>-status
-<span class="hljs-number">00670000000000000000000000000000000000000000</span> cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
-<span class="hljs-number">0000</span>
+<pre><code>0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
+00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
+0000
 </code></pre><p>SHA-1 값이 모두 &#39;0&#39;인 것은 없음(無)을 의미한다. <code>experiment</code> 레퍼런스는 새로 추가하는 것이라서 왼쪽 SHA-1값이 모두 0이다. 반대로 오른쪽 SHA-1 값이 모두 &#39;0&#39;이면 레퍼런스를 삭제한다는 의미다.</p>
 <p>Git은 예전 SHA, 새 SHA, 레퍼런스 이름을 한줄한줄에 담아 전송한다. 첫 줄에는 클라이언트 Capability도 포함된다. 그다음에 서버에 없는 객체를 전부 하나의 Packfile에 담아 전송한다. 마지막에 서버는 성공했거나 실패했다고 응답한다:</p>
-<pre><code><span class="hljs-number">000</span><span class="hljs-variable">Aunpack</span> <span class="hljs-ok">ok</span>
+<pre><code>000Aunpack ok
 </code></pre><h3 id="-">데이터 다운로드</h3>
 <p>데이터를 다운로드하는 것는 <code>fetch-pack</code>과 <code>upload-pack</code> 과정으로 나뉜다. 클라이언트가 <code>fetch-pack</code>을 시작하면 서버의 <code>upload-pack</code>에 연결되고 서로 어떤 데이터를 내려받을지 결정한다.</p>
 <p>리모트 저장소에서 <code>upload-pack</code> 과정을 시작하는 방법은 여러 가지다. <code>receive-pack</code>처럼 SSH를 통하거나 포트가 9418인 Git 데몬을 통해서 시작할 수도 있다. Git 데몬을 사용하면 <code>fetch-pack</code>은 연결되자마 아래와 같은 데이터를 전송한다:</p>
-<pre><code><span class="hljs-number">003</span>fgit<span class="hljs-attribute">-upload</span><span class="hljs-attribute">-pack</span> schacon/simplegit<span class="hljs-attribute">-progit</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">\</span><span class="hljs-number">0</span>host<span class="hljs-subst">=</span>myserver<span class="hljs-built_in">.</span>com<span class="hljs-subst">\</span><span class="hljs-number">0</span>
+<pre><code>003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 </code></pre><p>처음 4 바이트는 뒤에 이어지는 데이터의 길이다. 첫 번째 NULL 바이트까지가 실행할 명령이고 다음 NULL 바이트까지는 서버의 호스트 이름이다. Git 데몬은 명령이 실행 가능한지, 저장소가 존재하는지, 권한은 있는지 등을 확인한다. 모든 것이 가능하면 <code>upload-pack</code> 과정을 시작하고 들어오는 요청 데이터를 처리한다:</p>
 <p>SSH 프로토콜을 사용하면 <code>fetch-pack</code>은 아래와 같이 실행한다:</p>
-<pre><code><span class="hljs-variable">$ </span>ssh -x git<span class="hljs-variable">@github</span>.com <span class="hljs-string">"git-upload-pack 'schacon/simplegit-progit.git'"</span>
+<pre><code>$ ssh -x git@github.com &quot;git-upload-pack &#39;schacon/simplegit-progit.git&#39;&quot;
 </code></pre><p>내부 방식이야 어쨌든, <code>fetch-pack</code>과 연결된 <code>upload-pack</code>은 아래와 같은 데이터를 전송한다:</p>
-<pre><code><span class="hljs-number">0088</span>ca82a6dff817ec66f44342007202690a93763949 HEAD<span class="hljs-subst">\</span><span class="hljs-number">0</span>multi_ack thin<span class="hljs-attribute">-pack</span> <span class="hljs-subst">\</span>
-  side<span class="hljs-attribute">-band</span> side<span class="hljs-attribute">-band</span><span class="hljs-subst">-</span><span class="hljs-number">64</span>k ofs<span class="hljs-attribute">-delta</span> shallow no<span class="hljs-attribute">-progress</span> include<span class="hljs-attribute">-tag</span>
-<span class="hljs-number">003</span>fca82a6dff817ec66f44342007202690a93763949 refs/heads/master
-<span class="hljs-number">003e085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
-<span class="hljs-number">0000</span>
+<pre><code>0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
+  side-band side-band-64k ofs-delta shallow no-progress include-tag
+003fca82a6dff817ec66f44342007202690a93763949 refs/heads/master
+003e085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
+0000
 </code></pre><p>위 <code>receive-pack</code>의 응답과 매우 비슷하지만, Capability 부분은 다르다. HEAD 레퍼런스도 알려주기 때문에 저장소를 Clone하면 무엇을 Checkout해야 할지 안다.</p>
 <p><code>fetch-pack</code>은 이 정보를 살펴보고 이미 가지는 개체에는 &quot;have&quot;를 붙이고 내려받아야 하는 개체는 &quot;want&quot;를 붙인 정보를 만든다. 마지막 줄에 &quot;done&quot;이라고 적어서 보내면 서버의 <code>upload-pack</code>은 해당 데이터를 Packfile로 만들어 전송한다:</p>
-<pre><code><span class="hljs-number">0054</span>want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
-<span class="hljs-number">0032</span>have <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-<span class="hljs-number">0000</span>
-<span class="hljs-number">0009</span><span class="hljs-keyword">done</span>
+<pre><code>0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
+0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+0000
+0009done
 </code></pre><p>아주 기본적인 상황인 데이터 전송 프로토콜에 대해 살펴보았다. <code>multi_ack</code>나 <code>side-band</code>같은 더 복잡한 시나리오도 있다. 하지만, 여기에서는 스마트 프로토콜 과정을 알 수 있는 가장 기초적인 시나리오를 설명했다.</p>
 
                     
@@ -888,9 +891,9 @@ walk a11bef06a3f659402fe7563abf99ad00de2209e6
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

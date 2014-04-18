@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.1" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.1" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_587">
+                    <section class="normal" id="section-gitbook_658">
                     
                         <h1 id="revisie-selectie">Revisie selectie</h1>
 <p>Git stelt je in staat om specifieke commits of een serie commits op diverse manieren te specificeren. Ze zijn niet meteen voor de hand liggend, maar behulpzaam om te weten.</p>
@@ -854,33 +857,33 @@
 <p>Git is slim genoeg om uit te vinden welke commit je bedoelde te typen als je het de eerste paar karakters geeft, zolang je gedeeltelijke SHA-1 maar minstens vier karakters lang en ondubbelzinnig is; dat wil zeggen dat slechts één object in de huidige repository begint met die gedeeltelijke SHA-1.</p>
 <p>Bijvoorbeeld, stel dat je om een specifieke commit te zien een <code>git log</code> commando uitvoert en de commit identificeert waarin je een bepaalde functionaliteit hebt toegevoegd:</p>
 <pre><code>$ git log
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">734713</span>bc047d87bf7eac9674765ae793478c50d3
+commit 734713bc047d87bf7eac9674765ae793478c50d3
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri Jan <span class="hljs-number">2</span> <span class="hljs-number">18</span>:<span class="hljs-number">32</span>:<span class="hljs-number">33</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Fri Jan 2 18:32:33 2009 -0800
 
     fixed refs handling, added gc auto, updated tests
 
-<span class="hljs-keyword">commit</span> d921970aadf03b3cf0e71becdaab3147ba71cdef
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">1</span>c002dd... <span class="hljs-number">35</span>cfb2b...
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">15</span>:<span class="hljs-number">08</span>:<span class="hljs-number">43</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 15:08:43 2008 -0800
 
-    <span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span>
+    Merge commit &#39;phedders/rdocs&#39;
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">1</span>c002dd4b536e7479fe34593e72e6c6c1819e53b
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">14</span>:<span class="hljs-number">58</span>:<span class="hljs-number">32</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 14:58:32 2008 -0800
 
-    added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff</span>
+    added some blame and merge stuff
 </code></pre><p>Kies in dit geval <code>1c002dd....</code>. Als je op die commit <code>git show</code> uitvoert, dan zijn de volgende commando&#39;s gelijkwaardig (aangenomen dat de kortere versies ondubbelzinnig zijn):</p>
-<pre><code><span class="hljs-variable">$ </span>git show <span class="hljs-number">1</span>c002dd4b536e7479fe34593e72e6c6c1819e53b
-<span class="hljs-variable">$ </span>git show <span class="hljs-number">1</span>c002dd4b536e7479f
-<span class="hljs-variable">$ </span>git show <span class="hljs-number">1</span>c002d
+<pre><code>$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+$ git show 1c002dd4b536e7479f
+$ git show 1c002d
 </code></pre><p>Git kan met een korte unieke afkorting van een SHA-1 waarde uit de voeten. Als je <code>--abbrev-commit</code> meegeeft aan het <code>git log</code> commando, dan zal de output kortere waarden gebruiken maar ze uniek houden; het gebruikt standaard zeven karakters maar maakt ze langer indien nodig om de SHA-1 ondubbelzinnig te houden:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--abbrev-commit --pretty=oneline</span>
-ca82a6d changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
-<span class="hljs-number">085</span>bb3b removed unnecessary test code
-a11bef0 <span class="hljs-keyword">first</span> commit
+<pre><code>$ git log --abbrev-commit --pretty=oneline
+ca82a6d changed the version number
+085bb3b removed unnecessary test code
+a11bef0 first commit
 </code></pre><p>Over het algemeen zijn acht tot tien karakters meer dan voldoende om binnen een project uniek te zijn. Een van de grootste Git projecten, de Linux kernel, begint 12 karakters van de mogelijke 40 nodig te hebben om uniek te blijven.</p>
 <h2 id="een-korte-notitie-over-sha-1">EEN KORTE NOTITIE OVER SHA-1</h2>
 <p>Veel mensen beginnen bezorgd te raken dat ze op een bepaald moment door puur toeval, twee objecten in hun repository hebben die naar dezelfde SHA-1 waarde hashen. Wat dan?</p>
@@ -890,93 +893,93 @@ Maar wat je moet beseffen is hoe vreselijk onwaarschijnlijk dit scenario is. De 
 <p>Hier is een voorbeeld om je een idee te geven wat er voor nodig is om een SHA-1 botsing te krijgen. Als alle 6.5 miljard mensen op aarde zouden programmeren, en iedere seconde zou ieder van hen code genereren die gelijk was aan de hele Linux kernel-geschiedenis (1 miljoen Git objecten) en dat in één gigantische Git repository pushen, dan zou het vijf jaar duren voordat die repository genoeg objecten zou bevatten om een 50% waarschijnlijkheid van één enkele SHA-1 object botsing te krijgen. De kans is groter dat elk lid van je programmeerteam zal worden aangevallen en gedood door wolven bij ongerelateerde incidenten op dezelfde avond.</p>
 <h2 id="branch-referenties">Branch referenties</h2>
 <p>De meest eenvoudige manier om een commit te specificeren heeft als voorwaarde dat je er een branchreferentie naar hebt wijzen. Dan kun je een branchnaam in ieder Git commando gebruiken dat een commitobject of SHA-1 waarde verwacht. Bijvoorbeeld, als je het laatste commitobject op een branch wil tonen, dan zijn de volgende commando&#39;s gelijkwaardig, aangenomen dat de <code>topic1</code> branch naar <code>ca82a6d</code> wijst:</p>
-<pre><code><span class="hljs-variable">$ </span>git show ca82a6dff817ec66f44342007202690a93763949
-<span class="hljs-variable">$ </span>git show topic1
+<pre><code>$ git show ca82a6dff817ec66f44342007202690a93763949
+$ git show topic1
 </code></pre><p>Als je wilt zien naar welke specifieke SHA een branch wijst, of als je wil zien wat ieder van deze voorbeelden in termen van SHA&#39;s voorstellen, dan kun je een Git sanitaire voorzieningen (plumbing) tool genaamd <code>rev-parse</code> gebruiken. Je kunt in Hoofdstuk 9 kijken voor meer informatie over plumbingtools, eigenlijk is <code>rev-parse</code> er voor low-level operaties en is niet ontworpen voor dagelijks gebruik. Maar het kan behulpzaam zijn op momenten dat je moet zien wat er echt aan de hand is. Hier kun je <code>rev-parse</code> uitvoeren op je branch.</p>
-<pre><code><span class="hljs-variable">$ </span>git rev-parse topic1
+<pre><code>$ git rev-parse topic1
 ca82a6dff817ec66f44342007202690a93763949
 </code></pre><h2 id="reflog-afkortingen">RefLog afkortingen</h2>
 <p>Een van de dingen die Git in de achtergrond doet terwijl jij lekker zit te werken is een reflog bijhouden: een log waarin is vastgelegd naar welke referenties de HEAD en de branches de laatste paar maanden hebben gewezen.</p>
 <p>Je kunt je reflog zien door <code>git reflog</code> te gebruiken:</p>
 <pre><code>$ git reflog
 734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-d921970... HEAD@{1}: <span class="hljs-operator"><span class="hljs-keyword">merge</span> phedders/rdocs: <span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
-<span class="hljs-number">1</span>c002dd... HEAD@{<span class="hljs-number">2</span>}: <span class="hljs-keyword">commit</span>: added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff
-<span class="hljs-number">1</span>c36188... HEAD@{<span class="hljs-number">3</span>}: rebase -i (squash): updating HEAD
-<span class="hljs-number">95</span>df984... HEAD@{<span class="hljs-number">4</span>}: <span class="hljs-keyword">commit</span>: # This <span class="hljs-keyword">is</span> a combination <span class="hljs-keyword">of</span> two commits.
-<span class="hljs-number">1</span>c36188... HEAD@{<span class="hljs-number">5</span>}: rebase -i (squash): updating HEAD
-<span class="hljs-number">7e05</span>da5... HEAD@{<span class="hljs-number">6</span>}: rebase -i (pick): updating HEAD</span>
+d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+1c002dd... HEAD@{2}: commit: added some blame and merge stuff
+1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
+95df984... HEAD@{4}: commit: # This is a combination of two commits.
+1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 </code></pre><p>Iedere keer als de punt van je branch om een of andere reden is gewijzigd, dan bewaart Git die informatie voor je in deze tijdelijke geschiedenis. En je kunt ook oudere commits met deze gegevens specificeren. Als je de vijfde voorgaande waarde van de HEAD van je repository wilt zien, dan kun je de <code>@{n}</code> referentie gebruiken, die je in de reflog output kunt zien:</p>
-<pre><code><span class="hljs-variable">$ </span>git show <span class="hljs-constant">HEAD</span>@{<span class="hljs-number">5</span>}
+<pre><code>$ git show HEAD@{5}
 </code></pre><p>Je kunt deze syntax ook gebruiken om te zien waar een branch een bepaalde tijd geleden was. Bijvoorbeeld, om te zien waar je <code>master</code> branch gisteren was, kun je dit typen</p>
-<pre><code><span class="hljs-variable">$ </span>git show master@{yesterday}
+<pre><code>$ git show master@{yesterday}
 </code></pre><p>Dat laat je zien waar de punt van de branch gisteren was. Deze techniek werkt alleen voor gegevens die nog steeds in je reflog staan, dus je kunt het niet gebruiken om te kijken naar commits die ouder zijn dan een paar maanden.</p>
 <p>Om reflog informatie te zien, in hetzelfde formaat als de <code>git log</code> output, kun je <code>git log -g</code> uitvoeren:</p>
 <pre><code>$ git log -g master
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">734713</span>bc047d87bf7eac9674765ae793478c50d3
-Reflog: master@{<span class="hljs-number">0</span>} (Scott Chacon &lt;schacon@gmail.com&gt;)
-Reflog message: <span class="hljs-keyword">commit</span>: fixed refs handling, added gc auto, updated
+commit 734713bc047d87bf7eac9674765ae793478c50d3
+Reflog: master@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: commit: fixed refs handling, added gc auto, updated
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri Jan <span class="hljs-number">2</span> <span class="hljs-number">18</span>:<span class="hljs-number">32</span>:<span class="hljs-number">33</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Fri Jan 2 18:32:33 2009 -0800
 
     fixed refs handling, added gc auto, updated tests
 
-<span class="hljs-keyword">commit</span> d921970aadf03b3cf0e71becdaab3147ba71cdef
-Reflog: master@{<span class="hljs-number">1</span>} (Scott Chacon &lt;schacon@gmail.com&gt;)
-Reflog message: <span class="hljs-keyword">merge</span> phedders/rdocs: <span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Reflog: master@{1} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: merge phedders/rdocs: Merge made by recursive.
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">15</span>:<span class="hljs-number">08</span>:<span class="hljs-number">43</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 15:08:43 2008 -0800
 
-    <span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span></span>
+    Merge commit &#39;phedders/rdocs&#39;
 </code></pre><p>Het is belangrijk om op te merken dat deze informatie strikt lokaal is - het is een log van wat jij hebt gedaan in jouw repository. De referenties zullen niet hetzelfde zijn in de kopie van de repository die iemand anders gemaakt heeft; en meteen nadat je een eerste clone van een repository hebt gemaakt heb je een lege reflog, omdat er nog geen activiteit is geweest in je repository. <code>git show HEAD@{2.months.ago}</code> uitvoeren werkt alleen als je het project minstens twee maanden geleden gecloned hebt, als je het vijf minuten geleden gecloned hebt krijg je geen resultaten.</p>
 <h2 id="voorouder-referenties">Voorouder referenties</h2>
 <p>De andere veelgebruikte manier om een commit te specificeren is via zijn voorouders. Als je een <code>^</code> aan het einde van een referentie zet, zal Git hieruit herleiden dat het de ouder van die commit betekent.
 Stel dat je naar de geschiedenis van je project kijkt:</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=format:'%h %s' --graph</span>
+<pre><code>$ git log --pretty=format:&#39;%h %s&#39; --graph
 * 734713b fixed refs handling, added gc auto, updated tests
-*   d921970 <span class="hljs-operator"><span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span>
+*   d921970 Merge commit &#39;phedders/rdocs&#39;
 |\
-| * <span class="hljs-number">35</span>cfb2b <span class="hljs-keyword">Some</span> rdoc changes
-* | <span class="hljs-number">1</span>c002dd added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff
+| * 35cfb2b Some rdoc changes
+* | 1c002dd added some blame and merge stuff
 |/
-* <span class="hljs-number">1</span>c36188 ignore *.gem
-* <span class="hljs-number">9</span>b29157 <span class="hljs-keyword">add</span> open3_detach <span class="hljs-keyword">to</span> gemspec file list</span>
+* 1c36188 ignore *.gem
+* 9b29157 add open3_detach to gemspec file list
 </code></pre><p>Dan zie je de vorige commit door <code>HEAD^</code> te specificeren, wat &quot;de ouder van HEAD&quot; betekent:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> HEAD^
-<span class="hljs-keyword">commit</span> d921970aadf03b3cf0e71becdaab3147ba71cdef
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">1</span>c002dd... <span class="hljs-number">35</span>cfb2b...
+<pre><code>$ git show HEAD^
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">15</span>:<span class="hljs-number">08</span>:<span class="hljs-number">43</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 15:08:43 2008 -0800
 
-    <span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span></span>
+    Merge commit &#39;phedders/rdocs&#39;
 </code></pre><p>Je kunt ook een getal na de <code>^</code> zetten, bijvoorbeeld <code>d921970^2</code> betekent &quot;de tweede ouder van d921970.&quot; Deze syntax is alleen nuttig voor merge commits, omdat die meer dan één ouder hebben. De eerste ouder is de branch waar jij op was toen je mergede, en de andere is de commit op de branch die je gemerged hebt:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> d921970^
-<span class="hljs-keyword">commit</span> <span class="hljs-number">1</span>c002dd4b536e7479fe34593e72e6c6c1819e53b
+<pre><code>$ git show d921970^
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">14</span>:<span class="hljs-number">58</span>:<span class="hljs-number">32</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 14:58:32 2008 -0800
 
-    added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff
+    added some blame and merge stuff
 
-$ git <span class="hljs-keyword">show</span> d921970^<span class="hljs-number">2</span>
-<span class="hljs-keyword">commit</span> <span class="hljs-number">35</span>cfb2b795a55793d7cc56a6cc2060b4bb732548
+$ git show d921970^2
+commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
 Author: Paul Hedderly &lt;paul+git@mjr.org&gt;
-<span class="hljs-keyword">Date</span>:   Wed <span class="hljs-keyword">Dec</span> <span class="hljs-number">10</span> <span class="hljs-number">22</span>:<span class="hljs-number">22</span>:<span class="hljs-number">03</span> <span class="hljs-number">2008</span> +<span class="hljs-number">0000</span>
+Date:   Wed Dec 10 22:22:03 2008 +0000
 
-    <span class="hljs-keyword">Some</span> rdoc changes</span>
+    Some rdoc changes
 </code></pre><p>De andere manier om voorouders mee te specificeren is de <code>~</code>. Dit refereert ook naar de eerste ouder, dus <code>HEAD~</code> en <code>HEAD^</code> zijn gelijk. Het verschil wordt pas duidelijk als je een getal specificeert. <code>HEAD~2</code> betekent &quot;de eerste ouder van de eerste ouder&quot;, of &quot;de grootouder&quot; - het doorloopt de eerste ouders het aantal keren dat je specificeert. Bijvoorbeeld, in de geschiedenis die eerder getoond werd, zou <code>HEAD~3</code> het volgende resultaat geven</p>
-<pre><code>$ git show HEAD~<span class="hljs-number">3</span>
-commit <span class="hljs-number">1</span>c3618887afb5fbcbea25b7c013f4e2114448b8d
-<span class="hljs-label">Author:</span> Tom Preston-Werner &lt;tom@mojombo<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri Nov <span class="hljs-number">7</span> <span class="hljs-number">13</span>:<span class="hljs-number">47</span>:<span class="hljs-number">59</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0500</span>
+<pre><code>$ git show HEAD~3
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
 
-    ignore *<span class="hljs-preprocessor">.gem</span>
+    ignore *.gem
 </code></pre><p>Dit kan ook geschreven worden als <code>HEAD^^^</code> wat, nogmaals, de eerste ouder van de eerste ouder van de eerste ouder is:</p>
 <pre><code>$ git show HEAD^^^
-commit <span class="hljs-number">1</span>c3618887afb5fbcbea25b7c013f4e2114448b8d
-<span class="hljs-label">Author:</span> Tom Preston-Werner &lt;tom@mojombo<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri Nov <span class="hljs-number">7</span> <span class="hljs-number">13</span>:<span class="hljs-number">47</span>:<span class="hljs-number">59</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0500</span>
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
 
-    ignore *<span class="hljs-preprocessor">.gem</span>
+    ignore *.gem
 </code></pre><p>Je kunt deze syntaxen combineren: je kunt de tweede ouder van de vorige referentie krijgen (aangenomen dat het een merge commit was) door <code>HEAD~3^2</code> te gebruiken, enzovoort.</p>
 <h2 id="commit-reeksen">Commit reeksen</h2>
 <p>Nu je individuele commits kunt specificeren, laten we zien hoe je reeksen van commits kunt specificeren. Dit is vooral erg nuttig bij het beheren van je branches - als je veel branches hebt, kan je reeks-specificaties gebruiken om vragen te beantwoorden als: &quot;Wat voor werk zit er op deze branch dat ik nog niet in mijn hoofdbranch gemerged heb?&quot;</p>
@@ -986,40 +989,40 @@ commit <span class="hljs-number">1</span>c3618887afb5fbcbea25b7c013f4e2114448b8d
 <p>Figuur 6-1. Voorbeeldgeschiedenis voor reeks-selectie.</p>
 <p>Je wilt zien wat er in je experimentele branch zit dat nog niet in je hoofdbranch gemerged is. Je kunt Git vragen om een log te tonen van alleen die commits met <code>master..experiment</code>, wat zoveel betekent als &quot;alle commits die bereikbaar zijn voor experiment, die niet bereikbaar zijn voor master&quot;. Om de voorbeelden kort en duidelijk te houden zal ik de letters van de commitobjecten in het diagram gebruiken in plaats van de echte log output, in de volgorde waarin ze getoond zouden worden:</p>
 <pre><code>$ git log master..experiment
-<span class="hljs-keyword">D</span>
-<span class="hljs-keyword">C</span>
+D
+C
 </code></pre><p>Als je echter het tegenovergestelde wilt zien - alle commits in <code>master</code> die niet in <code>experiment</code> zitten - dan moet je de branchnamen omdraaien. <code>experiment..master</code> toont je alles in <code>master</code> wat niet bereikbaar is vanuit <code>experiment</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git log experiment..master
-<span class="hljs-constant">F</span>
-<span class="hljs-constant">E</span>
+<pre><code>$ git log experiment..master
+F
+E
 </code></pre><p>Dit is handig als je de <code>experiment</code> branch up to date wilt houden en alvast wilt zien wat je op het punt staat te mergen. Een ander veel voorkomend gebruik van deze syntax is zien wat je op het punt staat naar een remote de pushen:</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/master..<span class="hljs-constant">HEAD</span>
+<pre><code>$ git log origin/master..HEAD
 </code></pre><p>Dit commando toont je alle commits in je huidige branch, die niet in de <code>master</code> branch op de remote <code>origin</code> zitten. Als je een <code>git push</code> uitvoert, en je huidige branch volgt de <code>origin/master</code>, dan zijn de commits die getoond worden door <code>git log origin/master..HEAD</code> de commits die verstuurd zullen worden naar de server.
 Je kunt ook één kant van de syntax weglaten om Git de HEAD laten aannemen. Bijvoorbeeld, je krijgt dezelfde resultaten als in het vorige voorbeeld door <code>git log origin/master..</code> te typen - Git vult HEAD in als er één kant ontbreekt.</p>
 <h3 id="dubbele-punten">Dubbele punten</h3>
 <p>De syntax met de dubbel-punt is makkelijk als een afkorting, maar misschien wil je meer dan twee branches specificeren om je revisie aan te geven, zoals het zien welke commits in één van de branches in een reeks zitten, die nog niet in de branch zitten waar je nu op werkt. Git laat je dit doen door of het <code>^</code> karakter of <code>--not</code>, te gebruiken voor iedere referentie waarvan je de bereikbare commits niet wilt zien. Dus deze drie commando&#39;s zijn gelijk:</p>
-<pre><code><span class="hljs-variable">$ </span>git log refA..refB
-<span class="hljs-variable">$ </span>git log ^refA refB
-<span class="hljs-variable">$ </span>git log refB --<span class="hljs-keyword">not</span> refA
+<pre><code>$ git log refA..refB
+$ git log ^refA refB
+$ git log refB --not refA
 </code></pre><p>Dit is prettig omdat met deze syntax je meer dan twee referenties in je vraag kunt specificeren, wat je niet met de dubbel punt syntax kan doen. Bijvoorbeeld, als je alle commits wilt zien die bereikbaar zijn vanuit <code>refA</code> of <code>refB</code>, maar niet vanuit <code>refC</code>, dan kun je één van deze intypen:</p>
-<pre><code><span class="hljs-variable">$ </span>git log refA refB ^refC
-<span class="hljs-variable">$ </span>git log refA refB --<span class="hljs-keyword">not</span> refC
+<pre><code>$ git log refA refB ^refC
+$ git log refA refB --not refC
 </code></pre><p>Dit zorgt voor een erg krachtig revisie vraagsysteem dat je kan helpen om uit te zoeken wat in je branches zit.</p>
 <h3 id="drievoudige-punt">Drievoudige punt</h3>
 <p>De laatste veelgebruikte reeks-selectie syntax is de drievoudige punt syntax, wat alle commits specificeert die bereikbaar zijn door één van de twee referenties, maar niet door allebei. Kijk nog eens naar de voorbeeld commitgeschiedenis in Figuur 6-1.
 Als je wilt zien wat in je <code>master</code> of in je <code>experiment</code> zit, maar geen gedeelde referenties, dan kun je dit uitvoeren</p>
 <pre><code>$ git log master...experiment
 F
-<span class="hljs-keyword">E</span>
-<span class="hljs-keyword">D</span>
-<span class="hljs-keyword">C</span>
+E
+D
+C
 </code></pre><p>Nogmaals, dit geeft je normale <code>log</code> output, maar toont je alleen de commit-informatie voor deze vier commits, getoond in de traditionele volgorde van committijdstip.</p>
 <p>Een veelgebruikte optie bij het <code>log</code> command in dit geval is <code>--left-right</code>, wat je laat zien aan welke kant van de reeks elke commit zit. Dit helpt de data bruikbaarder te maken:</p>
 <pre><code>$ git log --left-right master...experiment
 &lt; F
-&lt; <span class="hljs-keyword">E</span>
-&gt; <span class="hljs-keyword">D</span>
-&gt; <span class="hljs-keyword">C</span>
+&lt; E
+&gt; D
+&gt; C
 </code></pre><p>Met deze tools, kun je Git eenvoudiger laten weten welke commit of commits je wilt inspecteren.</p>
 
                     
@@ -1039,9 +1042,9 @@ F
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

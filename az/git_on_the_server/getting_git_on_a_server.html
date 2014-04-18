@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397503694404">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397847855057">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,26 +847,26 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_723">
+                    <section class="normal" id="section-gitbook_582">
                     
                         <h1 id="getting-git-on-a-server">Getting Git on a Server</h1>
 <p>In order to initially set up any Git server, you have to export an existing repository into a new bare repository — a repository that doesn’t contain a working directory. This is generally straightforward to do.
 In order to clone your repository to create a new bare repository, you run the clone command with the <code>--bare</code> option. By convention, bare repository directories end in <code>.git</code>, like so:</p>
-<pre><code>$ git clone <span class="hljs-comment">--bare my_project my_project.git</span>
-Initialized <span class="hljs-constant">empty</span> Git repository <span class="hljs-operator">in</span> /opt/projects/my_project.git/
+<pre><code>$ git clone --bare my_project my_project.git
+Initialized empty Git repository in /opt/projects/my_project.git/
 </code></pre><p>The output for this command is a little confusing. Since <code>clone</code> is basically a <code>git init</code> then a <code>git fetch</code>, we see some output from the <code>git init</code> part, which creates an empty directory. The actual object transfer gives no output, but it does happen. You should now have a copy of the Git directory data in your <code>my_project.git</code> directory.</p>
 <p>This is roughly equivalent to something like</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> -Rf my_project/<span class="hljs-preprocessor">.git</span> my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ cp -Rf my_project/.git my_project.git
 </code></pre><p>There are a couple of minor differences in the configuration file; but for your purpose, this is close to the same thing. It takes the Git repository by itself, without a working directory, and creates a directory specifically for it alone.</p>
 <h2 id="putting-the-bare-repository-on-a-server">Putting the Bare Repository on a Server</h2>
 <p>Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called <code>git.example.com</code> that you have SSH access to, and you want to store all your Git repositories under the <code>/opt/git</code> directory. You can set up your new repository by copying your bare repository over:</p>
-<pre><code>$ scp -r my_project<span class="hljs-preprocessor">.git</span> user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git
+<pre><code>$ scp -r my_project.git user@git.example.com:/opt/git
 </code></pre><p>At this point, other users who have SSH access to the same server which has read-access to the <code>/opt/git</code> directory can clone your repository by running</p>
-<pre><code>$ git clone user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git/my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone user@git.example.com:/opt/git/my_project.git
 </code></pre><p>If a user SSHs into a server and has write access to the <code>/opt/git/my_project.git</code> directory, they will also automatically have push access.  Git will automatically add group write permissions to a repository properly if you run the <code>git init</code> command with the <code>--shared</code> option.</p>
-<pre><code><span class="hljs-variable">$ </span>ssh user<span class="hljs-variable">@git</span>.example.com
-<span class="hljs-variable">$ </span>cd /opt/git/my_project.git
-<span class="hljs-variable">$ </span>git init --bare --shared
+<pre><code>$ ssh user@git.example.com
+$ cd /opt/git/my_project.git
+$ git init --bare --shared
 </code></pre><p>You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.</p>
 <p>It’s important to note that this is literally all you need to do to run a useful Git server to which several people have access — just add SSH-able accounts on a server, and stick a bare repository somewhere that all those users have read and write access to. You’re ready to go — nothing else needed.</p>
 <p>In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you <em>need</em> is an SSH server and a bare repository.</p>
@@ -893,9 +896,9 @@ Initialized <span class="hljs-constant">empty</span> Git repository <span class=
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

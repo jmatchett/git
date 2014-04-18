@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="5.2" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="5.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_797">
+                    <section class="normal" id="section-gitbook_798">
                     
                         <h1 id="-">Содействие проекту</h1>
 <p>Мы узнали, что представляют собой различные рабочие процессы, также у вас должно быть достаточно хорошее понимание основ использования Git&#39;а. В этом разделе вы узнаете о нескольких типичных способах внести свой вклад в проект.</p>
@@ -857,30 +860,30 @@
 <p>Прежде чем мы приступим к рассмотрению специфичных примеров использования, сделаем короткое замечание о сообщениях коммитов. Обладание хорошим руководством по созданию коммитов и следование ему значительно облегчает работу с Git&#39;ом и сотрудничество с другими разработчиками. У проекта Git имеется документ с хорошими советами по созданию коммитов, из которых делаются патчи — прочитать его можно в исходном коде Git&#39;а в файле <code>Documentation/SubmittingPatches</code>.</p>
 <p>Во-первых, не стоит отсылать ничего с ошибками в пробельных символах. Git предоставляет простой способ их обнаружения — перед коммитом, запустите <code>git diff --check</code>, это определит возможные проблемы и перечислит их вам. Вот пример, в котором я заменил красный цвет терминала символами <code>X</code>:</p>
 <pre><code>$ git diff --check
-lib/simplegit<span class="hljs-preprocessor">.rb</span>:<span class="hljs-number">5</span>: trailing whitespace.
-+    @git_dir = File<span class="hljs-preprocessor">.expand</span>_path(git_dir)XX
-lib/simplegit<span class="hljs-preprocessor">.rb</span>:<span class="hljs-number">7</span>: trailing whitespace.
+lib/simplegit.rb:5: trailing whitespace.
++    @git_dir = File.expand_path(git_dir)XX
+lib/simplegit.rb:7: trailing whitespace.
 + XXXXXXXXXXX
-lib/simplegit<span class="hljs-preprocessor">.rb</span>:<span class="hljs-number">26</span>: trailing whitespace.
+lib/simplegit.rb:26: trailing whitespace.
 +    def command(git_cmd)XXXX
 </code></pre><p>Если выполните эту команду перед коммитом, то сможете понять, собираетесь ли вы сделать коммит с раздражающими разработчиков ошибками в пробельных символах.</p>
 <p>Далее, старайтесь делать так, чтобы каждый коммит был логически отдельным набором изменений. Если можете, старайтесь делать ваши изменения обозримыми — не стоит писать код все выходные, работая над пятью задачами, а затем отправлять их все в понедельник одним массивным коммитом. Даже если вы не делали коммитов в течение выходных, воспользуйтесь индексом, чтобы разбить свою работу на части, как минимум по одному коммиту для каждой проблемы с полезным сообщением к каждому. Если некоторые из изменений затрагивают один и тот же файл, попробуйте использовать <code>git add --patch</code> для индексирования файла по частям (это подробно рассмотрено в главе 6). Снимок состояния проекта на верхушке ветки будет идентичным, сделаете ли вы один коммит или пять, покуда все ваши изменения добавлены в какой-то момент, так что попытайтесь облегчить жизнь вашим коллегам разработчикам, когда они будут просматривать ваши изменения. При таком подходе будет проще выделить или отменить одно из изменений, если возникнет такая необходимость. В главе 6 описано множество полезных ухищрений для переписывания истории и интерактивного индексирования файлов — пользуйтесь этими инструментами для изготовления ясной и понятной истории.</p>
 <p>Последняя вещь, которую стоит иметь в виду, — это сообщение коммита. Написание качественных сообщений коммитов должно войти в привычку, это сделает сотрудничество с использованием Git&#39;а гораздо проще. По общему правилу, ваши сообщения должны начинаться с одной строки не длиннее 50 символов, лаконично описывающей набор изменений, затем пустая строка, затем более детальное описание. Проект Git требует, чтобы детальное объяснение включало в себя мотивацию на изменения и противопоставляло вашу реализацию с предыдущим поведением — это хорошее руководство к действию. Если вы пишете сообщения к коммитам на английском языке, то хорошей идеей является использование повелительного наклонения глаголов в настоящем времени. Другими словами, пишите команды. Вместо &quot;I added tests for&quot; или &quot;Adding tests for&quot; используйте &quot;Add tests for&quot;.</p>
 <p>Вот шаблон, изначально написанный Тимом Поупом на сайте tpope.net:</p>
-<pre><code>Краткое (до <span class="hljs-number">50</span> символов) описание изменений
+<pre><code>Краткое (до 50 символов) описание изменений
 
-Более детальное объяснение, <span class="hljs-keyword">если</span> необходимо. Перенос на <span class="hljs-number">72</span> символе
-<span class="hljs-keyword">или</span> около того. В некоторых контекстах первая <span class="hljs-keyword">строка</span> рассматривается
-как тема письма, а остальное как тело. Пустая <span class="hljs-keyword">строка</span>, отделяющая сводку
-от тела, важна (<span class="hljs-keyword">если</span> вы <span class="hljs-keyword">не</span> опустили тело целиком); <span class="hljs-keyword">если</span> вы оставите их
+Более детальное объяснение, если необходимо. Перенос на 72 символе
+или около того. В некоторых контекстах первая строка рассматривается
+как тема письма, а остальное как тело. Пустая строка, отделяющая сводку
+от тела, важна (если вы не опустили тело целиком); если вы оставите их
 вместе, инструменты, такие как rebase, могут воспринять это неправильно.
 
 Дальнейшие параграфы идут после пустых строк
 
  - также можно применять маркеры списков
 
- - обычно в качестве маркера списка используется дефис <span class="hljs-keyword">или</span> звёздочка
-   с одним пробелом перед ним <span class="hljs-keyword">и</span> пустыми строками между пунктами,
+ - обычно в качестве маркера списка используется дефис или звёздочка
+   с одним пробелом перед ним и пустыми строками между пунктами,
    хотя соглашения в этом аспекте могут разниться
 </code></pre><p>Если все ваши сообщения о коммитах будут выглядеть как это, всё будет намного проще для вас и для разработчиков, с которыми вы работаете. Проект Git содержит хорошо отформатированные сообщения о коммитах — я советую вам запустить <code>git log --no-merges</code> там, чтобы увидеть, как выглядит хорошо отформатированная история коммитов проекта.</p>
 <p>В последующих примерах и почти везде в этой книге для краткости я не форматирую сообщения так красиво, как это; вместо этого я использую опцию <code>-m</code> для команды <code>git commit</code>. Делайте, как я говорю, а не как я делаю.</p>
@@ -888,56 +891,56 @@ lib/simplegit<span class="hljs-preprocessor">.rb</span>:<span class="hljs-number
 <p>Наиболее простой тип организации, с которой вы легко можете столкнуться — частный проект с одним или двумя другими разработчиками. Под термином частный я подразумеваю закрытый код, недоступный для чтения остальному миру. Вы и все остальные разработчики имеете право записи в репозиторий.</p>
 <p>В этой среде вы можете придерживаться рабочего процесса, похожего на тот, который вы бы использовали в Subversion или другой централизованной системе. Вы по-прежнему получите такие преимущества, как локальные коммиты (коммиты в offline) и возможность гораздо более простого ветвления и слияния, но сам рабочий процесс может оставаться очень похожим; главное отличие — во время выполнения коммита слияние происходит на стороне клиента, а не на сервере.
 Давайте посмотрим, как выглядел бы процесс, когда два разработчика начинают работать вместе с общим репозиторием. Первый разработчик, Джон, клонирует репозиторий, делает изменения и создаёт локальный коммит. (Я заменяю служебные сообщения знаком <code>...</code> в этих примерах, чтобы немного их сократить.)</p>
-<pre><code><span class="hljs-comment"># Машина Джона</span>
+<pre><code># Машина Джона
 $ git clone john@githost:simplegit.git
-Initialized empty Git repository <span class="hljs-keyword">in</span> /home/john/simplegit/.git/
-<span class="hljs-keyword">...</span>
+Initialized empty Git repository in /home/john/simplegit/.git/
+...
 $ cd simplegit/
 $ vim lib/simplegit.rb
-$ git commit -am <span class="hljs-string">'removed invalid default value'</span>
+$ git commit -am &#39;removed invalid default value&#39;
 [master 738ee87] removed invalid default value
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><p>Второй разработчик, Джессика, выполняет то же самое — клонирует репозиторий и делает коммит с изменениями:</p>
-<pre><code><span class="hljs-comment"># Машина Джессики</span>
+<pre><code># Машина Джессики
 $ git clone jessica@githost:simplegit.git
-Initialized empty Git repository <span class="hljs-keyword">in</span> /home/jessica/simplegit/.git/
-<span class="hljs-keyword">...</span>
+Initialized empty Git repository in /home/jessica/simplegit/.git/
+...
 $ cd simplegit/
 $ vim TODO
-$ git commit -am <span class="hljs-string">'add reset task'</span>
+$ git commit -am &#39;add reset task&#39;
 [master fbff5bc] add reset task
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Теперь Джессика отправляет свою работу на сервер:</p>
-<pre><code><span class="hljs-comment"># Машина Джессики</span>
+<pre><code># Машина Джессики
 $ git push origin master
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
    1edee6b..fbff5bc  master -&gt; master
 </code></pre><p>Джон также пытается выложить свои изменения:</p>
-<pre><code><span class="hljs-preprocessor"># Машина Джона</span>
+<pre><code># Машина Джона
 $ git push origin master
-<span class="hljs-keyword">To</span> john@githost:simplegit.git
+To john@githost:simplegit.git
  ! [rejected]        master -&gt; master (non-fast forward)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'john@githost:simplegit.git'</span>
+error: failed to push some refs to &#39;john@githost:simplegit.git&#39;
 </code></pre><p>Джон не может выполнить отправку изменений, так как за это время Джессика уже отправила свои. Это очень важно понять, особенно если вы привыкли к Subversion, так как мы видим, что эти два разработчика не редактировали один и тот же файл. Хотя Subversion и выполняет автоматическое слияние на сервере, если редактировались разные файлы, при использовании Git&#39;а вы должны слить коммиты локально. Прежде чем Джон сможет отправить свои изменения на сервер, он должен извлечь наработки Джессики и выполнить слияние:</p>
 <pre><code>$ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From john@githost:simplegit
  + 049d078...fbff5bc master     -&gt; origin/master
 </code></pre><p>На этот момент, локальный репозиторий Джона выглядит так, как показано на рисунке 5-4.</p>
 <p><img src="http://git-scm.com/figures/18333fig0504-tn.png" alt=""></p>
 <p>Рисунок 5-4. Исходный репозиторий Джона.</p>
 <p>У Джона есть ссылка на изменения, выложенные Джессикой, и он должен слить их со своей работой перед тем, как ему разрешат её отправить:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> origin/master
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
- TODO |    <span class="hljs-number">1</span> +
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)</span>
+<pre><code>$ git merge origin/master
+Merge made by recursive.
+ TODO |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Слияние прошло без проблем — история коммитов Джона теперь выглядит как на рисунке 5-5.</p>
 <p><img src="http://git-scm.com/figures/18333fig0505-tn.png" alt=""></p>
 <p>Рисунок 5-5. Репозиторий Джона после слияния с origin/master.</p>
 <p>Теперь Джон может протестировать свой код, дабы удостовериться, что он по-прежнему работает нормально, а затем выложить свою работу, уже объединённую с работой Джессики, на сервер:</p>
 <pre><code>$ git push origin master
-<span class="hljs-keyword">...</span>
+...
 To john@githost:simplegit.git
    fbff5bc..72bbc59  master -&gt; master
 </code></pre><p>В результате история коммитов Джона выглядит, как показано на рисунке 5-6.</p>
@@ -947,44 +950,44 @@ To john@githost:simplegit.git
 <p><img src="http://git-scm.com/figures/18333fig0507-tn.png" alt=""></p>
 <p>Рисунок 5-7. Исходная история коммитов Джессики.</p>
 <p>Джессика хочет синхронизировать свою работу с Джоном, так что она извлекает изменения с сервера:</p>
-<pre><code><span class="hljs-comment"># Машина Джессики</span>
+<pre><code># Машина Джессики
 $ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From jessica@githost:simplegit
    fbff5bc..72bbc59  master     -&gt; origin/master
 </code></pre><p>Эта команда извлекает наработки Джона, которые он успел выложить. История коммитов Джессики теперь выглядит как на рисунке 5-8.</p>
 <p><img src="http://git-scm.com/figures/18333fig0508-tn.png" alt=""></p>
 <p>Рисунок 5-8. История коммитов Джессики после извлечения изменений Джона.</p>
 <p>Джессика полагает, что её тематическая ветка закончена, но она хочет узнать, с чем ей нужно слить свою работу, чтобы она могла выложить её на сервер. Она запускает <code>git log</code>, чтобы выяснить это:</p>
-<pre><code>$ git log <span class="hljs-comment">--no-merges origin/master ^issue54</span>
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">738</span>ee872852dfaa9d6634e0dea7a324040193016
+<pre><code>$ git log --no-merges origin/master ^issue54
+commit 738ee872852dfaa9d6634e0dea7a324040193016
 Author: John Smith &lt;jsmith@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri May <span class="hljs-number">29</span> <span class="hljs-number">16</span>:<span class="hljs-number">01</span>:<span class="hljs-number">27</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Fri May 29 16:01:27 2009 -0700
 
-    removed invalid <span class="hljs-keyword">default</span> <span class="hljs-keyword">value</span></span>
+    removed invalid default value
 </code></pre><p>Теперь Джессика может слить свою тематическую ветку в ветку <code>master</code>, слить работу Джона (<code>origin/master</code>) в свою ветку <code>master</code> и затем отправить изменения на сервер. Сначала она переключается на свою основную ветку, чтобы объединить всю эту работу:</p>
 <pre><code>$ git checkout master
-Switched <span class="hljs-keyword">to</span> branch <span class="hljs-string">"master"</span>
-Your branch <span class="hljs-keyword">is</span> <span class="hljs-keyword">behind</span> 'origin/master' <span class="hljs-keyword">by</span> <span class="hljs-number">2</span> commits, <span class="hljs-keyword">and</span> can be fast-forwarded.
+Switched to branch &quot;master&quot;
+Your branch is behind &#39;origin/master&#39; by 2 commits, and can be fast-forwarded.
 </code></pre><p>Она может слить сначала ветку <code>origin/master</code>, а может и <code>issue54</code> — обе они находятся выше в истории коммитов, так что не важно какой порядок слияния она выберет. Конечное состояние репозитория должно получиться идентичным независимо от того, какой порядок слияния она выберет; только история коммитов будет немного разная. Она решает слить ветку <code>issue54</code> первой:</p>
 <pre><code>$ git merge issue54
-Updating fbff5bc..<span class="hljs-number">4</span>af4298
+Updating fbff5bc..4af4298
 Fast forward
- README           <span class="hljs-string">|    1 +</span>
- lib/simplegit.rb <span class="hljs-string">|    6 +++++-</span>
- <span class="hljs-number">2</span> files changed, <span class="hljs-number">6</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ README           |    1 +
+ lib/simplegit.rb |    6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletions(-)
 </code></pre><p>Никаких проблем не возникло; как видите, это была обычная перемотка. Теперь Джессика сливает работу Джона (<code>origin/master</code>):</p>
 <pre><code>$ git merge origin/master
-<span class="hljs-keyword">Auto</span>-merging <span class="hljs-keyword">lib</span>/simplegit.rb
-Merge made <span class="hljs-keyword">by</span> recursive.
- <span class="hljs-keyword">lib</span>/simplegit.rb |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+Auto-merging lib/simplegit.rb
+Merge made by recursive.
+ lib/simplegit.rb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><p>Слияние проходит нормально, и теперь история коммитов Джессики выглядит так, как показано на рисунке 5-9.</p>
 <p><img src="http://git-scm.com/figures/18333fig0509-tn.png" alt=""></p>
 <p>Рисунок 5-9. История коммитов Джессики после слияния с изменениями Джона.</p>
 <p>Теперь указатель <code>origin/master</code> доступен из ветки <code>master</code> Джессики, так что она может спокойно выполнить <code>git push</code> (полагая, что Джон не выкладывал свои изменения за это время):</p>
 <pre><code>$ git push origin master
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
    72bbc59..8059c15  master -&gt; master
 </code></pre><p>Каждый разработчик несколько раз выполнял коммиты и успешно сливал свою работу с работой другого; смотри рисунок 5-10.</p>
@@ -997,80 +1000,80 @@ To jessica@githost:simplegit.git
 <p>В этом сценарии мы рассмотрим роли участников проекта в закрытых группах большего размера. Вы научитесь работе в окружении, где маленькие группы совместно работают над задачами, а затем результаты их деятельности интегрируются отдельным субъектом.</p>
 <p>Давайте представим, что Джон и Джессика работают вместе над одной задачей, в то время как Джессика с Джози работают над другой. В этом случае компания использует рабочий процесс с менеджером по интеграции, при котором работа частных групп объединяется только определёнными инженерами (обновление ветки <code>master</code> главного репозитория может осуществляться только этими инженерами). В этом случае вся работа выполняется в ветках отдельных команд разработчиков и впоследствии объединяется воедино менеджерами по интеграции.</p>
 <p>Давайте проследим за рабочим процессом Джессики, которая работает над двумя задачами, сотрудничая одновременно с двумя разными разработчиками. Положим, что она уже имеет свою собственную копию репозитория. Джессика решает сначала взяться за задачу <code>featureA</code>. Для этого она создаёт новую ветку и выполняет в ней некоторую работу:</p>
-<pre><code><span class="hljs-preprocessor"># Машина Джессики</span>
+<pre><code># Машина Джессики
 $ git checkout -b featureA
-Switched <span class="hljs-keyword">to</span> a <span class="hljs-keyword">new</span> branch <span class="hljs-string">"featureA"</span>
-$ vim <span class="hljs-keyword">lib</span>/simplegit.rb
-$ git commit -am <span class="hljs-comment">'add limit to log function'</span>
-[featureA <span class="hljs-number">3300904</span>] add limit <span class="hljs-keyword">to</span> log <span class="hljs-keyword">function</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+Switched to a new branch &quot;featureA&quot;
+$ vim lib/simplegit.rb
+$ git commit -am &#39;add limit to log function&#39;
+[featureA 3300904] add limit to log function
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><p>На этом этапе ей требуется поделиться своей работой с Джоном, так что она отправляет коммиты, выполненные на ветке <code>featureA</code>, на сервер. Так как Джессика не имеет права на изменение ветки <code>master</code> на сервере — только менеджеры по интеграции могут делать это — она вынуждена отправлять свои изменения в другую ветку, чтобы обмениваться работой с Джоном:</p>
 <pre><code>$ git push origin featureA
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
  * [new branch]      featureA -&gt; featureA
 </code></pre><p>Джессика сообщает по электронной почте Джону, что она выложила некоторые наработки в ветку <code>featureA</code>, и что он может проверить их. Пока Джессика ждёт ответа от Джона, она решает начать работу над веткой <code>featureB</code> вместе с Джози. Для начала она создаёт новую ветку для этой задачи, используя в качестве основы ветку <code>master</code> на сервере:</p>
-<pre><code><span class="hljs-comment"># Машина Джессики</span>
+<pre><code># Машина Джессики
 $ git fetch origin
 $ git checkout -b featureB origin/master
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"featureB"</span>
+Switched to a new branch &quot;featureB&quot;
 </code></pre><p>Теперь Джессика делает пару коммитов в ветке <code>featureB</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>vim lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'made the ls-tree function recursive'</span>
+<pre><code>$ vim lib/simplegit.rb
+$ git commit -am &#39;made the ls-tree function recursive&#39;
 [featureB e5b0fdc] made the ls-tree function recursive
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
-<span class="hljs-variable">$ </span>vim lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'add ls-files'</span>
-[featureB <span class="hljs-number">8512791</span>] add ls-files
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">5</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+$ vim lib/simplegit.rb
+$ git commit -am &#39;add ls-files&#39;
+[featureB 8512791] add ls-files
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 </code></pre><p>Репозиторий Джессики выглядит, как показано на рисунке 5-12.</p>
 <p><img src="http://git-scm.com/figures/18333fig0512-tn.png" alt=""></p>
 <p>Рисунок 5-12. Исходная история коммитов у Джессики.</p>
 <p>Джессика уже готова отправить свою работу на сервер, но получает от Джози сообщение о том, что некоторые наработки уже были выложены на сервер в ветку <code>featureBee</code>. Поэтому Джессика должна сначала слить эти изменения со своими, прежде чем она сможет отправить свою работу на сервер. Она может извлечь изменения Джози командой <code>git fetch</code>:</p>
 <pre><code>$ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From jessica@githost:simplegit
  * [new branch]      featureBee -&gt; origin/featureBee
 </code></pre><p>Теперь Джессика может слить эти изменения в свои наработки командой <code>git merge</code>:</p>
 <pre><code>$ git merge origin/featureBee
-<span class="hljs-keyword">Auto</span>-merging <span class="hljs-keyword">lib</span>/simplegit.rb
-Merge made <span class="hljs-keyword">by</span> recursive.
- <span class="hljs-keyword">lib</span>/simplegit.rb |    <span class="hljs-number">4</span> ++++
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">4</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+Auto-merging lib/simplegit.rb
+Merge made by recursive.
+ lib/simplegit.rb |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 </code></pre><p>Есть небольшая проблема — ей нужно выложить изменения из своей ветки <code>featureB</code> в ветку <code>featureBee</code> на сервере. Она может сделать это при помощи команды <code>git push</code>, указав название локальной и удалённой ветки, разделённые двоеточием:</p>
 <pre><code>$ git push origin featureB:featureBee
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
    fba9af8..cd685d1  featureB -&gt; featureBee
 </code></pre><p>Это называется <em>refspec</em>. Смотри главу 9, где более детально обсуждаются спецификации ссылок и различные вещи, которые вы можете делать с ними.</p>
 <p>Далее, Джон сообщает Джессике по почте, что он добавил некоторые изменения в ветку <code>featureA</code> и просит её проверить их. Она выполняет <code>git fetch</code>, чтобы получить внесённые Джоном изменения:</p>
 <pre><code>$ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From jessica@githost:simplegit
-   <span class="hljs-number">3300904.</span>.aad881d  featureA   -&gt; origin/featureA
+   3300904..aad881d  featureA   -&gt; origin/featureA
 </code></pre><p>Затем, используя команду <code>git log</code>, она смотрит, что же было изменено:</p>
 <pre><code>$ git log origin/featureA ^featureA
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
+commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
 Author: John Smith &lt;jsmith@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri May <span class="hljs-number">29</span> <span class="hljs-number">19</span>:<span class="hljs-number">57</span>:<span class="hljs-number">33</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Fri May 29 19:57:33 2009 -0700
 
-    changed log <span class="hljs-keyword">output</span> <span class="hljs-keyword">to</span> <span class="hljs-number">30</span> <span class="hljs-keyword">from</span> <span class="hljs-number">25</span></span>
+    changed log output to 30 from 25
 </code></pre><p>Наконец, она сливает работу Джона в свою собственную ветку <code>featureA</code>:</p>
 <pre><code>$ git checkout featureA
-Switched <span class="hljs-built_in">to</span> branch <span class="hljs-string">"featureA"</span>
-$ git <span class="hljs-built_in">merge</span> origin/featureA
-Updating <span class="hljs-number">3300904.</span>.aad881d
+Switched to branch &quot;featureA&quot;
+$ git merge origin/featureA
+Updating 3300904..aad881d
 Fast forward
- lib/simplegit.rb |   <span class="hljs-number">10</span> +++++++++-
-<span class="hljs-number">1</span> <span class="hljs-built_in">files</span> changed, <span class="hljs-number">9</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ lib/simplegit.rb |   10 +++++++++-
+1 files changed, 9 insertions(+), 1 deletions(-)
 </code></pre><p>Джессика хочет кое-что подправить, так что она опять делает коммит и затем отправляет изменения на сервер:</p>
-<pre><code>$ git commit -am <span class="hljs-string">'small tweak'</span>
+<pre><code>$ git commit -am &#39;small tweak&#39;
 [featureA 774b3ed] small tweak
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 $ git push origin featureA
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
-   <span class="hljs-number">3300904.</span>.774b3ed  featureA -&gt; featureA
+   3300904..774b3ed  featureA -&gt; featureA
 </code></pre><p>История коммитов Джессики теперь выглядит так, как показано на рисунке 5-13.</p>
 <p><img src="http://git-scm.com/figures/18333fig0513-tn.png" alt=""></p>
 <p>Рисунок 5-13. История Джессики после внесения коммитов в ветку с решаемой задачей.</p>
@@ -1083,60 +1086,60 @@ To jessica@githost:simplegit.git
 <h2 id="-">Небольшой открытый проект</h2>
 <p>Внести вклад в открытый проект — это немного другое. Из-за того, что у вас нет прав на прямое изменение веток проекта, требуется какой-нибудь другой путь для обмена наработками с мейнтейнерами. Первый пример описывает участие в проекте через разветвление (fork) на Git-хостингах, на которых это делается достаточно просто. Сайты repo.or.cz и GitHub оба поддерживают такую возможность, и большая часть мейнтейнеров проектов придерживаются такого способа сотрудничества. В следующем разделе рассматриваются проекты, которые предпочитают принимать патчи по e-mail.</p>
 <p>Сначала вы скорее всего захотите склонировать основной репозиторий, создать тематическую ветку для одного или нескольких патчей, которые вы собираетесь внести в проект, и выполнить свою работу в ней. Последовательность действий выглядит следующим образом:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone (url)
-<span class="hljs-variable">$ </span>cd project
-<span class="hljs-variable">$ </span>git checkout -b featureA
-<span class="hljs-variable">$ </span>(выполнение работы)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>(выполнение работы)
-<span class="hljs-variable">$ </span>git commit
+<pre><code>$ git clone (url)
+$ cd project
+$ git checkout -b featureA
+$ (выполнение работы)
+$ git commit
+$ (выполнение работы)
+$ git commit
 </code></pre><p>Возможно, у вас возникнет желание воспользоваться <code>rebase -i</code>, чтобы сплющить (squash) свои наработки в единый коммит, или реорганизовать наработки в коммитах таким образом, чтобы их было проще воспринимать мейнтейнерам проекта — об интерактивном перемещении будет рассказано в главе 6.</p>
 <p>Если вы закончили работу со своей веткой и готовы поделиться наработками с мейнтейнерами, перейдите на страницу исходного проекта и нажмите кнопку &quot;Fork&quot;, создав таким образом свою собственную копию проекта, доступную на запись. Затем вам нужно добавить URL этого нового репозитория в список удалённых репозиториев, в нашем случае мы назовём его <code>myfork</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote add myfork (url)
+<pre><code>$ git remote add myfork (url)
 </code></pre><p>Вам нужно отправить свои наработки в этот репозиторий. Проще всего будет отправить в удалённый репозиторий ту ветку, над которой вы работаете, а не сливать её в ветку <code>master</code> и отправлять потом её. Это объясняется следующим образом — если ваша работа не будет принята или будет принята только частично, вам не придётся откатывать назад свою ветку <code>master</code>. Если мейнтейнеры сольют, переместят или частично включат вашу работу, вы, в конечном счёте, получите её обратно при получении изменений из их репозитория:</p>
-<pre><code><span class="hljs-variable">$ </span>git push myfork featureA
+<pre><code>$ git push myfork featureA
 </code></pre><p>Когда ваши наработки будут отправлены в ваш форк, вам нужно будет послать уведомление мейнтейнеру. Его часто называют запросом на включение (pull request), вы можете либо сгенерировать его через сайт — на GitHub&#39;е есть кнопка &quot;pull request&quot;, автоматически уведомляющая мейнтейнера, либо выполнить команду <code>git request-pull</code> и вручную отправить её вывод по почте мейнтейнеру.</p>
 <p>Команда <code>request-pull</code> принимает в качестве аргумента имя базовой ветки, в которую вы хотите включить свою работу, и URL репозитория, из которого мейнтейнер может получить ваши наработки. Команда выводит короткую сводку всех изменений, которые вы просите включить в проект. Например, если Джессика хочет послать Джону запрос на включение, когда она сделала пару коммитов в тематической ветке и уже отправила её на сервер, ей следует выполнить следующее:</p>
 <pre><code>$ git request-pull origin/master myfork
-The following changes since commit <span class="hljs-number">1</span>edee6b1d61823a2de3b09c160d7080b8d1b3a40:
-  John Smith (<span class="hljs-number">1</span>):
-        added <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
+The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
+  John Smith (1):
+        added a new function
 
-are available <span class="hljs-operator">in</span> <span class="hljs-operator">the</span> git repository <span class="hljs-keyword">at</span>:
+are available in the git repository at:
 
   git://githost/simplegit.git featureA
 
-Jessica Smith (<span class="hljs-number">2</span>):
-      <span class="hljs-built_in">add</span> limit <span class="hljs-built_in">to</span> <span class="hljs-built_in">log</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
-      change <span class="hljs-built_in">log</span> output <span class="hljs-built_in">to</span> <span class="hljs-number">30</span> <span class="hljs-built_in">from</span> <span class="hljs-number">25</span>
+Jessica Smith (2):
+      add limit to log function
+      change log output to 30 from 25
 
- lib/simplegit.rb |   <span class="hljs-number">10</span> +++++++++-
- <span class="hljs-number">1</span> <span class="hljs-built_in">files</span> changed, <span class="hljs-number">9</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ lib/simplegit.rb |   10 +++++++++-
+ 1 files changed, 9 insertions(+), 1 deletions(-)
 </code></pre><p>Вывод может быть отправлен мейнтейнеру — он содержит список коммитов, информацию о том, где начинается ветка с изменениями, и указывает, откуда можно забрать эти изменения.</p>
 <p>Для проекта, мейнтейнером которого вы не являетесь, проще иметь ветку <code>master</code>, которая отслеживает ветку <code>origin/master</code>, и выполнять работу в тематических ветках, которые вы легко сможете удалить, в случае если они будут отклонены. Если вы распределяете свои наработки по различным темам в тематических ветках, вам будет проще выполнить перемещение своей работы, в случае если верхушка главного репозитория переместится за время работы и ваши коммиты уже не получится применить без конфликтов. Например, если вы планируете отправить в проект работу по другой теме, не продолжайте работать внутри тематической ветки, которую вы только что отправили, начните снова с ветки <code>master</code> главного репозитория:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b featureB origin/master
-<span class="hljs-variable">$ </span>(выполнение работы)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>git push myfork featureB
-<span class="hljs-variable">$ </span>(отправка письма мейнтейнеру)
-<span class="hljs-variable">$ </span>git fetch origin
+<pre><code>$ git checkout -b featureB origin/master
+$ (выполнение работы)
+$ git commit
+$ git push myfork featureB
+$ (отправка письма мейнтейнеру)
+$ git fetch origin
 </code></pre><p>Теперь каждая из ваших тем представляет собой нечто похожее на очередь из патчей, которую вы можете перезаписывать, перемещать, модифицировать, не оказывая влияния на остальные, как на рисунке 5-16.</p>
 <p><img src="http://git-scm.com/figures/18333fig0516-tn.png" alt=""></p>
 <p>Рисунок 5-16. Исходная история коммитов при работе над featureB.</p>
 <p>Давайте представим, что мейнтейнер проекта включил в основную версию чью-то группу патчей. Затем он попытался включить вашу первую ветку, но слияние уже не проходит гладко. В этом случае вы можете попробовать переместить эту ветку на верхушку ветки <code>origin/master</code>, разрешить конфликты для мейнтейнера и затем заново представить свои изменения на рассмотрение:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout featureA
-<span class="hljs-variable">$ </span>git rebase origin/master
-<span class="hljs-variable">$ </span>git push -f myfork featureA
+<pre><code>$ git checkout featureA
+$ git rebase origin/master
+$ git push -f myfork featureA
 </code></pre><p>Так вы перепишете свою историю коммитов, чтобы она выглядела так, как на рисунке 5-17.</p>
 <p><img src="http://git-scm.com/figures/18333fig0517-tn.png" alt=""></p>
 <p>Рисунок 5-17. История коммитов после работы в featureA.</p>
 <p>Так как вы переместили ветку, команде push вы должны передать опцию <code>-f</code>, чтобы иметь возможность заменить ветку <code>featureA</code> на сервере. Есть альтернатива — выложить новую работу на сервер в другую ветку (возможно, назвав её <code>featureAv2</code>).</p>
 <p>Давайте рассмотрим более вероятный сценарий: мейнтейнер просмотрел вашу работу во второй ветке, и ему понравилась ваша идея, но он хотел бы, чтобы вы изменили некоторые детали реализации. Воспользуемся этой возможностью, чтобы заодно переместить вашу работу так, чтобы она базировалась на текущей версии ветки <code>master</code> в проекте. Создадим новую ветку, базирующуюся на текущей ветке <code>origin/master</code>, уплотним (squash) здесь изменения из ветки <code>featureB</code>, разрешим все конфликты, которые могут возникнуть, сделаем необходимые изменения в реализации вашей идеи и затем выложим всё это в виде новой ветки:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b featureBv2 origin/master
-<span class="hljs-variable">$ </span>git merge --no-commit --squash featureB
-<span class="hljs-variable">$ </span>(изменение реализации)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>git push myfork featureBv2
+<pre><code>$ git checkout -b featureBv2 origin/master
+$ git merge --no-commit --squash featureB
+$ (изменение реализации)
+$ git commit
+$ git push myfork featureBv2
 </code></pre><p>Опция <code>--squash</code> берёт всю работу на сливаемой ветке (featureB) и сжимает её в один коммит, не являющийся коммитом-слиянием, и помещает его на верхушку текущей ветки. Опция <code>--no-commit</code> сообщает Git&#39;у, что не нужно автоматически записывать коммит. Это позволит вам внести все изменения с другой ветки и затем сделать ещё ряд изменений перед записью нового коммита.</p>
 <p>Теперь вы можете отправить мейнтейнеру сообщение о том, что вы сделали требуемые изменения, и они могут быть найдены в вашей ветке <code>featureBv2</code> (см. рис. 5-18).</p>
 <p><img src="http://git-scm.com/figures/18333fig0518-tn.png" alt=""></p>
@@ -1144,74 +1147,74 @@ Jessica Smith (<span class="hljs-number">2</span>):
 <h2 id="-">Большой открытый проект</h2>
 <p>Во многих крупных проектах есть установленные процедуры принятия патчей — вам потребуется выяснить точные правила для каждого проекта отдельно, так как они везде разные. Однако, многие крупные открытые проекты принимают патчи через списки рассылки для разработчиков, так что мы сейчас рассмотрим пример использования этого способа.</p>
 <p>Рабочий процесс похож на описанный ранее — вы создаёте тематическую ветку для каждой серии патчей, над которой работаете. Отличие состоит в процессе внесения этих изменений в проект. Вместо того, чтобы создавать ответвление (fork) от проекта и отправлять наработки в свой собственный репозиторий с правами на запись, вы генерируете e-mail версию каждой серии коммитов и отправляете её в список рассылки для разработчиков:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b topicA
-<span class="hljs-variable">$ </span>(выполнение работы)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>(выполнение работы)
-<span class="hljs-variable">$ </span>git commit
+<pre><code>$ git checkout -b topicA
+$ (выполнение работы)
+$ git commit
+$ (выполнение работы)
+$ git commit
 </code></pre><p>Теперь у нас есть два коммита, которые нужно отправить в список рассылки. Воспользуемся командой <code>git format-patch</code>, чтобы сгенерировать файлы в формате mbox, которые вы сможете отправить по почте. Эта команда превращает каждый коммит в электронное письмо, темой которого является первая строка сообщения коммита, а оставшаяся часть сообщения коммита и патч, который он представляет, являются телом письма. Хорошей особенностью этого является то, что применение патча из сгенерированного командой <code>format-patch</code> электронного письма сохраняет всю информацию о коммите. Мы увидим это в следующем разделе, когда будем применять такие патчи:</p>
-<pre><code>$ git format<span class="hljs-attribute">-patch</span> <span class="hljs-attribute">-M</span> origin/master
-<span class="hljs-number">0001</span><span class="hljs-attribute">-add</span><span class="hljs-attribute">-limit</span><span class="hljs-attribute">-to</span><span class="hljs-attribute">-log</span><span class="hljs-attribute">-function</span><span class="hljs-built_in">.</span>patch
-<span class="hljs-number">0002</span><span class="hljs-attribute">-changed</span><span class="hljs-attribute">-log</span><span class="hljs-attribute">-output</span><span class="hljs-attribute">-to</span><span class="hljs-subst">-</span><span class="hljs-number">30</span><span class="hljs-attribute">-from</span><span class="hljs-subst">-</span><span class="hljs-number">25.</span>patch
+<pre><code>$ git format-patch -M origin/master
+0001-add-limit-to-log-function.patch
+0002-changed-log-output-to-30-from-25.patch
 </code></pre><p>Команда <code>format-patch</code> создаёт файлы с патчами и выводит их названия. Опция <code>-M</code> сообщает Git&#39;у о необходимости отслеживания переименований файлов. Итоговые патчи выглядят так:</p>
-<pre><code>$ cat <span class="hljs-number">0001</span>-<span class="hljs-built_in">add</span>-limit-<span class="hljs-built_in">to</span>-<span class="hljs-built_in">log</span>-<span class="hljs-function"><span class="hljs-keyword">function</span>.<span class="hljs-title">patch</span></span>
-From <span class="hljs-number">330090432754092</span>d704da8e76ca5c05c198e71a8 Mon Sep <span class="hljs-number">17</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2001</span>
+<pre><code>$ cat 0001-add-limit-to-log-function.patch
+From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 From: Jessica Smith &lt;jessica@example.com&gt;
-Date: Sun, <span class="hljs-number">6</span> Apr <span class="hljs-number">2008</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> -<span class="hljs-number">0700</span>
-Subject: [PATCH <span class="hljs-number">1</span>/<span class="hljs-number">2</span>] <span class="hljs-built_in">add</span> limit <span class="hljs-built_in">to</span> <span class="hljs-built_in">log</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
+Date: Sun, 6 Apr 2008 10:17:23 -0700
+Subject: [PATCH 1/2] add limit to log function
 
-Limit <span class="hljs-built_in">log</span> functionality <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> <span class="hljs-number">20</span>
+Limit log functionality to the first 20
 
-<span class="hljs-comment">---</span>
- lib/simplegit.rb |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> <span class="hljs-built_in">files</span> changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+---
+ lib/simplegit.rb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff <span class="hljs-comment">--git a/lib/simplegit.rb b/lib/simplegit.rb</span>
-index <span class="hljs-number">76</span>f47bc..f9815f1 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/lib/simplegit.rb</span>
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index 76f47bc..f9815f1 100644
+--- a/lib/simplegit.rb
 +++ b/lib/simplegit.rb
-@@ -<span class="hljs-number">14</span>,<span class="hljs-number">7</span> +<span class="hljs-number">14</span>,<span class="hljs-number">7</span> @@ class SimpleGit
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -14,7 +14,7 @@ class SimpleGit
+   end
 
-   def <span class="hljs-built_in">log</span>(treeish = <span class="hljs-string">'master'</span>)
--    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log #{treeish}"</span>)</span>
-+    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log -n 20 #{treeish}"</span>)</span>
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+   def log(treeish = &#39;master&#39;)
+-    command(&quot;git log #{treeish}&quot;)
++    command(&quot;git log -n 20 #{treeish}&quot;)
+   end
 
-   def ls_tree(treeish = <span class="hljs-string">'master'</span>)
-<span class="hljs-comment">--</span>
-<span class="hljs-number">1.6</span><span class="hljs-number">.2</span>.rc1<span class="hljs-number">.20</span>.g8c5b.dirty
+   def ls_tree(treeish = &#39;master&#39;)
+--
+1.6.2.rc1.20.g8c5b.dirty
 </code></pre><p>Вы также можете отредактировать эти файлы с патчами, чтобы добавить в электронное письмо какую-то информацию, которую вы не хотите показывать в сообщении коммита. Если вы добавите текст между строкой <code>---</code> и началом патча (строка <code>lib/simplegit.rb</code>), то разработчик сможет его прочитать, а при применении патча он будет выброшен.</p>
 <p>Чтобы отправить эти файлы в список рассылки, вы можете либо вставить файл в своём почтовом клиенте, либо отправить его через специальную программу из командной строки. Вставка текста часто приводит к ошибкам форматирования, особенно в &quot;умных&quot; клиентах, которые не сохраняют символы перевода строки и пробельные символы в исходном виде. К счастью, Git предоставляет инструмент, позволяющий вам передавать через IMAP правильно отформатированные патчи. Для вас применение этого инструмента может оказаться более простым. Я покажу, как отсылать патчи через Gmail, так как именно этот агент я и использую; вы можете прочесть подробные инструкции для множества почтовых программ в вышеупомянутом файле <code>Documentation/SubmittingPatches</code>, находящемся в исходном коде Git&#39;а.</p>
 <p>Для начала нам необходимо настроить секцию imap в файле <code>~/.gitconfig</code>. Можете добавить все значения по одному несколькими командами <code>git config</code>, или можете добавить их все сразу вручную; но в итоге ваш файл конфигурации должен выглядеть примерно так:</p>
 <pre><code>[imap]
-  folder = <span class="hljs-string">"[Gmail]/Drafts"</span>
-  host = imaps:<span class="hljs-comment">//imap.gmail.com</span>
-  user = user<span class="hljs-annotation">@gmail</span>.com
+  folder = &quot;[Gmail]/Drafts&quot;
+  host = imaps://imap.gmail.com
+  user = user@gmail.com
   pass = p4ssw0rd
-  port = <span class="hljs-number">993</span>
-  sslverify = <span class="hljs-keyword">false</span>
+  port = 993
+  sslverify = false
 </code></pre><p>Если ваш IMAP-сервер не использует SSL, две последние строки могут отсутствовать, а параметр host примет значение <code>imap://</code> вместо <code>imaps://</code>.
 Когда закончите с настройками, воспользуйтесь командой <code>git send-email</code>, чтобы поместить свою серию патчей в папку Drafts на указанном IMAP-сервере:</p>
-<pre><code>$ git <span class="hljs-built_in">send</span>-email *.patch
-<span class="hljs-number">0001</span>-added-limit-<span class="hljs-built_in">to</span>-<span class="hljs-built_in">log</span>-<span class="hljs-function"><span class="hljs-keyword">function</span>.<span class="hljs-title">patch</span></span>
-<span class="hljs-number">0002</span>-changed-<span class="hljs-built_in">log</span>-output-<span class="hljs-built_in">to</span>-<span class="hljs-number">30</span>-<span class="hljs-built_in">from</span>-<span class="hljs-number">25.</span>patch
-Who should <span class="hljs-operator">the</span> emails appear <span class="hljs-built_in">to</span> be <span class="hljs-built_in">from</span>? [Jessica Smith &lt;jessica@example.com&gt;]
-Emails will be sent <span class="hljs-built_in">from</span>: Jessica Smith &lt;jessica@example.com&gt;
-Who should <span class="hljs-operator">the</span> emails be sent <span class="hljs-built_in">to</span>? jessica@example.com
-Message-ID <span class="hljs-built_in">to</span> be used <span class="hljs-keyword">as</span> In-Reply-To <span class="hljs-keyword">for</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> email? y
+<pre><code>$ git send-email *.patch
+0001-added-limit-to-log-function.patch
+0002-changed-log-output-to-30-from-25.patch
+Who should the emails appear to be from? [Jessica Smith &lt;jessica@example.com&gt;]
+Emails will be sent from: Jessica Smith &lt;jessica@example.com&gt;
+Who should the emails be sent to? jessica@example.com
+Message-ID to be used as In-Reply-To for the first email? y
 </code></pre><p>Затем Git выдаёт кучу служебных сообщений, которые для каждого отсылаемого патча выглядят следующим образом:</p>
-<pre><code>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; <span class="hljs-keyword">from</span>
-  \line <span class="hljs-comment">'From: Jessica Smith <span class="hljs-xmlDocTag">&lt;jessica@example.com&gt;</span>'</span>
+<pre><code>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from
+  \line &#39;From: Jessica Smith &lt;jessica@example.com&gt;&#39;
 OK. Log says:
 Sendmail: /usr/sbin/sendmail -i jessica@example.com
-<span class="hljs-keyword">From</span>: Jessica Smith &lt;jessica@example.com&gt;
-<span class="hljs-keyword">To</span>: jessica@example.com
-Subject: [PATCH <span class="hljs-number">1</span>/<span class="hljs-number">2</span>] added limit <span class="hljs-keyword">to</span> log <span class="hljs-keyword">function</span>
-<span class="hljs-built_in">Date</span>: Sat, <span class="hljs-number">30</span> May <span class="hljs-number">2009</span> <span class="hljs-number">13</span>:<span class="hljs-number">29</span>:<span class="hljs-number">15</span> -<span class="hljs-number">0700</span>
-Message-Id: &lt;<span class="hljs-number">1243715356</span>-<span class="hljs-number">61726</span>-<span class="hljs-number">1</span>-git-send-email-jessica@example.com&gt;
-X-Mailer: git-send-email <span class="hljs-number">1.6</span><span class="hljs-number">.2</span>.rc1<span class="hljs-number">.20</span>.g8c5b.dirty
-<span class="hljs-keyword">In</span>-Reply-<span class="hljs-keyword">To</span>: &lt;y&gt;
+From: Jessica Smith &lt;jessica@example.com&gt;
+To: jessica@example.com
+Subject: [PATCH 1/2] added limit to log function
+Date: Sat, 30 May 2009 13:29:15 -0700
+Message-Id: &lt;1243715356-61726-1-git-send-email-jessica@example.com&gt;
+X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
+In-Reply-To: &lt;y&gt;
 References: &lt;y&gt;
 
 Result: OK
@@ -1236,9 +1239,9 @@ Result: OK
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

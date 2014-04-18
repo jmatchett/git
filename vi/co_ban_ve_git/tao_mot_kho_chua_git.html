@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397503670765">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,25 +367,25 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_252">
+                    <section class="normal" id="section-gitbook_226">
                     
                         <h1 id="t-o-m-t-kho-ch-a-git">Tạo Một Kho Chứa Git</h1>
 <p>Bạn có thể tạo một dự án có sử dụng Git dựa theo hai phương pháp chính. Thứ nhất là dùng một dự án hay một thư mục đã có sẵn để nhập (import) vào Git. Thứ hai là tạo bản sao của một kho chứa Git đang hoạt động trên một máy chủ khác.</p>
 <h2 id="kh-i-t-o-m-t-kho-ch-a-t-th-m-c-c-">Khởi Tạo Một Kho Chứa Từ Thư Mục Cũ</h2>
 <p>Nếu như bạn muốn theo dõi một dự án cũ trong Git, bạn cần ở trong thư mục của dự án đó và gõ lệnh sau:</p>
-<pre><code><span class="hljs-variable">$ </span>git init
+<pre><code>$ git init
 </code></pre><p>Lệnh này sẽ tạo một thư mục mới có tên <code>.git</code>, thư mục này chứa tất cả các tập tin cần thiết cho kho chứa - đó chính là bộ khung/xương của kho chứa Git. Cho tới thời điểm hiện tại, vẫn chưa có gì trong dự án của bạn được theo dõi (track) hết. (Xem <em>Chương 9</em> để biết chính xác những tập tin gì có trong thư mục <code>.git</code> bạn vừa tạo.)</p>
 <p>Nếu bạn muốn kiếm soát phiên bản cho các tập tin có sẵn (đối lập với một thư mục trống), chắc chắn bạn nên bắt đầu theo dõi các tập tin đó và thực hiện commit đầu tiên/khởi tạo (initial commit). Bạn có thể hoàn thành việc này bằng cách chỉ định tập tin bạn muốn theo dõi trong mỗi lần commit sử dụng câu lệnh <code>git add</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git add *.c
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'phiên bản đầu tiên/khởi tạo của dự án'</span>
+<pre><code>$ git add *.c
+$ git add README
+$ git commit -m &#39;phiên bản đầu tiên/khởi tạo của dự án&#39;
 </code></pre><p>Chúng ta sẽ xem những lệnh này thực hiện những gì trong chốc lát nữa. Bâu giờ thì bạn đã có một kho chứ Git với các tập tin đã được theo dõi và một lần commit đầu tiên.</p>
 <h2 id="sao-ch-p-m-t-kho-ch-a-t-n-t-i">Sao Chép Một Kho Chứa Đã Tồn Tại</h2>
 <p>Nếu như bạn muốn có một bản sao của một kho chứa Git có sẵn - ví dụ như, một dự án mà bạn muốn đóng góp vào - câu lệnh bạn cần là <code>git clone</code>. Nếu như bạn đã quen thuộc với các hệ thống VCS khác như là Subversion, bạn sẽ nhận ra rằng câu lệnh này là <code>clone</code> chứ không phải <code>checkout</code>. Đây là một sự khác biệt lớn - Git nhận một bản sao của gần như tất cả dữ liệu mà máy chủ đang có. Mỗi phiên bản của mỗi tập tin sử dụng cho lịch sử của dự án được kéo về khi bạn chạy <code>git clone</code>. Thực tế, nếu ổ cứng máy chủ bị hư hỏng, bạn có thể sử dụng bất kỳ bản sao trên bất kỳ máy khách nào để khôi phục lại trạng thái của máy chủ khi nó được sao chép (bạn có thể mất một số tập tin phía máy chủ, nhưng tất cả phiên bản của dữ liệu vẫn tồn tại ở đó - xem chi tiết ở <em>Chương 4</em>).</p>
 <p>Sử dụng lệnh <code>git clone [url]</code> để sao chép một kho chứa. Ví dụ, nếu bạn muốn tạo một bản sao của thư viện Ruby Git có tên Grit, bạn có thể thực hiện như sau:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git
 </code></pre><p>Một thư mục mới có tên <code>grit</code> sẽ được tạo, kèm theo thư mục <code>.git</code> và bản sao mới nhất của tất cả dữ liệu của kho chứa đó bên trong. Nếu bạn xem bên trong thư mục <code>grit</code>, bạn sẽ thấy các tập tin của dự án bên trong, và đã sẵn sàng cho bạn làm việc hoặc sử dụng. Nếu bạn muốn sao chép kho chứa này vào một thư mục có tên khác không phải là grit, bạn có thể chỉ định tên thư mục đó như là một tuỳ chọn tiếp theo khi chạy dòng lệnh:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git mygrit</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git mygrit
 </code></pre><p>Lệnh này thực thi tương tự như lệnh trước, nhưng thư mục của kho chứa lúc này sẽ có tên là <code>mygrit</code>.</p>
 <p>Bạn có thể sử dụng Git thông qua một số &quot;giao thức truyền tải&quot; (transfer protocol) khác nhau. Ví dụ trước sử dụng giao thức <code>git://</code>, nhưng bạn cũng có thể sử dụng <code>http(s)://</code> hoặc <code>user@server:/path.git</code> thông qua giao thức SSH. <em>Chương 4</em> sẽ giới thiệu tất cả các tuỳ chọn áp dụng trên máy chủ để nó có thể truy cập vào kho chứa Git của bạn cũng như từng ưu và nhược điểm riêng của chúng.</p>
 
@@ -403,9 +406,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

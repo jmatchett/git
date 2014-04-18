@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="5.3" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="5.3" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_625">
+                    <section class="normal" id="section-gitbook_838">
                     
                         <h1 id="maintenance-d-un-projet">Maintenance d&#39;un projet</h1>
 <p>En plus de savoir comment contribuer efficacement à un projet, vous aurez probablement besoin de savoir comment en maintenir un.
@@ -856,9 +859,9 @@ De cette manière, il est plus facile de rectifier un patch à part et de le lai
 Si vous créez une simple branche nommée d&#39;après le thème de la modification que vous allez essayer, telle que <code>ruby_client</code> ou quelque chose d&#39;aussi descriptif, vous pouvez vous en souvenir simplement plus tard.
 Le mainteneur du projet Git a l&#39;habitude d&#39;utiliser des espaces de nommage pour ses branches, tels que <code>sc/ruby_client</code>, où <code>sc</code> représente les initiales de la personne qui a contribué les modifications.
 Comme vous devez vous en souvenir, on crée une branche à part du master de la manière suivante :</p>
-<pre><code><span class="hljs-variable">$ </span>git branch sc/ruby_client master
+<pre><code>$ git branch sc/ruby_client master
 </code></pre><p>Ou bien, si vous voulez aussi basculer immédiatement dessus, vous pouvez utiliser l&#39;option <code>checkout -b</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b sc/ruby_client master
+<pre><code>$ git checkout -b sc/ruby_client master
 </code></pre><p>Vous voilà maintenant prêt à ajouter les modifications sur cette branche thématique et à déterminer si c&#39;est prêt à être fusionné dans les branches au long cours.</p>
 <h2 id="application-des-patchs-partir-d-e-mail">Application des patchs à partir d&#39;e-mail</h2>
 <p>Si vous recevez par e-mail un patch que vous devez intégrer à votre projet, vous avez besoin d&#39;appliquer le patch dans une branche thématique pour l&#39;évaluer.
@@ -866,7 +869,7 @@ Il existe deux méthodes pour appliquer un patch envoyé par e-mail : <code>git 
 <h3 id="application-d-un-patch-avec-apply-">Application d&#39;un patch avec <code>apply</code></h3>
 <p>Si vous avez reçu le patch de quelqu&#39;un qui l&#39;a généré avec la commande <code>git diff</code> ou <code>diff</code> Unix, vous pouvez l&#39;appliquer avec la commande <code>git apply</code>.
 Si le patch a été sauvé comme fichier <code>/tmp/patch-ruby-client.patch</code>, vous pouvez l&#39;appliquer comme ceci :</p>
-<pre><code>$ git apply /tmp/<span class="hljs-keyword">patch</span>-ruby-client.<span class="hljs-keyword">patch</span>
+<pre><code>$ git apply /tmp/patch-ruby-client.patch
 </code></pre><p>Les fichiers dans votre copie de travail sont modifiés.
 C&#39;est quasiment identique à la commande <code>patch -p1</code> qui applique directement les patchs mais en plus paranoïaque et moins tolérant sur les concordances approximatives.
 Les ajouts, effacements et renommages de fichiers sont aussi gérés s&#39;ils sont décrits dans le format <code>git diff</code>, ce que <code>patch</code> ne supporte pas.
@@ -874,9 +877,9 @@ Enfin, <code>git apply</code> fonctionne en mode « applique tout ou refuse tout
 <code>git apply</code> est par dessus tout plus paranoïaque que <code>patch</code>.
 Il ne créera pas une validation à votre place : après l&#39;avoir lancé, vous devrez indexer et valider les modifications manuellement.</p>
 <p>Vous pouvez aussi utiliser <code>git apply</code> pour voir si un patch s&#39;applique proprement avant de réellement l&#39;appliquer — vous pouvez lancer <code>git apply --check</code> avec le patch :</p>
-<pre><code>$ git apply <span class="hljs-subst">--</span>check <span class="hljs-number">0001</span><span class="hljs-attribute">-seeing</span><span class="hljs-attribute">-if</span><span class="hljs-attribute">-this</span><span class="hljs-attribute">-helps</span><span class="hljs-attribute">-the</span><span class="hljs-attribute">-gem</span><span class="hljs-built_in">.</span>patch
-error: patch failed: ticgit<span class="hljs-built_in">.</span>gemspec:<span class="hljs-number">1</span>
-error: ticgit<span class="hljs-built_in">.</span>gemspec: patch does <span class="hljs-literal">not</span> apply
+<pre><code>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
 </code></pre><p>S&#39;il n&#39;y pas de message, le patch devrait s&#39;appliquer proprement.
 Cette commande se termine avec un statut non-nul si la vérification échoue et vous pouvez donc l&#39;utiliser dans des scripts.</p>
 <h3 id="application-d-un-patch-avec-am-">Application d&#39;un patch avec <code>am</code></h3>
@@ -886,78 +889,78 @@ Vous ne devriez avoir à n&#39;utiliser <code>git apply</code> que pour les vrai
 <p>Pour appliquer un patch généré par <code>format-patch</code>, vous utilisez <code>git am</code>.
 Techniquement, <code>git am</code> s&#39;attend à lire un fichier au format mbox, qui est un format texte simple permettant de stocker un ou plusieurs messages e-mail dans un unique fichier texte.
 Un fichier ressemble à ceci :</p>
-<pre><code><span class="hljs-keyword">From</span> <span class="hljs-number">330090432754092</span>d704da8e76ca5c05c198e71a8 Mon Sep <span class="hljs-number">17</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2001</span>
-<span class="hljs-keyword">From</span>: Jessica Smith &lt;jessica@example.com&gt;
-<span class="hljs-built_in">Date</span>: Sun, <span class="hljs-number">6</span> Apr <span class="hljs-number">2008</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> -<span class="hljs-number">0700</span>
-Subject: [PATCH <span class="hljs-number">1</span>/<span class="hljs-number">2</span>] Ajout d<span class="hljs-comment">'une limite à la fonction de log</span>
+<pre><code>From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+From: Jessica Smith &lt;jessica@example.com&gt;
+Date: Sun, 6 Apr 2008 10:17:23 -0700
+Subject: [PATCH 1/2] Ajout d&#39;une limite à la fonction de log
 
-Limite la fonctionnalité de log aux <span class="hljs-number">20</span> premières lignes
+Limite la fonctionnalité de log aux 20 premières lignes
 </code></pre><p>C&#39;est le début de ce que la commande <code>format-patch</code> affiche, comme vous avez vu dans la section précédente.
 C&#39;est aussi un format e-mail mbox parfaitement valide.
 Si quelqu&#39;un vous a envoyé par e-mail un patch correctement formaté en utilisant <code>git send-mail</code> et que vous le téléchargez en format mbox, vous pouvez pointer <code>git am</code> sur ce fichier mbox et il commencera à appliquer tous les patchs contenus.
 Si vous utilisez un client e-mail qui sait sauver plusieurs messages au format mbox, vous pouvez sauver la totalité de la série de patchs dans un fichier et utiliser <code>git am</code> pour les appliquer tous en une fois.</p>
 <p>Néanmoins, si quelqu&#39;un a déposé un fichier de patch généré via <code>format-patch</code> sur un système de suivi de faits techniques ou quelque chose de similaire, vous pouvez toujours sauvegarder le fichier localement et le passer à <code>git am</code> pour l&#39;appliquer :</p>
-<pre><code>$ git am <span class="hljs-number">0001</span><span class="hljs-attribute">-limite</span><span class="hljs-attribute">-la</span><span class="hljs-attribute">-fonction</span><span class="hljs-attribute">-de</span><span class="hljs-attribute">-log</span><span class="hljs-built_in">.</span>patch
-Applying:  Ajout d<span class="hljs-string">'une limite à la fonction de log</span>
+<pre><code>$ git am 0001-limite-la-fonction-de-log.patch
+Applying:  Ajout d&#39;une limite à la fonction de log
 </code></pre><p>Vous remarquez qu&#39;il s&#39;est appliqué proprement et a créé une nouvelle validation pour vous.
 L&#39;information d&#39;auteur est extraite des en-têtes <code>From</code> et <code>Date</code> tandis que le message de validation est repris du champ <code>Subject</code> et du corps (avant le patch) du message.
 Par exemple, si le patch est appliqué depuis le fichier mbox ci-dessus, la validation générée ressemblerait à ceci :</p>
-<pre><code>$ git <span class="hljs-command">log</span> <span class="hljs-comment">--pretty=fuller -1</span>
-commit <span class="hljs-number">6</span>c5e70b984a60b3cecd395edd5b48a7575bf58e0
+<pre><code>$ git log --pretty=fuller -1
+commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 Author:     Jessica Smith &lt;jessica@example.com&gt;
-AuthorDate: Sun Apr <span class="hljs-number">6</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+AuthorDate: Sun Apr 6 10:17:23 2008 -0700
 Commit:     Scott Chacon &lt;schacon@gmail.com&gt;
-CommitDate: Thu Apr <span class="hljs-number">9</span> <span class="hljs-number">09</span>:<span class="hljs-number">19</span>:<span class="hljs-number">06</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+CommitDate: Thu Apr 9 09:19:06 2009 -0700
 
-Ajout d'une limite à la fonction de <span class="hljs-command">log</span>
+Ajout d&#39;une limite à la fonction de log
 
-Limite la fonctionnalité de <span class="hljs-command">log</span> aux <span class="hljs-number">20</span> premières lignes
+Limite la fonctionnalité de log aux 20 premières lignes
 </code></pre><p>L&#39;information <code>Commit</code> indique la personne qui a appliqué le patch et la date d&#39;application.
 L&#39;information <code>Author</code> indique la personne qui a créé le patch et la date de création.</p>
 <p>Il reste la possibilité que le patch ne s&#39;applique pas proprement.
 Peut-être votre branche principale a déjà trop divergé de la branche sur laquelle le patch a été construit, ou le patch dépend d&#39;un autre patch qui n&#39;a pas encore été appliqué.
 Dans ce cas, le processus de <code>git am</code> échouera et vous demandera ce que vous souhaitez faire :</p>
-<pre><code>$ git am <span class="hljs-number">0001</span>-seeing-<span class="hljs-keyword">if</span>-this-helps-<span class="hljs-keyword">the</span>-gem.patch
-Applying: seeing <span class="hljs-keyword">if</span> this helps <span class="hljs-keyword">the</span> gem
-<span class="hljs-keyword">error</span>: patch failed: ticgit.gemspec:<span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: ticgit.gemspec: patch <span class="hljs-keyword">does</span> <span class="hljs-keyword">not</span> apply
-Patch failed <span class="hljs-keyword">at</span> <span class="hljs-number">0001.</span>
-When you have resolved this problem <span class="hljs-command">run</span> <span class="hljs-string">"git am --resolved"</span>.
-If you would prefer <span class="hljs-keyword">to</span> skip this patch, instead <span class="hljs-command">run</span> <span class="hljs-string">"git am --skip"</span>.
-To restore <span class="hljs-keyword">the</span> original branch <span class="hljs-keyword">and</span> stop patching <span class="hljs-command">run</span> <span class="hljs-string">"git am --abort"</span>.
+<pre><code>$ git am 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Patch failed at 0001.
+When you have resolved this problem run &quot;git am --resolved&quot;.
+If you would prefer to skip this patch, instead run &quot;git am --skip&quot;.
+To restore the original branch and stop patching run &quot;git am --abort&quot;.
 </code></pre><p>Cette commande introduit des marqueurs de conflit dans tous les fichiers qui ont généré un problème, de la même manière qu&#39;un conflit de fusion ou de rebasage.
 Vous pouvez résoudre les problèmes de manière identique — éditez le fichier pour résoudre les conflits, indexez le nouveau fichier, puis lancez <code>git am --resolved</code> pour continuer avec le patch suivant :</p>
-<pre><code><span class="hljs-variable">$ </span>(correction du fichier)
-<span class="hljs-variable">$ </span>git add ticgit.gemspec
-<span class="hljs-variable">$ </span>git am --resolved
-<span class="hljs-constant">Applying</span><span class="hljs-symbol">:</span> seeing <span class="hljs-keyword">if</span> this helps the gem
+<pre><code>$ (correction du fichier)
+$ git add ticgit.gemspec
+$ git am --resolved
+Applying: seeing if this helps the gem
 </code></pre><p>Si vous souhaitez que Git essaie de résoudre les conflits avec plus d&#39;intelligence, vous pouvez passer l&#39;option <code>-3</code> qui demande à Git de tenter une fusion à trois sources.
 Cette option n&#39;est pas active par défaut parce qu&#39;elle ne fonctionne pas si le <em>commit</em> sur lequel le patch indique être basé n&#39;existe pas dans votre dépôt.
 Si par contre, le patch est basé sur un <em>commit</em> public, l&#39;option <code>-3</code> est généralement beaucoup plus fine pour appliquer des patchs conflictuels :</p>
-<pre><code>$ git am <span class="hljs-subst">-</span><span class="hljs-number">3</span> <span class="hljs-number">0001</span><span class="hljs-attribute">-seeing</span><span class="hljs-attribute">-if</span><span class="hljs-attribute">-this</span><span class="hljs-attribute">-helps</span><span class="hljs-attribute">-the</span><span class="hljs-attribute">-gem</span><span class="hljs-built_in">.</span>patch
-Applying: seeing <span class="hljs-keyword">if</span> this helps the gem
-error: patch failed: ticgit<span class="hljs-built_in">.</span>gemspec:<span class="hljs-number">1</span>
-error: ticgit<span class="hljs-built_in">.</span>gemspec: patch does <span class="hljs-literal">not</span> apply
-Using index info <span class="hljs-keyword">to</span> reconstruct a base tree<span class="hljs-attribute">...</span>
-Falling back <span class="hljs-keyword">to</span> patching base <span class="hljs-literal">and</span> <span class="hljs-number">3</span><span class="hljs-attribute">-way</span> merge<span class="hljs-attribute">...</span>
-No changes <span class="hljs-subst">--</span> Patch already applied<span class="hljs-built_in">.</span>
+<pre><code>$ git am -3 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+No changes -- Patch already applied.
 </code></pre><p>Dans ce cas, je cherchais à appliquer un patch qui avait déjà été intégré.
 Sans l&#39;option <code>-3</code>, cela aurait ressemblé à un conflit.</p>
 <p>Si vous appliquez des patchs à partir d&#39;un fichier mbox, vous pouvez aussi lancer la commande <code>am</code> en mode interactif qui s&#39;arrête à chaque patch trouvé et vous demande si vous souhaitez l&#39;appliquer :</p>
 <pre><code>$ git am -3 -i mbox
-<span class="hljs-header">Commit Body is:
---------------------------</span>
-<span class="hljs-header">seeing if this helps the gem
---------------------------</span>
+Commit Body is:
+--------------------------
+seeing if this helps the gem
+--------------------------
 Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 </code></pre><p>C&#39;est agréable si vous avez un certain nombre de patchs sauvegardés parce que vous pouvez voir les patchs pour vous rafraîchir la mémoire et ne pas les appliquer s&#39;ils ont déjà été intégrés.</p>
 <p>Quand tous les patchs pour votre sujet ont été appliqués et validés dans votre branche, vous pouvez choisir si et comment vous souhaitez les intégrer dans une branche au long cours.</p>
 <h2 id="v-rification-des-branches-distantes">Vérification des branches distantes</h2>
 <p>Si votre contribution a été fournie par un utilisateur de Git qui a mis en place son propre dépôt public sur lequel il a poussé ses modifications et vous a envoyé l&#39;URL du dépôt et le nom de la branche distante, vous pouvez les ajouter en tant que dépôt distant et réaliser les fusions localement.</p>
 <p>Par exemple, si Jessica vous envoie un e-mail indiquant qu&#39;elle a une nouvelle fonctionnalité géniale dans la branche <code>ruby-client</code> de son dépôt, vous pouvez la tester en ajoutant le dépôt distant et en tirant la branche localement :</p>
-<pre><code><span class="hljs-char">$ </span>git remote add jessica <span class="hljs-method">git:</span>//github.com/jessica/monprojet.git
-<span class="hljs-char">$ </span>git fetch jessica
-<span class="hljs-char">$ </span>git checkout -b rubyclient jessica/ruby-client
+<pre><code>$ git remote add jessica git://github.com/jessica/monprojet.git
+$ git fetch jessica
+$ git checkout -b rubyclient jessica/ruby-client
 </code></pre><p>Si elle vous envoie un autre mail indiquant une autre branche contenant une autre fonctionnalité géniale, vous pouvez la récupérer et la tester simplement à partir de votre référence distante.</p>
 <p>C&#39;est d&#39;autant plus utile si vous travaillez en continu avec une personne.
 Si quelqu&#39;un n&#39;a qu&#39;un seul patch à contribuer de temps en temps, l&#39;accepter via e-mail peut s&#39;avérer moins consommateur en temps de préparation du serveur public, d&#39;ajout et retrait de branches distantes juste pour tirer quelques patchs.
@@ -969,10 +972,10 @@ Même si vous pouvez rencontrer des problèmes de fusion légitimes, vous avez l
 La fusion à trois sources est choisie par défaut plutôt que d&#39;avoir à spécifier l&#39;option <code>-3</code> en espérant que le patch a été généré à partir d&#39;un instantané public auquel vous auriez accès.</p>
 <p>Si vous ne travaillez pas en continu avec une personne mais souhaitez tout de même tirer les modifications de cette manière, vous pouvez fournir l&#39;URL du dépôt distant à la commande <code>git pull</code>.
 Cela permet de réaliser un tirage unique sans sauver l&#39;URL comme référence distante :</p>
-<pre><code>$ git pull git:<span class="hljs-comment">//github.com/typeunique/projet.git</span>
-<span class="hljs-keyword">From</span> git:<span class="hljs-comment">//github.com/typeunique/projet</span>
+<pre><code>$ git pull git://github.com/typeunique/projet.git
+From git://github.com/typeunique/projet
  * branch            HEAD       -&gt; FETCH_HEAD
-Merge made <span class="hljs-keyword">by</span> recursive.
+Merge made by recursive.
 </code></pre><h2 id="d-terminer-les-modifications-introduites">Déterminer les modifications introduites</h2>
 <p>Vous avez maintenant une branche thématique qui contient les contributions.
 De ce point, vous pouvez déterminer ce que vous souhaitez en faire.
@@ -980,22 +983,22 @@ Cette section revisite quelques commandes qui vont vous permettre de faire une r
 <p>Faire une revue de tous les <em>commits</em> dans cette branche s&#39;avère souvent d&#39;une grande aide.
 Vous pouvez exclure les <em>commits</em> de la branche <code>master</code> en ajoutant l&#39;option <code>--not</code> devant le nom de la branche.
 Par exemple, si votre contributeur vous envoie deux patchs et que vous créez une branche appelée <code>contrib</code> et y appliquez ces patchs, vous pouvez lancer ceci :</p>
-<pre><code>$ git log contrib <span class="hljs-comment">--not master</span>
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">5</span>b6235bd297351589efc4d73316f0a68d484f118
+<pre><code>$ git log contrib --not master
+commit 5b6235bd297351589efc4d73316f0a68d484f118
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri Oct <span class="hljs-number">24</span> <span class="hljs-number">09</span>:<span class="hljs-number">53</span>:<span class="hljs-number">59</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Fri Oct 24 09:53:59 2008 -0700
 
-    seeing <span class="hljs-keyword">if</span> this helps the gem
+    seeing if this helps the gem
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">7482e0</span>d16d04bea79d0dba8988cc78df655f16a0
+commit 7482e0d16d04bea79d0dba8988cc78df655f16a0
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Oct <span class="hljs-number">22</span> <span class="hljs-number">19</span>:<span class="hljs-number">38</span>:<span class="hljs-number">36</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Oct 22 19:38:36 2008 -0700
 
-    updated the gemspec <span class="hljs-keyword">to</span> hopefully <span class="hljs-keyword">work</span> better</span>
+    updated the gemspec to hopefully work better
 </code></pre><p>Pour visualiser les modifications que chaque <em>commit</em> introduit, souvenez-vous que vous pouvez passer l&#39;option <code>-p</code> à <code>git log</code> et elle ajoutera le diff introduit à chaque <em>commit</em>.</p>
 <p>Pour visualiser un diff complet de ce qui arriverait si vous fusionniez cette branche thématique avec une autre branche, vous pouvez utiliser un truc bizarre pour obtenir les résultats corrects.
 Vous pourriez penser à lancer ceci :</p>
-<pre><code><span class="hljs-variable">$ </span>git diff master
+<pre><code>$ git diff master
 </code></pre><p>Cette commande affiche un diff mais elle peut être trompeuse.
 Si votre branche <code>master</code> a avancé depuis que vous en avez créé la branche thématique, vous obtiendrez des résultats apparemment étranges.
 Cela arrive parce que Git compare directement l&#39;instantané de la dernière validation sur la branche thématique et celui de la dernière validation sur la branche <code>master</code>.
@@ -1005,12 +1008,12 @@ Si les deux historiques ont divergé, le diff donnera l&#39;impression que vous 
 <p>Ce que vous souhaitez voir en fait, ce sont les modifications ajoutées sur la branche thématique — le travail que vous introduirez si vous fusionnez cette branche dans <code>master</code>.
 Vous obtenez ce résultat en demandant à Git de comparer le dernier instantané de la branche thématique avec son ancêtre commun à la branche <code>master</code> le plus récent.</p>
 <p>Techniquement, c&#39;est réalisable en déterminant exactement l&#39;ancêtre commun et en lançant la commande <code>diff</code> dessus :</p>
-<pre><code><span class="hljs-variable">$ </span>git merge-base contrib master
-<span class="hljs-number">36</span>c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-<span class="hljs-variable">$ </span>git diff <span class="hljs-number">36</span>c7db
+<pre><code>$ git merge-base contrib master
+36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
+$ git diff 36c7db
 </code></pre><p>Néanmoins, comme ce n&#39;est pas très commode, Git fournit un raccourci pour réaliser la même chose : la syntaxe à trois points.
 Dans le contexte de la commande <code>diff</code>, vous pouvez placer trois points après une autre branche pour réaliser un <code>diff</code> entre le dernier instantané de la branche sur laquelle vous vous trouvez et son ancêtre commun avec une autre branche :</p>
-<pre><code><span class="hljs-variable">$ </span>git diff master...contrib
+<pre><code>$ git diff master...contrib
 </code></pre><p>Cette commande ne vous montre que les modifications que votre branche thématique a introduites depuis son ancêtre commun avec master.
 C&#39;est une syntaxe très simple à retenir.</p>
 <h2 id="int-gration-des-contributions">Intégration des contributions</h2>
@@ -1072,8 +1075,8 @@ Par exemple, supposons que vous ayez un projet ressemblant à la figure 5-26.</p
 <p>Si vous souhaitez tirer le <em>commit</em> <code>e43a6</code> dans votre branche <code>master</code>, vous pouvez lancer :</p>
 <pre><code>$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 Finished one cherry-pick.
-[<span class="hljs-link_reference">master</span>]:<span class="hljs-link_url"> created a0a41a9: "More friendly message when locking the index fails."</span><span class="hljs-link_url">
- 3 files changed, 17 insertions(+), 3 deletions(-)</span>
+[master]: created a0a41a9: &quot;More friendly message when locking the index fails.&quot;
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 </code></pre><p>La même modification que celle introduite en <code>e43a6</code> est tirée mais vous obtenez une nouvelle valeur de SHA-1 car les dates d&#39;application sont différentes.
 À présent, votre historique ressemble à la figure 5-27.</p>
 <p><img src="http://git-scm.com/figures/18333fig0527-tn.png" alt=""></p>
@@ -1083,34 +1086,34 @@ Finished one cherry-pick.
 <p>Quand vous décidez de créer une publication de votre projet, vous souhaiterez probablement étiqueter le projet pour pouvoir recréer cette version dans le futur.
 Vous pouvez créer une nouvelle étiquette telle que décrite au chapitre 2.
 Si vous décidez de signer l&#39;étiquette en tant que mainteneur, la commande ressemblera à ceci :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-s</span> v1<span class="hljs-number">.5</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my signed 1.5 tag'</span>
-You need a passphrase <span class="hljs-keyword">to</span> unlock the secret key for
-user: <span class="hljs-string">"Scott Chacon &lt;schacon@gmail.com&gt;"</span>
-<span class="hljs-number">1024</span><span class="hljs-attribute">-bit</span> DSA key, ID F721C45A, created <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">09</span>
+<pre><code>$ git tag -s v1.5 -m &#39;my signed 1.5 tag&#39;
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;schacon@gmail.com&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09
 </code></pre><p>Si vous signez vos étiquettes, vous rencontrerez le problème de la distribution de votre clé publique PGP permettant de vérifier la signature.
 Le mainteneur du projet Git a résolu le problème en incluant la clé publique comme blob dans le dépôt et en ajoutant une étiquette qui pointe directement sur ce contenu.
 Pour faire de même, vous déterminez la clé de votre trousseau que vous voulez publier en lançant <code>gpg --list-keys</code> :</p>
 <pre><code>$ gpg --list-keys
-<span class="hljs-header">/Users/schacon/.gnupg/pubring.gpg
----------------------------------</span>
+/Users/schacon/.gnupg/pubring.gpg
+---------------------------------
 pub   1024D/F721C45A 2009-02-09 [expires: 2010-02-09]
 uid                  Scott Chacon &lt;schacon@gmail.com&gt;
 sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 </code></pre><p>Ensuite, vous pouvez importer la clé directement dans la base de données Git en l&#39;exportant de votre trousseau et en la redirigeant dans <code>git hash-object</code> qui écrit un nouveau blob avec son contenu dans Git et vous donne en sortie le SHA-1 du blob :</p>
-<pre><code>$ gpg <span class="hljs-attribute">-a</span> <span class="hljs-subst">--</span>export F721C45A <span class="hljs-subst">|</span> git hash<span class="hljs-attribute">-object</span> <span class="hljs-attribute">-w</span> <span class="hljs-subst">--</span>stdin
-<span class="hljs-number">659</span>ef797d181633c87ec71ac3f9ba29fe5775b92
+<pre><code>$ gpg -a --export F721C45A | git hash-object -w --stdin
+659ef797d181633c87ec71ac3f9ba29fe5775b92
 </code></pre><p>À présent, vous avez le contenu de votre clé dans Git et vous pouvez créer une étiquette qui pointe directement dessus en spécifiant la valeur SHA-1 que la commande <code>hash-object</code> vous a fournie :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> maintainer<span class="hljs-attribute">-pgp</span><span class="hljs-attribute">-pub</span> <span class="hljs-number">659</span>ef797d181633c87ec71ac3f9ba29fe5775b92
+<pre><code>$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 </code></pre><p>Si vous lancez <code>git push --tags</code>, l&#39;étiquette <code>maintainer-pgp-pub</code> sera partagée publiquement.
 Un tiers pourra vérifier une étiquette après import direct de votre clé publique PGP, en extrayant le blob de la base de donnée et en l&#39;important dans GPG :</p>
-<pre><code>$ git show maintainer<span class="hljs-attribute">-pgp</span><span class="hljs-attribute">-pub</span> <span class="hljs-subst">|</span> gpg <span class="hljs-subst">--</span><span class="hljs-keyword">import</span>
+<pre><code>$ git show maintainer-pgp-pub | gpg --import
 </code></pre><p>Il pourra alors utiliser cette clé pour vérifier vos étiquettes signées.
 Si de plus, vous incluez des instructions d&#39;utilisation pour la vérification de signature dans le message d&#39;étiquetage, l&#39;utilisateur aura accès à ces informations en lançant la commande <code>git show &lt;étiquette&gt;</code>.</p>
 <h2 id="g-n-ration-d-un-nom-de-r-vision">Génération d&#39;un nom de révision</h2>
 <p>Comme Git ne fournit pas par nature de nombres croissants tels que « r123 » à chaque validation, la commande <code>git describe</code> permet de générer un nom humainement lisible pour chaque <em>commit</em>.
 Git concatène le nom de l&#39;étiquette la plus proche, le nombre de validations depuis cette étiquette et un code SHA-1 partiel du <em>commit</em> que l&#39;on cherche à définir :</p>
 <pre><code>$ git describe master
-v1<span class="hljs-number">.6</span><span class="hljs-number">.2</span><span class="hljs-attribute">-rc1</span><span class="hljs-subst">-</span><span class="hljs-number">20</span><span class="hljs-attribute">-g8c5b85c</span>
+v1.6.2-rc1-20-g8c5b85c
 </code></pre><p>De cette manière, vous pouvez exporter un instantané ou le construire et le nommer de manière intelligible.
 En fait, si Git est construit à partir du source cloné depuis le dépôt Git, <code>git --version</code> vous donne exactement cette valeur.
 Si vous demandez la description d&#39;un instantané qui a été étiqueté, le nom de l&#39;étiquette est retourné.</p>
@@ -1122,32 +1125,32 @@ Par exemple, le noyau Linux a sauté dernièrement de 8 à 10 caractères pour a
 <p>Maintenant, vous voulez publier une version.
 Une des étapes consiste à créer une archive du dernier instantané de votre code pour les pauvres hères qui n&#39;utilisent pas Git.
 La commande dédiée à cette action est <code>git archive</code> :</p>
-<pre><code>$ git archive master <span class="hljs-subst">--</span>prefix<span class="hljs-subst">=</span><span class="hljs-string">'projet/'</span> <span class="hljs-subst">|</span> gzip <span class="hljs-subst">&gt;</span> <span class="hljs-string">`git describe master`</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
-$ ls <span class="hljs-subst">*</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
-v1<span class="hljs-number">.6</span><span class="hljs-number">.2</span><span class="hljs-attribute">-rc1</span><span class="hljs-subst">-</span><span class="hljs-number">20</span><span class="hljs-attribute">-g8c5b85c</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
+<pre><code>$ git archive master --prefix=&#39;projet/&#39; | gzip &gt; `git describe master`.tar.gz
+$ ls *.tar.gz
+v1.6.2-rc1-20-g8c5b85c.tar.gz
 </code></pre><p>Lorsqu&#39;on ouvre l&#39;archive, on obtient le dernier instantané du projet sous un répertoire <code>projet</code>.
 On peut aussi créer une archive au format zip de manière similaire en passant l&#39;option <code>--format=zip</code> à la commande <code>git archive</code> :</p>
-<pre><code>$ git archive master --prefix=<span class="hljs-string">'projet/'</span> --<span class="hljs-keyword">format</span>=zip &gt; <span class="hljs-string">`git describe master`</span>.zip
+<pre><code>$ git archive master --prefix=&#39;projet/&#39; --format=zip &gt; `git describe master`.zip
 </code></pre><p>Voilà deux belles archives tar.gz et zip de votre projet prêtes à être téléchargées sur un site web ou envoyées par e-mail.</p>
 <h2 id="shortlog">Shortlog</h2>
 <p>Il est temps d&#39;envoyer une annonce à la liste de diffusion des annonces relatives à votre projet.
 Une manière simple d&#39;obtenir rapidement une sorte de liste des modifications depuis votre dernière version ou e-mail est d&#39;utiliser la commande <code>git shortlog</code>.
 Elle résume toutes les validations dans l&#39;intervalle que vous lui spécifiez.
 Par exemple, ce qui suit vous donne un résumé de toutes les validations depuis votre dernière version si celle-ci se nomme v1.0.1 :</p>
-<pre><code>$ git shortlog --no-merges master --<span class="hljs-keyword">not</span> v1.<span class="hljs-number">0.1</span>
-Chris Wanstrath (<span class="hljs-number">8</span>):
-      <span class="hljs-keyword">Add</span> support <span class="hljs-keyword">for</span> annotated tags <span class="hljs-keyword">to</span> Grit::Tag
-      <span class="hljs-keyword">Add</span> <span class="hljs-keyword">packed</span>-refs annotated tag support.
-      <span class="hljs-keyword">Add</span> Grit::Commit#to_patch
-      Update version <span class="hljs-keyword">and</span> History.txt
-      <span class="hljs-keyword">Remove</span> stray `puts`
+<pre><code>$ git shortlog --no-merges master --not v1.0.1
+Chris Wanstrath (8):
+      Add support for annotated tags to Grit::Tag
+      Add packed-refs annotated tag support.
+      Add Grit::Commit#to_patch
+      Update version and History.txt
+      Remove stray `puts`
       Make ls_tree ignore nils
 
-Tom Preston-Werner (<span class="hljs-number">4</span>):
-      fix dates <span class="hljs-keyword">in</span> history
-      <span class="hljs-keyword">dynamic</span> version <span class="hljs-function"><span class="hljs-keyword">method</span>
-      <span class="hljs-title">Version</span> <span class="hljs-title">bump</span> <span class="hljs-title">to</span> 1.0.2
-      <span class="hljs-title">Regenerated</span> <span class="hljs-title">gemspec</span> <span class="hljs-title">for</span> <span class="hljs-title">version</span> 1.0.2</span>
+Tom Preston-Werner (4):
+      fix dates in history
+      dynamic version method
+      Version bump to 1.0.2
+      Regenerated gemspec for version 1.0.2
 </code></pre><p>Vous obtenez ainsi un résumé clair de toutes les validations depuis v1.0.1, regroupées par auteur, prêt à être envoyé sur la liste de diffusion.</p>
 
                     
@@ -1167,9 +1170,9 @@ Tom Preston-Werner (<span class="hljs-number">4</span>):
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

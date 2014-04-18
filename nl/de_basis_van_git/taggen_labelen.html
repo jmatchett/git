@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.6" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.6" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,124 +847,124 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_557">
+                    <section class="normal" id="section-gitbook_628">
                     
                         <h1 id="taggen-labelen-">Taggen (Labelen)</h1>
 <p>Zoals de meeste VCS&#39;en, heeft git de mogelijkheid om specifieke punten in de history als belangrijk te taggen (labelen). Over het algemeen gebruiken mensen deze functionaliteit om versie-punten te markeren (<code>v1.0</code>, en zo). In deze paragraaf zul je leren hoe de beschikbare tags te tonen, hoe nieuwe tags te creëren, en wat de verschillende typen tags zijn.</p>
 <h2 id="jouw-tags-laten-zien">Jouw tags laten zien</h2>
 <p>De beschikbare tags in Git laten zien is rechttoe rechtaan. Type gewoon <code>git tag</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git tag
-v<span class="hljs-number">0</span>.<span class="hljs-number">1</span>
-v1.<span class="hljs-number">3</span>
+<pre><code>$ git tag
+v0.1
+v1.3
 </code></pre><p>Dit commando toont de tags in alfabetische volgorde; de volgorde waarin ze verschijnen heeft geen echte betekenis.</p>
 <p>Je kunt ook zoeken op tags met een bepaald patroon. De Git bron-repository, bijvoorbeeld, bevat meer dan 240 tags. Als je alleen geïnteresseerd bent om naar de 1.4.2 serie te kijken, kun je dit uitvoeren:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-l</span> <span class="hljs-string">'v1.4.2.*'</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.2</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.4</span>
+<pre><code>$ git tag -l &#39;v1.4.2.*&#39;
+v1.4.2.1
+v1.4.2.2
+v1.4.2.3
+v1.4.2.4
 </code></pre><h2 id="tags-cre-ren">Tags creëren</h2>
 <p>Git gebruikt twee soorten tags: lightweight (lichtgewicht) en annotated (beschreven). Een lightweight tag komt overeen met een branch die niet verandert: het is slechts een wijzer naar een specifieke commit. Annotated tags daarentegen, zijn als volwaardige objecten in de Git database opgeslagen. Ze worden gechecksummed, bevatten de naam van de tagger, e-mail en datum, hebben een tag boodschap, en kunnen gesigneerd en geverifieerd worden met GNU Privacy Guard (GPG). Het wordt over het algemeen aangeraden om annotated tags te maken zodat je deze informatie hebt; maar als je een tijdelijke tag wilt of om een of andere reden de andere informatie niet wilt houden, dan zijn er ook lichtgewicht tags.</p>
 <h2 id="annotated-tags">Annotated tags</h2>
 <p>Een annotated tag in Git maken is eenvoudig. Het makkelijkst is om de <code>-a</code> optie te specificeren als je het <code>tag</code> commando uitvoert:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.4</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my version 1.4'</span>
-$ git <span class="hljs-built_in">tag</span>
-v0<span class="hljs-number">.1</span>
-v1<span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span>
+<pre><code>$ git tag -a v1.4 -m &#39;my version 1.4&#39;
+$ git tag
+v0.1
+v1.3
+v1.4
 </code></pre><p>De <code>-m</code> specificeert een tag boodschap, die bij de tag opgeslagen wordt. Als je geen boodschap voor een beschreven tag opgeeft, dan opent Git je editor zodat je hem in kunt typen.</p>
 <p>Je kunt de tag data zien, samen met de commit die getagged was, door het <code>git show</code> commando te gebruiken:</p>
-<pre><code>$ git show v1<span class="hljs-number">.4</span>
-<span class="hljs-built_in">tag</span> v1<span class="hljs-number">.4</span>
-Tagger: Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gee<span class="hljs-attribute">-mail</span><span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">14</span>:<span class="hljs-number">45</span>:<span class="hljs-number">11</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0800</span>
+<pre><code>$ git show v1.4
+tag v1.4
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 14:45:11 2009 -0800
 
-my version <span class="hljs-number">1.4</span>
-commit <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-Merge: <span class="hljs-number">4</span>a447f7<span class="hljs-attribute">...</span> a6b4c97<span class="hljs-attribute">...</span>
-Author: Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gee<span class="hljs-attribute">-mail</span><span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0800</span>
+my version 1.4
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    Merge branch <span class="hljs-string">'experiment'</span>
+    Merge branch &#39;experiment&#39;
 </code></pre><p>Dat toont de tagger informatie, de datum waarop de commit getagged was, en de beschrijvende boodschap alvorens de commit boodschap te laten zien.</p>
 <h2 id="ondertekende-tags">Ondertekende tags</h2>
 <p>Je kunt je tags ook ondertekenen met GPG, aangenomen dat je een privésleutel hebt. Het enige dat je moet doen is de <code>-s</code> optie gebruiken in plaats van de <code>-a</code>:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-s</span> v1<span class="hljs-number">.5</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my signed 1.5 tag'</span>
-You need a passphrase <span class="hljs-keyword">to</span> unlock the secret key for
-user: <span class="hljs-string">"Scott Chacon &lt;schacon@gee-mail.com&gt;"</span>
-<span class="hljs-number">1024</span><span class="hljs-attribute">-bit</span> DSA key, ID F721C45A, created <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">09</span>
+<pre><code>$ git tag -s v1.5 -m &#39;my signed 1.5 tag&#39;
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;schacon@gee-mail.com&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09
 </code></pre><p>Als je <code>git show</code> op die tag uitvoert, dan kun je jouw GPG handtekening eraan vast zien zitten:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> v1<span class="hljs-number">.5</span>
-tag v1<span class="hljs-number">.5</span>
+<pre><code>$ git show v1.5
+tag v1.5
 Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">15</span>:<span class="hljs-number">22</span>:<span class="hljs-number">20</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Mon Feb 9 15:22:20 2009 -0800
 
-my signed <span class="hljs-number">1.5</span> tag
------<span class="hljs-keyword">BEGIN</span> PGP SIGNATURE-----
-Version: GnuPG v1<span class="hljs-number">.4</span><span class="hljs-number">.8</span> (Darwin)
+my signed 1.5 tag
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.8 (Darwin)
 
 iEYEABECAAYFAkmQurIACgkQON3DxfchxFr5cACeIMN+ZxLKggJQf0QYiQBwgySN
 Ki0An2JeAVUCAiJ7Ox6ZEtK+NvZAj82/
 =WryJ
------<span class="hljs-keyword">END</span> PGP SIGNATURE-----
-<span class="hljs-keyword">commit</span> <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">4</span>a447f7... a6b4c97...
+-----END PGP SIGNATURE-----
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    <span class="hljs-keyword">Merge</span> branch <span class="hljs-string">'experiment'</span></span>
+    Merge branch &#39;experiment&#39;
 </code></pre><p>Verderop zul je leren hoe je ondertekende tags kunt verifiëren.</p>
 <h2 id="lightweight-tags">Lightweight tags</h2>
 <p>Een andere manier om een tag te committen is met behulp van een lightweight tag. Dit is in principe de commit checksum in een bestand opgeslagen; er wordt geen andere informatie bijgehouden. Om een lightweight tag te maken voeg je niet de <code>-a</code>, <code>-s</code> noch de <code>-m</code> optie toe:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> v1<span class="hljs-number">.4</span><span class="hljs-attribute">-lw</span>
-$ git <span class="hljs-built_in">tag</span>
-v0<span class="hljs-number">.1</span>
-v1<span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span>
-v1<span class="hljs-number">.4</span><span class="hljs-attribute">-lw</span>
-v1<span class="hljs-number">.5</span>
+<pre><code>$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5
 </code></pre><p>Als je deze keer <code>git show</code> op de tag doet, zie je niet de extra tag informatie. Het commando toont alleen de commit:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> v1<span class="hljs-number">.4</span>-lw
-<span class="hljs-keyword">commit</span> <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">4</span>a447f7... a6b4c97...
+<pre><code>$ git show v1.4-lw
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    <span class="hljs-keyword">Merge</span> branch <span class="hljs-string">'experiment'</span></span>
+    Merge branch &#39;experiment&#39;
 </code></pre><h2 id="tags-verifi-ren">Tags verifiëren</h2>
 <p>Om een ondertekende tag te verifiëren, gebruik je <code>git tag -v [tag-naam]</code>. Dit commando gebruikt GPG om de handtekening te verifiëren. Je moet de publieke sleutel van degene die getekend heeft wel in je sleutelbos hebben staan om het goed te laten werken:</p>
 <pre><code>$ git tag -v v1.4.2.1
 object 883653babd8ee7ea23e6a5c392bb739348b1eb61
-type <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-tag v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
-tagger Junio C Hamano &lt;junkio@cox.net&gt; <span class="hljs-number">1158138501</span> -<span class="hljs-number">0700</span>
+type commit
+tag v1.4.2.1
+tagger Junio C Hamano &lt;junkio@cox.net&gt; 1158138501 -0700
 
-GIT <span class="hljs-number">1.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
+GIT 1.4.2.1
 
-Minor fixes since <span class="hljs-number">1.4</span><span class="hljs-number">.2</span>, including git-mv <span class="hljs-keyword">and</span> git-http <span class="hljs-keyword">with</span> alternates.
-gpg: Signature made Wed Sep <span class="hljs-number">13</span> <span class="hljs-number">02</span>:<span class="hljs-number">08</span>:<span class="hljs-number">25</span> <span class="hljs-number">2006</span> PDT <span class="hljs-keyword">using</span> DSA <span class="hljs-keyword">key</span> ID F3119B9A
-gpg: Good signature <span class="hljs-keyword">from</span> <span class="hljs-string">"Junio C Hamano &lt;junkio@cox.net&gt;"</span>
-gpg:                 aka <span class="hljs-string">"[jpeg image of size 1513]"</span>
-<span class="hljs-keyword">Primary</span> <span class="hljs-keyword">key</span> fingerprint: <span class="hljs-number">3565</span> <span class="hljs-number">2</span>A26 <span class="hljs-number">2040</span> E066 C9A7  <span class="hljs-number">4</span>A7D C0C6 D9A4 F311 <span class="hljs-number">9</span>B9A</span>
+Minor fixes since 1.4.2, including git-mv and git-http with alternates.
+gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Good signature from &quot;Junio C Hamano &lt;junkio@cox.net&gt;&quot;
+gpg:                 aka &quot;[jpeg image of size 1513]&quot;
+Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 </code></pre><p>Als je de publieke sleutel van degene die getekend heeft niet hebt, dan krijg je in plaats daarvan zoiets:</p>
-<pre><code><span class="hljs-attribute">gpg</span>: <span class="hljs-string">Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A</span>
-<span class="hljs-attribute">gpg</span>: <span class="hljs-string">Can't check signature: public key not found</span>
-<span class="hljs-attribute">error</span>: <span class="hljs-string">could not verify the tag 'v1.4.2.1'</span>
+<pre><code>gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Can&#39;t check signature: public key not found
+error: could not verify the tag &#39;v1.4.2.1&#39;
 </code></pre><h2 id="later-taggen">Later taggen</h2>
 <p>Je kunt ook commits taggen waar je al voorbij bent. Stel dat je commit historie er zo uitziet:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=oneline</span>
-<span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6 Merge branch <span class="hljs-string">'experiment'</span>
-a6b4c97498bd301d84096da251c98a07c7723e65 beginning <span class="hljs-built_in">write</span> support
-<span class="hljs-number">0</span>d52aaab4479697da7686c15f77a3d64d9165190 <span class="hljs-constant">one</span> more thing
-<span class="hljs-number">6</span>d52a271eda8725415634dd79daabbc4d9b6008e Merge branch <span class="hljs-string">'experiment'</span>
-<span class="hljs-number">0</span>b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added <span class="hljs-operator">a</span> commit <span class="hljs-function"><span class="hljs-keyword">function</span></span>
-<span class="hljs-number">4682</span>c3261057305bdd616e23b64b0857d832627b added <span class="hljs-operator">a</span> todo <span class="hljs-built_in">file</span>
-<span class="hljs-number">166</span>ae0c4d3f420721acbb115cc33848dfcc2121a started <span class="hljs-built_in">write</span> support
-<span class="hljs-number">9</span>fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
-<span class="hljs-number">964</span>f16d36dfccde844893cac5b347e7b3d44abbc commit <span class="hljs-operator">the</span> todo
-<span class="hljs-number">8</span>a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
+<pre><code>$ git log --pretty=oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch &#39;experiment&#39;
+a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch &#39;experiment&#39;
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit function
+4682c3261057305bdd616e23b64b0857d832627b added a todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a started write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 </code></pre><p>Stel nu dat je vergeten bent het project op v1.2 te taggen, daar waar de &quot;updated rakefile&quot; commit was. Je kunt dit nadien toevoegen. Om die commit te taggen, specificeer je de commit boodschap (of een gedeelte daarvan) aan het einde van het commando:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.2</span> <span class="hljs-number">9</span>fceb02
+<pre><code>$ git tag -a v1.2 9fceb02
 </code></pre><p>Je kunt zien dat je de commit getagged hebt:</p>
 <pre><code>$ git tag
 v0.1
@@ -974,36 +977,36 @@ v1.5
 $ git show v1.2
 tag v1.2
 Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">15</span>:<span class="hljs-number">32</span>:<span class="hljs-number">16</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Mon Feb 9 15:32:16 2009 -0800
 
-version <span class="hljs-number">1.2</span>
+version 1.2
 commit 9fceb02d0ae598e95dc970b74767f19372d61af8
 Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;
-Date:   Sun Apr <span class="hljs-number">27</span> <span class="hljs-number">20</span>:<span class="hljs-number">43</span>:<span class="hljs-number">35</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sun Apr 27 20:43:35 2008 -0700
 
     updated rakefile
-<span class="hljs-keyword">...</span>
+...
 </code></pre><h2 id="tags-delen">Tags delen</h2>
 <p>Standaard zal het <code>git push</code> commando geen tags naar remote servers versturen. Je zult expliciet tags naar een gedeelde server moeten pushen, nadat je ze gemaakt hebt. Dit proces is hetzelfde als remote branches delen — je kunt <code>git push origin [tagnaam]</code> uitvoeren.</p>
-<pre><code>$ git push origin v1<span class="hljs-number">.5</span>
-Counting objects: <span class="hljs-number">50</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">38</span>/<span class="hljs-number">38</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-number">4.56</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">44</span> (delta <span class="hljs-number">18</span>), reused <span class="hljs-number">8</span> (delta <span class="hljs-number">1</span>)
+<pre><code>$ git push origin v1.5
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
 To git@github.com:schacon/simplegit.git
-* [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.5</span> -&gt; v1<span class="hljs-number">.5</span>
+* [new tag]         v1.5 -&gt; v1.5
 </code></pre><p>Als je veel tags hebt die je ineens wilt pushen, kun je ook de <code>--tags</code> optie aan het <code>git push</code> commando toevoegen. Dit zal al je tags, die nog niet op de remote server zijn, in één keer er naartoe sturen.</p>
 <pre><code>$ git push origin --tags
-Counting <span class="hljs-attribute">objects</span>: <span class="hljs-number">50</span>, done.
-Compressing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">38</span>/<span class="hljs-number">38</span>), done.
-Writing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-number">4.56</span> KiB, done.
-Total <span class="hljs-number">44</span> (delta <span class="hljs-number">18</span>), reused <span class="hljs-number">8</span> (delta <span class="hljs-number">1</span>)
-To git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> tag]         v0<span class="hljs-number">.1</span><span class="hljs-function"> -&gt;</span> v0<span class="hljs-number">.1</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.2</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.2</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.4</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.4</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.4</span>-lw<span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.4</span>-lw
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.5</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.5</span>
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To git@github.com:schacon/simplegit.git
+ * [new tag]         v0.1 -&gt; v0.1
+ * [new tag]         v1.2 -&gt; v1.2
+ * [new tag]         v1.4 -&gt; v1.4
+ * [new tag]         v1.4-lw -&gt; v1.4-lw
+ * [new tag]         v1.5 -&gt; v1.5
 </code></pre><p>Als nu iemand anders van jouw repository clonet of pullt, dan zullen zij al jouw tags ook krijgen.</p>
 
                     
@@ -1023,9 +1026,9 @@ To git<span class="hljs-property">@github</span>.<span class="hljs-attribute">co
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

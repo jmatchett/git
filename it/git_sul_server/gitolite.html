@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -784,51 +787,51 @@
 <p>Installare Gitolite è davvero molto semplice, anche se non hai letto tutta la documentazione con cui è rilasciato. Quello di cui hai bisogno è un account su un server Unix di qualche tipo. Non hai bisogno di un accesso root, supponendo che Git, Perl ed un server SSH compatibile con OpenSSH siano già installati. Nell&#39;esempio di seguito, utilizzeremo l&#39;account <code>git</code> sull&#39;host chiamato <code>gitserver</code>.</p>
 <p>Gitolite è qualche cosa di inusuale rispetto ai conosciuti software &quot;server&quot; — l&#39;accesso è via SSH, e pertanto ogni userid sul server è potenzialmente un &quot;host gitolite&quot;. Descriveremo il metodo di installazione più semplice in questo articolo; per gli altri metodi vedi la documentazione.</p>
 <p>Per iniziare, crea un utente chiamato <code>git</code> sul tuo server ed entra come questo utente. Copia la tua chiave pubblica SSH (un file chiamato <code>~/.ssh/id_rsa.pub</code> se hai eseguito un semplice <code>ssh-keygen</code> con tutti i valori predefiniti) dalla tua postazione di lavoro, rinominala come <code>&lt;tuonome&gt;.pub</code> (useremo <code>scott.pub</code> in questi esempi). Quindi esegui questi comandi:</p>
-<pre><code><span class="hljs-char">$ </span>git clone <span class="hljs-method">git:</span>//github.com/sitaramc/gitolite
-<span class="hljs-char">$ </span>gitolite/install -ln
-    # presuppone che <span class="hljs-char">$H</span>OME/bin esista e sia nel tuo <span class="hljs-char">$P</span>ATH
-<span class="hljs-char">$ </span>gitolite setup -pk <span class="hljs-char">$H</span>OME/scott.pub
+<pre><code>$ git clone git://github.com/sitaramc/gitolite
+$ gitolite/install -ln
+    # presuppone che $HOME/bin esista e sia nel tuo $PATH
+$ gitolite setup -pk $HOME/scott.pub
 </code></pre><p>L&#39;ultimo comando crea un nuovo repository Git chiamato <code>gitolite-admin</code> sul server.</p>
 <p>Infine, torna alla tua postazione di lavoro, esegui <code>git clone git@gitserver:gitolite-admin</code>. Ed è fatta! Gitolite adesso è installato sul server, e tu ora hai un nuovo repository chiamato <code>gitolite-admin</code> nella tua postazione di lavoro.  Amministri il tuo setup Gitolite facendo cambiamenti a questo repository ed inviandoli.</p>
 <h2 id="personalizzare-l-installazione">Personalizzare l&#39;Installazione</h2>
 <p>Mentre di base, l&#39;installazione veloce va bene per la maggior parte delle persone, ci sono alcuni modi per personalizzare l&#39;installazione se ne hai bisogno. Alcuni cambiamenti possono essere fatti semplicemente modificando il file rc, ma se questo non è sufficiente, c&#39;è la documentazione su come personalizzare Gitolite.</p>
 <h2 id="file-di-configurazione-e-regole-per-il-controllo-dell-accesso">File di Configurazione e Regole per il Controllo dell&#39;Accesso</h2>
 <p>Una volta che l&#39;installazione è fatta, puoi spostarti nel repository <code>gitolite-admin</code> (posizionato nella tua directory HOME) e curiosare in giro per vedere cosa c&#39;è:</p>
-<pre><code><span class="hljs-variable">$ </span>cd ~<span class="hljs-regexp">/gitolite-admin/</span>
-<span class="hljs-variable">$ </span>ls
+<pre><code>$ cd ~/gitolite-admin/
+$ ls
 conf/  keydir/
-<span class="hljs-variable">$ </span>find conf keydir -type f
+$ find conf keydir -type f
 conf/gitolite.conf
 keydir/scott.pub
-<span class="hljs-variable">$ </span>cat conf/gitolite.conf
+$ cat conf/gitolite.conf
 
 repo gitolite-admin
-    <span class="hljs-constant">RW</span>+                 = scott
+    RW+                 = scott
 
 repo testing
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@all</span>
+    RW+                 = @all
 </code></pre><p>Osserva che &quot;scott&quot; (il nome della pubkey nel comando <code>gitolite setup</code> che hai usato precedentemente) ha permessi di scrittura-lettura per la repository <code>gitolite-admin</code> così come un file con la chiave pubblica con lo stesso nome.</p>
 <p>Aggiungere utenti è semplice. Per aggiungere un utente chiamato &quot;alice&quot;, procurati la sua chiave pubblica, chiamala <code>alice.pub</code>, e mettila nella directory <code>keydir</code> del clone della repository <code>gitolite-admin</code> che hai appena fatto sulla tua postazione di lavoro. Aggiungi, affida, ed invia la modifica, e l&#39;utente è stato aggiunto.</p>
 <p>La sintassi del file di configurazione di Gitolite è ben documentata, pertanto qui menzioneremo solo alcuni aspetti importanti.</p>
 <p>Puoi raggruppare utenti o i repo per convenienza. Il nome del gruppo è come una macro; quando le definisci, non importa nemmeno se sono progetti o utenti; la distinzione è fatta solamente quando tu <em>usi</em> la &quot;macro&quot;.</p>
-<pre><code><span class="hljs-variable">@oss_repos</span>      = linux perl rakudo git gitolite
-<span class="hljs-variable">@secret_repos</span>   = fenestra pear
+<pre><code>@oss_repos      = linux perl rakudo git gitolite
+@secret_repos   = fenestra pear
 
-<span class="hljs-variable">@admins</span>         = scott
-<span class="hljs-variable">@interns</span>        = ashok
-<span class="hljs-variable">@engineers</span>      = sitaram dilbert wally alice
-<span class="hljs-variable">@staff</span>          = <span class="hljs-variable">@admins</span> <span class="hljs-variable">@engineers</span> <span class="hljs-variable">@interns</span>
+@admins         = scott
+@interns        = ashok
+@engineers      = sitaram dilbert wally alice
+@staff          = @admins @engineers @interns
 </code></pre><p>Puoi controllare i permessi a livello &quot;ref&quot;. Nel seguente esempio, gli interni possono solo fare il push al ramo &quot;int&quot;. Gli ingegneri possono fare il push ad ogni ramo che inizia con &quot;eng-&quot;, e i tag che iniziano con &quot;rc&quot; e finiscono con un numero. E gli amministratori possono fare tutto (incluso il rewind) per ogni ref.</p>
-<pre><code>repo <span class="hljs-variable">@oss_repos</span>
-    <span class="hljs-constant">RW</span>  int<span class="hljs-variable">$ </span>               = <span class="hljs-variable">@interns</span>
-    <span class="hljs-constant">RW</span>  eng-                = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>  refs/tags/rc[<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]   = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                     = <span class="hljs-variable">@admins</span>
+<pre><code>repo @oss_repos
+    RW  int$                = @interns
+    RW  eng-                = @engineers
+    RW  refs/tags/rc[0-9]   = @engineers
+    RW+                     = @admins
 </code></pre><p>L&#39;espressione dopo <code>RW</code> o <code>RW+</code> è una espressione regolare (regex) contro cui il nome di riferimento (refname) che viene inviato viene controllato. Così la chiameremo &quot;refex&quot;! Certamente, una refex può essere più complessa di quella mostrata, quindi non strafare se non sei pratico con le regex perl.</p>
 <p>Inoltre, come avrai supposto, i prefissi Gitolite <code>refs/heads/</code> sono convenienze sintattiche se la refex non inizia con <code>refs/</code>.</p>
 <p>Una funzione importante nella sintassi di configurazione è che tutte le regole per un repository non necessariamente devono essere in un unico posto. Puoi tenere tutte le regole comuni insieme, come le regole per tutti <code>oss_repos</code> mostrati di seguito, e poi aggiungere specifiche regole per specifici casi successivamente, come segue:</p>
-<pre><code><span class="hljs-attribute">repo gitolite
-    RW+                     </span>=<span class="hljs-string"> sitaram</span>
+<pre><code>repo gitolite
+    RW+                     = sitaram
 </code></pre><p>Questa regola sarà aggiunta nella serie delle regole per il solo repository <code>gitolite</code>.</p>
 <p>A questo punto ti starai chiedendo come le regole di controllo degli accessi sono impostate, le vediamo brevemente.</p>
 <p>Ci sono due livelli di controllo degli accessi in gitolite. Il primo è a livello di repository; se hai un accesso in lettura (o scrittura) a <em>qualsiasi</em> ref del repository, allora hai accesso in lettura (o scrittura) al repository.</p>
@@ -836,16 +839,16 @@ repo testing
 <h2 id="controllo-avanzato-degli-accessi-con-le-regole-deny-">Controllo Avanzato degli Accessi con le Regole &quot;deny&quot;</h2>
 <p>Finora abbiamo visto solo che i permessi possono essere <code>R</code>, <code>RW</code> o<code>RW+</code>. Ovviamente, gitolite permette altri permessi: <code>-</code>, che sta per &quot;deny&quot;. Questo ti da molto più potere, a scapito di una certa complessità, perché non è l&#39;<em>unico</em> modo per negare l&#39;accesso, quindi <em>l&#39;ordine delle regole ora conta</em>!</p>
 <p>Diciamo, nella situazione seguente, vogliamo gli ingegneri in grado di fare il rewind di ogni ramo <em>eccetto</em> master ed integ. Qui vediamo come:</p>
-<pre><code>    <span class="hljs-constant">RW</span>  master integ    = <span class="hljs-variable">@engineers</span>
-    -   master integ    = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@engineers</span>
+<pre><code>    RW  master integ    = @engineers
+    -   master integ    = @engineers
+    RW+                 = @engineers
 </code></pre><p>Ancora, devi semplicemente seguire le regole da cima a fondo fino a quando non inserisci una corrispondenza per il tipo di accesso, o di negazione. Un invio non-rewind non corrisponde alla prima regola, scende alla seconda, ed è quindi negato. Qualsiasi invio (rewind o non-rewind) ad un ref diverso da master o integ non corrisponde alle prime due regole comunque, e la terza regola lo permette.</p>
 <h2 id="restringere-invii-in-base-ai-file-modificati">Restringere Invii in Base ai File Modificati</h2>
 <p>In aggiunta alle restrizioni per l&#39;invio a specifici rami, puoi restringere ulteriormente a quali file sono permesse le modifiche. Per esempio, probabilmente il Makefile (o altri programmi) non dovrebbe essere modificato da nessuno, perché molte cose dipendono da esso e potrebbero esserci problemi se le modifiche non sono fatte <em>correttamente</em>. Puoi dire a gitolite:</p>
 <pre><code>repo foo
-    <span class="hljs-constant">RW</span>                      =   <span class="hljs-variable">@junior_devs</span> <span class="hljs-variable">@senior_devs</span>
+    RW                      =   @junior_devs @senior_devs
 
-    -   <span class="hljs-constant">VREF</span>/<span class="hljs-constant">NAME</span>/<span class="hljs-constant">Makefile</span>  =   <span class="hljs-variable">@junior_devs</span>
+    -   VREF/NAME/Makefile  =   @junior_devs
 </code></pre><p>L&#39;utente che sta migrando dal vecchio Gitolite dovrebbe osservare che c&#39;è un significativo cambiamento nel comportamento di questa caratteristica; guardare la guida alla migrazione per i dettagli.</p>
 <h2 id="rami-personali">Rami Personali</h2>
 <p>Gitolite ha anche una funzionalità che è chiamata &quot;rami personali&quot; (o piuttosto, &quot;spazio dei nomi dei rami personali&quot;) che è molto utile in un ambiente aziendale.</p>
@@ -858,13 +861,13 @@ repo testing
 <p>Concludiamo questa discussione con un elenco di altre funzioni, ognuna delle quali, e molte altre, sono descritte in grande dettagli nella documentazione.</p>
 <p><strong>Logging</strong>: Gitolite registra tutti gli accessi riusciti. Se hai dato tranquillamente il permesso di rewind (<code>RW+</code>) alle persone e qualcuno ha spazzato via il &quot;master&quot;, il log è un toccasana per ritrovare lo SHA di chi ha fatto il casino.</p>
 <p><strong>Rapporto sui diritti di accesso</strong>: Un&#39;altra funzione conveniente è quando provi ad entrare via ssh sul server. Gitolite ti mostrerà a quali repo hai accesso, e che tipo di accesso hai. Ecco un esempio:</p>
-<pre><code>    hello scott, this is git@git running gitolite3 v3<span class="hljs-number">.01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span><span class="hljs-attribute">-g9609868</span> <span class="hljs-keyword">on</span> git <span class="hljs-number">1.7</span><span class="hljs-number">.4</span><span class="hljs-number">.4</span>
+<pre><code>    hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
-         R     anu<span class="hljs-attribute">-wsd</span>
+         R     anu-wsd
          R     entrans
-         R  W  git<span class="hljs-attribute">-notes</span>
+         R  W  git-notes
          R  W  gitolite
-         R  W  gitolite<span class="hljs-attribute">-admin</span>
+         R  W  gitolite-admin
          R     indic_web_input
          R     shreelipi_converter
 </code></pre><p><strong>Delega</strong>: Per un&#39;istallazione davvero grande, puoi delegare la responsabilità di alcuni gruppi di repository a varie persone e dare a loro l&#39;amministrazione di questi pezzi in modo indipendente. Questo riduce il carico dell&#39;amministrazione centrale, e lo rende meno il collo di bottiglia. </p>
@@ -887,9 +890,9 @@ repo testing
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

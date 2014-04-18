@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,14 +857,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_941">
+                    <section class="normal" id="section-gitbook_1013">
                     
                         <h1 id="co-je-to-v-tev">Co je to větev</h1>
 <p>Abychom skutečně pochopili, jak funguje v systému Git větvení, budeme se muset vrátit o krok zpět a podívat se, jak Git ukládá data. Jak si možná vzpomínáte z kapitoly 1, Git neukládá data jako sérii změn nebo rozdílů, ale jako sérii snímků.</p>
 <p>Zapíšete-li v systému Git revizi, Git uloží objekt revize, obsahující ukazatel na snímek obsahu, který jste určili k zapsání, metadata o autorovi a zprávě a nula nebo více ukazatelů na revizi nebo revize, které byly přímými rodiči této revize – žádné rodiče nemá první revize, jednoho rodiče má běžná revize a několik rodičů mají revize, které vznikly sloučením ze dvou či více větví.</p>
 <p>Pro ilustraci předpokládejme, že máte adresář se třemi soubory, které připravíte k zapsání a následně zapíšete. S připravením souborů k zapsání proběhne u každého z nich kontrolní součet (o otisku SHA-1 jsme se zmínili v kapitole 1), daná verze souborů se uloží v repozitáři Git (Git na ně odkazuje jako na bloby) a přidá jejich kontrolní součet do oblasti připravených změn:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span> test.rb <span class="hljs-constant">LICENSE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit of my project'</span>
+<pre><code>$ git add README test.rb LICENSE
+$ git commit -m &#39;initial commit of my project&#39;
 </code></pre><p>Vytvoříte-li revizi příkazem <code>git commit</code>, provede Git kontrolní součet každého adresáře (v tomto případě pouze kořenového adresáře projektu) a uloží tyto objekty stromu v repozitáři Git. Poté vytvoří objekt revize s metadaty a ukazatelem na kořenový strom projektu, aby mohl v případě potřeby tento snímek obnovit.</p>
 <p>Váš repozitář Git nyní obsahuje pět objektů: jeden blob pro obsah každého ze tří vašich souborů, jeden strom, který zaznamenává obsah adresáře a udává, které názvy souborů jsou uloženy jako který blob, a jednu revizi s ukazatelem na kořenový strom a se všemi metadaty revize. Data ve vašem repozitáři Git se dají schematicky znázornit jako na obrázku 3-1.</p>
 <p><img src="http://git-scm.com/figures/18333fig0301-tn.png" alt=""></p>
@@ -873,7 +876,7 @@
 <p><img src="http://git-scm.com/figures/18333fig0303-tn.png" alt=""></p>
 <p>Obrázek 3-3. Větev ukazující do historie dat revizí</p>
 <p>Co se stane, když vytvoříte novou větev? Ano, nová větev znamená vytvoření nového ukazatele, s nímž můžete pohybovat. Řekněme, že vytvoříte novou větev a nazvete ji testing. Učiníte tak příkazem <code>git branch</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch testing
+<pre><code>$ git branch testing
 </code></pre><p>Tento příkaz vytvoří nový ukazatel na stejné revizi, na níž se právě nacházíte (viz obrázek 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Obrázek 3-4. Několik větví ukazujících do historie dat revizí</p>
@@ -881,25 +884,25 @@
 <p><img src="http://git-scm.com/figures/18333fig0305-tn.png" alt=""></p>
 <p>Obrázek 3-5. Soubor HEAD ukazující na větev, na níž se nacházíte.</p>
 <p>Chcete-li přepnout na existující větev, spusťte příkaz <code>git checkout</code>. My můžeme přepnout na novou větev testing:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout testing
+<pre><code>$ git checkout testing
 </code></pre><p>Tímto příkazem přesunete ukazatel HEAD tak, že ukazuje na větev testing (viz obrázek 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Obrázek 3-6. Soubor HEAD ukazuje po přepnutí na jinou větev.</p>
 <p>A jaký to má smysl? Dobře, proveďme další revizi:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made a change'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made a change&#39;
 </code></pre><p>Obrázek 3-7 ukazuje výsledek.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Obrázek 3-7. Větev, na niž ukazuje soubor HEAD, se posouvá vpřed s každou revizí.</p>
 <p>Výsledek je zajímavý z toho důvodu, že se větev <code>testing</code> posunula vpřed, zatímco větev <code>master</code> stále ukazuje na revizi, na níž jste se nacházeli v okamžiku, kdy jste spustili příkaz <code>git checkout</code> a přepnuli tím větve. Přepněme zpět na větev <code>master</code>.</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>Výsledek ukazuje obrázek 3-8.</p>
 <p><img src="http://git-scm.com/figures/18333fig0308-tn.png" alt=""></p>
 <p>Obrázek 3-8. Ukazatel HEAD se po příkazu git checkout přesune na jinou větev.</p>
 <p>Tento příkaz provedl dvě věci. Přemístil ukazatel <code>HEAD</code> zpět, takže nyní ukazuje na větev <code>master</code>, a vrátil soubory ve vašem pracovním adresáři zpět ke snímku, na nějž větev <code>master</code> ukazuje. To také znamená, že změny, které od teď provedete, se odštěpí od starší verze projektu. V podstatě dočasně vrátíte všechny změny, které jste provedli ve větvi testing, a vydáte se jiným směrem.</p>
 <p>Proveďme pár změn a zapišme další revizi:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made other changes'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made other changes&#39;
 </code></pre><p>Nyní se historie vašeho projektu rozdělila (viz obrázek 3-9). Vytvořili jste novou větev, přepnuli jste na ni, provedli jste v ní změny a poté jste přepnuli zpět na hlavní větev, v níž jste rovněž provedli změny. Oboje tyto změny jsou oddělené na samostatných větvích. Můžete mezi nimi přepínat tam a zpět, a až uznáte za vhodné, můžete je sloučit. To vše jste provedli pomocí jednoduchých příkazů <code>branch</code> a <code>checkout</code>.</p>
 <p><img src="http://git-scm.com/figures/18333fig0309-tn.png" alt=""></p>
 <p>Obrázek 3-9. Historie větví se rozdělila.</p>
@@ -924,9 +927,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.10" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.10" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,12 +847,12 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_568">
+                    <section class="normal" id="section-gitbook_639">
                     
                         <h1 id="gehoste-git">Gehoste Git</h1>
 <p>Als je niet al het werk wilt doen om je eigen Git server op te zetten, heb je meerdere opties om je Git project op een externe speciale hosting pagina te laten beheren. Dit biedt een aantal voordelen: een ge-hoste pagina is over het algemeen snel in te stellen, eenvoudig om projecten mee op te starten, en er komt geen serverbeheer en -onderhoud bij kijken. Zelfs als je je eigen server intern opgezet hebt, zul je misschien een publieke host pagina voor je open source broncode willen – dat is over het algemeen makkelijker voor de open source commune te vinden en je er mee te helpen.</p>
 <p>Vandaag de dag heb je een enorm aantal beheer opties om uit te kiezen, elk met verschillende voor- en nadelen. Om een recente lijst te zien, ga dan kijken op de volgende pagina :</p>
-<pre><code><span class="hljs-label">https:</span>//git<span class="hljs-preprocessor">.wiki</span><span class="hljs-preprocessor">.kernel</span><span class="hljs-preprocessor">.org</span>/index<span class="hljs-preprocessor">.php</span>/GitHosting
+<pre><code>https://git.wiki.kernel.org/index.php/GitHosting
 </code></pre><p>Omdat we ze niet allemaal kunnen behandelen, en omdat ik toevallig bij een ervan werk, zullen we deze paragraaf gebruiken het instellen van een account en het opzetten van een project op GitHub te doorlopen. Dit geeft je een idee van het benodigde werk.</p>
 <p>GitHub is verreweg de grootste open source Git beheer site en het is ook een van de weinige die zowel publieke als privé hosting opties biedt, zodat je je open source en commerciële privé code op dezelfde plaats kunt bewaren. Als voorbeeld: we hebben GitHub gebruikt om privé samen te werken aan dit boek.</p>
 <h2 id="github">GitHub</h2>
@@ -878,12 +881,12 @@ Door op de &quot;I agree, sign me up&quot; knop te klikken wordt je naar het das
 <p><img src="http://git-scm.com/figures/18333fig0407-tn.png" alt=""></p>
 <p>Figuur 4-7. Instructies voor een nieuwe repository.</p>
 <p>Deze instructies zijn vergelijkbaar met wat we al hebben laten zien. Om een project te initialiseren dat nog geen Git project is, gebruik je</p>
-<pre><code><span class="hljs-variable">$ </span>git init
-<span class="hljs-variable">$ </span>git add .
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
+<pre><code>$ git init
+$ git add .
+$ git commit -m &#39;initial commit&#39;
 </code></pre><p>Als je een lokaal Git repository hebt, voeg dan GitHub als remote toe en push je master branch:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:testinguser/iphone_project<span class="hljs-preprocessor">.git</span>
-$ git <span class="hljs-keyword">push</span> origin master
+<pre><code>$ git remote add origin git@github.com:testinguser/iphone_project.git
+$ git push origin master
 </code></pre><p>Nu wordt je project gehost op GitHub, en kun je de URL aan iedereen geven waarmee je je project wilt delen. In dit geval is het <code>http://githup.com/testinguser/iphone_project</code>. Je kunt aan het begin van elk van je project pagina&#39;s zien dat je twee Git URLs hebt (zie Figuur 4-8).</p>
 <p><img src="http://git-scm.com/figures/18333fig0408-tn.png" alt=""></p>
 <p>Figuur 4-8. Project met een publieke URL en een privé URL.</p>
@@ -940,9 +943,9 @@ $ git <span class="hljs-keyword">push</span> origin master
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

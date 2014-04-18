@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -834,14 +837,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_525">
+                    <section class="normal" id="section-gitbook_527">
                     
                         <h1 id="-qu-es-una-rama-">¿Qué es una rama?</h1>
 <p>Para entender realmente cómo ramifica Git, previamente hemos de examinar la forma en que almacena sus datos. Recordando lo citado en el capítulo 1, Git no los almacena de forma incremental (guardando solo diferencias), sino que los almacena como una serie de instantáneas (copias puntuales de los archivos completos, tal y como se encuentran en ese momento). </p>
 <p>En cada confirmación de cambios (commit), Git almacena un punto de control que conserva: un apuntador a la copia puntual de los contenidos preparados (staged), unos metadatos con el autor y el mensaje explicativo, y uno o varios apuntadores a las confirmaciones (commit) que sean padres directos de esta (un padre en los casos de confirmación normal, y múltiples padres en los casos de estar confirmando una fusión (merge) de dos o mas ramas).</p>
 <p>Para ilustrar esto, vamos a suponer, por ejemplo, que tienes una carpeta con tres archivos, que preparas (stage) todos ellos y los confirmas (commit). Al preparar los archivos, Git realiza una suma de control de cada uno de ellos (un resumen SHA-1, tal y como se mencionaba en el capítulo 1), almacena una copia de cada uno en el repositorio (estas copias se denominan &quot;blobs&quot;), y guarda cada suma de control en el área de preparación (staging area):</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span> test.rb <span class="hljs-constant">LICENSE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit of my project'</span>
+<pre><code>$ git add README test.rb LICENSE
+$ git commit -m &#39;initial commit of my project&#39;
 </code></pre><p>Cuando creas una confirmación con el comando &#39;git commit&#39;, Git realiza sumas de control de cada subcarpeta (en el ejemplo, solamente tenemos la carpeta principal del proyecto), y guarda en el repositorio Git una copia de cada uno de los archivos contenidos en ella/s. Después, Git crea un objeto de confirmación con los metadatos pertinentes y un apuntador al nodo correspondiente del árbol de proyecto. Esto permitirá poder regenerar posteriormente dicha instantánea cuando sea necesario.</p>
 <p>En este momento, el repositorio de Git contendrá cinco objetos: un &quot;blob&quot; para cada uno de los tres archivos, un árbol con la lista de contenidos de la carpeta (más sus respectivas relaciones con los &quot;blobs&quot;), y una confirmación de cambios (commit) apuntando a la raiz de ese árbol y conteniendo el resto de metadatos pertinentes. Conceptualmente, el contenido del repositorio Git será algo parecido a la Figura 3-1</p>
 <p><img src="http://git-scm.com/figures/18333fig0301-tn.png" alt=""></p>
@@ -853,7 +856,7 @@
 <p><img src="http://git-scm.com/figures/18333fig0303-tn.png" alt=""></p>
 <p>Figura 3-3. Apuntadores en el registro de confirmaciones de una rama.</p>
 <p>¿Qué sucede cuando creas una nueva rama? Bueno....., simplemente se crea un nuevo apuntador para que lo puedas mover libremente. Por ejemplo, si quieres crear una nueva rama denominada &quot;testing&quot;. Usarás el comando &#39;git branch&#39;:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch testing
+<pre><code>$ git branch testing
 </code></pre><p>Esto creará un nuevo apuntador apuntando a la misma confirmación donde estés actualmente (ver Figura 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Figura 3-4. Apuntadores de varias ramas en el registro de confirmaciones de cambio.</p>
@@ -861,25 +864,25 @@
 <p><img src="http://git-scm.com/figures/18333fig0305-tn.png" alt=""></p>
 <p>Figura 3-5. Apuntador HEAD a la rama donde estás actualmente.</p>
 <p>Para saltar de una rama a otra, tienes que utilizar el comando &#39;git checkout&#39;. Hagamos una prueba, saltando a la rama &#39;testing&#39; recién creada:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout testing
+<pre><code>$ git checkout testing
 </code></pre><p>Esto mueve el apuntador HEAD a la rama &#39;testing&#39; (ver Figura 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Figura 3-6. Apuntador HEAD apuntando a otra rama cuando saltamos de rama.</p>
 <p>¿Cuál es el significado de todo esto?. Bueno.... lo veremos tras realizar otra confirmación de cambios:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made a change'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made a change&#39;
 </code></pre><p>La Figura 3-7 ilustra el resultado.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Figura 3-7. La rama apuntada por HEAD avanza con cada confirmación de cambios.</p>
 <p>Observamos algo interesante: la rama &#39;testing&#39; avanza, mientras que la rama &#39;master&#39; permanece en la confirmación donde estaba cuando lanzaste el comando &#39;git checkout&#39; para saltar. Volvamos ahora a la rama &#39;master&#39;:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>La Figura 3-8 muestra el resultado.</p>
 <p><img src="http://git-scm.com/figures/18333fig0308-tn.png" alt=""></p>
 <p>Figura 3-8. HEAD apunta a otra rama cuando hacemos un checkout.</p>
 <p>Este comando realiza dos acciones: Mueve el apuntador HEAD de nuevo a la rama &#39;master&#39;, y revierte los archivos de tu directorio de trabajo; dejandolos tal y como estaban en la última instantánea confirmada en dicha rama &#39;master&#39;. Esto supone que los cambios que hagas desde este momento en adelante divergerán de la antigua versión del proyecto. Básicamente, lo que se está haciendo es rebobinar el trabajo que habias hecho temporalmente en la rama &#39;testing&#39;; de tal forma que puedas avanzar en otra dirección diferente.</p>
 <p>Haz algunos cambios más y confirmalos:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made other changes'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made other changes&#39;
 </code></pre><p>Ahora el registro de tu proyecto diverge (ver Figura 3-9). Has creado una rama y saltado a ella, has trabajado sobre ella; has vuelto a la rama original, y has trabajado también sobre ella. Los cambios realizados en ambas sesiones de trabajo están aislados en ramas independientes: puedes saltar libremente de una a otra según estimes oportuno. Y todo ello simplemente con dos comandos:  &#39;git branch&#39; y &#39;git checkout&#39;.</p>
 <p><img src="http://git-scm.com/figures/18333fig0309-tn.png" alt=""></p>
 <p>Figura 3-9. Los registros de las ramas divergen.</p>
@@ -904,9 +907,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -852,12 +855,12 @@
 <h2 id="-">Локальный протокол</h2>
 <p>Базовым протоколом является <em>Локальный протокол</em>, при использовании которого удалённый репозиторий — другой каталог на диске. Наиболее часто он используется, если все члены команды имеют доступ к общей файловой системе, например к NFS, или, что менее вероятно, когда все работают на одном компьютере. Последний вариант не столь хорош, поскольку все копии вашего репозитория находятся на одном компьютере, делая возможность потерять всё более вероятной.</p>
 <p>Если у вас смонтирована общая файловая система, вы можете клонировать, отправлять и получать изменения из локального репозитория. Чтобы склонировать такой репозиторий или добавить его в качестве удалённого в существующий проект, используйте путь к репозиторию в качестве URL. Например, для клонирования локального репозитория вы можете выполнить что-то вроде этого:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone /opt/git/project.git
+<pre><code>$ git clone /opt/git/project.git
 </code></pre><p>Или этого:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">file:</span>/<span class="hljs-regexp">//opt</span><span class="hljs-regexp">/git/project</span>.git
+<pre><code>$ git clone file:///opt/git/project.git
 </code></pre><p>Git работает немного по-другому если вы укажете префикс <code>file://</code> для вашего URL. Когда вы просто указываете путь, Git пытается использовать жёсткие ссылки и копировать файлы, когда это нужно. Если вы указываете <code>file://</code>, Git работает с данными так же как при использовании сетевых протоколов, что в целом менее эффективный способ передачи данных. Причиной для использования <code>file://</code> может быть необходимость создания чистой копии репозитория без лишних внешних ссылок и объектов, обычно после импорта из другой СКВ или чего-то похожего (см. главу 9 о задачах поддержки). Мы будем использовать обычные пути, поскольку это практически всегда быстрее.</p>
 <p>Чтобы добавить локальный репозиторий в существующий проект, вы можете воспользоваться командой:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> local_proj /opt/git/project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add local_proj /opt/git/project.git
 </code></pre><p>Теперь вы можете отправлять и получать изменения из этого репозитория так, как вы это делали по сети.</p>
 <h3 id="-">Преимущества</h3>
 <p>Преимущества основанных на файлах хранилищ в том, что они просты и используют существующие разграничения прав на файлы и сетевой доступ. Если у вас уже есть общая файловая система, доступ к которой имеет вся команда, настройка репозитория очень проста. Вы помещаете голый репозиторий туда, куда все имеют доступ, и выставляете права на чтение и запись так же, как вы это делали бы для любого другого общего каталога. Мы обсудим, как экспортировать голую копию репозитория для этой цели в следующем разделе, &quot;Настройка Git на сервере&quot;.</p>
@@ -868,9 +871,9 @@
 <h2 id="-ssh">Протокол SSH</h2>
 <p>Наверное, наиболее часто используемый транспортный протокол — это SSH. Причина этого в том, что доступ по SSH уже есть на многих серверах, а если его нет, то его очень легко настроить. Кроме того, SSH — единственный из сетевых протоколов, предоставляющий доступ и на чтение, и на запись. Два других сетевых протокола (HTTP и Git) в большинстве случаев дают доступ только на чтение, поэтому даже если они вам доступны, вам всё равно понадобится SSH для записи. К тому же SSH протокол с аутентификацией, и благодаря его распространённости обычно его легко настроить и использовать.</p>
 <p>Чтобы склонировать Git-репозиторий по SSH, вы можете указать префикс ssh:// в URL, например:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">ssh:</span>/<span class="hljs-regexp">/user@server/project</span>.git
+<pre><code>$ git clone ssh://user@server/project.git
 </code></pre><p>Альтернативно для протокола SSH можно использовать более короткую запись в scp-стиле:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone user<span class="hljs-variable">@server</span><span class="hljs-symbol">:project</span>.git
+<pre><code>$ git clone user@server:project.git
 </code></pre><p>Также вы можете не указывать имя пользователя, Git будет использовать то, под которым вы вошли в систему.</p>
 <h3 id="-">Достоинства</h3>
 <p>SSH имеет множество достоинств. Во-первых, вы, по сути, вынуждены его использовать, когда нужен авторизованный доступ на запись к репозиторию через сеть. Во-вторых, SSH достаточно легко настроить — SSH-демоны распространены, многие системные администраторы имеют опыт работы с ними, и во многих дистрибутивах они уже настроены или есть утилиты для управления ими. Также доступ по SSH безопасен — данные передаются зашифрованными по авторизованным каналам. Наконец, так же как и Git-протокол и локальный протокол, SSH эффективен, делая данные перед передачей максимально компактными.</p>
@@ -885,13 +888,13 @@
 Кроме того, это, вероятно, самый сложный для настройки протокол. Вы должны запустить собственно демон, не являющийся стандартным. Мы рассмотрим его настройку в разделе &quot;Gitosis&quot; этой главы. К тому же, ему необходим сервис <code>xinetd</code> или ему подобный, что не всегда легко сделать. Также необходимо, чтобы сетевой экран позволял доступ на порт 9418, который не является стандартным портом, всегда разрешённым в корпоративных брандмауэрах. За сетевыми экранами крупных корпораций этот неизвестный порт обычно заблокирован.</p>
 <h2 id="-http-s">Протокол HTTP/S</h2>
 <p>Последний доступный протокол — HTTP. Прелесть протоколов HTTP и HTTPS в простоте их настройки. По сути, всё, что необходимо сделать — поместить голый репозиторий внутрь каталога с HTTP документами, установить перехватчик <code>post-update</code> и всё (подробнее о перехватчиках будет рассказано в главе 7). Теперь каждый, имеющий доступ к веб-серверу, на котором был размещён репозиторий, может его склонировать. Таким образом, чтобы открыть доступ к своему репозиторию на чтение через HTTP, нужно сделать что-то наподобие этого:</p>
-<pre><code><span class="hljs-variable">$ </span>cd /var/www/htdocs/
-<span class="hljs-variable">$ </span>git clone --bare /path/to/git_project gitproject.git
-<span class="hljs-variable">$ </span>cd gitproject.git
-<span class="hljs-variable">$ </span>mv hooks/post-update.sample hooks/post-update
-<span class="hljs-variable">$ </span>chmod a+x hooks/post-update
+<pre><code>$ cd /var/www/htdocs/
+$ git clone --bare /path/to/git_project gitproject.git
+$ cd gitproject.git
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>Вот и всё. Перехватчик <code>post-update</code>, входящий в состав Git&#39;а по умолчанию, выполняет необходимую команду (<code>git update-server-info</code>), чтобы извлечение (fetch) и клонирование (clone) по HTTP работали правильно. Эта команда выполняется, когда вы отправляете изменения в репозиторий по SSH. Затем остальные могут склонировать его командой:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/example.com/gitproject</span>.git
+<pre><code>$ git clone http://example.com/gitproject.git
 </code></pre><p>В рассмотренном примере мы использовали каталог <code>/var/www/htdocs</code>, обычно используемый сервером Apache, но вы можете использовать любой веб-сервер, отдающий статические данные, расположив голый репозиторий в нужном каталоге. Данные Git&#39;а представляют собой обычные файлы (в главе 9 предоставление данных рассматривается более подробно).</p>
 <p>Также возможна настройка Git&#39;а для доступа на запись через HTTP, однако этот способ мало распространён и требует от вас настройки WebDAV. Поскольку этот способ редко используется, мы не будем рассматривать его в рамках этой книги. Если вас интересует использование протокола HTTP с возможностью записи, вы можете почитать о подготовке репозитория в этой статье: <code>http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt</code>. Положительным моментом настройки Git&#39;а для записи через HTTP является то, что вы можете использовать любой WebDAV-сервер, без поддержки каких-либо специфичных для Git&#39;а возможностей. Таким образом если ваш хостинг предоставляет WebDAV, вы можете обеспечить запись обновлений репозитория на ваш веб-сайт.</p>
 <h3 id="-">Достоинства</h3>
@@ -918,9 +921,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.5" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -850,67 +853,67 @@
 <p>Git также предоставляет несколько инструментов, призванных помочь вам в отладке ваших проектов. Так как Git сконструирован так, чтобы работать с практически любыми типами проектов, эти инструменты довольно общие, но зачастую они могут помочь отловить ошибку или её виновника, если что-то пошло не так.</p>
 <h2 id="-">Аннотация файла</h2>
 <p>Если вы отловили ошибку в коде и хотите узнать, когда и по какой причине она была внесена, то аннотация файла — лучший инструмент для этого случая. Он покажет вам, какие коммиты модифицировали каждую строку файла в последний раз. Так что, если вы видите, что какой-то метод в коде содержит ошибку, то можно сделать аннотацию нужного файла с помощью <code>git blame</code>, чтобы посмотреть, когда и кем каждая строка метода была в последний раз отредактирована. В этом примере используется опция <code>-L</code>, чтобы ограничить вывод строками с 12ой по 22ую:</p>
-<pre><code>$ git blame -L <span class="hljs-number">12</span>,<span class="hljs-number">22</span> simplegit.rb 
-^<span class="hljs-number">4832</span>fe2 (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">03</span>-<span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> -<span class="hljs-number">0700</span> <span class="hljs-number">12</span>)  def show(tree = <span class="hljs-string">'master'</span>)
-^<span class="hljs-number">4832</span>fe2 (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">03</span>-<span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> -<span class="hljs-number">0700</span> <span class="hljs-number">13</span>)   <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git show #{tree}"</span>)</span>
-^<span class="hljs-number">4832</span>fe2 (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">03</span>-<span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> -<span class="hljs-number">0700</span> <span class="hljs-number">14</span>)  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-^<span class="hljs-number">4832</span>fe2 (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">03</span>-<span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> -<span class="hljs-number">0700</span> <span class="hljs-number">15</span>)
-<span class="hljs-number">9</span>f6560e4 (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">03</span>-<span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">20</span> -<span class="hljs-number">0700</span> <span class="hljs-number">16</span>)  def <span class="hljs-built_in">log</span>(tree = <span class="hljs-string">'master'</span>)
-<span class="hljs-number">79</span>eaf55d (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">04</span>-<span class="hljs-number">06</span> <span class="hljs-number">10</span>:<span class="hljs-number">15</span>:<span class="hljs-number">08</span> -<span class="hljs-number">0700</span> <span class="hljs-number">17</span>)   <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log #{tree}"</span>)</span>
-<span class="hljs-number">9</span>f6560e4 (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">03</span>-<span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">20</span> -<span class="hljs-number">0700</span> <span class="hljs-number">18</span>)  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-number">9</span>f6560e4 (Scott Chacon  <span class="hljs-number">2008</span>-<span class="hljs-number">03</span>-<span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">20</span> -<span class="hljs-number">0700</span> <span class="hljs-number">19</span>) 
-<span class="hljs-number">42</span>cf2861 (Magnus Chacon <span class="hljs-number">2008</span>-<span class="hljs-number">04</span>-<span class="hljs-number">13</span> <span class="hljs-number">10</span>:<span class="hljs-number">45</span>:<span class="hljs-number">01</span> -<span class="hljs-number">0700</span> <span class="hljs-number">20</span>)  def blame(path)
-<span class="hljs-number">42</span>cf2861 (Magnus Chacon <span class="hljs-number">2008</span>-<span class="hljs-number">04</span>-<span class="hljs-number">13</span> <span class="hljs-number">10</span>:<span class="hljs-number">45</span>:<span class="hljs-number">01</span> -<span class="hljs-number">0700</span> <span class="hljs-number">21</span>)   <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git blame #{path}"</span>)</span>
-<span class="hljs-number">42</span>cf2861 (Magnus Chacon <span class="hljs-number">2008</span>-<span class="hljs-number">04</span>-<span class="hljs-number">13</span> <span class="hljs-number">10</span>:<span class="hljs-number">45</span>:<span class="hljs-number">01</span> -<span class="hljs-number">0700</span> <span class="hljs-number">22</span>)  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+<pre><code>$ git blame -L 12,22 simplegit.rb 
+^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = &#39;master&#39;)
+^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command(&quot;git show #{tree}&quot;)
+^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
+^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 15)
+9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = &#39;master&#39;)
+79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command(&quot;git log #{tree}&quot;)
+9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
+9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19) 
+42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
+42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command(&quot;git blame #{path}&quot;)
+42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
 </code></pre><p>Заметьте, что первое поле — это частичная SHA-1 коммита, в котором последний раз менялась строка. Следующие два поля — это значения, полученные из этого коммита — имя автора и дата создания коммита. Так что вы легко можете понять, кто и когда менял данную строку. Затем идут номера строк и содержимое файла. Также обратите внимание на строки с <code>^4832fe2</code>, это те строки, которые находятся здесь со времён первого коммита для этого файла. Это коммит, в котором этот файл был впервые добавлен в проект, и с тех пор те строки не менялись. Это всё несколько сбивает с толку, потому что только что вы увидели по крайней мере три разных способа изменить SHA коммита с помощью <code>^</code>, но тут вот такое значение.</p>
 <p>Ещё одна крутая вещь в Git&#39;е — это то, что он не отслеживает переименования файлов в явном виде. Он записывает снимки состояний, а затем пытается выяснить, что было переименовано неявно уже после того, как это случилось. Одна из интересных функций, возможная благодаря этому, заключается в том, что вы можете попросить дополнительно выявить все виды перемещений кода. Если вы передадите <code>-C</code> в <code>git blame</code>, Git проанализирует аннотируемый файл и попытается выявить, откуда фрагменты кода в нём появились изначально, если они были скопированы откуда-то. Недавно я занимался разбиением файла <code>GITServerHandler.m</code> на несколько файлов, один из которых был <code>GITPackUpload.m</code>. Вызвав <code>blame</code> с опцией <code>-C</code> для <code>GITPackUpload.m</code>, я могу понять откуда части кода здесь появились:</p>
-<pre><code>$ git blame <span class="hljs-attribute">-C</span> <span class="hljs-attribute">-L</span> <span class="hljs-number">141</span>,<span class="hljs-number">153</span> GITPackUpload<span class="hljs-built_in">.</span>m 
-f344f58d GITServerHandler<span class="hljs-built_in">.</span>m (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">04</span> <span class="hljs-number">141</span>) 
-f344f58d GITServerHandler<span class="hljs-built_in">.</span>m (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">04</span> <span class="hljs-number">142</span>) <span class="hljs-subst">-</span> (<span class="hljs-literal">void</span>) gatherObjectShasFromC
-f344f58d GITServerHandler<span class="hljs-built_in">.</span>m (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">04</span> <span class="hljs-number">143</span>) {
-<span class="hljs-number">70</span>befddd GITServerHandler<span class="hljs-built_in">.</span>m (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">03</span><span class="hljs-subst">-</span><span class="hljs-number">22</span> <span class="hljs-number">144</span>)         <span class="hljs-comment">//NSLog(@"GATHER COMMI</span>
-ad11ac80 GITPackUpload<span class="hljs-built_in">.</span>m    (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">03</span><span class="hljs-subst">-</span><span class="hljs-number">24</span> <span class="hljs-number">145</span>)
-ad11ac80 GITPackUpload<span class="hljs-built_in">.</span>m    (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">03</span><span class="hljs-subst">-</span><span class="hljs-number">24</span> <span class="hljs-number">146</span>)         NSString <span class="hljs-subst">*</span>parentSha;
-ad11ac80 GITPackUpload<span class="hljs-built_in">.</span>m    (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">03</span><span class="hljs-subst">-</span><span class="hljs-number">24</span> <span class="hljs-number">147</span>)         GITCommit <span class="hljs-subst">*</span>commit <span class="hljs-subst">=</span> <span class="hljs-preprocessor">[</span>g
-ad11ac80 GITPackUpload<span class="hljs-built_in">.</span>m    (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">03</span><span class="hljs-subst">-</span><span class="hljs-number">24</span> <span class="hljs-number">148</span>)
-ad11ac80 GITPackUpload<span class="hljs-built_in">.</span>m    (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">03</span><span class="hljs-subst">-</span><span class="hljs-number">24</span> <span class="hljs-number">149</span>)         <span class="hljs-comment">//NSLog(@"GATHER COMMI</span>
-ad11ac80 GITPackUpload<span class="hljs-built_in">.</span>m    (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">03</span><span class="hljs-subst">-</span><span class="hljs-number">24</span> <span class="hljs-number">150</span>)
-<span class="hljs-number">56</span>ef2caf GITServerHandler<span class="hljs-built_in">.</span>m (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">05</span> <span class="hljs-number">151</span>)         <span class="hljs-keyword">if</span>(commit) {
-<span class="hljs-number">56</span>ef2caf GITServerHandler<span class="hljs-built_in">.</span>m (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">05</span> <span class="hljs-number">152</span>)                 <span class="hljs-preprocessor">[</span>refDict setOb
-<span class="hljs-number">56</span>ef2caf GITServerHandler<span class="hljs-built_in">.</span>m (Scott <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">05</span> <span class="hljs-number">153</span>)
+<pre><code>$ git blame -C -L 141,153 GITPackUpload.m 
+f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
+f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
+f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
+70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@&quot;GATHER COMMI
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 145)
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 146)         NSString *parentSha;
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 147)         GITCommit *commit = [g
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 148)
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 149)         //NSLog(@&quot;GATHER COMMI
+ad11ac80 GITPackUpload.m    (Scott 2009-03-24 150)
+56ef2caf GITServerHandler.m (Scott 2009-01-05 151)         if(commit) {
+56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
+56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 </code></pre><p>Это действительно удобно. Стандартно вам бы выдали в качестве начального коммита тот коммит, в котором вы скопировали код, так как это первый коммит, в котором вы поменяли эти строки в данном файле. А сейчас Git выдал вам изначальный коммит, в котором эти строки были написаны, несмотря на то, что это было в другом файле.</p>
 <h2 id="-">Бинарный поиск</h2>
 <p>Аннотирование файла помогает, когда вы знаете, где у вас ошибка, и есть с чего начинать. Если вы не знаете, что у вас сломалось, и с тех пор, когда код работал, были сделаны десятки или сотни коммитов, вы наверняка обратитесь за помощью к <code>git bisect</code>. Команда <code>bisect</code> выполняет бинарный поиск по истории коммитов, и призвана помочь как можно быстрее определить, в каком коммите была внесена ошибка.</p>
 <p>Положим, вы только что отправили новую версию вашего кода в производство, и теперь вы периодически получаете отчёты о какой-то ошибке, которая не проявлялась, пока вы работали над кодом, и вы не представляете, почему код ведёт себя так. Вы возвращаетесь к своему коду, и у вас получается воспроизвести ошибку, но вы не понимаете, что не так. Вы можете использовать <code>bisect</code>, чтобы выяснить это. Сначала выполните <code>git bisect start</code>, чтобы запустить процесс, а затем <code>git bisect bad</code>, чтобы сказать системе, что текущий коммит, на котором вы сейчас находитесь, сломан. Затем, необходимо сказать <code>bisect</code>, когда было последнее известное хорошее состояние с помощью <code>git bisect good [хороший_коммит]</code>:</p>
-<pre><code>$ git bisect <span class="hljs-operator"><span class="hljs-keyword">start</span>
+<pre><code>$ git bisect start
 $ git bisect bad
-$ git bisect good v1<span class="hljs-number">.0</span>
-Bisecting: <span class="hljs-number">6</span> revisions <span class="hljs-keyword">left</span> <span class="hljs-keyword">to</span> test <span class="hljs-keyword">after</span> this
-[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling <span class="hljs-keyword">on</span> repo</span>
+$ git bisect good v1.0
+Bisecting: 6 revisions left to test after this
+[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 </code></pre><p>Git выяснил, что между коммитом, который вы указали как последний хороший коммит (v1.0), и текущей плохой версией было сделано примерно 12 коммитов, и он выгрузил вам версию из середины. В этот момент вы можете провести свои тесты и посмотреть, проявляется ли проблема в этом коммите. Если да, то она была внесена где-то раньше этого среднего коммита; если нет, то проблема появилась где-то после коммита в середине. Положим, что оказывается, что проблема здесь не проявилась, и вы сообщаете об этом Git&#39;у, набрав <code>git bisect good</code>, и продолжаете свой путь:</p>
 <pre><code>$ git bisect good
-Bisecting: <span class="hljs-number">3</span> revisions left to test after this
-[b047b02ea83310a70fd603dc8<span class="hljs-built_in">cd</span>7a6<span class="hljs-built_in">cd</span>13d15c04] secure this thing
+Bisecting: 3 revisions left to test after this
+[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
 </code></pre><p>Теперь вы на другом коммите, посередине между тем, который только что был протестирован и вашим плохим коммитом. Вы снова проводите тесты и выясняете, что текущий коммит сломан. Так что вы говорите об этом Git&#39;у с помощью <code>git bisect bad</code>:</p>
 <pre><code>$ git bisect bad
 Bisecting: 1 revisions left to test after this
-[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] <span class="hljs-operator"><span class="hljs-keyword">drop</span> exceptions <span class="hljs-keyword">table</span></span>
+[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 </code></pre><p>Этот коммит хороший, и теперь у Git&#39;а есть вся необходимая информация, чтобы определить, где проблема была внесена впервые. Он выдаёт вам SHA-1 первого плохого коммита и некоторую информацию о нём, а также какие файлы были изменены в этом коммите, так что вы сможете понять, что случилось, что могло внести эту ошибку:</p>
 <pre><code>$ git bisect good
-b047b02ea83310a70fd603dc8<span class="hljs-built_in">cd</span>7a6<span class="hljs-built_in">cd</span>13d15c04 is first bad commit
-commit b047b02ea83310a70fd603dc8<span class="hljs-built_in">cd</span>7a6<span class="hljs-built_in">cd</span>13d15c04
+b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
+commit b047b02ea83310a70fd603dc8cd7a6cd13d15c04
 Author: PJ Hyett &lt;pjhyett@example.com&gt;
-Date:   Tue Jan <span class="hljs-number">27</span> <span class="hljs-number">14</span>:<span class="hljs-number">48</span>:<span class="hljs-number">32</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Tue Jan 27 14:48:32 2009 -0800
 
     secure this thing
 
-:<span class="hljs-number">040000</span> <span class="hljs-number">040000</span> <span class="hljs-number">40</span>ee3e7821b895e52c1695092db9bdc4c61d1730
+:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
 f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
 </code></pre><p>Если вы закончили, необходимо выполнить <code>git bisect reset</code>, чтобы сбросить HEAD туда, где он был до начала бинарного поиска, иначе вы окажетесь в странном состоянии:</p>
-<pre><code><span class="hljs-variable">$ </span>git bisect reset
+<pre><code>$ git bisect reset
 </code></pre><p>Это мощный инструмент, который поможет вам за считанные минуты проверить сотни коммитов в поисках появившейся ошибки. На самом деле, если у вас есть сценарий (script), который возвращает на выходе 0, если проект хороший и не 0, если проект плохой, то вы можете полностью автоматизировать <code>git bisect</code>. Для начала ему снова надо задать область бинарного поиска, задав известные хороший и плохой коммиты. Если хотите, можете сделать это, указав команде <code>bisect start</code> известный плохой коммит первым, а хороший вторым:</p>
-<pre><code><span class="hljs-variable">$ </span>git bisect start <span class="hljs-constant">HEAD</span> v1.<span class="hljs-number">0</span>
-<span class="hljs-variable">$ </span>git bisect run test-error.sh
+<pre><code>$ git bisect start HEAD v1.0
+$ git bisect run test-error.sh
 </code></pre><p>Сделав так, вы получите, что <code>test-error.sh</code> будет автоматически запускаться на каждом выгруженном коммите, пока Git не найдёт первый сломанный коммит. Вы также можете запускать что-нибудь типа <code>make</code> или <code>make tests</code> или что-то там ещё, что запускает ваши автоматические тесты.</p>
 
                     
@@ -930,9 +933,9 @@ f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

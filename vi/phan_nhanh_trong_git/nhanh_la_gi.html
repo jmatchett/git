@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503670765">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,14 +367,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_257">
+                    <section class="normal" id="section-gitbook_231">
                     
                         <h1 id="nh-nh-l-g-">Nhánh Là Gì?</h1>
 <p>Để có thể thực sử hiểu được cách phân nhánh của Git, chúng ta cần nhìn và xem xét lại cách Git lưu trữ dữ liệu. Như bạn đã biết từ Chương 1, Git không lưu trữ dữ liệu dưới dạng một chuỗi các thay đổi hoặc delta, mà thay vào đó là một chuỗi các ảnh (snapshot).</p>
 <p>Khi bạn commit, Git lưu trữ đối tượng commit mà có chứa một con trỏ tới ảnh của nội dung bạn đã tổ chức (stage), tác giả và thông điệp, hay 0 hoặc nhiều con trỏ khác trỏ tới một hoặc nhiều commit cha trực tiếp của commit đó: commit đầu tiên không có cha, commit bình thường có một cha, và nhiều cha cho commit là kết quả được tích hợp lại từ hai hoặc nhiều nhánh.</p>
 <p>Để hình dung ra vấn đề này, hãy giả sử bạn có một thư mục chứa ba tập tin, và bạn tổ chức tất cả chúng để commit. Quá trình tổ chức các tập tin sẽ thực hiện băm từng tập (sử dụng mã SHA-1 được đề cập ở Chương 1), lưu trữ phiên bản đó của tập tin trong kho chứa Git (Git xem chúng như là các blob), và thêm mã băm đó vào khu vực tổ chức:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span> test.rb <span class="hljs-constant">LICENSE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit of my project'</span>
+<pre><code>$ git add README test.rb LICENSE
+$ git commit -m &#39;initial commit of my project&#39;
 </code></pre><p>Lệnh <code>git commit</code> khi chạy sẽ băm tất cả các thư mục trong dự án và lưu chúng lại dưới dạng đối tượng <code>tree</code>. Sau đó Git tạo một đối tượng <code>commit</code> có chứa các thông tin mô tả (metadata) và một con trỏ trỏ tới đối tương <code>tree</code> gốc của dự án vì thế nó có thể tạo lại ảnh đó khi cần thiết.</p>
 <p>Kho chứa Git của bạn bây giờ có chứa năm đối tượng: một blob cho nội dung của từng tập tin, một &quot;cây&quot; liệt kê nội dung của thư mục và chỉ rõ tên tập tin nào được lưu trữ trong blob nào, và một commit có con trỏ trỏ tới cây gốc và tất cả các thông tin mô tả commit. Về mặt lý thuyết, dữ liệu trong kho chứa Git có hình dạng như trong Hình 3-1. </p>
 <p><img src="http://git-scm.com/figures/18333fig0301-tn.png" alt=""></p>
@@ -383,7 +386,7 @@
 <p><img src="http://git-scm.com/figures/18333fig0303-tn.png" alt=""></p>
 <p>Hình 3-3. Nhánh trỏ tới dữ liệu commit.</p>
 <p>Chuyện gì xảy ra nếu bạn tạo một nhánh mới? Làm như vậy sẽ tạo ra một con trỏ mới cho phép bạn di chuyển vòng quanh. Ví dụ bạn tạo một nhánh mới có tên testing. Việc này được thực hiện bằng lệnh <code>git branch</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch testing
+<pre><code>$ git branch testing
 </code></pre><p>Nó sẽ tạo một con trỏ mới, cùng trỏ tới commit hiện tại (mới nhất) của bạn (xem Hình 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Hình 304. Nhiều nhánh cùng trỏ vào dữ liệu commit.</p>
@@ -391,25 +394,25 @@
 <p><img src="http://git-scm.com/figures/18333fig0305-tn.png" alt=""></p>
 <p>Hình 3-5. Tập tin HEAD trỏ tới nhánh mà bạn đang làm việc.</p>
 <p>Để chuyển sang một nhánh đang tồn tại, bạn sử dụng lệnh <code>git checkout</code>. Hãy cùng chuyển sang nhánh testing mới:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout testing
+<pre><code>$ git checkout testing
 </code></pre><p>Lệnh này sẽ chuyển con trỏ HEAD sang nhánh testing (xem Hình 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Hình 3-6. HEAD trỏ tới nhánh khác khi bạn chuyển nhánh.</p>
 <p>Ý nghĩa của việc này là gì? Hãy cùng thực hiện một commit khác:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made a change'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made a change&#39;
 </code></pre><p>Hình 3-7 minh họa kết quả.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Hình 3-7. Nhánh mà HEAD trỏ tới di chuyển tiến lên phía trước theo từng commit.</p>
 <p>Điều này thật thú vị, bởi vì nhánh testing của bạn bây giờ đã tiển hẳn lên phía trước, nhưng nhánh <code>master</code> thì vẫn trỏ tới commit ở thời điểm khi bạn chạy lệnh <code>git checkout</code> để chuyển nhánh. Hãy cùng chuyển trở lại nhánh <code>master</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>Hình 3-8 hiển thị kết quả.</p>
 <p><img src="http://git-scm.com/figures/18333fig0308-tn.png" alt=""></p>
 <p>Hình 3-8. HEAD chuyển sang nhánh khác khi checkout.</p>
 <p>Lệnh này vừa thực hiện hai việc. Nó di chuyển lại con trỏ về nhánh <code>master</code>, và sau đó nó phục hồi lại các tập tin trong thư mục làm việc của bạn trở lại snapshot mà <code>master</code> trỏ tới. Điều này cũng có nghĩa là các thay đổi bạn thực hiện từ thời điểm này trở đi sẽ tách ra so với phiên bản cũ hơn của dự án. Nó &quot;tua lại&quot; các thay đổi cần thiết mà bạn đã thực hiện trên nhánh <code>testing</code> một cách tạm thời để bạn có thể đi theo một hướng khác.</p>
 <p>Hãy cùng tạo một vài thay đổi và commit lại một lần nữa:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made other changes'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made other changes&#39;
 </code></pre><p>Bây giờ lịch sử của dự án đã bị tách ra (xem Hình 3-9). Bạn tạo mới và chuyển sang một nhánh, thực hiện một số thay đổi trên đó, và rồi chuyển ngược lại nhánh chính và tạo thêm các thay đổi khác. Cả hai sự thay đổi này bị cô lập với nhau ở hai nhánh riêng biệt: bạn có thể chuyển đi hoặc lại giữa cách nhánh và tích hợp chúng lại với nhau khi cần thiết. Và bạn đã thực hiện những việc trên một cách đơn giản với lệnh <code>branch</code> và <code>checkout</code>.</p>
 <p><img src="http://git-scm.com/figures/18333fig0309-tn.png" alt=""></p>
 <p>Hình 3-9. Lịch sử các nhánh đã bị phân tách.</p>
@@ -434,9 +437,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

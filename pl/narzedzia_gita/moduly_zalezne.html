@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.6" data-basepath=".." data-revision="1397503694381">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.6" data-basepath=".." data-revision="1397847855018">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -824,7 +827,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_438">
+                    <section class="normal" id="section-gitbook_432">
                     
                         <h1 id="modu-y-zale-ne">Moduły zależne</h1>
 <!-- # Submodules -->
@@ -844,45 +847,45 @@
 <p>Załóżmy, że chcesz dodać bibliotekę Rack (biblioteka obsługująca serwer stron www napisana w Ruby) do swojego projektu, być może wprowadzić jakieś własne zmiany, ale nadal chcesz włączać zmiany wprowadzane w jej oryginalnym repozytorium. Pierwszą rzeczą jaką powinieneś zrobić jest sklonowanie zewnętrznego repozytorium do własnego podkatalogu. Dodajesz zewnętrzne projekty jako moduły zależne, za pomocą komendy <code>git submodule add</code>:</p>
 <!-- Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command: -->
 
-<pre><code>$ git submodule <span class="hljs-keyword">add</span> git://github<span class="hljs-preprocessor">.com</span>/chneukirchen/rack<span class="hljs-preprocessor">.git</span> rack
-Initialized empty Git repository <span class="hljs-keyword">in</span> /opt/subtest/rack/<span class="hljs-preprocessor">.git</span>/
-<span class="hljs-label">remote:</span> Counting objects: <span class="hljs-number">3181</span>, done.
-<span class="hljs-label">remote:</span> Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">1534</span>/<span class="hljs-number">1534</span>), done.
-<span class="hljs-label">remote:</span> Total <span class="hljs-number">3181</span> (delta <span class="hljs-number">1951</span>), reused <span class="hljs-number">2623</span> (delta <span class="hljs-number">1603</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3181</span>/<span class="hljs-number">3181</span>), <span class="hljs-number">675.42</span> KiB | <span class="hljs-number">422</span> KiB/s, done.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">1951</span>/<span class="hljs-number">1951</span>), done.
+<pre><code>$ git submodule add git://github.com/chneukirchen/rack.git rack
+Initialized empty Git repository in /opt/subtest/rack/.git/
+remote: Counting objects: 3181, done.
+remote: Compressing objects: 100% (1534/1534), done.
+remote: Total 3181 (delta 1951), reused 2623 (delta 1603)
+Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
+Resolving deltas: 100% (1951/1951), done.
 </code></pre><p>Masz teraz projekt Rack w podkatalogu o nazwie <code>rack</code>, który znajduje się w Twoim projekcie. Możesz przejść do tego podkatalogu, wprowadzić zmiany, dodać swoje własne zdalne repozytorium do którego będziesz mógł wypychać zmiany, pobierać i włączać zmiany z oryginalnego repozytorium, itd. Jeżeli uruchomisz komendę <code>git status</code> zaraz po dodaniu modułu, zobaczysz dwie rzeczy:</p>
 <!-- Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things: -->
 
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      new file:   .gitmodules</span>
-<span class="hljs-preprocessor">#      new file:   rack</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#      new file:   .gitmodules
+#      new file:   rack
+#
 </code></pre><p>Po pierwsze zobaczysz plik <code>.gitmodules</code>. Jest to plik konfiguracyjny, który przechowuje mapowania pomiędzy adresami URL projektów i lokalnymi podkatalogami do których je pobrałeś:</p>
 <!-- First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into: -->
 
-<pre><code>$ cat <span class="hljs-preprocessor">.gitmodules</span>
-[submodule <span class="hljs-string">"rack"</span>]
+<pre><code>$ cat .gitmodules
+[submodule &quot;rack&quot;]
       path = rack
-      url = git://github<span class="hljs-preprocessor">.com</span>/chneukirchen/rack<span class="hljs-preprocessor">.git</span>
+      url = git://github.com/chneukirchen/rack.git
 </code></pre><p>Jeżeli masz więcej modułów zależnych, będziesz miał więcej wpisów w tym pliku. Warto zaznaczysz, że ten plik jest również obsługiwany przez system kontroli wersji razem z innymi plikami, podobnie do <code>.gitignore</code>. Jest wypychany i pobierany razem z resztą projektu. Z niego inne osoby pobierające ten projekt dowiedzą sie skąd pobrać dodatkowe moduły. </p>
 <!-- If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from. -->
 
 <p>Inny wynik komendy <code>git status</code> ma katalog rack. Jeżeli uruchomisz <code>git diff</code> na nim, zobaczysz coś interesującego:</p>
 <!-- The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting: -->
 
-<pre><code>$ git diff <span class="hljs-comment">--cached rack</span>
-diff <span class="hljs-comment">--git a/rack b/rack</span>
-<span class="hljs-built_in">new</span> <span class="hljs-built_in">file</span> mode <span class="hljs-number">160000</span>
-index <span class="hljs-number">0000000.</span><span class="hljs-number">.08</span>d709f
-<span class="hljs-comment">--- /dev/null</span>
+<pre><code>$ git diff --cached rack
+diff --git a/rack b/rack
+new file mode 160000
+index 0000000..08d709f
+--- /dev/null
 +++ b/rack
-@@ -<span class="hljs-number">0</span>,<span class="hljs-number">0</span> +<span class="hljs-number">1</span> @@
-+Subproject commit <span class="hljs-number">08</span>d709f78b8c5b0fbeb7821e37fa53e69afcf433
+@@ -0,0 +1 @@
++Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 </code></pre><p>Chociaż <code>rack</code> jest podkatalogiem w Twoim katalogu roboczym, Git widzi go jako moduł zależny i nie śledzi jego zawartości, jeżeli nie jesteś w tym katalogu. Zamiast tego, Git śledzi każdy commit z tego repozytorium. Kiedy zrobisz jakieś zmiany i wykonasz na nich commit w tym podkatalogu, projekt główny </p>
 <!-- Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly. -->
 
@@ -892,11 +895,11 @@ index <span class="hljs-number">0000000.</span><span class="hljs-number">.08</sp
 <p>Jak commitujesz, zobaczysz coś podobnego do:</p>
 <!-- When you commit, you see something like this: -->
 
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">commit</span> -m <span class="hljs-string">'first commit with submodule rack'</span>
-[master <span class="hljs-number">0550271</span>] <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span> <span class="hljs-keyword">with</span> submodule rack
- <span class="hljs-number">2</span> files changed, <span class="hljs-number">4</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
- <span class="hljs-keyword">create</span> mode <span class="hljs-number">100644</span> .gitmodules
- <span class="hljs-keyword">create</span> mode <span class="hljs-number">160000</span> rack</span>
+<pre><code>$ git commit -m &#39;first commit with submodule rack&#39;
+[master 0550271] first commit with submodule rack
+ 2 files changed, 4 insertions(+), 0 deletions(-)
+ create mode 100644 .gitmodules
+ create mode 160000 rack
 </code></pre><p>Zauważ tryb 160000 dla wpisu dotyczącego rack. Jest to specjalny tryb w Gitcie, który oznacza tyle, że zapisujesz commmit jako wpis dotyczący katalogu, a nie podkatalogu czy pliku. </p>
 <!-- Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file. -->
 
@@ -904,106 +907,106 @@ index <span class="hljs-number">0000000.</span><span class="hljs-number">.08</sp
 <!-- You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories: -->
 
 <pre><code>$ git log -1
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">0550271328</span>a0038865aad6331e620cd7238601bb
+commit 0550271328a0038865aad6331e620cd7238601bb
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu Apr <span class="hljs-number">9</span> <span class="hljs-number">09</span>:<span class="hljs-number">03</span>:<span class="hljs-number">56</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Thu Apr 9 09:03:56 2009 -0700
 
-    <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span> <span class="hljs-keyword">with</span> submodule rack
+    first commit with submodule rack
 $ cd rack/
-$ git log -<span class="hljs-number">1</span>
-<span class="hljs-keyword">commit</span> <span class="hljs-number">08</span>d709f78b8c5b0fbeb7821e37fa53e69afcf433
+$ git log -1
+commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 Author: Christian Neukirchen &lt;chneukirchen@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Wed Mar <span class="hljs-number">25</span> <span class="hljs-number">14</span>:<span class="hljs-number">49</span>:<span class="hljs-number">04</span> <span class="hljs-number">2009</span> +<span class="hljs-number">0100</span>
+Date:   Wed Mar 25 14:49:04 2009 +0100
 
-    Document version change</span>
+    Document version change
 </code></pre><h2 id="klonowanie-projektu-z-modu-ami-zale-nymi">Klonowanie projektu z modułami zależnymi</h2>
 <!-- ## Cloning a Project with Submodules -->
 
 <p>Sklonujesz tym razem projekt, który ma sobie moduł zależny. Kiedy pobierzesz taki projekt, otrzymasz katalogi które zawierają moduły zależne, ale nie będzie w nich żadnych plików: </p>
 <!-- Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet: -->
 
-<pre><code>$ git clone git://github<span class="hljs-preprocessor">.com</span>/schacon/myproject<span class="hljs-preprocessor">.git</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /opt/myproject/<span class="hljs-preprocessor">.git</span>/
-<span class="hljs-label">remote:</span> Counting objects: <span class="hljs-number">6</span>, done.
-<span class="hljs-label">remote:</span> Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">4</span>/<span class="hljs-number">4</span>), done.
-<span class="hljs-label">remote:</span> Total <span class="hljs-number">6</span> (delta <span class="hljs-number">0</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">6</span>/<span class="hljs-number">6</span>), done.
+<pre><code>$ git clone git://github.com/schacon/myproject.git
+Initialized empty Git repository in /opt/myproject/.git/
+remote: Counting objects: 6, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 6 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (6/6), done.
 $ cd myproject
 $ ls -l
-total <span class="hljs-number">8</span>
--rw-r--r--  <span class="hljs-number">1</span> schacon  admin   <span class="hljs-number">3</span> Apr  <span class="hljs-number">9</span> <span class="hljs-number">09</span>:<span class="hljs-number">11</span> README
-drwxr-xr-<span class="hljs-built_in">x</span>  <span class="hljs-number">2</span> schacon  admin  <span class="hljs-number">68</span> Apr  <span class="hljs-number">9</span> <span class="hljs-number">09</span>:<span class="hljs-number">11</span> rack
+total 8
+-rw-r--r--  1 schacon  admin   3 Apr  9 09:11 README
+drwxr-xr-x  2 schacon  admin  68 Apr  9 09:11 rack
 $ ls rack/
 $
 </code></pre><p>Powstał katalog <code>rack</code>, ale pusty. Musisz uruchomić dwie komendy: <code>git submodule init</code>, aby zainicjować lokalny plik konfiguracyjny, oraz <code>git submodule update</code>, aby pobrać wszystkie dane z tego projektu i nałożyć zmiany dotyczące tego modułu z projektu głównego:</p>
 <!-- The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject: -->
 
 <pre><code>$ git submodule init
-Submodule <span class="hljs-string">'rack'</span> (git:<span class="hljs-comment">//github.com/chneukirchen/rack.git) registered for path 'rack'</span>
+Submodule &#39;rack&#39; (git://github.com/chneukirchen/rack.git) registered for path &#39;rack&#39;
 $ git submodule update
-Initialized empty Git repository <span class="hljs-keyword">in</span> /opt/myproject/rack/.git/
-remote: Counting objects: <span class="hljs-number">3181</span>, done.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">1534</span>/<span class="hljs-number">1534</span>), done.
-remote: Total <span class="hljs-number">3181</span> (delta <span class="hljs-number">1951</span>), reused <span class="hljs-number">2623</span> (delta <span class="hljs-number">1603</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3181</span>/<span class="hljs-number">3181</span>), <span class="hljs-number">675.42</span> KiB | <span class="hljs-number">173</span> KiB/s, done.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">1951</span>/<span class="hljs-number">1951</span>), done.
-Submodule path <span class="hljs-string">'rack'</span>: <span class="hljs-keyword">checked</span> <span class="hljs-keyword">out</span> <span class="hljs-string">'08d709f78b8c5b0fbeb7821e37fa53e69afcf433'</span>
+Initialized empty Git repository in /opt/myproject/rack/.git/
+remote: Counting objects: 3181, done.
+remote: Compressing objects: 100% (1534/1534), done.
+remote: Total 3181 (delta 1951), reused 2623 (delta 1603)
+Receiving objects: 100% (3181/3181), 675.42 KiB | 173 KiB/s, done.
+Resolving deltas: 100% (1951/1951), done.
+Submodule path &#39;rack&#39;: checked out &#39;08d709f78b8c5b0fbeb7821e37fa53e69afcf433&#39;
 </code></pre><p>Teraz Twój podkatalog <code>rack</code> jest w dokładnie takim samym stanie w jakim był, gdy commitowałeś go wcześniej. Jeżeli inny programista zrobi zmiany w kodzie rack i zapisze je, a Ty pobierzesz je i włączysz, otrzymasz dziwny wynik:</p>
 <!-- Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd: -->
 
 <pre><code>$ git merge origin/master
-Updating <span class="hljs-number">0550271.</span><span class="hljs-number">.85</span>a3eee
+Updating 0550271..85a3eee
 Fast forward
- rack |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ rack |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 [master*]$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   rack</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#      modified:   rack
+#
 </code></pre><p>Włączyłeś zmiany które były po prostu przesunięciem wskaźnika ostatniej wersji dla tego modułu; jednak kod nie został zaktualizowany, więc wygląda to trochę tak, jakbyś miał niespójne dane w swoim katalogu roboczym:</p>
 <!-- You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory: -->
 
 <pre><code>$ git diff
 diff --git a/rack b/rack
 index 6c5e70b..08d709f 160000
-<span class="hljs-header">--- a/rack</span>
-<span class="hljs-header">+++ b/rack</span>
+--- a/rack
++++ b/rack
 @@ -1 +1 @@
-<span class="hljs-deletion">-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0</span>
-<span class="hljs-addition">+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433</span>
+-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
++Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 </code></pre><p>Dzieje się tak dlatego, ponieważ wskaźnik który masz dla modułu zależnego, nie istnieje w jego katalogu. Aby to poprawić, musisz uruchomić <code>git submodule update</code> ponownie:</p>
 <!-- This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again: -->
 
 <pre><code>$ git submodule update
-remote: Counting objects: <span class="hljs-number">5</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">3</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">2</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 2 (delta 0)
+Unpacking objects: 100% (3/3), done.
 From git@github.com:schacon/rack
-   <span class="hljs-number">08</span>d709f.<span class="hljs-number">.6</span>c5e70b  master     -&gt; origin/master
-Submodule path <span class="hljs-string">'rack'</span>: checked out <span class="hljs-string">'6c5e70b984a60b3cecd395edd5b48a7575bf58e0'</span>
+   08d709f..6c5e70b  master     -&gt; origin/master
+Submodule path &#39;rack&#39;: checked out &#39;6c5e70b984a60b3cecd395edd5b48a7575bf58e0&#39;
 </code></pre><p>Musisz wykonywać tę komendę, za każdym razem gdy ściągniesz zmiany z modułu do swojego projektu. Trochę to dziwne, ale działa.</p>
 <!-- You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works. -->
 
 <p>Często zdarza się natrafić na problem związany z tym, że programista wprowadza zmiany lokalnie w jakimś module, ale nie wypycha ich na publiczny serwer. Następnie commituje on wskaźnik do tej nie publicznej zmiany i wypycha do głównego projektu. Kiedy inni programiści będą chcieli uruchomić <code>git submodule update</code>, komenda ta nie będzie mogła znaleźć commita na który zmiana wskazuje, ponieważ istnieje ona tylko na komputerze tamtego programisty. Jeżeli tak się stanie, zobaczysz błąd podobny do:</p>
 <!-- One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this: -->
 
-<pre><code>$ git submodule <span class="hljs-operator"><span class="hljs-keyword">update</span>
-fatal: reference isn’t a tree: <span class="hljs-number">6</span>c5e70b984a60b3cecd395edd5b48a7575bf58e0
-Unable <span class="hljs-keyword">to</span> checkout <span class="hljs-string">'6c5e70b984a60b3cecd395edd5ba7575bf58e0'</span> <span class="hljs-keyword">in</span> submodule path <span class="hljs-string">'rack'</span></span>
+<pre><code>$ git submodule update
+fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
+Unable to checkout &#39;6c5e70b984a60b3cecd395edd5ba7575bf58e0&#39; in submodule path &#39;rack&#39;
 </code></pre><p>Musisz dojść do tego, kto ostatnio zmieniał ten moduł: </p>
 <!-- You have to see who last changed the submodule: -->
 
 <pre><code>$ git log -1 rack
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">85</span>a3eee996800fcfa91e2119372dd4172bf76678
+commit 85a3eee996800fcfa91e2119372dd4172bf76678
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu Apr <span class="hljs-number">9</span> <span class="hljs-number">09</span>:<span class="hljs-number">19</span>:<span class="hljs-number">14</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Thu Apr 9 09:19:14 2009 -0700
 
-    added a submodule reference I will never make <span class="hljs-keyword">public</span>. hahahahaha!</span>
+    added a submodule reference I will never make public. hahahahaha!
 </code></pre><p>W takiej sytuacji piszesz do niego e-mail i mówisz mu co o tym sądzisz.</p>
 <!-- Then, you e-mail that guy and yell at him. -->
 
@@ -1029,58 +1032,58 @@ Author: Scott Chacon &lt;schacon@gmail.com&gt;
 <!-- Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory: -->
 
 <pre><code>$ git checkout -b rack
-Switched to a new branch <span class="hljs-string">"rack"</span>
+Switched to a new branch &quot;rack&quot;
 $ git submodule add git@github.com:schacon/rack.git rack
-Initialized empty Git repository <span class="hljs-keyword">in</span> /opt/myproj/rack/.git/
-<span class="hljs-keyword">...</span>
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3184</span>/<span class="hljs-number">3184</span>), <span class="hljs-number">677.42</span> KiB | <span class="hljs-number">34</span> KiB/s, done.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">1952</span>/<span class="hljs-number">1952</span>), done.
-$ git commit -am <span class="hljs-string">'added rack submodule'</span>
+Initialized empty Git repository in /opt/myproj/rack/.git/
+...
+Receiving objects: 100% (3184/3184), 677.42 KiB | 34 KiB/s, done.
+Resolving deltas: 100% (1952/1952), done.
+$ git commit -am &#39;added rack submodule&#39;
 [rack cc49a69] added rack submodule
- <span class="hljs-number">2</span> files changed, <span class="hljs-number">4</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
- create mode <span class="hljs-number">100644</span> .gitmodules
- create mode <span class="hljs-number">160000</span> rack
+ 2 files changed, 4 insertions(+), 0 deletions(-)
+ create mode 100644 .gitmodules
+ create mode 160000 rack
 $ git checkout master
-Switched to branch <span class="hljs-string">"master"</span>
+Switched to branch &quot;master&quot;
 $ git status
-<span class="hljs-comment"># On branch master</span>
-<span class="hljs-comment"># Untracked files:</span>
-<span class="hljs-comment">#   (use "git add &lt;file&gt;..." to include in what will be committed)</span>
-<span class="hljs-comment">#</span>
-<span class="hljs-comment">#      rack/</span>
+# On branch master
+# Untracked files:
+#   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+#
+#      rack/
 </code></pre><p>Musisz albo przenieść go gdzieś lub usunąć, będziesz musiał ponownie go sklonować po przełączeniu </p>
 <!-- You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up. -->
 
 <p>Ostatnim głównym problemem z którym ludzie się spotykają, jest sytuacja w której, chcemy przejść z podkatalogów na moduły zależne. Jeżeli miałeś dodane pliki w swoim projekcie, a następnie chciałbyś przenieść część z nich do osobnego modułu, musisz być ostrożny bo inaczej Git będzie sprawiał kłopoty. Załóżmy że masz pliki związane z rack w podkatalogu swojego projektu i chcesz przenieść je do osobnego modułu. Jeżeli usuniesz ten podkatalog i uruchomisz <code>submodule add</code>, Git pokaże błąd:</p>
 <!-- The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you: -->
 
-<pre><code><span class="hljs-variable">$ </span>rm -<span class="hljs-constant">Rf</span> rack/
-<span class="hljs-variable">$ </span>git submodule add git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/rack.git rack
-<span class="hljs-string">'rack'</span> already exists <span class="hljs-keyword">in</span> the index
+<pre><code>$ rm -Rf rack/
+$ git submodule add git@github.com:schacon/rack.git rack
+&#39;rack&#39; already exists in the index
 </code></pre><p>Musisz najpierw usunąć z przechowalni katalog <code>rack</code>. Następnie możesz dodać moduł:</p>
 <!-- You have to unstage the `rack` directory first. Then you can add the submodule: -->
 
 <pre><code>$ git rm -r rack
-$ git submodule <span class="hljs-keyword">add</span> git@github<span class="hljs-preprocessor">.com</span>:schacon/rack<span class="hljs-preprocessor">.git</span> rack
-Initialized empty Git repository <span class="hljs-keyword">in</span> /opt/testsub/rack/<span class="hljs-preprocessor">.git</span>/
-<span class="hljs-label">remote:</span> Counting objects: <span class="hljs-number">3184</span>, done.
-<span class="hljs-label">remote:</span> Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">1465</span>/<span class="hljs-number">1465</span>), done.
-<span class="hljs-label">remote:</span> Total <span class="hljs-number">3184</span> (delta <span class="hljs-number">1952</span>), reused <span class="hljs-number">2770</span> (delta <span class="hljs-number">1675</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3184</span>/<span class="hljs-number">3184</span>), <span class="hljs-number">677.42</span> KiB | <span class="hljs-number">88</span> KiB/s, done.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">1952</span>/<span class="hljs-number">1952</span>), done.
+$ git submodule add git@github.com:schacon/rack.git rack
+Initialized empty Git repository in /opt/testsub/rack/.git/
+remote: Counting objects: 3184, done.
+remote: Compressing objects: 100% (1465/1465), done.
+remote: Total 3184 (delta 1952), reused 2770 (delta 1675)
+Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
+Resolving deltas: 100% (1952/1952), done.
 </code></pre><p>Teraz załóżmy że zrobiłeś to w gałęzi. Jeżeli spróbujesz przełączyć się ponownie na gałąź w której te pliki znajdują się w projekcie a nie w module zależnym - otrzymasz błąd:</p>
 <!-- Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error: -->
 
 <pre><code>$ git checkout master
-error: Untracked working tree <span class="hljs-built_in">file</span> <span class="hljs-string">'rack/AUTHORS'</span> would be overwritten <span class="hljs-keyword">by</span> <span class="hljs-built_in">merge</span>.
+error: Untracked working tree file &#39;rack/AUTHORS&#39; would be overwritten by merge.
 </code></pre><p>Musisz przenieść gdzieś katalogu modułu <code>rack</code>, zanim będziesz mógł zmienić na gałąź która go nie ma:</p>
 <!-- You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it: -->
 
-<pre><code><span class="hljs-variable">$ </span>mv rack /tmp/
-<span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
-<span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">README</span>    rack
+<pre><code>$ mv rack /tmp/
+$ git checkout master
+Switched to branch &quot;master&quot;
+$ ls
+README    rack
 </code></pre><p>Potem, gdy przełączysz się z powrotem, otrzymasz pusty katalog <code>rack</code>. Musisz albo uruchomić <code>git submodule update</code> w celu ponownego pobrania, lub przenieść katalog <code>/tmp/rack</code> z powrotem do pustego katalogu.</p>
 <!-- Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory. -->
 
@@ -1102,9 +1105,9 @@ error: Untracked working tree <span class="hljs-built_in">file</span> <span clas
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

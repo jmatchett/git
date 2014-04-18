@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_813">
+                    <section class="normal" id="section-gitbook_812">
                     
                         <h1 id="-git">Первоначальная настройка Git</h1>
 <p>Теперь, когда Git установлен в вашей системе, хотелось бы сделать кое-какие вещи, чтобы настроить среду для работы с Git&#39;ом под себя. Это нужно сделать только один раз — при обновлении версии Git&#39;а настройки сохранятся. Но вы можете поменять их в любой момент, выполнив те же команды снова.</p>
@@ -857,15 +860,15 @@
 <p>В системах семейства Windows Git ищет файл <code>.gitconfig</code> в каталоге <code>$HOME</code> (<code>C:\Documents and Settings\$USER</code> или <code>C:\Users\$USER</code> для большинства пользователей). Кроме того Git ищет файл /etc/gitconfig, но уже относительно корневого каталога MSys, который находится там, куда вы решили установить Git, когда запускали инсталлятор.</p>
 <h2 id="-">Имя пользователя</h2>
 <p>Первое, что вам следует сделать после установки Git&#39;а, — указать ваше имя и адрес электронной почты. Это важно, потому что каждый коммит в Git&#39;е содержит эту информацию, и она включена в коммиты, передаваемые вами, и не может быть далее изменена:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>Повторюсь, что, если указана опция <code>--global</code>, то эти настройки достаточно сделать только один раз, поскольку в этом случае Git будет использовать эти данные для всего, что вы делаете в этой системе. Если для каких-то отдельных проектов вы хотите указать другое имя или электронную почту, можно выполнить эту же команду без параметра <code>--global</code> в каталоге с нужным проектом.</p>
 <h2 id="-">Выбор редактора</h2>
 <p>Вы указали своё имя, и теперь можно выбрать текстовый редактор, который будет использоваться, если будет нужно набрать сообщение в Git&#39;е. По умолчанию Git использует стандартный редактор вашей системы, обычно это Vi или Vim. Если вы хотите использовать другой текстовый редактор, например, Emacs, можно сделать следующее:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><h2 id="-">Утилита сравнения</h2>
 <p>Другая полезная настройка, которая может понадобиться — встроенная diff-утилита, которая будет использоваться для разрешения конфликтов слияния. Например, если вы хотите использовать vimdiff:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>Git умеет делать слияния при помощи kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge и opendiff, но вы можете настроить и другую утилиту. Подробнее об этом написано в главе 7.</p>
 <h2 id="-">Проверка настроек</h2>
 <p>Если вы хотите проверить используемые настройки, можете использовать команду <code>git config --list</code>, чтобы показать все, которые Git найдёт:</p>
@@ -876,11 +879,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>Некоторые ключи (названия) настроек могут появиться несколько раз, потому что Git читает один и тот же ключ из разных файлов (например из <code>/etc/gitconfig</code> и <code>~/.gitconfig</code>). В этом случае Git использует последнее значение для каждого ключа.</p>
 <p>Также вы можете проверить значение конкретного ключа, выполнив <code>git config {ключ}</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -899,9 +902,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

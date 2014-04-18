@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397503664231">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397847843644">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -279,25 +282,25 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_90">
+                    <section class="normal" id="section-gitbook_89">
                     
                         <h1 id="ekhavi-git-deponejon">Ekhavi Git-deponejon</h1>
 <p>Estas du precipaj manieroj ekhavi Git-projekton. La unua prenas ekzistantan projekton kaj importas ĝin al Git. La dua klonas ekzistantan Git-deponejon de alia servilo.</p>
 <h2 id="komenci-deponejon-en-ekzistanta-dosierujo">Komenci deponejon en ekzistanta dosierujo</h2>
 <p>Se vi komencas sekvi ŝanĝojn de ekzistanta projekto pere de Git, vi devas iri alla dosierujo de la projekto kaj tajpi</p>
-<pre><code><span class="hljs-variable">$ </span>git init
+<pre><code>$ git init
 </code></pre><p>Tio kreas novan subdosierujon kun la nomo <code>.git</code> kiu enhavas ĉiujn esencajn deponejajn dosierojn — tio estas la skeleto de la Git-deponejo. Ĉi-momente, nenio en via projekto ankoraŭ estas sekvata. (Rigardu en <em>Ĉapitro 9</em> por pli da informoj pri la ekzakta enhavo de la <code>.git</code>-dosierujo kiun vi ĵus kreis.)</p>
 <p>Se vi volas komenci versikontrolon de ekzistantaj dosieroj (kontraŭe al malplena dosierujo), vi devus verŝajne komenci sekvi tiujn dosierojn kaj fari unuan enmeton. Vi povas fari tion kun kelkaj <code>git add</code> kiuj specifigas la dosierojn kiujn vi volas sekvi, kaj post tio <code>git commit</code> por enmeti:</p>
-<pre><code><span class="hljs-variable">$ </span>git add *.c
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'unua versio de la projekto'</span>
+<pre><code>$ git add *.c
+$ git add README
+$ git commit -m &#39;unua versio de la projekto&#39;
 </code></pre><p>Baldaŭ ni klarigu kion ĉi tiuj komandoj faras. En ĉi tiu momento vi havas Git-deponejon kun sekvataj dosieroj kaj unuan enmeton.</p>
 <h2 id="kloni-ekzistantan-deponejon">Kloni ekzistantan deponejon</h2>
 <p>Se vi volas havigi al vi kopion de ekzistanta Git-deponejo — ekzemple de projekto al kiu vi volas kontribui — vi bezonos la komandon <code>git clone</code>. Se vi konas aliajn VCS-sistemojn, vi rimarkas ke la komando estas <code>clone</code> kaj ne <code>checkout</code>. Tio estas grava distingo — Git ricevas kopion de preskaŭ ĉiuj datumoj de la servilo. Ĉiu versio de ĉiu dosiero en la projekto estas elŝutata kiam vi uzas <code>git clone</code>. Verdire, se la disko de via servilo rompiĝas, vi povas uzi ajnan klonon en ajna kliento por remeti la servilon en la stato de kiam ĝi estis klonita (vi povas perdi kelkajn servilflankajn hokojn ktp, sed ĉiuj datumaj versioj estus tie — rigardu en <em>Ĉapitro 4</em> por pli da detaloj).</p>
 <p>Oni klonas deponejon per <code>git clone [url]</code>. Ekzemple, se vi volas kloni la Git-bibliotekon por Ruby nomata Grit, vi povas fari tiel:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git
 </code></pre><p>Tio kreas dosierujon nomata <code>grit</code>, komencas dosierujon <code>.git</code> ene de ĝi, elŝutas ĉiujn datumojn de tiu deponejo kaj elprenas laborkopion de la lasta versio. Se vi eniras la novan dosierujon <code>grit</code>, vi vidos la projektdosierojn tie, pretaj por esti prilaborataj aŭ uzataj. Se vi volas kloni la deponejon en dosierujon kun alia nomo ol grit, vi povas specifigi tion kiel la sekvan komandlinian opcion:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git mygrit</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git mygrit
 </code></pre><p>Tiu komando faras la samon kiel la antaŭa, sed la celdosierujo estas nomata <code>mygrit</code>.</p>
 <p>Git havas iom da diversaj transigaj normoj kiujn vi povas uzi. La antaŭa ekzemplo uzas la normon <code>git://</code>, sed vi ankaŭ povas uzi <code>http(s)://</code> aŭ <code>user@server:/path.git</code>, kio uzas la transigan normon SSH. <em>Ĉapitro 4</em> enkondukos ĉiujn haveblajn opciojn kiujn la servilo povas konfiguri por aliri vian Git-deponejon, kaj ties avantaĝojn kaj malavantaĝojn.</p>
 
@@ -318,9 +321,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

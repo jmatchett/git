@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -866,63 +869,63 @@
 <p>Рисунок 3-10. Короткая и простая история коммитов.</p>
 <p>Вы решили, что вы будете работать над проблемой №53 из системы отслеживания ошибок, используемой вашей компанией. Разумеется, Git не привязан к какой-то определенной системе отслеживания ошибок. Так как проблема №53 является обособленной задачей, над которой вы собираетесь работать, мы создадим новую ветку и будем работать на ней. Чтобы создать ветку и сразу же перейти на неё, вы можете выполнить команду <code>git checkout</code> с ключом <code>-b</code>:</p>
 <pre><code>$ git checkout -b iss53
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"iss53"</span>
+Switched to a new branch &quot;iss53&quot;
 </code></pre><p>Это сокращение для:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch iss53
-<span class="hljs-variable">$ </span>git checkout iss53
+<pre><code>$ git branch iss53
+$ git checkout iss53
 </code></pre><p>Рисунок 3-11 демонстрирует результат.</p>
 <p><img src="http://git-scm.com/figures/18333fig0311-tn.png" alt=""></p>
 <p>Рисунок 3-11. Создание новой ветки / указателя.</p>
 <p>Во время работы над своим веб-сайтом вы делаете несколько коммитов. Эти действия сдвигают ветку <code>iss53</code> вперёд потому, что вы на неё перешли (то есть ваш HEAD указывает на неё; см. рис. 3-12):</p>
-<pre><code><span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'added a new footer [issue 53]'</span>
+<pre><code>$ vim index.html
+$ git commit -a -m &#39;added a new footer [issue 53]&#39;
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0312-tn.png" alt=""></p>
 <p>Рисунок 3-12. Ветка iss53 передвинулась вперёд во время работы.</p>
 <p>Теперь вы получаете звонок о том, что есть проблема с веб-сайтом, которую необходимо немедленно устранить. С Git&#39;ом вам нет нужды делать исправления для неё поверх тех изменений, которые вы уже сделали в <code>iss53</code>, и нет необходимости прикладывать много усилий для отмены этих изменений перед тем, как вы сможете начать работать над решением срочной проблемы. Всё, что вам нужно сделать, это перейти на ветку <code>master</code>.</p>
 <p>Однако, прежде чем сделать это, учтите, что если в вашем рабочем каталоге или индексе имеются незафиксированные изменения, которые конфликтуют с веткой, на которую вы переходите, Git не позволит переключить ветки. Лучше всего при переключении веток иметь чистое рабочее состояние. Существует несколько способов добиться этого (а именно, прятанье (stash) работы и правка (amend) коммита), которые мы рассмотрим позже. А на данный момент представим, что все изменения были добавлены в коммит, и теперь вы можете переключиться обратно на ветку <code>master</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
+<pre><code>$ git checkout master
+Switched to branch &quot;master&quot;
 </code></pre><p>Теперь рабочий каталог проекта находится точно в таком же состоянии, что и в момент начала работы над проблемой №53, так что вы можете сконцентрироваться на исправлении срочной проблемы. Очень важно запомнить: Git возвращает ваш рабочий каталог к снимку состояния того коммита, на который указывает ветка, на которую вы переходите. Он добавляет, удаляет и изменяет файлы автоматически, чтобы гарантировать, что состояние вашей рабочей копии идентично последнему коммиту на ветке.</p>
 <p>Итак, вам надо срочно исправить ошибку. Давайте создадим для этого ветку, на которой вы будете работать (см. рис. 3-13):</p>
-<pre><code>$ git checkout <span class="hljs-attribute">-b</span> hotfix
-Switched <span class="hljs-keyword">to</span> a <span class="hljs-literal">new</span> branch <span class="hljs-string">"hotfix"</span>
-$ vim index<span class="hljs-built_in">.</span>html
-$ git commit <span class="hljs-attribute">-a</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'fixed the broken email address'</span>
-<span class="hljs-preprocessor">[</span>hotfix<span class="hljs-preprocessor">]</span><span class="hljs-markup">: created 3a0874c: "fixed the broken email address"
- 1 files changed, 0 insertions(+), 1 deletions(-)</span>
+<pre><code>$ git checkout -b hotfix
+Switched to a new branch &quot;hotfix&quot;
+$ vim index.html
+$ git commit -a -m &#39;fixed the broken email address&#39;
+[hotfix]: created 3a0874c: &quot;fixed the broken email address&quot;
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0313-tn.png" alt=""></p>
 <p>Рисунок 3-13. Ветка для решения срочной проблемы базируется на ветке master.</p>
 <p>Вы можете запустить тесты, убедиться, что решение работает, и слить (merge) изменения назад в ветку <code>master</code>, чтобы включить их в продукт. Это делается с помощью команды <code>git merge</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge hotfix
-<span class="hljs-constant">Updating</span> f42c576..<span class="hljs-number">3</span>a0874c
-<span class="hljs-constant">Fast</span> forward
- <span class="hljs-constant">README</span> |    <span class="hljs-number">1</span> -
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code>$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast forward
+ README |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p>Наверное, вы заметили фразу &quot;Fast forward&quot; в этом слиянии. Так как ветка, которую мы слили, указывала на коммит, являющийся прямым родителем коммита, на котором мы сейчас находимся, Git просто сдвинул её указатель вперёд. Иными словами, когда вы пытаетесь слить один коммит с другим таким, которого можно достигнуть, проследовав по истории первого коммита, Git поступает проще, перемещая указатель вперёд, так как нет расходящихся изменений, которые нужно было бы сливать воедино. Это называется &quot;перемотка&quot; (fast forward).</p>
 <p>Ваши изменения теперь в снимке состояния коммита, на который указывает ветка <code>master</code>, и вы можете включить изменения в продукт (см. рис. 3-14).</p>
 <p><img src="http://git-scm.com/figures/18333fig0314-tn.png" alt=""></p>
 <p>Рисунок 3-14. После слияния ветка master указывает туда же, куда и ветка hotfix.</p>
 <p>После того как очень важная проблема решена, вы готовы вернуться обратно к тому, над чем вы работали перед тем, как вас прервали. Однако, сначала удалите ветку <code>hotfix</code>, так как она больше не нужна — ветка <code>master</code> уже указывает на то же место. Вы можете удалить ветку с помощью опции <code>-d</code> к <code>git branch</code>:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> hotfix
-Deleted branch hotfix (<span class="hljs-number">3</span>a0874c).
+<pre><code>$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).
 </code></pre><p>Теперь вы можете вернуться обратно к рабочей ветке для проблемы №53 и продолжить работать над ней (см. рис. 3-15):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout iss53
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"iss53"</span>
-<span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'finished the new footer [issue 53]'</span>
-[iss53]<span class="hljs-symbol">:</span> created <span class="hljs-symbol">ad82d7a:</span> <span class="hljs-string">"finished the new footer [issue 53]"</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git checkout iss53
+Switched to branch &quot;iss53&quot;
+$ vim index.html
+$ git commit -a -m &#39;finished the new footer [issue 53]&#39;
+[iss53]: created ad82d7a: &quot;finished the new footer [issue 53]&quot;
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0315-tn.png" alt=""></p>
 <p>Рисунок 3-15. Ветка iss53 может двигаться вперёд независимо.</p>
 <p>Стоит напомнить, что работа, сделанная на ветке <code>hotfix</code>, не включена в файлы на ветке <code>iss53</code>. Если вам это необходимо, вы можете слить ветку <code>master</code> в ветку <code>iss53</code> посредством команды <code>git merge master</code>. Или же вы можете подождать с интеграцией изменений до тех пор, пока не решите включить изменения на <code>iss53</code> в продуктовую ветку <code>master</code>.</p>
 <h2 id="-">Основы слияния</h2>
 <p>Допустим, вы разобрались с проблемой №53 и готовы объединить эту ветку и свой <code>master</code>. Чтобы сделать это, мы сольём ветку <code>iss53</code> в ветку <code>master</code> точно так же, как мы делали это ранее с веткой <code>hotfix</code>. Всё, что вам нужно сделать, — перейти на ту ветку, в которую вы хотите слить свои изменения, и выполнить команду <code>git merge</code>:</p>
 <pre><code>$ git checkout master
-$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
- README |    <span class="hljs-number">1</span> +
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)</span>
+$ git merge iss53
+Merge made by recursive.
+ README |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Это слияние немного отличается от слияния, сделанного ранее для ветки <code>hotfix</code>. В данном случае история разработки разделилась в некоторой точке. Так как коммит на той ветке, на которой вы находитесь, не является прямым предком для ветки, которую вы сливаете, Git&#39;у придётся проделать кое-какую работу. В этом случае Git делает простое трёхходовое слияние, используя при этом те два снимка состояния репозитория, на которые указывают вершины веток, и общий для этих двух веток снимок-прародитель. На рисунке 3-16 выделены три снимка состояния, которые Git будет использовать для слияния в данном случае.</p>
 <p><img src="http://git-scm.com/figures/18333fig0316-tn.png" alt=""></p>
 <p>Рисунок 3-16. Git автоматически определяет наилучшего общего предка для слияния веток.</p>
@@ -931,66 +934,66 @@ $ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
 <p><img src="http://git-scm.com/figures/18333fig0317-tn.png" alt=""></p>
 <p>Рисунок 3-17. Git автоматически создаёт новый коммит, содержащий результаты слияния.</p>
 <p>Теперь, когда вы осуществили слияние ваших наработок, ветка <code>iss53</code> вам больше не нужна. Можете удалить её и затем вручную закрыть карточку (ticket) в своей системе:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> iss53
+<pre><code>$ git branch -d iss53
 </code></pre><h2 id="-">Основы конфликтов при слиянии</h2>
 <p>Иногда процесс слияния не идёт гладко. Если вы изменили одну и ту же часть файла по-разному в двух ветках, которые собираетесь слить, Git не сможет сделать это чисто. Если ваше решение проблемы №53 изменяет ту же часть файла, что и <code>hotfix</code>, вы получите конфликт слияния, и выглядеть он будет примерно так:</p>
-<pre><code>$ git <span class="hljs-built_in">merge</span> iss53
+<pre><code>$ git merge iss53
 Auto-merging index.html
-CONFLICT (content): Merge conflict <span class="hljs-operator">in</span> index.html
-Automatic <span class="hljs-built_in">merge</span> failed; fix conflicts <span class="hljs-operator">and</span> <span class="hljs-keyword">then</span> commit <span class="hljs-operator">the</span> <span class="hljs-built_in">result</span>.
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
 </code></pre><p>Git не создал новый коммит для слияния. Он приостановил этот процесс до тех пор, пока вы не разрешите конфликт. Если вы хотите посмотреть, какие файлы не прошли слияние (на любом этапе после возникновения конфликта), выполните команду <code>git status</code>:</p>
 <pre><code>[master*]$ git status
 index.html: needs merge
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    unmerged:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#    unmerged:   index.html
+#
 </code></pre><p>Всё, что имеет отношение к конфликту слияния и что не было разрешено, отмечено как unmerged. Git добавляет стандартные маркеры к файлам, которые имеют конфликт, так что вы можете открыть их вручную и разрешить эти конфликты. Ваш файл содержит секцию, которая выглядит примерно так:</p>
 <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
-<span class="hljs-header">&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
-=======</span>
-&lt;div id="footer"&gt;
-<span class="hljs-code">  please contact us at support@github.com</span>
+&lt;div id=&quot;footer&quot;&gt;contact : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id=&quot;footer&quot;&gt;
+  please contact us at support@github.com
 &lt;/div&gt;
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html
 </code></pre><p>В верхней части блока (всё что выше <code>=======</code>) это версия из HEAD (вашей ветки master, так как именно на неё вы перешли перед выполнением команды merge), всё, что находится в нижней части — версия в <code>iss53</code>. Чтобы разрешить конфликт, вы должны либо выбрать одну из этих частей, либо как-то объединить содержимое по своему усмотрению. Например, вы можете разрешить этот конфликт заменой всего блока, показанного выше, следующим блоком:</p>
-<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"footer"</span>&gt;
-please contact us <span class="hljs-keyword">at</span> email.support@github.com
-&lt;/<span class="hljs-keyword">div</span>&gt;
+<pre><code>&lt;div id=&quot;footer&quot;&gt;
+please contact us at email.support@github.com
+&lt;/div&gt;
 </code></pre><p>Это решение содержит понемногу из каждой части, и я полностью удалил строки <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> и <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. После того как вы разобрались с каждой из таких секций в каждом из конфликтных файлов, выполните <code>git add</code> для каждого конфликтного файла. Индексирование будет означать для Git&#39;а, что все конфликты в файле теперь разрешены.
 Если вы хотите использовать графические инструменты для разрешения конфликтов, можете выполнить команду <code>git mergetool</code>, которая запустит соответствующий графический инструмент и покажет конфликтные ситуации:</p>
 <pre><code>$ git mergetool
-<span class="hljs-built_in">merge</span> tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-Merging <span class="hljs-operator">the</span> <span class="hljs-built_in">files</span>: index.html
+merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
+Merging the files: index.html
 
-Normal <span class="hljs-built_in">merge</span> conflict <span class="hljs-keyword">for</span> <span class="hljs-string">'index.html'</span>:
-  {<span class="hljs-built_in">local</span>}: modified
+Normal merge conflict for &#39;index.html&#39;:
+  {local}: modified
   {remote}: modified
-Hit <span class="hljs-constant">return</span> <span class="hljs-built_in">to</span> start <span class="hljs-built_in">merge</span> resolution tool (opendiff):
+Hit return to start merge resolution tool (opendiff):
 </code></pre><p>Если вы хотите использовать другой инструмент для слияния, нежели выбираемый по умолчанию (Git выбрал <code>opendiff</code> для меня, так как я выполнил команду на Mac&#39;е). Вы можете увидеть все поддерживаемые инструменты, указанные выше после “merge tool candidates”. Укажите название предпочтительного для вас инструмента. В главе 7 мы обсудим, как изменить это значение по умолчанию для вашего окружения.</p>
 <p>После того как вы выйдете из инструмента для выполнения слияния, Git спросит вас, было ли оно успешным. Если вы отвечаете, что да — файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешён.</p>
 <p>Можете выполнить <code>git status</code> ещё раз, чтобы убедиться, что все конфликты были разрешены:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    modified:   index.html
+#
 </code></pre><p>Если вы довольны тем, что получили, и удостоверились, что всё, имевшее конфликты, было проиндексировано, можете выполнить <code>git commit</code> для завершения слияния. По умолчанию сообщение коммита будет выглядеть примерно так:</p>
-<pre><code>Merge branch <span class="hljs-string">'iss53'</span>
+<pre><code>Merge branch &#39;iss53&#39;
 
 Conflicts:
   index.html
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># It looks like you may be committing a MERGE.</span>
-<span class="hljs-preprocessor"># If this is not correct, please remove the file</span>
-<span class="hljs-preprocessor"># .git/MERGE_HEAD</span>
-<span class="hljs-preprocessor"># and try again.</span>
-<span class="hljs-preprocessor">#</span>
+#
+# It looks like you may be committing a MERGE.
+# If this is not correct, please remove the file
+# .git/MERGE_HEAD
+# and try again.
+#
 </code></pre><p>Вы можете дополнить это сообщение информацией о том, как вы разрешили конфликт, если считаете, что это может быть полезно для других в будущем. Например, можете указать почему вы сделали то, что сделали, если это не очевидно, конечно.</p>
 
                     
@@ -1010,9 +1013,9 @@ Conflicts:
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,69 +847,69 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_651">
+                    <section class="normal" id="section-gitbook_864">
                     
                         <h1 id="les-r-f-rences-sp-cifiques">Les références spécifiques</h1>
 <p>Dans tout le livre, nous avons utilisé des associations simples entre les branches distantes et les références locales.
 Elles peuvent être plus complexes.
 Supposons que vous ajoutiez un dépôt distant comme ceci :</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add origin git@github.com:schacon/simplegit-progit.git
 </code></pre><p>Cela ajoute une section au fichier <code>.git/config</code>, contenant le nom du dépôt distant (<code>origin</code>), l&#39;URL de ce dépôt et la spécification des références pour la récupération :</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
 </code></pre><p>Le format d&#39;une spécification de référence est un <code>+</code> facultatif, suivi de <code>&lt;src&gt;:&lt;dst&gt;</code>, où <code>&lt;src&gt;</code> est le motif des références du côté distant et <code>&lt;dst&gt;</code> est l&#39;emplacement local où les références seront enregistrées.
 Le <code>+</code> précise à Git de mettre à jour la référence même si ce n&#39;est pas une avance rapide.</p>
 <p>Dans le cas par défaut, qui est celui d&#39;un enregistrement automatique par la commande <code>git remote add</code>, Git récupère toutes les références de <code>refs/heads/</code> sur le serveur et les enregistre localement dans <code>refs/remotes/origin/</code>.
 Ainsi, s&#39;il y a une branche <code>master</code> sur le serveur, vous pouvez accéder localement à l&#39;historique de cette branche via :</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/master
-<span class="hljs-variable">$ </span>git log remotes/origin/master
-<span class="hljs-variable">$ </span>git log refs/remotes/origin/master
+<pre><code>$ git log origin/master
+$ git log remotes/origin/master
+$ git log refs/remotes/origin/master
 </code></pre><p>Ces syntaxes sont toutes équivalentes, car Git les développe en <code>refs/remotes/origin/master</code>.</p>
 <p>Si vous préférez que Git récupère seulement la branche <code>master</code> et non chacune des branches du serveur distant, vous pouvez remplacer la ligne fetch par :</p>
-<pre><code><span class="hljs-attribute">fetch </span>=<span class="hljs-string"> +refs/heads/master:refs/remotes/origin/master</span>
+<pre><code>fetch = +refs/heads/master:refs/remotes/origin/master
 </code></pre><p>C&#39;est la spécification des références de <code>git fetch</code> pour ce dépôt distant.
 Si l&#39;on veut effectuer une action particulière une seule fois, la spécification des références peut aussi être précisée en ligne de commande.
 Pour retirer la branche <code>master</code> du dépôt distant vers la branche locale <code>origin/mymaster</code>, vous pouvez exécuter :</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch origin <span class="hljs-symbol">master:</span>refs/remotes/origin/mymaster
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster
 </code></pre><p>Vous pouvez indiquer des spécifications pour plusieurs références.
 En ligne de commande, vous pouvez tirer plusieurs branches de cette façon :</p>
-<pre><code>$ git fetch origin <span class="hljs-attribute">master</span>:refs/remotes/origin/mymaster \
-   <span class="hljs-attribute">topic</span>:refs/remotes/origin/topic
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit
- ! [rejected]        master<span class="hljs-function">     -&gt;</span> origin/mymaster  (non fast forward)
- * [<span class="hljs-keyword">new</span> branch]      topic<span class="hljs-function">      -&gt;</span> origin/topic
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster \
+   topic:refs/remotes/origin/topic
+From git@github.com:schacon/simplegit
+ ! [rejected]        master     -&gt; origin/mymaster  (non fast forward)
+ * [new branch]      topic      -&gt; origin/topic
 </code></pre><p>Dans ce cas, la récupération <em>pull</em> de la branche <code>master</code> a été refusée car ce n&#39;était pas une avance rapide.
 On peut surcharger ce comportement en précisant un <code>+</code> devant la spécification de la référence.</p>
 <p>On peut aussi indiquer plusieurs spécifications de référence pour la récupération, dans le fichier de configuration.
 Si vous voulez toujours récupérer les branches <code>master</code> et <code>experiment</code>, ajoutez ces deux lignes :</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git@<span class="hljs-filename">github.com</span>:schacon/simplegit-<span class="hljs-filename">progit.git
-       fetch = +refs/heads/master</span>:refs/remotes/origin/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
        fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 </code></pre><p>Vous ne pouvez pas utiliser des jokers partiels, ce qui suit est donc invalide :</p>
-<pre><code>fetch = +refs/heads/qa*<span class="hljs-symbol">:refs/remotes/origin/qa*</span>
+<pre><code>fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 </code></pre><p>On peut toutefois utiliser des espaces de noms pour accomplir cela.
 S&#39;il existe une équipe qualité (QA) qui publie une série de branches et que l&#39;on veut la branche <code>master</code>, les branches de l&#39;équipe qualité et rien d&#39;autre, on peut utiliser la configuration suivante :</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/<span class="hljs-symbol">master:</span>refs/remotes/origin/master
-       fetch = +refs/heads/qa/*<span class="hljs-symbol">:refs/remotes/origin/qa/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
+       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 </code></pre><p>Si vous utilisez des processus complexes impliquant une équipe qualité, des développeurs et des intégrateurs qui publient des branches et qui collaborent sur des branches distantes, vous pouvez facilement utiliser des espaces de noms, de cette façon.</p>
 <h2 id="publier-une-r-f-rence-sp-cifique">Publier une référence spécifique</h2>
 <p>Il est pratique de pouvoir récupérer des références issues d&#39;espace de nom de cette façon, mais comment l&#39;équipe qualité insère-t-elle ces branches dans l&#39;espace de nom <code>qa/</code> en premier lieu ?
 On peut accomplir cela en utilisant les spécifications de références pour la publication.</p>
 <p>Si l&#39;équipe qualité veut publier sa branche <code>master</code> vers <code>qa/master</code> sur le serveur distant, elle peut exécuter :</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>$ git push origin master:refs/heads/qa/master
 </code></pre><p>Si elle veut que Git le fasse automatiquement à chaque exécution de <code>git push origin</code>, elle peut ajouter une entrée <code>push</code> au fichier de configuration :</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
-       push = refs/heads/<span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
+       push = refs/heads/master:refs/heads/qa/master
 </code></pre><p>De même, cela fera que, par défaut, <code>git push origin</code> publiera la branche locale <code>master</code> sur la branche distante <code>qa/master</code>.</p>
 <h2 id="supprimer-des-r-f-rences">Supprimer des références</h2>
 <p>Vous pouvez aussi utiliser les spécifications de références pour supprimer des références sur le serveur distant en exécutant une commande comme :</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:topic</span>
+<pre><code>$ git push origin :topic
 </code></pre><p>La spécification de référence ressemble à <code>&lt;src&gt;:&lt;dst&gt;</code>, mais en laissant vide la partie <code>&lt;src&gt;</code>, cela signifie une création de la branche à partir de rien et donc sa suppression.</p>
 
                     
@@ -926,9 +929,9 @@ On peut accomplir cela en utilisant les spécifications de références pour la 
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.4" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.4" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_616">
+                    <section class="normal" id="section-gitbook_829">
                     
                         <h1 id="installation-de-git">Installation de Git</h1>
 <p>Commençons donc à utiliser Git.
@@ -858,41 +861,41 @@ De nombreuses distributions de Linux contiennent souvent des versions très anci
 très récente ou que vous n&#39;utilisiez des backports, une installation à partir des sources peut être le meilleur choix.</p>
 <p>Pour installer Git, vous avez besoin des bibliothèques suivantes : curl, zlib, openssl, expat, libiconv.
 Par exemple, si vous avez un système d&#39;exploitation qui utilise yum (tel que Fedora) ou apt-get (tel qu&#39;un système basé sur Debian), vous pouvez utiliser l&#39;une des commandes suivantes pour installer les dépendances :</p>
-<pre><code>$ yum install curl<span class="hljs-attribute">-devel</span> expat<span class="hljs-attribute">-devel</span> gettext<span class="hljs-attribute">-devel</span> <span class="hljs-subst">\</span>
-  openssl<span class="hljs-attribute">-devel</span> zlib<span class="hljs-attribute">-devel</span>
+<pre><code>$ yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
 
-$ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-attribute">-gnutls</span><span class="hljs-attribute">-dev</span> libexpat1<span class="hljs-attribute">-dev</span> gettext <span class="hljs-subst">\</span>
-  libz<span class="hljs-attribute">-dev</span> libssl<span class="hljs-attribute">-dev</span>
+$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+  libz-dev libssl-dev
 </code></pre><p>Quand vous avez toutes les dépendances nécessaires, vous pouvez poursuivre et télécharger la dernière version de Git depuis le site :</p>
-<pre><code><span class="hljs-label">http:</span>//git-scm<span class="hljs-preprocessor">.com</span>/download
+<pre><code>http://git-scm.com/download
 </code></pre><p>Puis, compiler et installer :</p>
-<pre><code><span class="hljs-variable">$ </span>tar -zxf git-<span class="hljs-number">1.7</span>.<span class="hljs-number">2.2</span>.tar.gz
-<span class="hljs-variable">$ </span>cd git-<span class="hljs-number">1.7</span>.<span class="hljs-number">2.2</span>
-<span class="hljs-variable">$ </span>make prefix=<span class="hljs-regexp">/usr/local</span> all
-<span class="hljs-variable">$ </span>sudo make prefix=<span class="hljs-regexp">/usr/local</span> install
+<pre><code>$ tar -zxf git-1.7.2.2.tar.gz
+$ cd git-1.7.2.2
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install
 </code></pre><p>Après ceci, vous pouvez obtenir Git par Git lui-même pour les mises à jour :</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/git.kernel.org/pub</span><span class="hljs-regexp">/scm/git</span><span class="hljs-regexp">/git.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 </code></pre><h2 id="installation-sur-linux">Installation sur Linux</h2>
 <p>Si vous souhaitez installer Git sur Linux via un installateur d&#39;application, vous pouvez généralement le faire via le système de gestion de paquets de base fourni avec votre distribution.
 Si vous êtes sur Fedora, vous pouvez utiliser yum :</p>
-<pre><code><span class="hljs-variable">$ </span>yum install git-core
+<pre><code>$ yum install git-core
 </code></pre><p>Si vous êtes sur un système basé sur Debian, tel qu&#39;Ubuntu, essayez apt-get :</p>
-<pre><code>$ apt-<span class="hljs-keyword">get</span> install git
+<pre><code>$ apt-get install git
 </code></pre><h2 id="installation-sur-mac">Installation sur Mac</h2>
 <p>Il y a deux moyens simples d&#39;installer Git sur Mac.
 Le plus simple et d&#39;utiliser l&#39;installateur graphique de Git que vous pouvez télécharger depuis les pages Google Code (voir figure 1-7) :</p>
-<pre><code><span class="hljs-label">http:</span>//code<span class="hljs-preprocessor">.google</span><span class="hljs-preprocessor">.com</span>/p/git-osx-installer
+<pre><code>http://code.google.com/p/git-osx-installer
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0107-tn.png" alt=""></p>
 <p>Figure 1-7. Installateur OS X de Git.</p>
 <p>L&#39;autre méthode consiste à installer Git par les MacPorts (<code>http://www.macports.org</code>).
 Si vous avez installé MacPorts, installez Git par :</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> port install git-core +svn +doc +bash_completion +gitweb
+<pre><code>$ sudo port install git-core +svn +doc +bash_completion +gitweb
 </code></pre><p>Vous n&#39;avez pas à ajouter tous les extras, mais vous souhaiterez sûrement inclure +svn si vous êtes amené à utiliser Git avec des dépôts Subversion (voir chapitre 8).</p>
 <h2 id="installation-sur-windows">Installation sur Windows</h2>
 <p>Installer Git sur Windows est très facile.
 Le projet msysGit fournit une des procédures d&#39;installation les plus simples.
 Téléchargez simplement le fichier exe d&#39;installateur depuis la page GitHub, et lancez-le :</p>
-<pre><code><span class="hljs-label">http:</span>//msysgit<span class="hljs-preprocessor">.github</span><span class="hljs-preprocessor">.com</span>/
+<pre><code>http://msysgit.github.com/
 </code></pre><p>Après son installation, vous avez à la fois la version en ligne de commande (avec un client SSH utile pour la suite) et l&#39;interface graphique standard.</p>
 <p>Note sur l&#39;usage sous Windows :
 vous devriez utiliser Git avec le shell <code>bash</code> fourni par msysGit (style Unix), car il permet d&#39;utiliser les lignes de commandes complexes données dans ce livre.
@@ -916,9 +919,9 @@ Vous devez aussi délimiter avec ces guillemets les paramètres finissant avec l
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

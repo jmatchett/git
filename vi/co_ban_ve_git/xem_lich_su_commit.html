@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.3" data-basepath=".." data-revision="1397503670765">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.3" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,31 +367,31 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_254">
+                    <section class="normal" id="section-gitbook_228">
                     
                         <h1 id="xem-l-ch-s-commit">Xem Lịch Sử Commit</h1>
 <p>Sau khi bạn đã thực hiện rất nhiều commit, hoặc bạn đã sao chép một kho chứa với các commit có sẵn, chắc chắn bạn sẽ muốn xem lại những gì đã xảy ra. Cách đơn giản và có liệu lực tốt nhất là sử dụng lệnh <code>git log</code>.</p>
 <p>Các ví dụ sau đây sử dụng một dự án rất đơn giản là <code>simplegit</code> tôi thường sử dụng làm ví dụ minh hoạ. Để tải dự án này, bạn hãy chạy lệnh:</p>
-<pre><code>git <span class="hljs-keyword">clone</span> git:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
+<pre><code>git clone git://github.com/schacon/simplegit-progit.git
 </code></pre><p>Khi bạn chạy <code>git log</code> trên dự án này, bạn sẽ thấy tương tự như sau:</p>
 <pre><code>$ git log
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> ca82a6dff817ec66f44342007202690a93763949
+commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed the version <span class="hljs-keyword">number</span>
+    changed the version number
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
-<span class="hljs-keyword">commit</span> a11bef06a3f659402fe7563abf99ad00de2209e6
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
-    <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+    first commit
 </code></pre><p>Mặc định, không sử dụng tham số nào, <code>git log</code> liệt kê các commit được thực hiện trong kho chứa đó theo thứ tự thời gian. Đó là, commit mới nhất được hiển thị đầu tiên. Như bạn có thể thấy, lệnh này liệt kê từng commit với mã băm SHA-1, tên người commit, địa chỉ email, ngày lưu, và thông điệp của chúng. </p>
 <p>Có rất nhiều tuỳ chọn (tham biến/số) khác nhau cho lệnh <code>git log</code> giúp bạn tìm chỉ hiện thị thứ mà bạn thực sự muốn. Ở đây, chúng ta sẽ cùng xem qua các lựa chọn phổ biến, thường được sử dụng nhiều nhất.</p>
 <p>Một trong các tuỳ chọn hữu ích nhất là <code>-p</code>, nó hiện thị diff của từng commit. Bạn cũng có thể dùng <code>-2</code> để giới hạn chỉ hiển thị hai commit gần nhất:</p>
@@ -401,15 +404,15 @@ Date:   Mon Mar 17 21:52:11 2008 -0700
 
 diff --git a/Rakefile b/Rakefile
 index a874b73..8f94139 100644
--<span class="ruby">-- a/<span class="hljs-constant">Rakefile</span>
-</span>+++ b/Rakefile
-@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,5 +5,5 @@ require &#39;rake/gempackagetask&#39;
  spec = Gem::Specification.new do |s|
-     s.name      =   "simplegit"
--<span class="ruby">    s.version   =   <span class="hljs-string">"0.1.0"</span>
-</span>+    s.version   =   "0.1.1"
-     s.author    =   "Scott Chacon"
-     s.email     =   "schacon@gee-mail.com
+     s.name      =   &quot;simplegit&quot;
+-    s.version   =   &quot;0.1.0&quot;
++    s.version   =   &quot;0.1.1&quot;
+     s.author    =   &quot;Scott Chacon&quot;
+     s.email     =   &quot;schacon@gee-mail.com
 
 commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
@@ -419,77 +422,77 @@ Date:   Sat Mar 15 16:40:33 2008 -0700
 
 diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 index a0a60ae..47c6340 100644
--<span class="ruby">-- a/lib/simplegit.rb
-</span>+++ b/lib/simplegit.rb
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
 @@ -18,8 +18,3 @@ class SimpleGit
      end
 
  end
--<span class="ruby">
-</span>-<span class="ruby"><span class="hljs-keyword">if</span> <span class="hljs-variable">$0</span> == __FILE_<span class="hljs-number">_</span>
-</span>-<span class="ruby">  git = <span class="hljs-constant">SimpleGit</span>.new
-</span>-<span class="ruby">  puts git.show
-</span>-<span class="ruby"><span class="hljs-keyword">end</span>
-</span>\ No newline at end of file
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end
+\ No newline at end of file
 </code></pre><p>Lựa chọn này hiển thị thông tin tương tự nhưng thêm vào đó là nội dung diff trực tiếp của từng commit. Điều này rất có ích cho việc xem lại mã nguồn hoặc duyệt qua nhanh chóng những commit mà đồng nghiệp của bạn đã thực hiện.</p>
 <p>Đôi khi xem lại cách thay đổi tổng quát (word level) lại dễ dàng hơn việc xem theo dòng. Lựa chọn <code>--word-diff</code> được cung cấp trong Git, bạn có thể thêm nó vào sau lệnh <code>git log -p</code> để xem diff một cách tổng quát thay vì xem từng dòng theo cách thông thường. Xem diff tổng quát dường như là vô dụng khi sử dụng với mã nguồn, nhưng lại rất hữu ích với các tập tin văn bản lớn như sách hay luận văn. Đây là một ví dụ:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> -U1 <span class="hljs-comment">--word-diff</span>
+<pre><code>$ git log -U1 --word-diff
 commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+    changed the version number
 
-diff <span class="hljs-comment">--git a/Rakefile b/Rakefile</span>
-index a874b73.<span class="hljs-number">.8</span>f94139 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/Rakefile</span>
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
 +++ b/Rakefile
-@@ -<span class="hljs-number">7</span>,<span class="hljs-number">3</span> +<span class="hljs-number">7</span>,<span class="hljs-number">3</span> @@ spec = Gem::Specification.<span class="hljs-built_in">new</span> <span class="hljs-built_in">do</span> |s|
-    s.name      =   <span class="hljs-string">"simplegit"</span>
-    s.<span class="hljs-built_in">version</span>   =   [-<span class="hljs-string">"0.1.0"</span>-]{+<span class="hljs-string">"0.1.1"</span>+}
-    s.author    =   <span class="hljs-string">"Scott Chacon"</span>
+@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+    s.name      =   &quot;simplegit&quot;
+    s.version   =   [-&quot;0.1.0&quot;-]{+&quot;0.1.1&quot;+}
+    s.author    =   &quot;Scott Chacon&quot;
 </code></pre><p>Như bạn có thể thấy, không có dòng nào được thêm hay xoá trong phần thông báo như là với diff thông thường. Thay đổi được hiển thị ngay trên một dòng. Bạn có thể thấy phần thêm mới được bao quanh trong <code>{+ +}</code> còn phần xoá đi thì trong <code>[- -]</code>. Có thể bạn cũng muốn giảm ba dòng ngữ cảnh trong phần hiển thị diff xuống còn một dòng, vì ngữ cảnh hiện tại là các từ, không phải các dòng nữa. Bạn có thể làm được điều này với tham số <code>-U1</code> như ví dụ trên.</p>
 <p>Bạn cũng có thể sử dụng một loại lựa chọn thống kê với <code>git log</code>. Ví dụ, nếu bạn muốn xem một số thống kê tóm tắt cho mỗi commit, bạn có thể sử dụng tham số <code>--stat</code>:</p>
 <pre><code>$ git log --stat
 commit ca82a6dff817ec66f44342007202690a93763949
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
     changed the version number
 
- Rakefile |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ Rakefile |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-commit <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |    <span class="hljs-number">5</span> -----
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">5</span> deletions(-)
+ lib/simplegit.rb |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
 commit a11bef06a3f659402fe7563abf99ad00de2209e6
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
     first commit
 
- README           |    <span class="hljs-number">6</span> ++++++
- Rakefile         |   <span class="hljs-number">23</span> +++++++++++++++++++++++
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |   <span class="hljs-number">25</span> +++++++++++++++++++++++++
- <span class="hljs-number">3</span> files changed, <span class="hljs-number">54</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ README           |    6 ++++++
+ Rakefile         |   23 +++++++++++++++++++++++
+ lib/simplegit.rb |   25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+), 0 deletions(-)
 </code></pre><p>Như bạn có thể thấy, lựa chọn <code>--stat</code> in ra phía dưới mỗi commit danh sách các tập tin đã chỉnh sửa, bao nhiêu tập tin được sửa, và bao nhiêu dòng trong các tập tin đó được thêm vào hay xoá đi. Nó cũng in ra một phần tóm tắt ở cuối cùng. 
 Một lựa chọn rất hữu ích khác là <code>--pretty</code>. Lựa chọn này thay đổi phần hiển thị ra theo các cách khác nhau. Có một số lựa chọn được cung cấp sẵn cho bạn sử dụng. Lựa chọn <code>oneline</code> in mỗi commit trên một dòng, có ích khi bạn xem nhiều commit cùng lúc. Ngoài ra các lựa chọn <code>short</code>, <code>full</code>, và <code>fuller</code> hiện thị gần như tương tự nhau với ít hoặc nhiều thông tin hơn theo cùng thứ tự:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=oneline</span>
-ca82a6dff817ec66f44342007202690a93763949 changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
-<span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
-a11bef06a3f659402fe7563abf99ad00de2209e6 <span class="hljs-keyword">first</span> commit
+<pre><code>$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 changed the version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
+a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 </code></pre><p>Lựa chọn thú vị nhất là <code>format</code>, cho phép bạn chỉ định định dạng riêng của phần hiện thị. Nó đặc biệt hữu ích khi bạn đang xuất ra cho các máy phân tích thông tin (machine parsing) - vì bạn là người chỉ rõ định dạng, nên bạn sẽ biết được nó không bị thay đổi cùng với các cập nhật sau này của Git.</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%an</span>, <span class="hljs-variable">%ar</span> : <span class="hljs-variable">%s</span>"</span>
-ca82a6d - Scott Chacon, <span class="hljs-number">11</span> months ago : changed the version number
-085bb3b - Scott Chacon, <span class="hljs-number">11</span> months ago : removed unnecessary test code
-a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-number">11</span> months ago : first commit
+<pre><code>$ git log --pretty=format:&quot;%h - %an, %ar : %s&quot;
+ca82a6d - Scott Chacon, 11 months ago : changed the version number
+085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
+a11bef0 - Scott Chacon, 11 months ago : first commit
 </code></pre><p>Bảng 2-1 liệt kê một vài lựa chọn mà <code>format</code> sử dụng.</p>
 <table>
 <thead>
@@ -563,17 +566,17 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 </table>
 <p>Có thể bạn băn khoăn về sự khác nhau giữa <em>tác giả</em> (author) và <em>người commit</em> (committer). <em>Tác giả</em> là người đầu tiên viết bản vá (patch), trong khi đó <em>người commit</em> là người cuối cùng áp dụng miếng vá đó. Như vậy, nếu bạn gửi một bản vá cho một dự án và một trong các thành viên chính của dự án &quot;áp dụng&quot; (chấp nhận) bản vá đó, cả hai sẽ cùng được ghi nhận công trạng (credit) - bạn với vai trò là tác giả và thành viên của dự án trong vai trò người commit. Chúng ta sẽ bàn kỹ hơn một chút về sự khác nhau này trong <em>Chương 5</em>.</p>
 <p>Lựa chọn <code>oneline</code> và <code>format</code> đặc biệt hữu ích khi sử dụng với một tham số khác của <code>log</code> là <code>--graph</code>. Khi sử dụng, tham số này sẽ thêm một biểu đồ sử dụng dựa trên các ký tự ASCII hiển thị nhánh và lịch sử tích hợp các tập tin của bạn, chúng ta có thể thấy trong dự án Grit như sau:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=format:"%h %s" --graph</span>
-* <span class="hljs-number">2</span>d3acf9 ignore errors <span class="hljs-built_in">from</span> SIGCHLD <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">trap</span></span>
-*  <span class="hljs-number">5e3</span>ee11 Merge branch <span class="hljs-string">'master'</span> <span class="hljs-operator">of</span> git://github.com/dustin/grit
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; --graph
+* 2d3acf9 ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch &#39;master&#39; of git://github.com/dustin/grit
 |\
-| * <span class="hljs-number">420</span>eac9 Added <span class="hljs-operator">a</span> method <span class="hljs-keyword">for</span> getting <span class="hljs-operator">the</span> current branch.
-* | <span class="hljs-number">30e367</span>c timeout code <span class="hljs-operator">and</span> tests
-* | <span class="hljs-number">5</span>a09431 <span class="hljs-built_in">add</span> timeout protection <span class="hljs-built_in">to</span> grit
-* | e1193f8 support <span class="hljs-keyword">for</span> heads <span class="hljs-operator">with</span> slashes <span class="hljs-operator">in</span> them
+| * 420eac9 Added a method for getting the current branch.
+* | 30e367c timeout code and tests
+* | 5a09431 add timeout protection to grit
+* | e1193f8 support for heads with slashes in them
 |/
-* d6016bc <span class="hljs-built_in">require</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">for</span> xmlschema
-*  <span class="hljs-number">11</span>d191e Merge branch <span class="hljs-string">'defunkt'</span> <span class="hljs-keyword">into</span> <span class="hljs-built_in">local</span>
+* d6016bc require time for xmlschema
+*  11d191e Merge branch &#39;defunkt&#39; into local
 </code></pre><p>Vừa rồi mới chỉ là một số lựa chọn định dạng cơ bản cho <code>git log</code> - còn rất nhiều các định dạng khác. Bảng 2-2 liệt kê các lựa chọn chúng ta đã đề cập qua và một số định dạng cơ bản khác có thể hữu ích, cùng với mô tả đầu ra của lệnh <code>log</code>.</p>
 <table>
 <thead>
@@ -632,7 +635,7 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 <h2 id="gi-i-h-n-th-ng-tin-u-ra">Giới Hạn Thông Tin Đầu Ra</h2>
 <p>Ngoài các lựa chọn để định dạng đầu ra, <code>git log</code> còn nhận vào một số các lựa chọn khác cho mục đích giới hạn khác - là các lựa chọn cho phép bạn hiển thị một phần các commit. Bạn đã thấy một trong các tham số đó - đó là <code>-2</code>, cái mà dùng để hiện thị hai commit mới nhất. Thực tế bạn có thể dùng <code>-&lt;n&gt;</code>, trong đó <code>n</code> là số nguyên dương bất kỳ để hiển thị <code>n</code> commit mới nhất. Trong thực tế, bạn thường không sử dụng chúng, vì mặc định Git đã hiển thị đầu ra theo trang do vậy bạn chỉ xem được một trang lịch sử tại một thời điểm.</p>
 <p>Tuy nhiên, tham số kiểu giới hạn theo thời gian như <code>--since</code> và <code>--until</code> khá hữu ích. Ví dụ, lệnh này hiển thị các commit được thực hiện trong vòng hai tuần gần nhất:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--since=2.weeks</span>
+<pre><code>$ git log --since=2.weeks
 </code></pre><p>Lệnh này hoạt động được với rất nhiều định dạng - bạn có thể chỉ định một ngày cụ thể (&quot;2008-01-15&quot;) hoặc tương đối như &quot;2 years 1 day 3 minutes ago&quot;.</p>
 <p>Bạn cũng có thể lọc các commint thoả mãn một số tiêu chí nhất định. Tham số <code>--author</code> cho phép bạn lọc một tác giả nhất định, và tham số <code>--grep</code> cho phép bạn tìm kiếm các từ khoá trong thông điệp của commit. (Lưu ý là nếu như bạn muốn chỉ định tham số author và grep, bạn phải thêm vào <code>--all-match</code> bằng không lệnh đó sẽ chỉ tìm kiếm các commit thoả mãn một trong hai.)</p>
 <p>Tham số hữu ích cuối cùng sử dụng cho <code>git log</code> với vai trò một bộ lọc là đường dẫn. Nếu bạn chỉ định một thư mục hoặc tên một tập tin, bạn có thể giới hạn các commit chỉ được thực hiện trên tập tin đó. Tham số này luôn được sử dụng cuối cùng trong câu lệnh và đứng sau hai gạch ngang (<code>--</code>) như thường lệ để phân chia các đường dẫn khác nhau.</p>
@@ -668,14 +671,14 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 </tbody>
 </table>
 <p>Ví dụ, bạn muốn xem các commit đã thay đổi các tập tin thử nghiệm trong lịch sử mã nguồn của Git, được commit bởi Junio Hâmno trng tháng 10 năm 2008 mà chưa được tích hợp/gộp, bạn có thể chạy lệnh sau:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%s</span>"</span> --author=gitster --since=<span class="hljs-string">"2008-10-01"</span> \
-   --before=<span class="hljs-string">"2008-11-01"</span> --<span class="hljs-keyword">no</span>-merges -- t/
-<span class="hljs-number">5610</span>e3b - Fix testcase failure <span class="hljs-keyword">when</span> extended attribute
-acd3b9e - Enhance hold_lock_file_for<span class="hljs-number">_</span>{update,append}()
+<pre><code>$ git log --pretty=&quot;%h - %s&quot; --author=gitster --since=&quot;2008-10-01&quot; \
+   --before=&quot;2008-11-01&quot; --no-merges -- t/
+5610e3b - Fix testcase failure when extended attribute
+acd3b9e - Enhance hold_lock_file_for_{update,append}()
 f563754 - demonstrate breakage of detached checkout wi
-d1a43f2 - <span class="hljs-keyword">reset</span> --hard/<span class="hljs-keyword">read</span>-tree --<span class="hljs-keyword">reset</span> -u: remove un
-<span class="hljs-number">51</span>a94af - Fix <span class="hljs-string">"checkout --track -b newbranch"</span> on detac
-b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hljs-variable">$something</span>:<span class="hljs-variable">$cur</span></span>
+d1a43f2 - reset --hard/read-tree --reset -u: remove un
+51a94af - Fix &quot;checkout --track -b newbranch&quot; on detac
+b0ad11e - pull: allow &quot;git pull origin $something:$cur
 </code></pre><p>Có gần 20,000 commit trong lịch sử mã nguồn của Git, lệnh này chỉ hiện thị 6 commit thoả mãn tiêu chí đặt ra.</p>
 <h2 id="hi-n-th-l-ch-s-tr-n-giao-di-n">Hiển Thị Lịch Sử Trên Giao Diện</h2>
 <p>Nếu bạn muốn sử dụng một công cụ đồ hoạ để trực quan hoá lịch sử commit, bạn có thể thử một chương trình Tcl/Tk có tên <code>gitk</code> được xuất bản kèm với git. Gitk cơ bản là một công cụ <code>git log</code> trực quan, nó chấp nhận hầu hết các lựa chọn để lọc mà <code>git log</code> thường dùng. Nếu bạn gõ <code>gitk</code> trên thư mục của dự án, bạn sẽ thấy giống như Hình 2-2.</p>
@@ -700,9 +703,9 @@ b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hl
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

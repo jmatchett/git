@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.7" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.7" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,160 +847,160 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_596">
+                    <section class="normal" id="section-gitbook_668">
                     
                         <h1 id="onderhoud-en-het-herstellen-van-gegevens">Onderhoud en het herstellen van gegevens</h1>
 <p>Soms moet je wat opruimen - een repository compacter maken, een geïmporteerde repository opruimen of verloren werk terughalen. In deze paragraaf zal een aantal van deze scenario&#39;s behandeld worden.</p>
 <h2 id="onderhoud">Onderhoud</h2>
 <p>Geregeld voert Git automatisch een commando genaamd &quot;auto gc&quot; uit. Het merendeel van de tijd doet dit commando niets. Maar, als je teveel loose objecten (objecten die niet in een packfile zitten) of teveel packfiles hebt, lanceert Git een uitgebreid <code>git gc</code> commando. Het <code>gc</code> staat voor garbage collect (afval ophalen), en het commando doet een aantal zaken: het haalt alle loose objecten op en stopt ze in packfiles, het consolideert packfiles tot één grote packfile, en het verwijdert objecten die niet bereikbaar zijn vanuit een commit en een paar maanden oud zijn.</p>
 <p>Je kunt auto gc als volgt handmatig uitvoeren:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">gc</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">auto</span>
+<pre><code>$ git gc --auto
 </code></pre><p>Nogmaals, over het algemeen doet dit commando niets. Je moet ongeveer 7.000 losse objecten of meer dan 50 packfiles hebben voordat Git een echt gc commando start. Je kunt deze grenzen aanpassen met respectievelijk de <code>gc.auto</code> en <code>gc.autopacklimit</code> configuratie instellingen.</p>
 <p>Het andere dat <code>gc</code> zal doen is je referenties in een enkel bestand inpakken. Stel dat je repository de volgende branches en tags bevat:</p>
-<pre><code>$ find <span class="hljs-preprocessor">.git</span>/refs -type f
-<span class="hljs-preprocessor">.git</span>/refs/heads/experiment
-<span class="hljs-preprocessor">.git</span>/refs/heads/master
-<span class="hljs-preprocessor">.git</span>/refs/tags/v1<span class="hljs-number">.0</span>
-<span class="hljs-preprocessor">.git</span>/refs/tags/v1<span class="hljs-number">.1</span>
+<pre><code>$ find .git/refs -type f
+.git/refs/heads/experiment
+.git/refs/heads/master
+.git/refs/tags/v1.0
+.git/refs/tags/v1.1
 </code></pre><p>Als je <code>git gc</code> uitvoert, zal je deze bestanden niet langer in de <code>refs</code> directory hebben. Git zal ze omwille van efficiëntie in een bestand genaamd <code>.git/packed-refs</code> stoppen, dat er zo uitziet:</p>
-<pre><code><span class="hljs-variable">$ </span>cat .git/packed-refs
-<span class="hljs-comment"># pack-refs with: peeled</span>
+<pre><code>$ cat .git/packed-refs
+# pack-refs with: peeled
 cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
-cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.<span class="hljs-number">0</span>
-<span class="hljs-number">9585191</span>f37f7b0fb9444f35a9bf50de191beadc2 refs/tags/v1.<span class="hljs-number">1</span>
-^<span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
+cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
+9585191f37f7b0fb9444f35a9bf50de191beadc2 refs/tags/v1.1
+^1a410efbd13591db07496601ebc7a059dd55cfe9
 </code></pre><p>Als je een referentie vernieuwt, zal Git dit bestand niet aanpassen maar een nieuw bestand in <code>refs/heads</code> schrijven. Om de juiste SHA voor een gegeven referentie te krijgen, kijkt Git voor die referentie in de <code>refs</code> directory en kijkt in het <code>packed-res</code> bestand als terugval optie. Hoe dan ook, als je een referentie niet in de <code>refs</code> directory kunt vinden zit het waarschijnlijk in je <code>packed-refs</code> bestand.</p>
 <p>Let op de laatste regel van het bestand, die begint met een <code>^</code>. Dit betekent dat de tag die er direct boven staat een beschreven tag is, en dat die regel de commit is waar de beschreven tag naar wijst.</p>
 <h2 id="gegevens-herstellen">Gegevens herstellen</h2>
 <p>Op een gegeven moment tijdens je reis met Git, is het mogelijk dat je per ongeluk een commit kwijtraakt. Meestal gebeurt dit omdat je een branch waar werk op zat geforceerd verwijdert, en je komt erachter dat je de branch achteraf toch had willen houden. Of je hard-reset een branch, waarmee je commits verliest waar je iets uit wilde hebben. Stel dat dit gebeurt, hoe kun je dan je commits terug halen?</p>
 <p>Hier is een voorbeeld dat de master branch hard-reset naar een oudere commit in je test repository, en daarna verloren commits terug haalt. Laten we eerst eens bekijken waar je repository op dit punt staat:</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=oneline</span>
+<pre><code>$ git log --pretty=oneline
 ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
 484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
-1a410efbd13591db07496601ebc7a059dd55cfe9 third <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> <span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>Nu verplaats je de <code>master</code> branch terug naar de middelste commit:</p>
-<pre><code>$ git reset <span class="hljs-comment">--hard 1a410efbd13591db07496601ebc7a059dd55cfe9</span>
-HEAD <span class="hljs-keyword">is</span> now <span class="hljs-keyword">at</span> <span class="hljs-number">1</span>a410ef <span class="hljs-keyword">third</span> commit
-$ git <span class="hljs-command">log</span> <span class="hljs-comment">--pretty=oneline</span>
-<span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9 <span class="hljs-keyword">third</span> commit
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> commit
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> commit
+<pre><code>$ git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
+HEAD is now at 1a410ef third commit
+$ git log --pretty=oneline
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>Je bent nu effectief de twee bovenste commits kwijt - je hebt geen branch van waaruit deze commits bereikbaar zijn. Je moet de SHA van de laatste commit vinden en dan een branch toevoegen die daar naar wijst. De truuk is om de SHA van de laatste commit te vinden, het is niet waarschijnlijk dat je die uit je hoofd geleerd hebt, toch?</p>
 <p>Vaak is de snelste manier een tool genaamd <code>git reflog</code> te gebruiken. Terwijl je werkt slaat Git stilletjes op wat je HEAD is, iedere keer als je die wijzigt. Elke keer als je commit, of van branch verandert wordt de reflog vernieuwd. Het reflog wordt ook vernieuwd door het <code>git update-ref</code> commando, wat nog een reden is om het te gebruiken in plaats van gewoon de SHA&#39;s naar je ref bestanden te schrijven, zoals we beschreven hebben in de &quot;Git Referenties&quot; paragraaf eerder in dit hoofdstuk. Je kunt op ieder moment zien waar je geweest bent, door <code>git reflog</code> uit te voeren.</p>
-<pre><code>$ <span class="hljs-tag">git</span> <span class="hljs-tag">reflog</span>
-1<span class="hljs-tag">a410ef</span> <span class="hljs-tag">HEAD</span><span class="hljs-at_rule">@<span class="hljs-keyword">{0}:</span> <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD
-ab1afef HEAD@</span>{1}: <span class="hljs-tag">ab1afef80fac8e34258ff41fc1b867c702daa24b</span>: <span class="hljs-tag">updating</span> <span class="hljs-tag">HEAD</span>
+<pre><code>$ git reflog
+1a410ef HEAD@{0}: 1a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD
+ab1afef HEAD@{1}: ab1afef80fac8e34258ff41fc1b867c702daa24b: updating HEAD
 </code></pre><p>Hier kunnen we de twee commits zien die we uitgechecked hadden, maar er is hier niet veel informatie aanwezig. Om dezelfde informatie op een veel bruikbaarder manier te zien kunnen we <code>git log -g</code> uitvoeren, wat je een normale log uitvoer geeft voor je reflog.</p>
 <pre><code>$ git log -g
-commit <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
-<span class="hljs-label">Reflog:</span> HEAD@{<span class="hljs-number">0</span>} (Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;)
+commit 1a410efbd13591db07496601ebc7a059dd55cfe9
+Reflog: HEAD@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
 Reflog message: updating HEAD
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri May <span class="hljs-number">22</span> <span class="hljs-number">18</span>:<span class="hljs-number">22</span>:<span class="hljs-number">37</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri May 22 18:22:37 2009 -0700
 
     third commit
 
 commit ab1afef80fac8e34258ff41fc1b867c702daa24b
-<span class="hljs-label">Reflog:</span> HEAD@{<span class="hljs-number">1</span>} (Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;)
+Reflog: HEAD@{1} (Scott Chacon &lt;schacon@gmail.com&gt;)
 Reflog message: updating HEAD
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri May <span class="hljs-number">22</span> <span class="hljs-number">18</span>:<span class="hljs-number">15</span>:<span class="hljs-number">24</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri May 22 18:15:24 2009 -0700
 
      modified repo a bit
 </code></pre><p>Het ziet er naar uit dat de onderste commit degene is die je kwijt bent geraakt, dus je kunt hem herstellen door een nieuwe branch te maken op die commit. Bijvoorbeeld, je kunt een branch genaamd <code>recover-branch</code> beginnen op die commit (ab1afef):</p>
 <pre><code>$ git branch recover-branch ab1afef
-$ git log <span class="hljs-comment">--pretty=oneline recover-branch</span>
+$ git log --pretty=oneline recover-branch
 ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
 484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
-1a410efbd13591db07496601ebc7a059dd55cfe9 third <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> <span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>Vet – nu heb je een branch genaamd <code>recover-branch</code> die staat op het punt waar je <code>master</code> branch vroeger op stond, waarmee de eerste twee commits weer bereikbaar zijn.
 Vervolgens, stel dat je verloren commit om een of andere reden niet in de reflog stond; je kunt dat simuleren door <code>recover-branch</code> te verwijderen en het reflog te wissen. Nu zijn de eerste twee commits nergens meer mee te bereiken:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch –<span class="hljs-constant">D</span> recover-branch
-<span class="hljs-variable">$ </span>rm -<span class="hljs-constant">Rf</span> .git/logs/
+<pre><code>$ git branch –D recover-branch
+$ rm -Rf .git/logs/
 </code></pre><p>Omdat de reflog gegevens bewaard worden in de <code>.git/logs/</code> directory, heb je nu effectief geen reflog meer. Hoe kun je die commit nu herstellen? Één manier is om gebruik te maken van het <code>git fsck</code> tool, wat de integriteit van je gegevensbank controleert. Als je het met de <code>--full</code> optie uitvoert, dan toont het je alle objecten waarnaar niet gewezen wordt door een ander object:</p>
-<pre><code>$ git fsck <span class="hljs-comment">--full</span>
+<pre><code>$ git fsck --full
 dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
-dangling <span class="hljs-operator"><span class="hljs-keyword">commit</span> ab1afef80fac8e34258ff41fc1b867c702daa24b
+dangling commit ab1afef80fac8e34258ff41fc1b867c702daa24b
 dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
-dangling blob <span class="hljs-number">7108</span>f7ecb345ee9d0084193f147cdad4d2998293</span>
+dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
 </code></pre><p>In dit geval, kun je de vermiste commit zien na de dangling commit (rondslingerende commit). Je kunt het op dezelfde manier herstellen, door een branch te maken die naar die SHA wijst.</p>
 <h2 id="objecten-verwijderen">Objecten verwijderen</h2>
 <p>Er zijn een hoop geweldige dingen aan Git, maar één eigenschap die problemen kan geven is het feit dat <code>git clone</code> de hele historie van het project download, inclusief alle versies van alle bestanden. Dat is geen probleem als het hele project broncode is, omdat Git zeer geoptimaliseerd is om die gegevens optimaal te comprimeren. Maar, als iemand op een bepaald punt in de geschiedenis een enorm bestand heeft toegevoegd, zal iedere clone voor altijd gedwongen worden om dat grote bestand te downloaden, zelfs als het uit het project wordt verwijderd in de eerstvolgende commit. Omdat het bereikbaar is vanuit de geschiedenis, zal het er altijd zijn.</p>
 <p>Dit kan een groot probleem zijn als je Subversion of Perforce repositories converteert naar Git. Omdat je niet de hele geschiedenis downloadt in die systemen, zal dit soort toevoeging weinig consequenties met zich meebrengen. Als je een import vanuit een ander systeem deed, of om een andere reden vindt dat je repository veel groter is dan het zou moeten zijn, kun je hier zien hoe je grote objecten kunt vinden en verwijderen.</p>
 <p>Let op: deze techniek is destructief voor je commit geschiedenis. Het herschrijft ieder commit object stroomafwaarts vanaf de eerste tree die je moet aanpassen om een referentie naar een groot bestand te verwijderen. Als je dit meteen na een import doet, voordat iemand werk is gaan baseren op de commit, dan is er niets aan de hand - anders moet je alle bijdragers waarschuwen dat ze hun werk op je nieuwe commits moeten rebasen.</p>
 <p>Om het te demonstreren, voeg je een groot bestand in je test repository toe, verwijdert het in de volgende commit, vindt het, en verwijdert het daarna permanent uit de repository. Als eerste, voeg je een groot object toe aan je geschiedenis:</p>
-<pre><code><span class="hljs-variable">$ </span>curl <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/kernel.org/pub</span><span class="hljs-regexp">/software/scm</span><span class="hljs-regexp">/git/git</span>-<span class="hljs-number">1.6</span>.<span class="hljs-number">3.1</span>.tar.bz2 &gt; git.tbz2
-<span class="hljs-variable">$ </span>git add git.tbz2
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'added git tarball'</span>
-[master <span class="hljs-number">6</span>df764<span class="hljs-number">0</span>] added git tarball
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
- create mode <span class="hljs-number">100644</span> git.tbz2
+<pre><code>$ curl http://kernel.org/pub/software/scm/git/git-1.6.3.1.tar.bz2 &gt; git.tbz2
+$ git add git.tbz2
+$ git commit -am &#39;added git tarball&#39;
+[master 6df7640] added git tarball
+ 1 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 git.tbz2
 </code></pre><p>Oeps — je wilde geen enorme tarball toevoegen aan je project. Laten we het maar snel verwijderen:</p>
-<pre><code><span class="hljs-variable">$ </span>git rm git.tbz2
-rm <span class="hljs-string">'git.tbz2'</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'oops - removed large tarball'</span>
+<pre><code>$ git rm git.tbz2
+rm &#39;git.tbz2&#39;
+$ git commit -m &#39;oops - removed large tarball&#39;
 [master da3f30d] oops - removed large tarball
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
- delete mode <span class="hljs-number">100644</span> git.tbz2
+ 1 files changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 git.tbz2
 </code></pre><p>Nu <code>gc</code> je je gegevensbank en zie hoeveel ruimte je gebruikt:</p>
 <pre><code>$ git gc
-Counting objects: <span class="hljs-number">21</span>, <span class="hljs-keyword">done</span>.
-Delta compression using <span class="hljs-number">2</span> threads.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">16</span>/<span class="hljs-number">16</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">21</span>/<span class="hljs-number">21</span>), <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">21</span> (delta <span class="hljs-number">3</span>), reused <span class="hljs-number">15</span> (delta <span class="hljs-number">1</span>)
+Counting objects: 21, done.
+Delta compression using 2 threads.
+Compressing objects: 100% (16/16), done.
+Writing objects: 100% (21/21), done.
+Total 21 (delta 3), reused 15 (delta 1)
 </code></pre><p>Je kunt het <code>count-objects</code> commando gebruiken om snel te zien hoeveel ruimte je gebruikt:</p>
-<pre><code>$ git count<span class="hljs-attribute">-objects</span> <span class="hljs-attribute">-v</span>
-count: <span class="hljs-number">4</span>
-size: <span class="hljs-number">16</span>
-<span class="hljs-keyword">in</span><span class="hljs-attribute">-pack</span>: <span class="hljs-number">21</span>
-packs: <span class="hljs-number">1</span>
-size<span class="hljs-attribute">-pack</span>: <span class="hljs-number">2016</span>
-prune<span class="hljs-attribute">-packable</span>: <span class="hljs-number">0</span>
-garbage: <span class="hljs-number">0</span>
+<pre><code>$ git count-objects -v
+count: 4
+size: 16
+in-pack: 21
+packs: 1
+size-pack: 2016
+prune-packable: 0
+garbage: 0
 </code></pre><p>Op de <code>size-pack</code> regel staat de grootte van je packfiles in kilobytes, dus je gebruikt 2Mb. Voor de laatste commit gebruikte je bijna 2K - het is duidelijk dat het verwijderen van het bestand uit de vorige commit, het niet uit je geschiedenis verwijderd heeft. Iedere keer als iemand dit repository cloned, zullen ze de volle 2Mb moeten clonen alleen maar om dit kleine project te krijgen, omdat jij per ongeluk een groot bestand toegevoegd hebt. Laten we het echt verwijderen.</p>
 <p>Eerst moet je het vinden. In dit geval weet je al welk bestand het is. Maar stel dat je het niet zou weten; hoe zou je kunnen ontdekken welk bestand of bestanden zoveel ruimte in beslag nemen? Als je <code>git gc</code> uitvoert zitten alle objecten in een packfile; je kunt de grote bestanden identificeren door een ander plumbing commando genaamd <code>git verify-pack</code> uit te voeren en te sorteren op het derde veld in de uitvoer, wat de bestandsgrootte is. Je kunt het ook door het <code>tail</code> commando leiden omdat je alleen geïnteresseerd bent in het laatste paar grote bestanden.</p>
-<pre><code>$ git verify<span class="hljs-attribute">-pack</span> <span class="hljs-attribute">-v</span> <span class="hljs-built_in">.</span>git/objects/pack/pack<span class="hljs-subst">-</span><span class="hljs-number">3</span>f8c0<span class="hljs-attribute">...</span>bb<span class="hljs-built_in">.</span>idx <span class="hljs-subst">|</span> sort <span class="hljs-attribute">-k</span> <span class="hljs-number">3</span> <span class="hljs-attribute">-n</span> <span class="hljs-subst">|</span> tail <span class="hljs-subst">-</span><span class="hljs-number">3</span>
-e3f094f522629ae358806b17daf78246c27c007b blob   <span class="hljs-number">1486</span> <span class="hljs-number">734</span> <span class="hljs-number">4667</span>
-<span class="hljs-number">05408</span>d195263d853f09dca71d55116663690c27c blob   <span class="hljs-number">12908</span> <span class="hljs-number">3478</span> <span class="hljs-number">1189</span>
-<span class="hljs-number">7</span>a9eb2fba2b1811321254ac360970fc169ba2330 blob   <span class="hljs-number">2056716</span> <span class="hljs-number">2056872</span> <span class="hljs-number">5401</span>
+<pre><code>$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
+e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
+05408d195263d853f09dca71d55116663690c27c blob   12908 3478 1189
+7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
 </code></pre><p>Het grote object staat aan het einde: 2 Mb. Om uit te vinden welk bestand het is, kan je het <code>rev-list</code> commando gebruiken, wat je eventjes gebruikt hebt in Hoofdstuk 7. Als je <code>--objects</code> meegeeft aan <code>ref-list</code>, toont het alle commit SHA&#39;s en ook de blob SHA&#39;s met de bestandspaden die er mee geassocieerd zijn. Je kunt dit gebruiken om de naam van je blob te vinden:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">rev</span><span class="hljs-literal">-</span><span class="hljs-comment">list</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">objects</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">all</span> <span class="hljs-comment">|</span> <span class="hljs-comment">grep</span> <span class="hljs-comment">7a9eb2fb</span>
-<span class="hljs-comment">7a9eb2fba2b1811321254ac360970fc169ba2330</span> <span class="hljs-comment">git</span><span class="hljs-string">.</span><span class="hljs-comment">tbz2</span>
+<pre><code>$ git rev-list --objects --all | grep 7a9eb2fb
+7a9eb2fba2b1811321254ac360970fc169ba2330 git.tbz2
 </code></pre><p>Nu moet je dit bestand verwijderen uit alle trees in het verleden. Je kunt eenvoudig zien welke commits dit bestand aangepast hebben:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">log</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">pretty=oneline</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">branches</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span> <span class="hljs-comment">git</span><span class="hljs-string">.</span><span class="hljs-comment">tbz2</span>
-<span class="hljs-comment">da3f30d019005479c99eb4c3406225613985a1db</span> <span class="hljs-comment">oops</span> <span class="hljs-literal">-</span> <span class="hljs-comment">removed</span> <span class="hljs-comment">large</span> <span class="hljs-comment">tarball</span>
-<span class="hljs-comment">6df764092f3e7c8f5f94cbe08ee5cf42e92a0289</span> <span class="hljs-comment">added</span> <span class="hljs-comment">git</span> <span class="hljs-comment">tarball</span>
+<pre><code>$ git log --pretty=oneline --branches -- git.tbz2
+da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
+6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 </code></pre><p>Je moet alle commits die stroomafwaarts van <code>6df76</code> liggen herschrijven om dit bestand volledig uit je Git geschiedenis te verwijderen. Omdat te doen gebuik je <code>filter-branch</code>, wat je in Hoofdstuk 6 gebruikt hebt:</p>
-<pre><code>$ git <span class="hljs-built_in">filter</span>-branch <span class="hljs-comment">--index-filter \</span>
-   <span class="hljs-string">'git rm --cached --ignore-unmatch git.tbz2'</span> <span class="hljs-comment">-- 6df7640^..</span>
-Rewrite <span class="hljs-number">6</span>df764092f3e7c8f5f94cbe08ee5cf42e92a0289 (<span class="hljs-number">1</span>/<span class="hljs-number">2</span>)rm <span class="hljs-string">'git.tbz2'</span>
-Rewrite da3f30d019005479c99eb4c3406225613985a1db (<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --index-filter \
+   &#39;git rm --cached --ignore-unmatch git.tbz2&#39; -- 6df7640^..
+Rewrite 6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 (1/2)rm &#39;git.tbz2&#39;
+Rewrite da3f30d019005479c99eb4c3406225613985a1db (2/2)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><p>De <code>--index-filter</code> optie is vergelijkbaar met de <code>--tree-filter</code> optie, die gebruikt is in Hoofdstuk 6, met het verschil dat in plaats van het doorgeven van een commando dat bestanden aanpast die uitgecheckt staan op je schijf, je de staging area of index iedere keer aanpast. In plaats van een specifiek bestand steeds te verwijderen met zoiets als <code>rm file</code>, moet je het met <code>git rm --cached</code> verwijderen - je moet het uit de index verwijderen, niet van de schijf. Reden om het zo te doen is snelheid - omdat Git niet iedere versie hoeft uit te checken op je schijf voordat het je filter uitvoert, kan het proces vele, vele malen sneller gaan. Je kunt dezelfde taak uitvoeren met <code>--tree-filter</code> als je dat wilt. De <code>--ignore-unmatch</code> optie op <code>git rm</code> vertelt het niet te stoppen op een fout als het patroon dat je probeert te verwijderen niet aanwezig is. Als laatste zal je <code>filter-branch</code> vragen om je geschiedenis alleen vanaf de <code>6df7640</code> commit te herschrijven, omdat je weet dat dat de plaats is waar het probleem begon. Anders start het vanaf het begin en duurt het onnodig langer.</p>
 <p>Je geschiedenis zal niet langer een referentie bevatten naar dat bestand. Maar, je reflog en een nieuwe verzameling refs die Git toevoegde toen je de <code>filter-branch</code> deed onder <code>.git/refs/original</code> bevatten het nog steeds, dus je moet die ook verwijderen en dan je gegevensbank opnieuw inpakken. Je moet alles wat een pointer naar die oude commits bevat kwijtraken voordat je opnieuw inpakt:</p>
-<pre><code><span class="hljs-variable">$ </span>rm -<span class="hljs-constant">Rf</span> .git/refs/original
-<span class="hljs-variable">$ </span>rm -<span class="hljs-constant">Rf</span> .git/logs/
-<span class="hljs-variable">$ </span>git gc
-<span class="hljs-constant">Counting</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">19</span>, done.
-<span class="hljs-constant">Delta</span> compression using <span class="hljs-number">2</span> threads.
-<span class="hljs-constant">Compressing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), done.
-<span class="hljs-constant">Writing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">19</span>/<span class="hljs-number">19</span>), done.
-<span class="hljs-constant">Total</span> <span class="hljs-number">19</span> (delta <span class="hljs-number">3</span>), reused <span class="hljs-number">16</span> (delta <span class="hljs-number">1</span>)
+<pre><code>$ rm -Rf .git/refs/original
+$ rm -Rf .git/logs/
+$ git gc
+Counting objects: 19, done.
+Delta compression using 2 threads.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (19/19), done.
+Total 19 (delta 3), reused 16 (delta 1)
 </code></pre><p>Laten we eens zien hoeveel ruimte je bespaard hebt.</p>
-<pre><code>$ git count<span class="hljs-attribute">-objects</span> <span class="hljs-attribute">-v</span>
-count: <span class="hljs-number">8</span>
-size: <span class="hljs-number">2040</span>
-<span class="hljs-keyword">in</span><span class="hljs-attribute">-pack</span>: <span class="hljs-number">19</span>
-packs: <span class="hljs-number">1</span>
-size<span class="hljs-attribute">-pack</span>: <span class="hljs-number">7</span>
-prune<span class="hljs-attribute">-packable</span>: <span class="hljs-number">0</span>
-garbage: <span class="hljs-number">0</span>
+<pre><code>$ git count-objects -v
+count: 8
+size: 2040
+in-pack: 19
+packs: 1
+size-pack: 7
+prune-packable: 0
+garbage: 0
 </code></pre><p>De grootte van je ingepakte repository is omlaag gegaan naar 7 K, wat veel beter is dan 2 Mb. Je kunt aan de waarde van size zien dat het grote object nog steeds in je loose objecten staat, dus het is niet weg; maar het zal niet meer overgedragen worden bij een push of opvolgende clone, wat het belangrijkste is. Als je het echt zou willen, kun je het object volledig verwijderen door <code>git prune --expire</code> uit te voeren.</p>
 
                     
@@ -1017,9 +1020,9 @@ garbage: <span class="hljs-number">0</span>
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

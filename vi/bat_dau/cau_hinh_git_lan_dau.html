@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397503670765">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,7 +367,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_240">
+                    <section class="normal" id="section-gitbook_214">
                     
                         <h1 id="c-u-h-nh-git-l-n-u">Cấu Hình Git Lần Đầu</h1>
 <p>Bây giờ Git đã có trên hệ thống, bạn muốn tuỳ biến một số lựa chọn cho môi trường Git của bạn. Bạn chỉ phải thực hiện các bước này một lần duy nhất; chúng sẽ được ghi nhớ qua các lần cập nhật. Bạn cũng có thể thay đổi chúng bất kỳ lúc nào bằng cách chạy lại các lệnh.</p>
@@ -377,15 +380,15 @@
 <p>Trên Windows, Git sử dụng tập tin <code>.gitconfig</code> trong thư mục <code>$HOME</code> (<code>%USERPROFILE%</code> trên môi trường Windows), cụ thể hơn đó là <code>C:\Documents and Settings\$USER</code> hoặc <code>C:\Users\$USER</code>, tuỳ thuộc vào phiên bản Windows đang sử dụng (<code>$USER</code> là <code>%USERNAME%</code> trên môi trường Windows). Nó cũng tìm kiếm tập tin /etc/gitconfig, mặc dù nó đã được cấu hình sẵn chỉ đến thư mục gốc của MSys, có thể là một thư mục bất kỳ, nơi bạn chọn khi cài đặt.</p>
 <h2 id="danh-t-nh-c-a-b-n">Danh Tính Của Bạn</h2>
 <p>Việc đầu tiên bạn nên làm khi cấu hình Git là chỉ định tên tài khoản và địa chỉ e-mail. Điều này rất quan trọng vì mỗi Git sẽ sử dụng chúng cho mỗi lần commit, những thông tin này được gắn bất di bất dịch vào các commit:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>Tôi xin nhắc lại là bạn chỉ phải làm việc này một lần duy nhất nếu như sử dụng <code>--global</code>, vì Git sẽ sử dụng các thông tin đó cho tất cả những gì bạn làm trên hệ thống. Nếu bạn muốn sử dụng tên và địa chỉ e-mail khác cho một dự án riêng biệt nào đó, bạn có thể chạy lại lệnh trên không sử dụng <code>--global</code> trên dự án đó.</p>
 <h2 id="tr-nh-so-n-th-o">Trình Soạn Thảo</h2>
 <p>Bây giờ danh tính của bạn đã được cấu hình xong, bạn có thể lựa chọn trình soạn thảo mặc định sử dụng để soạn thảo các dòng lệnh. Mặc định, Git sử dụng trình soạn thảo mặc địch của hệ điều hành, thường là Vi hoặc Vim. Nếu bạn muốn sử dụng một trình soạn thảo khác, như Emacs, bạn có thể sửa như sau:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><h2 id="c-ng-c-so-s-nh-thay-i">Công Cụ So Sánh Thay Đổi</h2>
 <p>Một lựa chọn hữu ích khác mà bạn có thể muốn thay đổi đó là chương trình so sánh sự thay đổi để giải quyết các trường hợp xung đột nội dung. Ví dụ bạn muốn sử dụng vimdiff:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>Git chấp nhận kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, và opendiff là các công cụ trộn/sát nhập (merge) hợp lệ. Bạn cũng có thể sử dụng một công cụ yêu thích khác; xem hướng dẫn ở Chương 7.</p>
 <h2 id="ki-m-tra-c-u-h-nh">Kiểm Tra Cấu Hình</h2>
 <p>Nếu như bạn muốn kiểm tra các cấu hình cài đặt, bạn có thể sử dụng lệnh <code>git config --list</code> để liệt kê tất cả các cài đặt của Git:</p>
@@ -396,11 +399,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>Bạn có thể thấy các từ khoá xuất hiện nhiều hơn một lần, bởi vì Git đọc chúng từ các tập tin khác nhau (ví dụ, <code>/etc/gitconfig</code> và <code>~/.gitconfig</code>). Trong trường hợp này Git sử dụng giá trị xuất hiện cuối cùng cho mỗi từ khoá duy nhất.</p>
 <p>Bạn cũng có thể kiểm tra giá trị của một từ khoá riêng biệt nào đó bằng cách sử dụng <code>git config {key}</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -419,9 +422,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

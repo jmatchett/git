@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_642">
+                    <section class="normal" id="section-gitbook_855">
                     
                         <h1 id="ce-qu-est-une-branche">Ce qu&#39;est une branche</h1>
 <p>Pour réellement comprendre comment Git gère les branches, nous devons revenir en arrière et examiner de plus près comment Git stocke ses données.
@@ -853,8 +856,8 @@ Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données
 zéro parent pour la première validation, un parent pour un <em>commit</em> normal et des parents multiples pour des <em>commits</em> qui sont le résultat de la fusion d&#39;une ou plusieurs branches.</p>
 <p>Pour visualiser ce concept, supposons un répertoire contenant trois fichiers, ces trois fichiers étant indexés puis validés.
 Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépôt Git (Git les nomme blobs) et ajouter la somme de contrôle à la zone d&#39;index :</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">LISEZMOI</span> test.rb <span class="hljs-constant">LICENCE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'commit initial de mon projet'</span>
+<pre><code>$ git add LISEZMOI test.rb LICENCE
+$ git commit -m &#39;commit initial de mon projet&#39;
 </code></pre><p>Lorsque vous créez le <em>commit</em> en lançant la commande <code>git commit</code>, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépôt Git.
 Git crée alors un objet <em>commit</em> qui contient les méta-données et un pointeur vers l&#39;arbre projet d&#39;origine de manière à pouvoir recréer l&#39;instantané si besoin.</p>
 <p>Votre dépôt Git contient à présent cinq objets :
@@ -876,7 +879,7 @@ Au fur et à mesure des validations, la branche <code>master</code> pointe vers 
 Et bien, cela crée un nouveau pointeur à déplacer.
 Supposons que vous créez une nouvelle branche nommée <code>test</code>.
 Vous utilisez la commande <code>git branch</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git branch test
+<pre><code>$ git branch test
 </code></pre><p>Cela crée un nouveau pointeur vers le <em>commit</em> actuel (cf. figure 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Figure 3-4. Branches multiples pointant dans l&#39;historique des données de <em>commit</em>.</p>
@@ -890,20 +893,20 @@ La commande <code>git branch</code> n&#39;a fait que créer une nouvelle branche
 <p>Figure 3-5. fichier <code>HEAD</code> pointant sur la branche active.</p>
 <p>Pour basculer vers une branche existante, il suffit de lancer la commande <code>git checkout</code>.
 Basculons vers la nouvelle branche <code>test</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout test
+<pre><code>$ git checkout test
 </code></pre><p>Cela déplace <code>HEAD</code> pour le faire pointer vers la branche <code>test</code> (voir figure 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Figure 3-6. <code>HEAD</code> pointe vers une autre branche quand on bascule entre les branches.</p>
 <p>Qu&#39;est-ce que cela signifie ?
 Et bien, faisons une autre validation :</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'petite modification'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;petite modification&#39;
 </code></pre><p>La figure 3-7 illustre le résultat.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Figure 3-7. La branche sur laquelle <code>HEAD</code> pointe avance avec chaque nouveau <em>commit</em>.</p>
 <p>C&#39;est intéressant parce qu&#39;à présent, votre branche <code>test</code> a avancé, tandis que la branche <code>master</code> pointe toujours sur le <em>commit</em> sur lequel vous étiez lorsque vous avez lancé <code>git checkout</code> pour basculer de branche.
 Retournons sur la branche <code>master</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>La figure 3-8 montre le résultat.</p>
 <p><img src="http://git-scm.com/figures/18333fig0308-tn.png" alt=""></p>
 <p>Figure 3-8. <code>HEAD</code> se déplace sur une autre branche lors d&#39;un <em>checkout</em>.</p>
@@ -912,8 +915,8 @@ Elle a remis le pointeur <code>HEAD</code> sur la branche <code>master</code> et
 Cela signifie aussi que les modifications que vous réalisez à partir de maintenant divergeront de l&#39;ancienne version du projet.
 Cette commande retire les modifications réalisées dans la branche <code>test</code> pour vous permettre de repartir dans une autre direction de développement.</p>
 <p>Réalisons quelques autres modifications et validons à nouveau :</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'autres modifications'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;autres modifications&#39;
 </code></pre><p>Maintenant, l&#39;historique du projet a divergé (voir figure 3-9).
 Vous avez créé une branche et basculé dessus, avez réalisé des modifications, puis avez rebasculé sur la branche principale et réalisé d&#39;autres modifications.
 Ces deux modifications sont isolées dans des branches séparées.
@@ -946,9 +949,9 @@ Ces fonctionnalités encouragent naturellement les développeurs à créer et ut
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

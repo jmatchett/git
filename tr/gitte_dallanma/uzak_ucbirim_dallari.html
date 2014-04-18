@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397503670764">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,7 +367,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_236">
+                    <section class="normal" id="section-gitbook_262">
                     
                         <h1 id="uzak-u-birim-dallar-">Uzak Uçbirim Dalları</h1>
 <p>Yerel yazılım havuzunuzdaki uzak uçbirim dalları, uzak uçbirimlerdeki yazılım havuzlarınızın durumlarını gösteren imleçlerdir. Bunlar, hareket ettiremediğiniz yerel dallardır; yalnızca sunucuyla iletişim kurduğunuzda hareket ederler. Bu dallar, son bağlandığınızda sunucudaki yazılım havuzunun ne durumda olduğunu hatırlatan işaretçilerdir.</p>
@@ -388,42 +391,42 @@
 <p>Bir daldaki çalışmalarınızı başkalarıyla paylaşmak istediğinizde, onu yazma yetkinizin olduğu bir uzak uçbirime itmelisiniz (<em>push</em>). yerel dallarınız otomatik olarak sunucuyla eşitlenmez —paylaşmak istediğiniz dalları açık şekilde itmelisiniz. Böylece, paylaşmak istemediğiniz dallar için özel yerel dallar kullanıp, yalnızca paylaşmak istediğiniz işlev dallarını iteblirsiniz.</p>
 <p>Başkalarıyla ortaklaşa çalışmak istediğiniz <code>serverfix</code> adında bir dalınız varsa, onu da ilk dalınızı ittiğiniz gibi itebilirsiniz. <code>git push (remote) (branch)</code> komutunu çalıştırın.</p>
 <pre><code>$ git push origin serverfix
-Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-number">1.74</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 20, done.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 1.74 KiB, done.
+Total 15 (delta 5), reused 0 (delta 0)
 To git@github.com:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> branch]      serverfix -&gt; serverfix
+ * [new branch]      serverfix -&gt; serverfix
 </code></pre><p>Bu bir tür kısayol sayılabilir. Git <code>serverfix</code> dal adını otomatik olarak <code>refs/heads/serverfix:refs/heads/serverfix</code> biçiminde açımlar, bu şu demektir: “yerel <code>serverfix</code> dalımı alıp uzak uçbirimin <code>serverfix</code> dalını güncellemek için kullan.” <code>refs/heads/</code> kısmınz 9. Bölüm&#39;de ayrıntısıyla değineceğiz, ama genellikle bu kısmı kullanmasanız da olur. Aynı amaçla <code>git push origin serverfix:serverfix</code> komutunu da çalıştırabilirsiniz —bu da şu demektir: “Yereldeki serverfix&#39;i al, bunu uzak uçbirimin serverfix&#39;i yap.” Bu biçimi, yereldeki dal adıyla uzak uçbirimdeki dal adı farklı ise kullanabilirsiniz. Dal adının uzak uçbirimde <code>serferfix</code> olmasını istemezseniz <code>git push origin serverfix:awesomebranch</code> komutunu çalıştırarak yereldeki <code>serverfix</code> dalını uzak uçbirimdeki <code>awesomebranch</code> dalına itebilirsiniz.</p>
 <p>Birlikte çalıştığınız insanlar sunucudan getirme işlemi (<em>fetch</em>) yaptıklarında,  sunucudaki <code>serverfix</code> sürümünün bulunduğu yeri gösteren <code>origin/serverfix</code> adında bir imlece sahip olacaklar.</p>
 <pre><code>$ git fetch origin
-remote: Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (15/15), done.
 From git@github.com:schacon/simplegit
- * [<span class="hljs-keyword">new</span> branch]      serverfix    -&gt; origin/serverfix
+ * [new branch]      serverfix    -&gt; origin/serverfix
 </code></pre><p>Unutmayın, getirme (<em>fetch</em>) komutuyla yeni uzak uçbirim dallarını indirdiğinizde, yerelde otomatik olarak değiştirilebilir dallar oluşturulmaz. Başka bir deyişle, bu örnekte, <code>serverfix</code> adında bir dalınız olmaz, değiştiremeyeceğiniz <code>origin/serverfix</code> adında bir imleciniz olur.</p>
 <p>Oradaki değişiklikleri üzerinde çalışmakta olduğunuz dala birleştirmek isterseniz, <code>git merge origin/serverfix</code> komutunu çalıştırabilirsiniz. Üzerinde çalışmak üzere kendinize ait bir <code>serverfix</code> dalınız olmasını isterseniz, uzak uçbirim dalını temel alabilirsiniz:</p>
 <pre><code>$ git checkout -b serverfix origin/serverfix
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Bu, üzerinde çalışabileceğiniz ve <code>origin/serverfix</code>in gösterdiği yerden başlayan bir yerel dal yaratır.</p>
 <h2 id="i-zleme-dallar-">İzleme Dalları</h2>
 <p>Bir uzak uçbirim dalından yerel bir dal seçtiğinizde (<em>checkout</em>), bu işlem otomatik olarak bir <em>izleme dalı</em> (<em>tracking branch</em>) oluşturur. İzleme dalları, uzak uçbirim dallarıyla doğrudan ilişkileri bulunan yerel dallardır. Bir izleme dalından <code>git push</code> komutunu çalıştırdığınızda , Git hangi sunucudaki hangi dala itme işlemi yapması gerektiğini bilir. Ayrıca, bu dallardan birinden <code>git pull</code> komutunu çalıştırdığınızda, bütün imleçler indirileceği gibi, bu izleme dalına karşılık gelen uzak uçbirim dalı da otomatik olarak bu dalla birleştirilir.</p>
 <p>Bir yazılım havuzunu klonladığınızda, genellikle <code>origin/master</code> dalını izleyen bir <code>master</code> dalı yaratılır. Bu nedenle <code>git push</code> ve <code>git pull</code> komutları bu durumlarda ek argümanlara gerek kalmadan çalışırlar. Öte yandan, isterseniz başka izleme dalları da —<code>origin</code>&#39;i ya da <code>master</code> dalınız izlemeyen dallar— oluşturabilirsiniz. Yukarıda basit bir örneğini gördük: <code>git checkout -b [dal] [uzak_ucbirim]/[dal]</code>. Git&#39;in 1.6.2&#39;den itibaren olan sürümlerinde <code>--track</code> kısayolunu da kullanabilirsiniz:</p>
-<pre><code>$ git checkout <span class="hljs-comment">--track origin/serverfix</span>
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+<pre><code>$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Uzak uçbirim dalının adından başka bir adla yerel dal oluşturmak isterseniz, yukarıdaki komutu farklı bir yerel dal adıyla kullanabilirsiniz:</p>
 <pre><code>$ git checkout -b sf origin/serverfix
-Branch sf <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"sf"</span>
+Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;sf&quot;
 </code></pre><p>Şimdi, yereldeki sf dalı, otomatik olarak <code>origin/serverfix</code> dalına itme ve çekme işlemi yapabilecek.</p>
 <h2 id="uzak-u-birim-dallar-n-silmek">Uzak Uçbirim Dallarını Silmek</h2>
 <p>Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s <code>master</code> branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax <code>git push [remotename] :[branch]</code>. If you want to delete your <code>serverfix</code> branch from the server, you run the following:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:serverfix</span>
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit.git
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
  - [deleted]         serverfix
 </code></pre><p>Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the <code>git push [remotename] [localbranch]:[remotebranch]</code> syntax that we went over a bit earlier. If you leave off the <code>[localbranch]</code> portion, then you’re basically saying, “Take nothing on my side and make it be <code>[remotebranch]</code>.”</p>
 
@@ -444,9 +447,9 @@ Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</sp
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

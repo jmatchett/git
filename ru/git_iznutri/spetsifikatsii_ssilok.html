@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,59 +847,59 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_763">
+                    <section class="normal" id="section-gitbook_764">
                     
                         <h1 id="-">Спецификации ссылок</h1>
 <p>Во всей книге использовались простые связи между ветками в удалённых репозиториях и локальными ветками, но они могут быть и более сложными.
 Предположим, мы добавили следующий удалённый репозиторий:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add origin git@github.com:schacon/simplegit-progit.git
 </code></pre><p>Данный вызов добавляет секцию в файл <code>.git/config</code>, в которой заданы имя удалённого репозитория (<code>origin</code>), его URL и спецификация ссылок для извлечения данных:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
 </code></pre><p>Формат спецификации следующий: опциональный <code>+</code>, далее пара <code>&lt;src&gt;:&lt;dst&gt;</code>, где <code>&lt;src&gt;</code> — шаблон ссылок в удалённом репозитории, а <code>&lt;dst&gt;</code> — соответствующий шаблон локальных ссылок. Символ <code>+</code> сообщает Git&#39;у, что обновление необходимо выполнять даже в том случае, если оно не является перемоткой.</p>
 <p>В случае настроек по умолчанию, которые записываются во время выполнения <code>git remote add</code>, Git выбирает все ссылки из <code>refs/heads/</code> на стороне сервера, и записывает их в локальный каталог <code>refs/remotes/origin/</code>. Таким образом, если на сервере есть ветка <code>master</code>, журнал данной ветки можно получить, вызвав:</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/master
-<span class="hljs-variable">$ </span>git log remotes/origin/master
-<span class="hljs-variable">$ </span>git log refs/remotes/origin/master
+<pre><code>$ git log origin/master
+$ git log remotes/origin/master
+$ git log refs/remotes/origin/master
 </code></pre><p>Все эти команды эквивалентны, так как Git развернёт каждую запись до <code>refs/remotes/origin/master</code>.</p>
 <p>Если хочется, чтобы Git забирал при обновлении только ветку <code>master</code>, а не все доступные на сервере, можно изменить соответствующую строку в файле конфигурации на следующее:</p>
-<pre><code><span class="hljs-attribute">fetch </span>=<span class="hljs-string"> +refs/heads/master:refs/remotes/origin/master</span>
+<pre><code>fetch = +refs/heads/master:refs/remotes/origin/master
 </code></pre><p>Данный refspec будет использоваться по умолчанию при вызове <code>git fetch</code> для данного удалённого репозитория. Если же вам нужно изменить спецификацию всего раз, можно задать refspec в командной строке. Например, чтобы получить данные из ветки <code>master</code> из удалённого репозитория в локальную <code>origin/mymaster</code>, можно выполнить</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch origin <span class="hljs-symbol">master:</span>refs/remotes/origin/mymaster
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster
 </code></pre><p>Конечно, можно задать несколько спецификаций. Получить данные нескольких веток из командной строки можно так:</p>
-<pre><code>$ git fetch origin <span class="hljs-attribute">master</span>:refs/remotes/origin/mymaster \
-   <span class="hljs-attribute">topic</span>:refs/remotes/origin/topic
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit
- ! [rejected]        master<span class="hljs-function">     -&gt;</span> origin/mymaster  (non fast forward)
- * [<span class="hljs-keyword">new</span> branch]      topic<span class="hljs-function">      -&gt;</span> origin/topic
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster \
+   topic:refs/remotes/origin/topic
+From git@github.com:schacon/simplegit
+ ! [rejected]        master     -&gt; origin/mymaster  (non fast forward)
+ * [new branch]      topic      -&gt; origin/topic
 </code></pre><p>В данном случае слияние ветки master выполнить не удалось, поскольку слияние не было просто перемоткой. Такое поведение можно изменить, добавив перед спецификацией знак <code>+</code>.</p>
 <p>В конфигурационном файле также можно задавать несколько спецификаций для получения обновлений. Чтобы каждый раз получать обновления веток master и experiment, добавьте две такие строки:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git@<span class="hljs-filename">github.com</span>:schacon/simplegit-<span class="hljs-filename">progit.git
-       fetch = +refs/heads/master</span>:refs/remotes/origin/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
        fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 </code></pre><p>Задавать частичные регулярные выражения в спецификации нельзя, следующая запись неверна:</p>
-<pre><code>fetch = +refs/heads/qa*<span class="hljs-symbol">:refs/remotes/origin/qa*</span>
+<pre><code>fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 </code></pre><p>Тем не менее, можно использовать пространства имён для получения похожего результата. Если имеется команда QA (сокр. от quality assurance — контроль качества), которая использует свои несколько веток, и вы хотите получать только ветку master и все ветки команды QA, а остальные — нет, то можно добавить в конфигурацию следующее:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/<span class="hljs-symbol">master:</span>refs/remotes/origin/master
-       fetch = +refs/heads/qa/*<span class="hljs-symbol">:refs/remotes/origin/qa/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
+       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 </code></pre><p>Если ваш рабочий процесс является сложным, и разные команды: разработчики, тестеры, внедренцы — коммитят в разные ветки одного и того же проекта, то так вы с лёгкостью можете разделить их по разным пространствам имён.</p>
 <h2 id="-push">Спецификации ссылок для команды push</h2>
 <p>Это хорошо, что мы научились получать данные по ссылкам в отдельных пространствах имён, но нам же ещё надо сделать так, чтобы команда QA сначала смогла отправить свои ветки в пространство имён <code>qa/</code>. Мы решим эту задачу, используя спецификации ссылок для команды <code>push</code>.</p>
 <p>Если разработчик из команды QA хочет отправить изменения из локальной ветки <code>master</code> в <code>qa/master</code> на удалённом сервере, он может выполнить команду</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>$ git push origin master:refs/heads/qa/master
 </code></pre><p>Если хочется, чтобы Git автоматически делал так при вызове <code>git push origin</code>, можно добавить в конфигурационный файл значение для <code>push</code>:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
-       push = refs/heads/<span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
+       push = refs/heads/master:refs/heads/qa/master
 </code></pre><p>Опять же, это приведёт к тому, что при вызове <code>git push origin</code> локальная ветка <code>master</code> будет по умолчанию отправляться в удалённую ветку <code>qa/master</code>.</p>
 <h2 id="-">Удаление ссылок</h2>
 <p>Кроме всего прочего, спецификации ссылок можно использовать следующим образом для удаления ссылок на удалённом сервере:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:topic</span>
+<pre><code>$ git push origin :topic
 </code></pre><p>Так как спецификация ссылки задаётся в виде <code>&lt;src&gt;:&lt;dst&gt;</code>, опускание <code>&lt;src&gt;</code> означает, что указанную ветку на удалённом сервере надо сделать пустой, что приводит к её удалению.</p>
 
                     
@@ -916,9 +919,9 @@ From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

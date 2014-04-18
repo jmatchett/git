@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.7" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.7" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,52 +847,52 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_829">
+                    <section class="normal" id="section-gitbook_687">
                     
                         <h1 id="merge-de-sub-rvore-subtree-merging-">Merge de Sub-árvore (Subtree Merging)</h1>
 <p>Agora que você viu as dificuldades do sistema de submódulos, vamos ver uma maneira alternativa de resolver o mesmo problema. Quando o Git faz o merge, ele olha para as partes que vão sofrer o merge e escolhe a estratégia adequada de merge para usar. Se você está fazendo o merge de dois branches, Git usa uma estratégia <em>recursiva</em> (<em>recursive</em> strategy). Se você está fazendo o merge de mais de dois branches, Git usa a estratégia do <em>polvo</em> (<em>octopus</em> strategy). Essas estratégias são automaticamente escolhidas para você, porque a estratégia recursiva pode lidar com situações complexas de merge de três vias — por exemplo, mais de um ancestral comum — mas ele só pode lidar com o merge de dois branches. O merge octopus pode lidar com vários branches mas é cauteloso para evitar conflitos difíceis, por isso ele é escolhido como estratégia padrão se você está tentando fazer o merge de mais de dois branches.</p>
 <p>Porém, existem também outras estratégias que você pode escolher. Uma delas é o merge de <em>sub-árvore</em>, e você pode usá-lo para lidar com o problema do subprojeto. Aqui você vai ver como resolver o problema do &quot;rack&quot; da seção anterior, mas usando merge de sub-árvore.</p>
 <p>A ideia do merge de sub-árvore é que você tem dois projetos, e um deles está mapeado para um subdiretório do outro e vice-versa. Quando você escolhe um merge de sub-árvore, Git é inteligente o bastante para descobrir que um é uma sub-árvore do outro e faz o merge adequado — é incrível.</p>
 <p>Primeiro você adiciona a aplicação Rack em seu projeto. Você adiciona o projeto Rack como uma referência remota no seu projeto e então faz o checkout dele em um branch:</p>
-<pre><code>$ git remote add rack_remote git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/rack.git
+<pre><code>$ git remote add rack_remote git@github.com:schacon/rack.git
 $ git fetch rack_remote
-<span class="hljs-attribute">warning</span>: <span class="hljs-literal">no</span> common commits
-<span class="hljs-attribute">remote</span>: Counting <span class="hljs-attribute">objects</span>: <span class="hljs-number">3184</span>, done.
-<span class="hljs-attribute">remote</span>: Compressing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">1465</span>/<span class="hljs-number">1465</span>), done.
-<span class="hljs-attribute">remote</span>: Total <span class="hljs-number">3184</span> (delta <span class="hljs-number">1952</span>), reused <span class="hljs-number">2770</span> (delta <span class="hljs-number">1675</span>)
-Receiving <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">3184</span>/<span class="hljs-number">3184</span>), <span class="hljs-number">677.42</span> KiB | <span class="hljs-number">4</span> KiB/s, done.
-Resolving <span class="hljs-attribute">deltas</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">1952</span>/<span class="hljs-number">1952</span>), done.
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/rack
- * [<span class="hljs-keyword">new</span> branch]      build<span class="hljs-function">      -&gt;</span> rack_remote/build
- * [<span class="hljs-keyword">new</span> branch]      master<span class="hljs-function">     -&gt;</span> rack_remote/master
- * [<span class="hljs-keyword">new</span> branch]      rack-<span class="hljs-number">0.4</span><span class="hljs-function">   -&gt;</span> rack_remote/rack-<span class="hljs-number">0.4</span>
- * [<span class="hljs-keyword">new</span> branch]      rack-<span class="hljs-number">0.9</span><span class="hljs-function">   -&gt;</span> rack_remote/rack-<span class="hljs-number">0.9</span>
+warning: no common commits
+remote: Counting objects: 3184, done.
+remote: Compressing objects: 100% (1465/1465), done.
+remote: Total 3184 (delta 1952), reused 2770 (delta 1675)
+Receiving objects: 100% (3184/3184), 677.42 KiB | 4 KiB/s, done.
+Resolving deltas: 100% (1952/1952), done.
+From git@github.com:schacon/rack
+ * [new branch]      build      -&gt; rack_remote/build
+ * [new branch]      master     -&gt; rack_remote/master
+ * [new branch]      rack-0.4   -&gt; rack_remote/rack-0.4
+ * [new branch]      rack-0.9   -&gt; rack_remote/rack-0.9
 $ git checkout -b rack_branch rack_remote/master
 Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
-Switched to a <span class="hljs-keyword">new</span> branch <span class="hljs-string">"rack_branch"</span>
+Switched to a new branch &quot;rack_branch&quot;
 </code></pre><p>Agora você tem a raiz do projeto Rack no seu branch <code>rack_branch</code> e o seu projeto no branch <code>master</code>. Se você fizer o checkout de um e depois do outro, você pode ver que eles têm raízes de projeto diferentes:</p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">AUTHORS</span>           <span class="hljs-constant">KNOWN</span>-<span class="hljs-constant">ISSUES</span>   <span class="hljs-constant">Rakefile</span>      contrib           lib
-<span class="hljs-constant">COPYING</span>           <span class="hljs-constant">README</span>         bin           example           test
-<span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
-<span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">README</span>
+<pre><code>$ ls
+AUTHORS           KNOWN-ISSUES   Rakefile      contrib           lib
+COPYING           README         bin           example           test
+$ git checkout master
+Switched to branch &quot;master&quot;
+$ ls
+README
 </code></pre><p>Você quer colocar o projeto Rack no seu projeto <code>master</code> como um subdiretório. Você pode fazer isso no Git com <code>git read-tree</code>. Você irá aprender mais sobre <code>read-tree</code> e seus companheiros no Capítulo 9, mas por enquanto saiba que ele escreve a raiz da árvore de um branch na sua área de seleção e diretório de trabalho. Você volta para o branch <code>master</code>, você coloca o branch <code>rack</code> no subdiretório <code>rack</code> no branch <code>master</code> do seu projeto principal:</p>
-<pre><code>$ git <span class="hljs-built_in">read</span>-tree <span class="hljs-comment">--prefix=rack/ -u rack_branch</span>
+<pre><code>$ git read-tree --prefix=rack/ -u rack_branch
 </code></pre><p>Quando você faz o commit, parece que você tem todos os arquivos do Rack nesse subdiretório — como se você tivesse copiado de um arquivo. O que é interessante é que você pode facilmente fazer merge de alterações de um branch para o outro. Assim, se o projeto Rack for atualizado, você pode fazer um pull das modificações mudando para o branch e fazendo o pull:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout rack_branch
-<span class="hljs-variable">$ </span>git pull
+<pre><code>$ git checkout rack_branch
+$ git pull
 </code></pre><p>Em seguida, você pode fazer o merge dessas alterações no seu branch master. Você pode usar <code>git merge -s subtree</code> e ele irá funcionar normalmente; mas o Git também irá fazer o merge do histórico, coisa que você provavelmente não quer. Para trazer as alterações e preencher a mensagem de commit, use as opções <code>--squash</code> e <code>--no-commit</code> com a opção de estratégia <code>-s subtree</code>:</p>
 <pre><code>$ git checkout master
-$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> --squash -s subtree --<span class="hljs-keyword">no</span>-<span class="hljs-keyword">commit</span> rack_branch
-Squash <span class="hljs-keyword">commit</span> -- <span class="hljs-keyword">not</span> updating HEAD
-Automatic <span class="hljs-keyword">merge</span> went well;</span> stopped before committing as requested
+$ git merge --squash -s subtree --no-commit rack_branch
+Squash commit -- not updating HEAD
+Automatic merge went well; stopped before committing as requested
 </code></pre><p>Foi feito o merge de todas suas alterações do projeto Rack e elas estão prontas para o commit local. Você também pode fazer o oposto — alterar o subdiretório <code>rack</code> do seu branch master e depois fazer o merge delas no seu branch <code>rack_branch</code> para enviá-las para os mantenedores do projeto ou para o projeto original.</p>
 <p>Para ver o diff entre o que você tem no seu subdiretório <code>rack</code> e o código no seu branch <code>rack_branch</code> — para ver se você precisa fazer o merge deles — você não pode usar o comando <code>diff</code>. Em vez disso, você precisa executar <code>git diff-tree</code> com o branch que você quer comparar:</p>
-<pre><code>$ git diff<span class="hljs-attribute">-tree</span> <span class="hljs-attribute">-p</span> rack_branch
+<pre><code>$ git diff-tree -p rack_branch
 </code></pre><p>Ou, para comparar o que tem no seu subdiretório <code>rack</code> com o que estava no branch <code>master</code> no servidor na última vez que você se conectou a ele, você pode executar</p>
-<pre><code>$ git diff<span class="hljs-attribute">-tree</span> <span class="hljs-attribute">-p</span> rack_remote/master
+<pre><code>$ git diff-tree -p rack_remote/master
 </code></pre>
                     
                     </section>
@@ -908,9 +911,9 @@ Automatic <span class="hljs-keyword">merge</span> went well;</span> stopped befo
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

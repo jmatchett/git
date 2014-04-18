@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="8.1" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="8.1" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_902">
+                    <section class="normal" id="section-gitbook_974">
                     
                         <h1 id="git-a-subversion">Git a Subversion</h1>
 <p>V současné době používá většina projektů vývoje open source softwaru a velká část korporátních projektů ke správě zdrojového kódu systém Subversion. Subversion je nejpopulárnějším systémem VCS s otevřeným zdrojovým kódem a využívá se už téměř deset let. V mnoha ohledech je velmi podobný systému CVS, který platil ve světě správy verzí před příchodem systému Subversion za nepřekonatelný.</p>
@@ -866,78 +869,78 @@
 <h2 id="vytvo-en-repozit-e">Vytvoření repozitáře</h2>
 <p>Abychom si mohli tuto funkci ukázat, budete potřebovat typický repozitář SVN, k němuž máte oprávnění pro zápis. Chcete-li si tyto příklady zkopírovat, budete si muset obstarat zapisovatelnou kopii mého testovacího repozitáře. Snadno ho zkopírujete pomocí nástroje <code>svnsync</code>, jenž je součástí novějších verzí systému Subversion – měl by být distribuován s verzí 1.4 a vyšší. Pro potřeby našich pokusů jsem na stránkách Google code vytvořil nový repozitář Subversion, který byl původně součástí kopie projektu <code>protobuf</code>, nástroje, který kóduje strukturovaná data pro síťový přenos.</p>
 <p>Chcete-li postupovat podle mě, budete si nejprve muset vytvořit nový lokální repozitář Subversion:</p>
-<pre><code><span class="hljs-variable">$ </span>mkdir /tmp/test-svn
-<span class="hljs-variable">$ </span>svnadmin create /tmp/test-svn
+<pre><code>$ mkdir /tmp/test-svn
+$ svnadmin create /tmp/test-svn
 </code></pre><p>Poté umožněte všem uživatelům měnit vlastnosti vlastnosti revprops – jednoduše to provedete přidáním skriptu pre-revprop-change, jehož návratovou hodnotou bude vždy 0:</p>
 <pre><code>$ cat /tmp/test-svn/hooks/pre-revprop-change
-<span class="hljs-shebang">#!/bin/sh</span>
-<span class="hljs-keyword">exit</span> <span class="hljs-number">0</span>;
+#!/bin/sh
+exit 0;
 $ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 </code></pre><p>Nyní můžete tento projekt synchronizovat na svůj lokální počítač zadáním příkazu <code>svnsync init</code> s uvedením repozitářů „do“ a „z“.</p>
-<pre><code><span class="hljs-variable">$ </span>svnsync init <span class="hljs-symbol">file:</span>/<span class="hljs-regexp">//tmp</span><span class="hljs-regexp">/test-svn http:/</span><span class="hljs-regexp">/progit-example.googlecode.com/svn</span><span class="hljs-regexp">/</span>
+<pre><code>$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 </code></pre><p>Tím nastavíte vlastnosti synchronizace. Zdrojový kód pak naklonujete příkazem:</p>
 <pre><code>$ svnsync sync file:///tmp/test-svn
-Committed revision <span class="hljs-number">1.</span>
-Copied properties <span class="hljs-keyword">for</span> revision <span class="hljs-number">1.</span>
-Committed revision <span class="hljs-number">2.</span>
-Copied properties <span class="hljs-keyword">for</span> revision <span class="hljs-number">2.</span>
-Committed revision <span class="hljs-number">3.</span>
-<span class="hljs-keyword">...</span>
+Committed revision 1.
+Copied properties for revision 1.
+Committed revision 2.
+Copied properties for revision 2.
+Committed revision 3.
+...
 </code></pre><p>Tato operace bude trvat jen několik minut. Pokud byste se však pokoušeli zkopírovat originální repozitář ne do lokálního, nýbrž do jiného vzdáleného repozitáře, protáhne se proces téměř na hodinu, přestože repozitář obsahuje necelých 100 revizí. Subversion musí klonovat každou revizi zvlášť a tu pak odesílá zpět do jiného repozitáře. Tento postup je sice velice neefektivní, ale jiná možnost neexistuje.</p>
 <h2 id="prvn-kroky">První kroky</h2>
 <p>Nyní máte repozitář Subversion s oprávněním pro zápis, a proto se můžeme podívat na typický postup práce. Začneme příkazem <code>git svn clone</code>, který importuje celý repozitář Subversion do lokálního repozitáře Git. Nezapomeňte, že pokud import provádíte z reálně hostovaného repozitáře Subversion, je třeba nahradit <code>file:///tmp/test-svn</code> adresou URL vašeho repozitáře Subversion:</p>
-<pre><code>$ git svn clone file:<span class="hljs-comment">///tmp/test-svn -T trunk -b branches -t tags</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /Users/schacon/projects/testsvnsync/svn<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
-r1 <span class="hljs-subst">=</span> b4e387bc68740b5af56c2a5faf4003ae42bd135c (trunk)
-      A    m4/acx_pthread<span class="hljs-built_in">.</span>m4
-      A    m4/stl_hash<span class="hljs-built_in">.</span>m4
-<span class="hljs-attribute">...</span>
-r75 <span class="hljs-subst">=</span> d1957f3b307922124eec6314e15bcda59e3d9610 (trunk)
-Found possible branch point: file:<span class="hljs-comment">///tmp/test-svn/trunk =&gt; \</span>
-    file:<span class="hljs-comment">///tmp/test-svn /branches/my-calc-branch, 75</span>
-Found branch <span class="hljs-keyword">parent</span>: (my<span class="hljs-attribute">-calc</span><span class="hljs-attribute">-branch</span>) d1957f3b307922124eec6314e15bcda59e3d9610
-Following <span class="hljs-keyword">parent</span> <span class="hljs-keyword">with</span> do_switch
-Successfully followed <span class="hljs-keyword">parent</span>
-r76 <span class="hljs-subst">=</span> <span class="hljs-number">8624824</span>ecc0badd73f40ea2f01fce51894189b01 (my<span class="hljs-attribute">-calc</span><span class="hljs-attribute">-branch</span>)
+<pre><code>$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
+Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
+r1 = b4e387bc68740b5af56c2a5faf4003ae42bd135c (trunk)
+      A    m4/acx_pthread.m4
+      A    m4/stl_hash.m4
+...
+r75 = d1957f3b307922124eec6314e15bcda59e3d9610 (trunk)
+Found possible branch point: file:///tmp/test-svn/trunk =&gt; \
+    file:///tmp/test-svn /branches/my-calc-branch, 75
+Found branch parent: (my-calc-branch) d1957f3b307922124eec6314e15bcda59e3d9610
+Following parent with do_switch
+Successfully followed parent
+r76 = 8624824ecc0badd73f40ea2f01fce51894189b01 (my-calc-branch)
 Checked out HEAD:
- file:<span class="hljs-comment">///tmp/test-svn/branches/my-calc-branch r76</span>
+ file:///tmp/test-svn/branches/my-calc-branch r76
 </code></pre><p>Na adrese URL, kterou jste zadali, tím v podstatě provedete dva příkazy: <code>git svn init</code> a <code>git svn fetch</code>. Proces může chvíli trvat. Testovací projekt má pouze kolem 75 revizí a základ kódu není příliš velký, takže bude stačit několik minut. Git však musí provést checkout každé verze jednotlivě a po jedné je také zapsat. U projektů se stovkami nebo tisíci revizí si můžete bez nadsázky počkat i celé hodiny nebo dny.</p>
 <p>Část <code>-T trunk -b branches -t tags</code> říká systému Git, že tento repozitář Subversion dodržuje základní zásady větvení a značkování. Pokud pojmenujete svůj kmenový adresář (trunk), větve nebo značky jinak, lze tyto parametry změnit. Protože se jedná o častou situaci, můžete celou tuto část nahradit parametrem <code>-s</code>, který označuje standardní layout a implikuje všechny uvedené parametry. Následující příkaz je ekvivalentní:</p>
-<pre><code>$ git svn clone file:<span class="hljs-comment"><span class="hljs-xmlDocTag">///</span>tmp/test-svn -s</span>
+<pre><code>$ git svn clone file:///tmp/test-svn -s
 </code></pre><p>V tomto okamžiku byste tedy měli mít platný repozitář Git s importovanými větvemi a značkami:</p>
 <pre><code>$ git branch -a
 * master
   my-calc-branch
-  tags/<span class="hljs-number">2.0</span><span class="hljs-number">.2</span>
-  tags/<span class="hljs-keyword">release</span>-<span class="hljs-number">2.0</span><span class="hljs-number">.1</span>
-  tags/<span class="hljs-keyword">release</span>-<span class="hljs-number">2.0</span><span class="hljs-number">.2</span>
-  tags/<span class="hljs-keyword">release</span>-<span class="hljs-number">2.0</span><span class="hljs-number">.2</span>rc1
+  tags/2.0.2
+  tags/release-2.0.1
+  tags/release-2.0.2
+  tags/release-2.0.2rc1
   trunk
 </code></pre><p>Doplňme také, že tento nástroj odlišně přiřazuje jmenný prostor vzdálených referencí. Jestliže klonujete normální repozitář Git, získáte ze vzdáleného serveru všechny větve, lokálně dostupné pod označením <code>origin/[větev]</code> – jmenný prostor se přiřazuje na základě vzdáleného serveru. <code>git svn</code> však předpokládá, že nebudete mít více vzdálených repozitářů a všechny reference uloží na místa na vzdáleném serveru bez jmenného prostoru. Pokud si přejete zobrazit všechny své reference s úplným názvem, můžete použít nízkoúrovňový příkaz <code>show-ref</code>:</p>
 <pre><code>$ git show-ref
-<span class="hljs-number">1</span>cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
-aee1ecc26318164f355a883f5d99cff0c852d3c4 refs/<span class="hljs-comment">remotes/my-calc-branch</span>
-<span class="hljs-number">03</span>d09b0e2aad427e34a6d50ff147128e76c0e0f5 refs/<span class="hljs-comment">remotes/tags/2.0.2</span>
-<span class="hljs-number">50</span>d02cc0adc9da4319eeba0900430ba219b9c376 refs/<span class="hljs-comment">remotes/tags/release-2.0.1</span>
-<span class="hljs-number">4</span>caaa711a50c77879a91b8b90380060f672745cb refs/<span class="hljs-comment">remotes/tags/release-2.0.2</span>
-<span class="hljs-number">1</span>c4cb508144c513ff1214c3488abe66dcb92916f refs/<span class="hljs-comment">remotes/tags/release-2.0.2rc1</span>
-<span class="hljs-number">1</span>cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/<span class="hljs-comment">remotes/trunk</span>
+1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
+aee1ecc26318164f355a883f5d99cff0c852d3c4 refs/remotes/my-calc-branch
+03d09b0e2aad427e34a6d50ff147128e76c0e0f5 refs/remotes/tags/2.0.2
+50d02cc0adc9da4319eeba0900430ba219b9c376 refs/remotes/tags/release-2.0.1
+4caaa711a50c77879a91b8b90380060f672745cb refs/remotes/tags/release-2.0.2
+1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
+1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 </code></pre><p>Běžný repozitář Git vypadá naproti tomu spíš takto:</p>
 <pre><code>$ git show-ref
-<span class="hljs-number">83</span>e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
-<span class="hljs-number">3</span>e15e38c198baac84223acfc6224bb8b99ff2281 refs/<span class="hljs-comment">remotes/gitserver/master</span>
-<span class="hljs-number">0</span>a30dd3b0c795b80212ae723640d4e5d48cabdff refs/<span class="hljs-comment">remotes/origin/master</span>
-<span class="hljs-number">25812380387</span>fdd55f916652be4881c6f11600d6f refs/<span class="hljs-comment">remotes/origin/testing</span>
+83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
+3e15e38c198baac84223acfc6224bb8b99ff2281 refs/remotes/gitserver/master
+0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
+25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 </code></pre><p>Máte dva vzdálené servery: první nese označení <code>gitserver</code> a obsahuje větev <code>master</code>; druhý server je <code>origin</code>, který obsahuje větve <code>master</code> a<code>testing</code>.</p>
 <p>Všimněte si, že v příkladu vzdálených referencí importovaných nástrojem <code>git svn</code> jsou značky přidány jako vzdálené větve, nikoli jako skutečné značky Git. Import ze systému Subversion vypadá, jako by měl vzdálený repozitář s názvem „tags“, v němž se nacházejí jednotlivé větve.</p>
 <h2 id="zapisov-n-zp-t-do-syst-mu-subversion">Zapisování zpět do systému Subversion</h2>
 <p>Máte vytvořen pracovní repozitář a můžete se pustit do práce na projektu. Časem ale budete chtít odeslat revize zpět do repozitáře a použít při tom Git jako klienta SVN. Upravíte-li některý ze souborů a provedené změny zapíšete, budete mít revizi, která existuje lokálně v systému Git, ale neexistuje na serveru Subversion:</p>
-<pre><code>$ git commit -am 'Adding git-svn instructions <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> README'
-[master <span class="hljs-number">97031e5</span>] Adding git-svn instructions <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> README
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code>$ git commit -am &#39;Adding git-svn instructions to the README&#39;
+[master 97031e5] Adding git-svn instructions to the README
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><p>Jako další krok tak chcete odeslat provedené změny do vzdáleného repozitáře. Všimněte si, jak se tím mění váš způsob práce v systému Subversion. Můžete zapsat několik revizí offline a poté je na server Subversion odeslat všechny najednou. Pro odeslání revizí na server Subversion zadejte příkaz <code>git svn dcommit</code>:</p>
 <pre><code>$ git svn dcommit
-Committing to file:///tmp/test-svn/trunk <span class="hljs-keyword">...</span>
+Committing to file:///tmp/test-svn/trunk ...
        M      README.txt
 Committed r79
        M      README.txt
@@ -945,31 +948,31 @@ r79 = 938b1a547c2cc92033b74d32030e86468294a5c8 (trunk)
 No changes between current HEAD and refs/remotes/trunk
 Resetting to the latest refs/remotes/trunk
 </code></pre><p>Příkaz vezme všechny revize, které jste provedli na vrcholu kódu ze serveru Subversion, každou jednotlivě zapíše do systému Subversion a přepíše vaši lokální revizi Git tak, aby obsahovala unikátní identifikátor. To je důležité, protože to znamená, že se změní všechny kontrolní součty SHA-1 vašich revizí. To je také jeden z důvodů, proč není vhodné pracovat zároveň se serverem Subversion a s verzemi vzdálených repozitářů Git k témuž projektu. Pokud se podíváte na poslední revizi, uvidíte nově přidané <code>git-svn-id</code>:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> <span class="hljs-subst">-</span><span class="hljs-number">1</span>
-commit <span class="hljs-number">938</span>b1a547c2cc92033b74d32030e86468294a5c8
-Author: schacon <span class="hljs-subst">&lt;</span>schacon@<span class="hljs-number">4</span>c93b258<span class="hljs-subst">-</span><span class="hljs-number">373</span>f<span class="hljs-subst">-</span><span class="hljs-number">11</span>de<span class="hljs-attribute">-be05</span><span class="hljs-subst">-</span><span class="hljs-number">5</span>f7a86268029<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Sat May <span class="hljs-number">2</span> <span class="hljs-number">22</span>:<span class="hljs-number">06</span>:<span class="hljs-number">44</span> <span class="hljs-number">2009</span> <span class="hljs-subst">+</span><span class="hljs-number">0000</span>
+<pre><code>$ git log -1
+commit 938b1a547c2cc92033b74d32030e86468294a5c8
+Author: schacon &lt;schacon@4c93b258-373f-11de-be05-5f7a86268029&gt;
+Date:   Sat May 2 22:06:44 2009 +0000
 
-    Adding git<span class="hljs-attribute">-svn</span> instructions <span class="hljs-keyword">to</span> the README
+    Adding git-svn instructions to the README
 
-    git<span class="hljs-attribute">-svn</span><span class="hljs-attribute">-id</span>: file:<span class="hljs-comment">///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029</span>
+    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 </code></pre><p>Všimněte si, že kontrolní součet SHA, který před zapsáním revize původně začínal kombinací znaků <code>97031e5</code>, nyní začíná <code>938b1a5</code>. Chcete-li revize odeslat jak na server Git, tak na server Subversion, odešlete je nejprve na server Subversion (<code>dcommit</code>), protože tím změníte data revizí.</p>
 <h2 id="sta-en-nov-ch-zm-n">Stažení nových změn</h2>
 <p>Pokud na projektu spolupracujete s dalšími vývojáři, stane se vám, že někdo z vás odešle své revize, a až se o totéž pokusí ostatní, dojde ke konfliktu. Jejich změna bude odmítnuta, dokud nezačlení dříve odeslanou práci. V nástroji <code>git svn</code> to bude vypadat následovně:</p>
 <pre><code>$ git svn dcommit
-Committing <span class="hljs-built_in">to</span> <span class="hljs-built_in">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk ...</span>
-Merge conflict during commit: Your <span class="hljs-built_in">file</span> <span class="hljs-operator">or</span> <span class="hljs-built_in">directory</span> <span class="hljs-string">'README.txt'</span> is probably \
-out-<span class="hljs-operator">of</span>-<span class="hljs-built_in">date</span>: resource out <span class="hljs-operator">of</span> <span class="hljs-built_in">date</span>; <span class="hljs-keyword">try</span> updating <span class="hljs-keyword">at</span> /Users/schacon/libexec/git-\
-core/git-svn <span class="hljs-built_in">line</span> <span class="hljs-number">482</span>
+Committing to file:///tmp/test-svn/trunk ...
+Merge conflict during commit: Your file or directory &#39;README.txt&#39; is probably \
+out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
+core/git-svn line 482
 </code></pre><p>Chcete-li tuto situaci vyřešit, spusťte příkaz <code>git svn rebase</code>, jímž stáhnete veškeré změny na serveru, které ještě nemáte lokálně, a přeskládáte všechnu práci na vrchol toho, co se nachází na serveru:</p>
 <pre><code>$ git svn rebase
        M      README.txt
 r80 = ff829ab914e8775c7c025d741beb3d523ee30bc4 (trunk)
-First, rewinding head <span class="hljs-keyword">to</span> replay your work <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> top <span class="hljs-keyword">of</span> <span class="hljs-keyword">it</span>...
-Applying: <span class="hljs-keyword">first</span> user change
+First, rewinding head to replay your work on top of it...
+Applying: first user change
 </code></pre><p>Nyní je všechna vaše práce na vrcholu revizí, které jsou na serveru Subversion. Příkaz <code>dcommit</code> bude nyní úspěšně proveden:</p>
 <pre><code>$ git svn dcommit
-Committing to file:///tmp/test-svn/trunk <span class="hljs-keyword">...</span>
+Committing to file:///tmp/test-svn/trunk ...
        M      README.txt
 Committed r81
        M      README.txt
@@ -978,47 +981,47 @@ No changes between current HEAD and refs/remotes/trunk
 Resetting to the latest refs/remotes/trunk
 </code></pre><p>Za zmínku stojí, že na rozdíl od systému Git, který před přijetím odesílaných dat vyžaduje, abyste začlenili práci na serveru, kterou ještě nemáte lokálně, nástroj <code>git svn</code> si toto vyžádá pouze v případě, že změny navzájem kolidují. Jestliže někdo odešle na server změnu v jednom souboru a vy poté odešlete změnu provedenou v jiném souboru, příkaz <code>dcommit</code> bude proveden úspěšně:</p>
 <pre><code>$ git svn dcommit
-Committing <span class="hljs-built_in">to</span> <span class="hljs-built_in">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk ...</span>
+Committing to file:///tmp/test-svn/trunk ...
        M      configure.ac
 Committed r84
        M      autogen.sh
-r83 = <span class="hljs-number">8</span>aa54a74d452f82eee10076ab2584c1fc424853b (trunk)
+r83 = 8aa54a74d452f82eee10076ab2584c1fc424853b (trunk)
        M      configure.ac
 r84 = cdbac939211ccb18aa744e581e46563af5d962d0 (trunk)
-W: d2f23b80f67aaaa1f6f5aaef48fce3263ac71a92 <span class="hljs-operator">and</span> refs/remotes/trunk differ, \
-  <span class="hljs-keyword">using</span> rebase:
-:<span class="hljs-number">100755</span> <span class="hljs-number">100755</span> efa5a59965fbbb5b2b0a12890f1b351bb5493c18 \
-  <span class="hljs-number">015e4</span>c98c482f0fa71e4d5434338014530b37fa6 M   autogen.sh
-First, rewinding head <span class="hljs-built_in">to</span> replay your work <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">top</span> <span class="hljs-title">of</span> <span class="hljs-title">it</span>...</span>
-Nothing <span class="hljs-built_in">to</span> <span class="hljs-built_in">do</span>.
+W: d2f23b80f67aaaa1f6f5aaef48fce3263ac71a92 and refs/remotes/trunk differ, \
+  using rebase:
+:100755 100755 efa5a59965fbbb5b2b0a12890f1b351bb5493c18 \
+  015e4c98c482f0fa71e4d5434338014530b37fa6 M   autogen.sh
+First, rewinding head to replay your work on top of it...
+Nothing to do.
 </code></pre><p>Tuto skutečnost je dobré mít na paměti, neboť výsledkem takového postupu je stav projektu, který ve chvíli vašeho odeslání neexistoval na žádném z počítačů. Jsou-li změny nekompatibilní, přestože nekolidují, může dojít k těžko diagnostikovatelným problémům. V tom se tento postup liší od používání serveru Git. V systému Git můžete kompletně otestovat stav v systému klienta ještě před zveřejněním. V SVN si naproti tomu nemůžete být nikdy jisti, že je stav bezprostředně před revizí a po revizi identický.</p>
 <p>Tento příkaz byste proto měli používat ke stažení změn ze serveru Subversion i v případě, že ještě sami nehodláte zapsat vlastní revize. Nová data sice můžete vyzvednout i příkazem <code>git svn fetch</code>, avšak příkaz <code>git svn rebase</code> data nejen stáhne, ale navíc aktualizuje vaše lokální revize.</p>
 <pre><code>$ git svn rebase
        M      generate_descriptor_proto.sh
 r82 = bd16df9173e424c6f52c337ab6efa7f7643282f1 (trunk)
-First, rewinding head <span class="hljs-keyword">to</span> replay your work <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> top <span class="hljs-keyword">of</span> <span class="hljs-keyword">it</span>...
-Fast-forwarded master <span class="hljs-keyword">to</span> refs/remotes/trunk.
+First, rewinding head to replay your work on top of it...
+Fast-forwarded master to refs/remotes/trunk.
 </code></pre><p>Spustíte-li čas od času příkaz <code>git svn rebase</code>, budete mít jistotu, že pracujete s aktuálním kódem. Nezapomeňte však, že když příkaz spouštíte, je třeba, abyste měli čistý pracovní adresář. Máte-li lokální změny, musíte ještě před spuštěním příkazu <code>git svn rebase</code> práci buď odložit (stash), nebo ji dočasně zapsat. V opačném případě nebude příkaz proveden, protože systém zjistí, že by přeskládání vedlo ke konfliktu.</p>
 <h2 id="probl-my-s-v-tvemi-syst-mu-git">Problémy s větvemi systému Git</h2>
 <p>Pokud vám vyhovuje způsob práce v systému Git, začnete pravděpodobně vytvářet tematické větve, budete v nich vytvářet svou práci a začleňovat je. Odesíláte-li revize na server Subversion nástrojem git svn, budete možná chtít pokaždé raději přeskládat svou práci na jedinou větev, místo abyste je slučovali. Důvod, proč raději využít možnosti přeskládání, spočívá v tom, že Subversion má lineární historii a neprovádí začleňování stejně jako Git. Nástroj git svn tak při konverzi snímků na revize Subversion sleduje pouze prvního rodiče.</p>
 <p>Předpokládejme, že vaše historie vypadá následovně: vytvořili jste větev <code>experiment</code>, zapsali jste dvě revize a začlenili jste je zpět do větve <code>master</code>. Výstup příkazu <code>dcommit</code> bude nyní vypadat následovně:</p>
 <pre><code>$ git svn dcommit
 Committing to file:///tmp/test-svn/trunk ...
-       M      CHANGES<span class="hljs-preprocessor">.txt</span>
+       M      CHANGES.txt
 Committed r85
-       M      CHANGES<span class="hljs-preprocessor">.txt</span>
-r85 = <span class="hljs-number">4</span>bfebeec434d156c36f2bcd18f4e3d97dc3269a2 (trunk)
-No changes between current HEAD <span class="hljs-keyword">and</span> refs/remotes/trunk
+       M      CHANGES.txt
+r85 = 4bfebeec434d156c36f2bcd18f4e3d97dc3269a2 (trunk)
+No changes between current HEAD and refs/remotes/trunk
 Resetting to the latest refs/remotes/trunk
-<span class="hljs-label">COPYING.txt:</span> locally modified
-<span class="hljs-label">INSTALL.txt:</span> locally modified
-       M      COPYING<span class="hljs-preprocessor">.txt</span>
-       M      INSTALL<span class="hljs-preprocessor">.txt</span>
+COPYING.txt: locally modified
+INSTALL.txt: locally modified
+       M      COPYING.txt
+       M      INSTALL.txt
 Committed r86
-       M      INSTALL<span class="hljs-preprocessor">.txt</span>
-       M      COPYING<span class="hljs-preprocessor">.txt</span>
-r86 = <span class="hljs-number">2647</span>f6b86ccfcaad4ec58c520e369ec81f7c283c (trunk)
-No changes between current HEAD <span class="hljs-keyword">and</span> refs/remotes/trunk
+       M      INSTALL.txt
+       M      COPYING.txt
+r86 = 2647f6b86ccfcaad4ec58c520e369ec81f7c283c (trunk)
+No changes between current HEAD and refs/remotes/trunk
 Resetting to the latest refs/remotes/trunk
 </code></pre><p>Příkaz <code>dcommit</code> na větvi se začleněnou historií bude fungovat bez problémů, pomineme-li, že při pohledu na historii projektu Git zjistíme, že nepřepsal žádnou z revizí, kterou jste provedli ve větvi <code>experiment</code>. Všechny změny se místo toho objeví v SVN verzi jedné revize vzniklé sloučením.</p>
 <p>Pokud tuto práci naklonuje jiný uživatel, uvidí jen jednu revizi vzniklou sloučením, obsahující všechnu práci skomprimovanou do ní. Neuvidí data revizí s informacemi, odkud revize pochází nebo kdy byla zapsána.</p>
@@ -1027,36 +1030,36 @@ Resetting to the latest refs/remotes/trunk
 <h3 id="vytvo-en-nov-v-tve-svn">Vytvoření nové větve SVN</h3>
 <p>Chcete-li vytvořit novou větev v systému Subversion, spusťte příkaz <code>git svn branch [název větve]</code>:</p>
 <pre><code>$ git svn branch opera
-Copying <span class="hljs-keyword">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...</span>
-Found possible branch point: <span class="hljs-keyword">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk =&gt; \</span>
-  <span class="hljs-keyword">file</span>:<span class="hljs-comment">///tmp/test-svn/branches/opera, 87</span>
-Found branch <span class="hljs-keyword">parent</span>: (opera) <span class="hljs-number">1</span>f6bfe471083cbca06ac8d4176f7ad4de0d62e5f
-Following <span class="hljs-keyword">parent</span> with do_switch
-Successfully followed <span class="hljs-keyword">parent</span>
-r89 = <span class="hljs-number">9</span>b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
+Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
+Found possible branch point: file:///tmp/test-svn/trunk =&gt; \
+  file:///tmp/test-svn/branches/opera, 87
+Found branch parent: (opera) 1f6bfe471083cbca06ac8d4176f7ad4de0d62e5f
+Following parent with do_switch
+Successfully followed parent
+r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 </code></pre><p>Příkaz je ekvivalentní s příkazem <code>svn copy trunk branches/opera</code> v systému Subversion a pracuje na serveru Subversion. Měli bychom také dodat, že příkaz neprovede automaticky checkout dané větve. Pokud nyní zapíšete revizi, dostane se do větve <code>trunk</code> na serveru, ne do větve <code>opera</code>.</p>
 <h2 id="p-ep-n-n-aktivn-ch-v-tv-">Přepínání aktivních větví</h2>
 <p>Git zjistí, do jaké větve se vaše revize zapsané příkazem dcommit dostanou – podívá se na konec všech větví Subversion ve vaší historii. Měli byste mít pouze jednu a měla by to být poslední větev s <code>git-svn-id</code> ve vaší aktuální historii větve.</p>
 <p>Chcete-li současně pracovat ve více než jedné větvi, můžete nastavit lokální větve tak, abyste příkazem <code>dcommit</code> zapisovali revize do konkrétních větví Subversion. Za tímto účelem umístěte začátek větví na importované revizi Subversion pro tuto větev. Chcete-li používat větev <code>opera</code>, v níž můžete pracovat odděleně, spusťte příkaz:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch opera remotes/opera
+<pre><code>$ git branch opera remotes/opera
 </code></pre><p>Budete-li nyní chtít začlenit větev <code>opera</code> do větve <code>trunk</code> (vaše větev <code>master</code>), můžete tak učinit běžným příkazem <code>git merge</code>. Měli byste však uvést výstižnou zprávu revize (pomocí parametru <code>-m</code>). V opačném případě bude sloučení místo užitečných informací oznamovat jen „Merge branch opera“ („začleněna větev opera“).</p>
 <p>Nezapomeňte, že přestože k operaci používáte příkaz <code>git merge</code> a sloučení bude pravděpodobně o mnoho snazší, než by bylo v systému Subversion (Git automaticky vyhledá vhodnou základu pro sloučení), nejedná se o standardní příkaz merge systému Git. Tato data budete muset odeslat zpět na server Subversion, který nedokáže pracovat s revizí sledující více než jednoho rodiče. Proto až je odešlete, budou vypadat jako jediná revize, jež zkomprimovala veškerou práci jiné větve do jedné revize. Poté, co začleníte jednu větev do druhé, můžete se beze všeho vrátit zpět a pokračovat v práci na této větvi, stejně jako byste mohli v systému Git. Spustíte-li příkaz <code>dcommit</code>, smažete všechny informace, které sdělují, jaká větev byla začleněna, a všechny následné výpočty základny pro sloučení tak budou nesprávné. Příkaz dcommit způsobí, že bude výsledek příkazu <code>git merge</code> vypadat, jako byste spustili příkaz <code>git merge --squash</code>. Bohužel však neexistuje žádný dobrý způsob, jak této situaci předejít, Subversion nedokáže tyto informace uchovávat. Dokud tedy budete používat server Subversion, vždy se budete muset s tímto jeho nedostatkem vyrovnat. Chcete-li se vyhnout možným problémům, smažte lokální větev (v našem případě <code>opera</code>) hned poté, co jste ji začlenili do kmenového adresáře (trunk).</p>
 <h2 id="p-kazy-syst-mu-subversion">Příkazy systému Subversion</h2>
 <p>Sada nástrojů <code>git svn</code> dává uživateli do ruky celou řadu příkazů, jež jsou svou funkcí podobné příkazům v systému Subversion a uživateli tím usnadňují přechod do systému Git. Na tomto místě proto uvedu pár příkazů, které jsou podobné jako v systému Subversion.</p>
 <h3 id="historie-ve-stylu-svn">Historie ve stylu SVN</h3>
 <p>Jestliže jste zvyklí na systém Subversion a chcete historii procházet ve stylu výstupu SVN, můžete použít příkaz <code>git svn log</code>. Historie revizí se zobrazí ve formátování SVN:</p>
-<pre><code><span class="hljs-header">$ git svn log
-------------------------------------------------------------------------</span>
+<pre><code>$ git svn log
+------------------------------------------------------------------------
 r87 | schacon | 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009) | 2 lines
 
 autogen change
 
-<span class="hljs-code">------------------------------------------------------------------------
+------------------------------------------------------------------------
 r86 | schacon | 2009-05-02 16:00:21 -0700 (Sat, 02 May 2009) | 2 lines
 
-Merge branch 'experiment'
+Merge branch &#39;experiment&#39;
 
-------------------------------------------------------------------------</span>
+------------------------------------------------------------------------
 r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
 
 updated the changelog
@@ -1064,37 +1067,37 @@ updated the changelog
 <h3 id="anotace-svn">Anotace SVN</h3>
 <p>Tak jako příkaz <code>git svn log</code> simuluje offline příkaz <code>svn log</code>, ekvivalentem příkazu <code>svn annotate</code> je <code>git svn blame [SOUBOR]</code>. Jeho výstup vypadá takto:</p>
 <pre><code>$ git svn blame README.txt
- <span class="hljs-number">2</span>   temporal Protocol Buffers - Google<span class="hljs-attribute">'s</span> data interchange format
- <span class="hljs-number">2</span>   temporal Copyright <span class="hljs-number">2008</span> Google Inc.
- <span class="hljs-number">2</span>   temporal http://code.google.com/apis/protocolbuffers/
- <span class="hljs-number">2</span>   temporal
-<span class="hljs-number">22</span>   temporal C++ Installation - Unix
-<span class="hljs-number">22</span>   temporal =======================
- <span class="hljs-number">2</span>   temporal
-<span class="hljs-number">79</span>    schacon Committing <span class="hljs-keyword">in</span> git-svn.
-<span class="hljs-number">78</span>    schacon
- <span class="hljs-number">2</span>   temporal <span class="hljs-keyword">To</span> build <span class="hljs-keyword">and</span> install the C++ Protocol <span class="hljs-keyword">Buffer</span> runtime <span class="hljs-keyword">and</span> the Protocol
- <span class="hljs-number">2</span>   temporal <span class="hljs-keyword">Buffer</span> compiler (protoc) execute the following:
- <span class="hljs-number">2</span>   temporal
+ 2   temporal Protocol Buffers - Google&#39;s data interchange format
+ 2   temporal Copyright 2008 Google Inc.
+ 2   temporal http://code.google.com/apis/protocolbuffers/
+ 2   temporal
+22   temporal C++ Installation - Unix
+22   temporal =======================
+ 2   temporal
+79    schacon Committing in git-svn.
+78    schacon
+ 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
+ 2   temporal Buffer compiler (protoc) execute the following:
+ 2   temporal
 </code></pre><p>Ani tento příkaz nezobrazuje revize zapsané lokálně v systému Git a revize odeslané na server Subversion od posledního připojení.</p>
 <h3 id="informace-o-serveru-svn">Informace o serveru SVN</h3>
 <p>Stejné informace, jaké poskytuje příkaz <code>svn info</code>, získáte příkazem <code>git svn info</code>:</p>
 <pre><code>$ git svn info
-<span class="hljs-label">Path:</span> .
-<span class="hljs-label">URL:</span> https://schacon-test<span class="hljs-preprocessor">.googlecode</span><span class="hljs-preprocessor">.com</span>/svn/trunk
-Repository Root: https://schacon-test<span class="hljs-preprocessor">.googlecode</span><span class="hljs-preprocessor">.com</span>/svn
-Repository UUID: <span class="hljs-number">4</span>c93b258-<span class="hljs-number">373</span>f-<span class="hljs-number">11</span>de-be05-<span class="hljs-number">5</span>f7a86268029
-<span class="hljs-label">Revision:</span> <span class="hljs-number">87</span>
+Path: .
+URL: https://schacon-test.googlecode.com/svn/trunk
+Repository Root: https://schacon-test.googlecode.com/svn
+Repository UUID: 4c93b258-373f-11de-be05-5f7a86268029
+Revision: 87
 Node Kind: directory
-<span class="hljs-label">Schedule:</span> normal
+Schedule: normal
 Last Changed Author: schacon
-Last Changed Rev: <span class="hljs-number">87</span>
-Last Changed Date: <span class="hljs-number">2009</span>-<span class="hljs-number">05</span>-<span class="hljs-number">02</span> <span class="hljs-number">16</span>:<span class="hljs-number">07</span>:<span class="hljs-number">37</span> -<span class="hljs-number">0700</span> (Sat, <span class="hljs-number">02</span> May <span class="hljs-number">2009</span>)
+Last Changed Rev: 87
+Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 </code></pre><p>Stejně jako v případě příkazů <code>blame</code> a <code>log</code> pracuje i tento příkaz offline a zobrazuje stav v okamžiku, kdy jste naposledy komunikovali se serverem Subversion.</p>
 <h3 id="ignorov-n-soubor-kter-ignoruje-subversion">Ignorování souborů, které ignoruje Subversion</h3>
 <p>Jestliže naklonujete repozitář Subversion s nastavenými vlastnostmi <code>svn:ignore</code>, pravděpodobně budete chtít nastavit také odpovídající soubory <code>.gitignore</code>, abyste omylem nezapsali nežádoucí soubory. Nástroj <code>git svn</code> vám k řešení tohoto problému nabízí dva příkazy. Tím prvním je <code>git svn create-ignore</code>, jenž automaticky vytvoří odpovídající soubory <code>.gitignore</code>, podle nichž se bude řídit už vaše příští revize.</p>
 <p>Druhým z příkazů je <code>git svn show-ignore</code>, který zobrazí standardní výstup stdout s řádky, které budete muset vložit do souboru <code>.gitignore</code>. Výstup pak můžete přesměrovat do souboru exclude svého projektu:</p>
-<pre><code><span class="hljs-variable">$ </span>git svn show-ignore &gt; .git/info/exclude
+<pre><code>$ git svn show-ignore &gt; .git/info/exclude
 </code></pre><p>Díky tomu si nemusíte projekt znečišťovat soubory <code>.gitignore</code>. Tuto možnost oceníte, jste-li jediným uživatelem systému Git v týmu používajícím Subversion a vaši kolegové nestojí ve svém projektu o soubory <code>.gitignore</code>.</p>
 <h2 id="git-svn-shrnut-">Git-Svn: shrnutí</h2>
 <p>Nástroje <code>git svn</code> využijete, jestliže chcete pozvolna přejít ze systému Subversion na systém Git nebo pokud pracujete ve vývojovém prostředí, v němž je z nějakého důvodu nutné používat server Subversion. Mějte však stále na paměti, že v tomto případě nelze používat systém Git v celé jeho šíři. Mohlo by se stát, že způsobíte chyby v překladu, které znepříjemní život vám i vašim kolegům. Chcete-li se vyhnout problémům, dodržujte tato pravidla:</p>
@@ -1121,9 +1124,9 @@ Last Changed Date: <span class="hljs-number">2009</span>-<span class="hljs-numbe
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

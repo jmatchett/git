@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath="." data-revision="1397503663097">
+        <link rel="stylesheet" href="gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath="." data-revision="1397847843374">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -238,7 +241,7 @@
     </div>
     <div class="chapters">
     
-        <a href="./index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="./index.html" title="เริ่มต้นใช้งาน" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="./_version_control.html" title="เกี่ยวกับ Version Control" class="chapter done " data-progress="1.1" style="left: 6.666666666666667%;"></a>
     
@@ -282,36 +285,36 @@
 <h2 id="-">ติดตั้งจากซอร์สโค้ด</h2>
 <p>ถ้าเป็นไปได้เราขอแนะนำให้คุณติดตั้ง Git โดยการคอมไพล์โปรแกรมจากซอร์สโค้ด เพราะคุณจะได้ใช้เวอร์ชั่นล่าสุดซึ่งมักจะมาพร้อมกับการปรับปรุงอยู่เสมอ อีกเหตุผลหนึ่งก็คือแพคเกจที่มากับลีนุกซ์หลายรุ่นเป็นแพคเกจเวอร์ชั่นเก่ามาก ถ้าคุณไม่ได้ใช้ลีนุกซ์รุ่นล่าสุดหรือใช้ backport การติดตั้งจากซอร์สโค้ดน่าจะเป็นทางเลือกที่ดีที่สุด</p>
 <p>ก่อนอื่นคุณต้องเตรียม library ที่จำเป็นเสียก่อน คือ curl, zlib, openssl, expat และ libiconv โดยคุณสามารถใช้ yum (ถ้าคุณใช้ Fedora) หรือ apt-get (ถ้าคุณใช้ระบบแบบ Debian) เพื่อติดตั้ง:</p>
-<pre><code>$ yum install curl<span class="hljs-attribute">-devel</span> expat<span class="hljs-attribute">-devel</span> gettext<span class="hljs-attribute">-devel</span> <span class="hljs-subst">\</span>
-  openssl<span class="hljs-attribute">-devel</span> zlib<span class="hljs-attribute">-devel</span>
+<pre><code>$ yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
 
-$ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-attribute">-gnutls</span><span class="hljs-attribute">-dev</span> libexpat1<span class="hljs-attribute">-dev</span> gettext <span class="hljs-subst">\</span>
-  libz<span class="hljs-attribute">-dev</span>
+$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+  libz-dev
 </code></pre><p>หลังจากที่ติดตั้งโปรแกรมที่จำเป็นแล้วก็ถึงเวลาดาวน์โหลดเวอร์ชั่นล่าสุดของ Git โดยใช้คำสั่ง:    </p>
-<pre><code><span class="hljs-label">http:</span>//git-scm<span class="hljs-preprocessor">.com</span>/download
+<pre><code>http://git-scm.com/download
 </code></pre><p>จากนั้นก็คอมไพล์และติดตั้ง:</p>
-<pre><code><span class="hljs-variable">$ </span>tar -zxf git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>.tar.gz
-<span class="hljs-variable">$ </span>cd git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>
-<span class="hljs-variable">$ </span>make prefix=<span class="hljs-regexp">/usr/local</span> all
-<span class="hljs-variable">$ </span>sudo make prefix=<span class="hljs-regexp">/usr/local</span> install
+<pre><code>$ tar -zxf git-1.6.0.5.tar.gz
+$ cd git-1.6.0.5
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install
 </code></pre><p>หลังจากติดตั้งเรียบร้อยคุณสามารถดึงซอร์สโค้ดของ Git มาเพื่ออัดเกรดได้โดยใช้ตัวโปรแกรม Git เอง:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/git.kernel.org/pub</span><span class="hljs-regexp">/scm/git</span><span class="hljs-regexp">/git.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 </code></pre><h2 id="-">การติดตั้งบนลีนุกซ์</h2>
 <p>ถ้าคุณต้องการติดตั้ง Git บนลีนุกซ์โดยใช้แพคเกจสำเร็จรูป คุณสามารถใช้ระบบจัดการแพคเกจที่มากับระบบปฏิบัติการของคุณได้เลย เช่น ถ้าคุณใช้ Fedora คุณสามารถติดตั้งผ่าน yum โดยใช้คำสั่ง:</p>
-<pre><code><span class="hljs-variable">$ </span>yum install git-core
+<pre><code>$ yum install git-core
 </code></pre><p>หรือถ้าคุณใช้ระบบแบบ Debian อย่าง Ubuntu คุณสามารถติดตั้งผ่าน apt-get ได้:</p>
-<pre><code>$ apt-<span class="hljs-keyword">get</span> install git
+<pre><code>$ apt-get install git
 </code></pre><h2 id="-">การติดตั้งบนแมค</h2>
 <p>There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):</p>
-<pre><code><span class="hljs-label">http:</span>//code<span class="hljs-preprocessor">.google</span><span class="hljs-preprocessor">.com</span>/p/git-osx-installer
+<pre><code>http://code.google.com/p/git-osx-installer
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0107-tn.png" alt=""></p>
 <p>Figure 1-7. Git OS X installer.</p>
 <p>The other major way is to install Git via MacPorts (<code>http://www.macports.org</code>). If you have MacPorts installed, install Git via</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> port install git-core +svn +doc +bash_completion +gitweb
+<pre><code>$ sudo port install git-core +svn +doc +bash_completion +gitweb
 </code></pre><p>You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).</p>
 <h2 id="installing-on-windows">Installing on Windows</h2>
 <p>Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the GitHub page, and run it:</p>
-<pre><code><span class="hljs-label">http:</span>//msysgit<span class="hljs-preprocessor">.github</span><span class="hljs-preprocessor">.com</span>/
+<pre><code>http://msysgit.github.com/
 </code></pre><p>After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.</p>
 
                     
@@ -331,9 +334,9 @@ $ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-
 </div>
 
         
-        <link rel="stylesheet" href="gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

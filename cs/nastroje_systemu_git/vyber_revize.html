@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.1" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.1" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_930">
+                    <section class="normal" id="section-gitbook_1002">
                     
                         <h1 id="v-b-r-revize">Výběr revize</h1>
 <p>Systém Git umožňuje určit jednotlivé revize nebo interval revizí několika způsoby. Není nezbytně nutné, abyste je všechny znali, ale mohou být užitečné.</p>
@@ -864,33 +867,33 @@
 <p>Git je dostatečně chytrý na to, aby pochopil, jakou revizi jste měli na mysli, zadáte-li pouze prvních několik znaků. Tento neúplný otisk SHA-1 musí mít alespoň čtyři znaky a musí být jednoznačný, tj. žádný další objekt v aktuálním repozitáři nesmí začínat stejnou zkrácenou hodnotou SHA-1.</p>
 <p>Pokud si chcete například prohlédnout konkrétní revizi, řekněme, že spustíte příkaz <code>git log</code> a určíte revizi, do níž jste vložili určitou funkci:</p>
 <pre><code>$ git log
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">734713</span>bc047d87bf7eac9674765ae793478c50d3
+commit 734713bc047d87bf7eac9674765ae793478c50d3
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri Jan <span class="hljs-number">2</span> <span class="hljs-number">18</span>:<span class="hljs-number">32</span>:<span class="hljs-number">33</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Fri Jan 2 18:32:33 2009 -0800
 
     fixed refs handling, added gc auto, updated tests
 
-<span class="hljs-keyword">commit</span> d921970aadf03b3cf0e71becdaab3147ba71cdef
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">1</span>c002dd... <span class="hljs-number">35</span>cfb2b...
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">15</span>:<span class="hljs-number">08</span>:<span class="hljs-number">43</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 15:08:43 2008 -0800
 
-    <span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span>
+    Merge commit &#39;phedders/rdocs&#39;
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">1</span>c002dd4b536e7479fe34593e72e6c6c1819e53b
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">14</span>:<span class="hljs-number">58</span>:<span class="hljs-number">32</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 14:58:32 2008 -0800
 
-    added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff</span>
+    added some blame and merge stuff
 </code></pre><p>V tomto případě vyberte <code>1c002dd....</code>. Pokud chcete na revizi použít příkaz <code>git show</code>, budou všechny následující příkazy ekvivalentní (za předpokladu, že jsou zkrácené verze jednoznačné):</p>
-<pre><code><span class="hljs-variable">$ </span>git show <span class="hljs-number">1</span>c002dd4b536e7479fe34593e72e6c6c1819e53b
-<span class="hljs-variable">$ </span>git show <span class="hljs-number">1</span>c002dd4b536e7479f
-<span class="hljs-variable">$ </span>git show <span class="hljs-number">1</span>c002d
+<pre><code>$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+$ git show 1c002dd4b536e7479f
+$ git show 1c002d
 </code></pre><p>Git dokáže identifikovat krátkou, jednoznačnou zkratku hodnoty SHA-1. Zadáte-li k příkazu <code>git log</code> parametr <code>--abbrev-commit</code>, výstup bude používat kratší hodnoty, ale pouze v jednoznačném tvaru. Standardně se používá sedm znaků, avšak je-li to kvůli jednoznačnosti hodnoty SHA-1 nezbytné, bude použito znaků více:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--abbrev-commit --pretty=oneline</span>
-ca82a6d changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
-<span class="hljs-number">085</span>bb3b removed unnecessary test code
-a11bef0 <span class="hljs-keyword">first</span> commit
+<pre><code>$ git log --abbrev-commit --pretty=oneline
+ca82a6d changed the version number
+085bb3b removed unnecessary test code
+a11bef0 first commit
 </code></pre><p>Osm až deset znaků většinou bohatě stačí, aby byla hodnota v rámci projektu jednoznačná. V jednom z největších projektů Git, v jádru Linuxu, začíná být nutné zadávat pro jednoznačné určení už 12 znaků z celkových 40 možných.</p>
 <h2 id="kr-tk-pozn-mka-k-hodnot-sha-1">Krátká poznámka k hodnotě SHA-1</h2>
 <p>Někteří uživatelé bývají zmateni, že mohou mít v repozitáři – shodou okolností – dva objekty, které mají stejnou hodnotu SHA-1 otisku. Co teď?</p>
@@ -899,93 +902,93 @@ a11bef0 <span class="hljs-keyword">first</span> commit
 <p>Abyste si udělali představu, jak je nepravděpodobné, že dojde ke kolizi hodnot SHA-1, připojujeme jeden malý příklad. Kdyby 6,5 miliardy lidí na zemi programovalo a každý by každou sekundu vytvořil kód odpovídající celé historii linuxového jádra (1 milion objektů Git) a odesílal ho do jednoho obřího repozitáře Git, trvalo by 5 let, než by repozitář obsahoval dost objektů na to, aby existovala 50% pravděpodobnost, že dojde ke kolizi jediného objektu SHA-1. To už je pravděpodobnější, že všichni členové vašeho programovacího týmu budou během jedné noci v navzájem nesouvisejících incidentech napadeni a zabiti smečkou vlků.</p>
 <h2 id="reference-v-tv-">Reference větví</h2>
 <p>Nejčistší způsob, jak určit konkrétní revizi, vyžaduje, aby měla revize referenci větve, která na ni ukazuje. V takovém případě můžete použít název větve v libovolném příkazu Git, který vyžaduje objekt revize nebo hodnotu SHA-1. Pokud chcete například zobrazit objekt poslední revize větve, můžete využít některý z následujících příkazů (za předpokladu, že větev <code>topic1</code> ukazuje na <code>ca82a6d</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git show ca82a6dff817ec66f44342007202690a93763949
-<span class="hljs-variable">$ </span>git show topic1
+<pre><code>$ git show ca82a6dff817ec66f44342007202690a93763949
+$ git show topic1
 </code></pre><p>Jestliže vás zajímá, na kterou konkrétní hodnotu SHA větev ukazuje, nebo chcete-li zjistit, jak bude některý z těchto příkladů vypadat v podobě SHA, můžete použít jeden z nízkoúrovňových nástrojů systému Git: <code>rev-parse</code>. Více o nízkoúrovňových nástrojích najdete v kapitole 9. Nástroj <code>rev-parse</code> se používá v podstatě pouze pro operace na nižších úrovních a není koncipován pro každodenní používání. Může se však hodit, až budete jednou potřebovat zjistit, co se doopravdy odehrává. Tehdy můžete na svou větev spustit příkaz <code>rev-parse</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git rev-parse topic1
+<pre><code>$ git rev-parse topic1
 ca82a6dff817ec66f44342007202690a93763949
 </code></pre><h2 id="zkr-cen-n-zvy-v-z-znamu-reflog">Zkrácené názvy v záznamu RefLog</h2>
 <p>Jednou z věcí, které probíhají na pozadí systému Git, zatímco vy pracujete, je uchovávání záznamu reflog, v němž se ukládají pozice referencí HEAD a všech vašich větví za několik posledních měsíců.</p>
 <p>Svůj reflog si můžete nechat zobrazit příkazem <code>git reflog</code>:</p>
 <pre><code>$ git reflog
 734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-d921970... HEAD@{1}: <span class="hljs-operator"><span class="hljs-keyword">merge</span> phedders/rdocs: <span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
-<span class="hljs-number">1</span>c002dd... HEAD@{<span class="hljs-number">2</span>}: <span class="hljs-keyword">commit</span>: added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff
-<span class="hljs-number">1</span>c36188... HEAD@{<span class="hljs-number">3</span>}: rebase -i (squash): updating HEAD
-<span class="hljs-number">95</span>df984... HEAD@{<span class="hljs-number">4</span>}: <span class="hljs-keyword">commit</span>: # This <span class="hljs-keyword">is</span> a combination <span class="hljs-keyword">of</span> two commits.
-<span class="hljs-number">1</span>c36188... HEAD@{<span class="hljs-number">5</span>}: rebase -i (squash): updating HEAD
-<span class="hljs-number">7e05</span>da5... HEAD@{<span class="hljs-number">6</span>}: rebase -i (pick): updating HEAD</span>
+d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+1c002dd... HEAD@{2}: commit: added some blame and merge stuff
+1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
+95df984... HEAD@{4}: commit: # This is a combination of two commits.
+1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 </code></pre><p>Pokaždé, když je z nějakého důvodu aktualizován vrchol větve, Git tuto informaci uloží v dočasné historii reflog. Pomocí těchto dat lze rovněž specifikovat starší revize. Chcete-li zobrazit pátou poslední hodnotu ukazatele HEAD svého repozitáře, použijte referenci <code>@{n}</code> z výstupu reflog:</p>
-<pre><code><span class="hljs-variable">$ </span>git show <span class="hljs-constant">HEAD</span>@{<span class="hljs-number">5</span>}
+<pre><code>$ git show HEAD@{5}
 </code></pre><p>Tuto syntaxi můžete použít také k zobrazení pozice, na níž se větev nacházela před určitou dobou. Chcete-li například zjistit, kde byla vaše větev <code>master</code> včera (yesterday), můžete zadat příkaz:</p>
-<pre><code><span class="hljs-variable">$ </span>git show master@{yesterday}
+<pre><code>$ git show master@{yesterday}
 </code></pre><p>Git vám ukáže, kde se vrchol větve nacházel včera. Tato možnost funguje pouze pro data, jež jsou dosud v záznamu reflog. Nemůžete ji proto použít pro revize starší než několik měsíců.</p>
 <p>Chcete-li zobrazit informace záznamu reflog ve formátu výstupu <code>git log</code>, zadejte příkaz <code>git log -g</code>:</p>
 <pre><code>$ git log -g master
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">734713</span>bc047d87bf7eac9674765ae793478c50d3
-Reflog: master@{<span class="hljs-number">0</span>} (Scott Chacon &lt;schacon@gmail.com&gt;)
-Reflog message: <span class="hljs-keyword">commit</span>: fixed refs handling, added gc auto, updated
+commit 734713bc047d87bf7eac9674765ae793478c50d3
+Reflog: master@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: commit: fixed refs handling, added gc auto, updated
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri Jan <span class="hljs-number">2</span> <span class="hljs-number">18</span>:<span class="hljs-number">32</span>:<span class="hljs-number">33</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Fri Jan 2 18:32:33 2009 -0800
 
     fixed refs handling, added gc auto, updated tests
 
-<span class="hljs-keyword">commit</span> d921970aadf03b3cf0e71becdaab3147ba71cdef
-Reflog: master@{<span class="hljs-number">1</span>} (Scott Chacon &lt;schacon@gmail.com&gt;)
-Reflog message: <span class="hljs-keyword">merge</span> phedders/rdocs: <span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Reflog: master@{1} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: merge phedders/rdocs: Merge made by recursive.
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">15</span>:<span class="hljs-number">08</span>:<span class="hljs-number">43</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 15:08:43 2008 -0800
 
-    <span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span></span>
+    Merge commit &#39;phedders/rdocs&#39;
 </code></pre><p>Měli bychom také doplnit, že informace záznamu reflog jsou čistě lokální, vztahují se pouze na to, co jste provedli ve svém repozitáři. V kopii repozitáře na počítači kohokoli jiného se budou tyto reference lišit. Bezprostředně poté, co poprvé naklonujete repozitář, bude váš reflog prázdný, protože ve vašem repozitáři ještě nebyla provedena žádná operace. Příkaz <code>git show HEAD@{2.months.ago}</code> bude fungovat, pouze pokud jste projekt naklonovali minimálně před dvěma měsíci (tedy „2 months ago“). Pokud jste jej naklonovali před pěti minutami, neobdržíte žádný výsledek.</p>
 <h2 id="reference-podle-p-vodu">Reference podle původu</h2>
 <p>Další základní způsob, jak specifikovat konkrétní revizi, je na základě jejího původu. Umístíte-li na konec reference znak <code>^</code>, Git bude referenci chápat tak, že označuje rodiče dané revize.
 Můžete mít například takovouto historii projektu:</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=format:'%h %s' --graph</span>
+<pre><code>$ git log --pretty=format:&#39;%h %s&#39; --graph
 * 734713b fixed refs handling, added gc auto, updated tests
-*   d921970 <span class="hljs-operator"><span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span>
+*   d921970 Merge commit &#39;phedders/rdocs&#39;
 |\
-| * <span class="hljs-number">35</span>cfb2b <span class="hljs-keyword">Some</span> rdoc changes
-* | <span class="hljs-number">1</span>c002dd added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff
+| * 35cfb2b Some rdoc changes
+* | 1c002dd added some blame and merge stuff
 |/
-* <span class="hljs-number">1</span>c36188 ignore *.gem
-* <span class="hljs-number">9</span>b29157 <span class="hljs-keyword">add</span> open3_detach <span class="hljs-keyword">to</span> gemspec file list</span>
+* 1c36188 ignore *.gem
+* 9b29157 add open3_detach to gemspec file list
 </code></pre><p>Zobrazit předchozí revizi pak můžete pomocí <code>HEAD^</code>, což doslova znamená „rodič revize HEAD“:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> HEAD^
-<span class="hljs-keyword">commit</span> d921970aadf03b3cf0e71becdaab3147ba71cdef
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">1</span>c002dd... <span class="hljs-number">35</span>cfb2b...
+<pre><code>$ git show HEAD^
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">15</span>:<span class="hljs-number">08</span>:<span class="hljs-number">43</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 15:08:43 2008 -0800
 
-    <span class="hljs-keyword">Merge</span> <span class="hljs-keyword">commit</span> <span class="hljs-string">'phedders/rdocs'</span></span>
+    Merge commit &#39;phedders/rdocs&#39;
 </code></pre><p>Za znakem <code>^</code> můžete zadat také číslo, např. <code>d921970^2</code> označuje „druhého rodiče revize d921970“. Tato syntaxe má význam pouze u revizí vzniklých sloučením, které mají více než jednoho rodiče. První rodič je větev, na níž jste se během začlenění nacházeli, druhým rodičem je větev, kterou jste začleňovali:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> d921970^
-<span class="hljs-keyword">commit</span> <span class="hljs-number">1</span>c002dd4b536e7479fe34593e72e6c6c1819e53b
+<pre><code>$ git show d921970^
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu <span class="hljs-keyword">Dec</span> <span class="hljs-number">11</span> <span class="hljs-number">14</span>:<span class="hljs-number">58</span>:<span class="hljs-number">32</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0800</span>
+Date:   Thu Dec 11 14:58:32 2008 -0800
 
-    added <span class="hljs-keyword">some</span> blame <span class="hljs-keyword">and</span> <span class="hljs-keyword">merge</span> stuff
+    added some blame and merge stuff
 
-$ git <span class="hljs-keyword">show</span> d921970^<span class="hljs-number">2</span>
-<span class="hljs-keyword">commit</span> <span class="hljs-number">35</span>cfb2b795a55793d7cc56a6cc2060b4bb732548
+$ git show d921970^2
+commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
 Author: Paul Hedderly &lt;paul+git@mjr.org&gt;
-<span class="hljs-keyword">Date</span>:   Wed <span class="hljs-keyword">Dec</span> <span class="hljs-number">10</span> <span class="hljs-number">22</span>:<span class="hljs-number">22</span>:<span class="hljs-number">03</span> <span class="hljs-number">2008</span> +<span class="hljs-number">0000</span>
+Date:   Wed Dec 10 22:22:03 2008 +0000
 
-    <span class="hljs-keyword">Some</span> rdoc changes</span>
+    Some rdoc changes
 </code></pre><p>Další základní možností označení původu je znak <code>~</code>. Také tento znak označuje prvního rodiče, výrazy <code>HEAD~</code> a <code>HEAD^</code> jsou proto ekvivalentní. Rozdíl mezi nimi je patrný při zadání čísla. <code>HEAD~2</code> označuje „prvního rodiče prvního rodiče“, tedy „prarodiče“. Příkaz překročí prvního rodiče tolikrát, kolikrát udává číselná hodnota. Například v historii naznačené výše by <code>HEAD~3</code> znamenalo:</p>
-<pre><code>$ git show HEAD~<span class="hljs-number">3</span>
-commit <span class="hljs-number">1</span>c3618887afb5fbcbea25b7c013f4e2114448b8d
-<span class="hljs-label">Author:</span> Tom Preston-Werner &lt;tom@mojombo<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri Nov <span class="hljs-number">7</span> <span class="hljs-number">13</span>:<span class="hljs-number">47</span>:<span class="hljs-number">59</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0500</span>
+<pre><code>$ git show HEAD~3
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
 
-    ignore *<span class="hljs-preprocessor">.gem</span>
+    ignore *.gem
 </code></pre><p>Totéž by bylo možné označit výrazem <code>HEAD^^^</code>, který opět udává prvního rodiče prvního rodiče prvního rodiče:</p>
 <pre><code>$ git show HEAD^^^
-commit <span class="hljs-number">1</span>c3618887afb5fbcbea25b7c013f4e2114448b8d
-<span class="hljs-label">Author:</span> Tom Preston-Werner &lt;tom@mojombo<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri Nov <span class="hljs-number">7</span> <span class="hljs-number">13</span>:<span class="hljs-number">47</span>:<span class="hljs-number">59</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0500</span>
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
 
-    ignore *<span class="hljs-preprocessor">.gem</span>
+    ignore *.gem
 </code></pre><p>Tyto syntaxe můžete také kombinovat. Druhého rodiče předchozí reference (jestliže se jednalo o revizi sloučením) lze získat výrazem <code>HEAD~3^2</code> atd.</p>
 <h2 id="intervaly-reviz-">Intervaly revizí</h2>
 <p>Nyní, když umíte určit jednotlivé revize, podíváme se, jak lze určovat celé intervaly revizí. To využijete zejména při správě větví. Máte-li větší množství větví, pomůže vám označení intervalu revizí dohledat odpovědi na otázky typu: „Jaká práce je obsažena v této větvi, kterou jsem ještě nezačlenil do hlavní větve?“</p>
@@ -995,40 +998,40 @@ commit <span class="hljs-number">1</span>c3618887afb5fbcbea25b7c013f4e2114448b8d
 <p>Obrázek 6-1. Příklad historie revizí pro výběr intervalu</p>
 <p>Vy chcete vidět, co všechno obsahuje vaše experimentální větev, kterou jste ještě nezačlenili do hlavní větve. Pomocí výrazu <code>master..experiment</code> můžete systému Git zadat příkaz, aby vám zobrazil log právě s těmito revizemi, doslova „všemi revizemi dostupnými z větve experiment a nedostupnými z hlavní větve“. V zájmu stručnosti a názornosti použiji v těchto příkladech místo skutečného výstupu logu písmena objektů revizí z diagramu v pořadí, jak by se zobrazily:</p>
 <pre><code>$ git log master..experiment
-<span class="hljs-keyword">D</span>
-<span class="hljs-keyword">C</span>
+D
+C
 </code></pre><p>A samozřejmě si můžete nechat zobrazit i pravý opak, všechny revize ve větvi <code>master</code>, které nejsou ve větvi <code>experiment</code>. K tomu stačí obrátit pořadí názvů větví v příkazu. Výraz <code>experiment..master</code> zobrazí vše ve větvi <code>master</code>, co není dostupné ve větvi <code>experiment</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git log experiment..master
-<span class="hljs-constant">F</span>
-<span class="hljs-constant">E</span>
+<pre><code>$ git log experiment..master
+F
+E
 </code></pre><p>Tento log využijete, pokud chcete udržovat větev <code>experiment</code> stále aktuální a zjistit, co hodláte začlenit. Tato syntaxe se velmi často používá také ke zjištění, co hodláte odeslat do vzdálené větve:</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/master..<span class="hljs-constant">HEAD</span>
+<pre><code>$ git log origin/master..HEAD
 </code></pre><p>Tento příkaz zobrazí všechny revize ve vaší aktuální větvi, které nejsou obsaženy ve větvi <code>master</code> vzdáleného repozitáře <code>origin</code>. Spustíte-li příkaz <code>git push</code> a vaše aktuální větev sleduje větev <code>origin/master</code>, budou na server přesunuty revize, které lze zobrazit příkazem <code>git log origin/master..HEAD</code>.
 Jednu stranu intervalu můžete zcela vynechat, Git na její místo automaticky dosadí HEAD. Stejné výsledky jako v předchozím příkladu dostanete zadáním příkazu <code>git log origin/master..</code> – Git dosadí na prázdnou stranu výraz HEAD.</p>
 <h3 id="n-kolik-bod-">Několik bodů</h3>
 <p>Dvojtečková syntaxe je užitečná jako zkrácený výraz. Možná ale budete chtít k označení revize určit více než dvě větve, např. až budete chtít zjistit, které revize jsou obsaženy ve všech ostatních větvích a zároveň nejsou obsaženy ve větvi, na níž se právě nacházíte. V systému Git to můžete provést buď zadáním znaku <code>^</code> nebo parametru <code>--not</code> před referencí, jejíž dostupné revize si nepřejete zobrazit. Tyto tři příkazy jsou tedy ekvivalentní:</p>
-<pre><code><span class="hljs-variable">$ </span>git log refA..refB
-<span class="hljs-variable">$ </span>git log ^refA refB
-<span class="hljs-variable">$ </span>git log refB --<span class="hljs-keyword">not</span> refA
+<pre><code>$ git log refA..refB
+$ git log ^refA refB
+$ git log refB --not refA
 </code></pre><p>Tato syntaxe je užitečná zejména proto, že pomocí ní můžete zadat více než dvě reference, což není pomocí dvojtečkové syntaxe možné. Pokud chcete zobrazit například všechny revize, které jsou dostupné ve větvi <code>refA</code> nebo <code>refB</code>, ale nikoli ve větvi <code>refC</code>, zadejte jeden z následujících příkazů:</p>
-<pre><code><span class="hljs-variable">$ </span>git log refA refB ^refC
-<span class="hljs-variable">$ </span>git log refA refB --<span class="hljs-keyword">not</span> refC
+<pre><code>$ git log refA refB ^refC
+$ git log refA refB --not refC
 </code></pre><p>Tím máte v rukou velmi efektivní systém vyhledávání revizí, který vám pomůže zjistit, co vaše větve obsahují.</p>
 <h3 id="t-i-te-ky">Tři tečky</h3>
 <p>Poslední významnou syntaxí k určení intervalu je trojtečková syntaxe, která vybere všechny revize dostupné ve dvou referencích, ale ne v obou zároveň. Podívejme se ještě jednou na příklad historie revizí na obrázku 6-1.
 Chcete-li zjistit, co je ve větvi <code>master</code> nebo <code>experiment</code>, ale nechcete vidět jejich společné reference, zadejte příkaz:</p>
 <pre><code>$ git log master...experiment
 F
-<span class="hljs-keyword">E</span>
-<span class="hljs-keyword">D</span>
-<span class="hljs-keyword">C</span>
+E
+D
+C
 </code></pre><p>Výstupem příkazu bude běžný výpis příkazu <code>log</code>, ale zobrazí se pouze informace o těchto čtyřech revizích, uspořádané v tradičním pořadí podle data zapsání.</p>
 <p>Přepínačem, který se v tomto případě běžně používá v kombinaci s příkazem <code>log</code>, je parametr <code>--left-right</code>. Příkaz pak zobrazí, na jaké straně intervalu se ta která revize nachází. Díky tomu získáte k datům další užitečné informace:</p>
 <pre><code>$ git log --left-right master...experiment
 &lt; F
-&lt; <span class="hljs-keyword">E</span>
-&gt; <span class="hljs-keyword">D</span>
-&gt; <span class="hljs-keyword">C</span>
+&lt; E
+&gt; D
+&gt; C
 </code></pre><p>Pomocí těchto nástrojů můžete v systému Git daleko snáze specifikovat, kterou revizi nebo které revize chcete zobrazit.</p>
 
                     
@@ -1048,9 +1051,9 @@ F
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

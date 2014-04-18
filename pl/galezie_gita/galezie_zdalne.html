@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397503694381">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397847855018">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -848,42 +851,42 @@
 <p>Jeśli chcesz podzielić się swoją gałęzią ze światem, musisz wypchnąć zmiany na zdalny serwer, na którym posiadasz prawa zapisu. twoje lokalne gałęzie nie są automatycznie synchronizowane z serwerem, na którym zapisujesz - musisz jawnie określić gałęzie, których zmianami chcesz się podzielić. W ten sposób możesz używać prywatnych gałęzi do pracy, której nie chcesz dzielić, i wypychać jedynie gałęzie tematyczne, w ramach których współpracujesz.</p>
 <p>Jeśli posiadasz gałąź o nazwie <code>serverfix</code>, w której chcesz współpracować z innymi, możesz wypchnąć swoje zmiany w taki sam sposób jak wypychałeś je w przypadku pierwszej gałęzi. Uruchom <code>git push (nazwa zdalnego repozytorium) (nazwa gałęzi)</code>:</p>
 <pre><code>$ git push origin serverfix
-Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-number">1.74</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 20, done.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 1.74 KiB, done.
+Total 15 (delta 5), reused 0 (delta 0)
 To git@github.com:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> branch]      serverfix -&gt; serverfix
+ * [new branch]      serverfix -&gt; serverfix
 </code></pre><p>Posłużyłem się pewnym skrótem. Git automatycznie sam rozwija nazwę <code>serverfix</code> do pełnej <code>refs/heads/serverfix:refs/heads/serverfix</code>, co oznacza &quot;Weź moją lokalną gałąź serverfix i wypchnij zmiany, aktualizując zdalną gałąź serverfix&quot;. Zajmiemy się szczegółowo częścią <code>refs/heads/</code> w rozdziale 9, ale ogólnie nie powinieneś się tym przejmować. Możesz także wykonać <code>git push origin serverfix:serverfix</code> co przyniesie ten sam efekt - dla Gita znaczy to &quot;Weź moją gałąź serverfix i uaktualnij nią zdalną gałąź serverfix&quot;. Możesz używać tego formatu do wypychania lokalnych gałęzi do zdalnych o innej nazwie. Gdybyś nie chciał żeby gałąź na serwerze nazywała się <code>serverfix</code> mógłbyś uruchomić polecenie w formie <code>git push origin serverfix:innanazwagałęzi</code> co spowodowałoby wypchnięcie gałęzi <code>serverfix</code> do <code>innanazwagałęzi</code> w zdalnym repozytorium.</p>
 <p>Następnym razem kiedy twoi współpracownicy pobiorą dane z serwera, uzyskają referencję do miejsca, w którym została zapisana Twoja wersja <code>serverfix</code> pod zdalną gałęzią <code>origin/serverfix</code>:</p>
 <pre><code>$ git fetch origin
-remote: Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (15/15), done.
 From git@github.com:schacon/simplegit
- * [<span class="hljs-keyword">new</span> branch]      serverfix    -&gt; origin/serverfix
+ * [new branch]      serverfix    -&gt; origin/serverfix
 </code></pre><p>Warto zauważyć, że kiedy podczas pobierania ściągasz nową, zdalną gałąź, nie uzyskujesz automatycznie lokalnej, edytowalnej jej wersji. Inaczej mówiąc, w tym przypadku, nie masz nowej gałęzi <code>serverfix</code> na której możesz do razu pracować - masz jedynie wskaźnik <code>origin/serverfix</code> którego nie można modyfikować.</p>
 <p>Aby scalić pobraną pracę z bieżącą gałęzią roboczą uruchom polecenie <code>git merge origin/serverfix</code>. Jeśli potrzebujesz własnej gałęzi <code>serverfix</code> na której będziesz mógł pracować dalej, możesz ją stworzyć bazując na zdalnej gałęzi w następujący sposób:</p>
 <pre><code>$ git checkout -b serverfix origin/serverfix
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Otrzymasz lokalną gałąź, w której będziesz mógł rozpocząć pracę od momentu, w którym znajduje się ona w zdalnej gałązi <code>origin/serverfix</code>.</p>
 <h2 id="ga-zie-ledz-ce">Gałęzie śledzące</h2>
 <p>Przełączenie do lokalnej gałęzi ze zdalnej automatycznie tworzy coś, co określa się jako <em>gałąź śledzącą</em>. Gałęzie śledzące są gałęziami lokalnymi, które posiadają bezpośrednią relację z gałęzią zdalną. Jeśli znajdujesz się w gałęzi śledzącej, po wpisaniu <code>git push</code> Git automatycznie wie, na który serwer wypchnąć zmiany. Podobnie uruchomienie <code>git pull</code> w jednej z takich gałęzi pobiera wszystkie dane i odnośniki ze zdalnego repozytorium i automatycznie scala zmiany z gałęzi zdalnej do odpowiedniej gałęzi zdalnej.</p>
 <p>Po sklonowaniu repozytorium automatycznie tworzona jest gałąź <code>master</code>, która śledzi <code>origin/master</code>. Z tego właśnie powodu polecenia <code>git push</code> i <code>git pull</code> działają od razu, bez dodatkowych argumentów. Jednakże, możesz skonfigurować inne gałęzie tak, żeby śledziły zdalne odpowiedniki. Prosty przypadek to przywołany już wcześniej przykład polecenia <code>git checkout -b [gałąź] [nazwa zdalnego repozytorium]/[gałąź]</code>. Jeśli pracujesz z Gitem nowszym niż 1.6.2, możesz także użyć skrótu <code>--track</code>:</p>
-<pre><code>$ git checkout <span class="hljs-comment">--track origin/serverfix</span>
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+<pre><code>$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Żeby skonfigurować lokalną gałąź z inną nazwą niż zdalna, możesz korzystać z pierwszej wersji polecenia podając własną nazwę:</p>
 <pre><code>$ git checkout -b sf origin/serverfix
-Branch sf <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"sf"</span>
+Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;sf&quot;
 </code></pre><p>Teraz Twoja lokalna gałąź sf będzie pozawalała na automatyczne wypychanie zmian jak i ich pobieranie z origin/serverfix.</p>
 <h2 id="usuwanie-zdalnych-ga-zi">Usuwanie zdalnych gałęzi</h2>
 <p>Załóżmy, że skończyłeś pracę ze zdalną gałęzią - powiedzmy, że ty i twoi współpracownicy zakończyliście pracę nad nową funkcją i scaliliście zmiany ze zdalną gałęzią główną <code>master</code> (czy gdziekolwiek indziej, gdzie znajduje się stabilna wersja kodu). Możesz usunąć zdalną gałąź używając raczej niezbyt intuicyjnej składni <code>git push [nazwa zdalnego repozytorium] :[gałąź]</code>. Aby np. usunąć z serwera gałąź <code>serverfix</code> uruchom polecenie:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:serverfix</span>
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit.git
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
  - [deleted]         serverfix
 </code></pre><p>Bum. Nie ma już na serwerze tej gałęzi. Jeśli chcesz, zaznacz sobie tę stronę, ponieważ będziesz potrzebował tego polecenia, a najprawdopodobniej zapomnisz jego składni. Polecenie to można spróbować zapamiętać przypominając sobie składnię <code>git push [nazwa zdalnego repozytorium] [gałąź lokalna]:[gałąź zdalna]</code>, którą omówiliśmy odrobinę wcześniej. Pozbywając się części [gałąź lokalna], mówisz mniej więcej &quot;Weź nic z mojej strony i zrób z tego [gałąź zdalną]&quot;.</p>
 
@@ -904,9 +907,9 @@ Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</sp
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

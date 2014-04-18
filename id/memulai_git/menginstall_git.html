@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397503670762">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397847845600">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -371,36 +374,36 @@
 <h2 id="menginstall-dari-kode-sumber">Menginstall Dari Kode Sumber</h2>
 <p>Jika anda dapat melakukannya, akan sangat berguna untuk dapat menginstallnya dari kode sumber, karena anda akan mendapatkan versi terbaru dari Git. Setiap versi dari Git cenderung akan menampilkan kemajuan pada sisi antarmuka pengguna, jadi menggunakan versi terbaru seringkali menjadi jalan terbaik jika anda terbiasa melakukan kompilasi perangkat lunak dari kode sumbernya. Dan juga menjadi masalah bahwa banyak distribusi Linux yang menyertakan versi Git yang sangat lama; kecuali anda mempergunakan distribusi Linux paling up-to-date atau menggunakan backport, menginstall dari kode sumbernya mungkin menjadi solusi terbaik.</p>
 <p>Untuk menginstall Git, anda membutuhkan beberapa library yang dibutuhkan oleh Git: curl, zlib, openssl, expat, dan libiconv. Sebagai contoh, jika anda berada pada sistem yang menggunakan yum (seperti Fedora) atau apt-get (seperti sistem berbasis Debian), anda dapat menggunakan salah satu dari perintah berikut untuk menginstall semua library yang dibutuhkan oleh Git:</p>
-<pre><code>$ yum install curl<span class="hljs-attribute">-devel</span> expat<span class="hljs-attribute">-devel</span> gettext<span class="hljs-attribute">-devel</span> <span class="hljs-subst">\</span>
-  openssl<span class="hljs-attribute">-devel</span> zlib<span class="hljs-attribute">-devel</span>
+<pre><code>$ yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
 
-$ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-attribute">-gnutls</span><span class="hljs-attribute">-dev</span> libexpat1<span class="hljs-attribute">-dev</span> gettext <span class="hljs-subst">\</span>
-  libz<span class="hljs-attribute">-dev</span>
+$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+  libz-dev
 </code></pre><p>Setelah anda memperoleh semua library yang dibutuhkan, anda kemudian dapat melanjutkan dengan mengunduh Git dari situsnya:</p>
-<pre><code><span class="hljs-label">http:</span>//git-scm<span class="hljs-preprocessor">.com</span>/download
+<pre><code>http://git-scm.com/download
 </code></pre><p>Kemudian, kompilasi dan install:</p>
-<pre><code><span class="hljs-variable">$ </span>tar -zxf git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>.tar.gz
-<span class="hljs-variable">$ </span>cd git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>
-<span class="hljs-variable">$ </span>make prefix=<span class="hljs-regexp">/usr/local</span> all
-<span class="hljs-variable">$ </span>sudo make prefix=<span class="hljs-regexp">/usr/local</span> install
+<pre><code>$ tar -zxf git-1.6.0.5.tar.gz
+$ cd git-1.6.0.5
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install
 </code></pre><p>Setelah semua ini selesai, anda juga dapat memperoleh Git terbaru melalui Git sendiri:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/git.kernel.org/pub</span><span class="hljs-regexp">/scm/git</span><span class="hljs-regexp">/git.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 </code></pre><h2 id="menginstall-git-di-linux">Menginstall Git di Linux</h2>
 <p>Jika anda ingin menginstall Git di Linux menggunakan installer biner, anda bisa melakukannya melalui perkakas manajemen paket yang anda pada distribusi Linux yang anda gunakan. Jika anda menggunakan Fedora, anda dapat menggunakan yum:</p>
-<pre><code><span class="hljs-variable">$ </span>yum install git-core
+<pre><code>$ yum install git-core
 </code></pre><p>Atau jika anda menggunakan distro berbasis Debian seperti Ubuntu, coba gunakan apt-get:</p>
-<pre><code>$ apt-<span class="hljs-keyword">get</span> install git
+<pre><code>$ apt-get install git
 </code></pre><h2 id="menginstall-git-pada-mac">Menginstall Git pada Mac</h2>
 <p>Terdapat dua cara mudah untuk menginstal Git pada sebuah komputer Mac. Cara termudah adalah menggunakan installer Git berbasis GUI, yang dapat anda peroleh dari halaman Google Code (lihat Gambar 1-7):</p>
-<pre><code><span class="hljs-label">http:</span>//code<span class="hljs-preprocessor">.google</span><span class="hljs-preprocessor">.com</span>/p/git-osx-installer
+<pre><code>http://code.google.com/p/git-osx-installer
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0107-tn.png" alt=""></p>
 <p>Gambar 1-7. Git OS X installer.</p>
 <p>Cara lainnya adalah dengan menggunakan MacPorts (<code>http://www.macports.org</code>). Jika anda telah menginstall MacPorts, maka anda dapat menginstall Git melalui cara berikut</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> port install git-core +svn +doc +bash_completion +gitweb
+<pre><code>$ sudo port install git-core +svn +doc +bash_completion +gitweb
 </code></pre><p>Anda tidak harus menambahkan extras-nya, tetapi anda mungkin membutuhkan +svn jika anda harus menggunakan Git pada repositori Subversion (lihat Bab 8).</p>
 <h2 id="menginstall-pada-sistem-operasi-windows">Menginstall pada Sistem Operasi Windows</h2>
 <p>Menginstall Git pada Windows sangatlah mudah. Cara termudah dapat anda peroleh dengan menggunakan msysGit. Cukup download file installernya dari halaman GitHub, lalu eksekusi.</p>
-<pre><code><span class="hljs-label">http:</span>//msysgit<span class="hljs-preprocessor">.github</span><span class="hljs-preprocessor">.com</span>/
+<pre><code>http://msysgit.github.com/
 </code></pre><p>Setelah terinstall, anda akan memperoleh versi command-line (bersama dengan klien SSH yang praktis) dan versi GUI-nya.</p>
 
                     
@@ -420,9 +423,9 @@ $ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

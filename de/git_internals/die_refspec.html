@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,69 +857,69 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_999">
+                    <section class="normal" id="section-gitbook_927">
                     
                         <h1 id="die-refspec">Die Refspec</h1>
 <!--Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.-->
 <!--Suppose you add a remote like this:-->
 
 <p>In diesem Buch haben wir bisher einfache Zuweisungen von externen Branches auf lokale Referenzen verwendet. Sie können aber auch durchaus komplex sein. Nehmen wir an, Du hast ein Remote-Repository wie folgt definiert:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add origin git@github.com:schacon/simplegit-progit.git
 </code></pre><!--It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching:-->
 
 <p>Das fügt eine Sektion in Deine <code>.git/config</code>-Datei hinzu, die Deinen lokalen Namen des externen Repositorys (<code>origin</code>), dessen URL und die Refspec spezifiziert, mit der neue Daten heruntergeladen werden.</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
 </code></pre><!--The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.-->
 
 <p>Das Format der Refspec besteht aus einem optionalen <code>+</code> gefolgt von <code>&lt;Quelle&gt;:&lt;Ziel&gt;</code>, wobei <code>&lt;Quelle&gt;</code> ein Muster für Referenzen auf der Remote-Seite ist, und <code>&lt;Ziel&gt;</code> angibt, wohin diese Referenzen lokal geschrieben werden. Das <code>+</code> weist Git an, die Referenz zu mergen, wenn sie nicht mit einem Fast-forward aktualisiert werden kann.</p>
 <!--In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via-->
 
 <p>Der Standard, der von <code>git remote add</code> automatisch eingerichtet wird, besteht darin, dass Git automatisch alle Referenzen unter <code>refs/heads/</code> vom Server holt und sie lokal nach <code>refs/remotes/origin</code> speichert. D.h., wenn es auf dem Server einen Branch <code>master</code> gibt, kannst Du auf das Log dieses Branches wie folgt zugreifen:</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/master
-<span class="hljs-variable">$ </span>git log remotes/origin/master
-<span class="hljs-variable">$ </span>git log refs/remotes/origin/master
+<pre><code>$ git log origin/master
+$ git log remotes/origin/master
+$ git log refs/remotes/origin/master
 </code></pre><!--They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.-->
 
 <p>Diese Varianten sind allesamt äquivalent, weil Git sie jeweils zu <code>refs/remotes/origin/master</code> vervollständigt.</p>
 <!--If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to-->
 
 <p>Wenn Du stattdessen willst, dass Git jeweils nur den Branch <code>master</code> herunterlädt und andere Branches auf dem Server ignoriert, kannst Du die <code>fetch</code>-Zeile wie folgt ändern:</p>
-<pre><code><span class="hljs-attribute">fetch </span>=<span class="hljs-string"> +refs/heads/master:refs/remotes/origin/master</span>
+<pre><code>fetch = +refs/heads/master:refs/remotes/origin/master
 </code></pre><!--This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run-->
 
 <p>Dies ist allerdings lediglich der Standardwert der Refspec und Du kannst ihn auf der Kommandozeile jederzeit überschreiben. Um zum Beispiel nur den Branch <code>master</code> vom Server lokal als <code>origin/mymaster</code> zu speichern, kannst Du Folgendes ausführen:</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch origin <span class="hljs-symbol">master:</span>refs/remotes/origin/mymaster
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster
 </code></pre><!--You can also specify multiple refspecs. On the command line, you can pull down several branches like so:-->
 
 <p>Du kannst auch mehrere Refspecs gleichzeitig spezifizieren. Um mehrere Branches zu holen kannst du folgenden Befehl in die Kommandozeile eingeben:</p>
-<pre><code>$ git fetch origin <span class="hljs-attribute">master</span>:refs/remotes/origin/mymaster \
-   <span class="hljs-attribute">topic</span>:refs/remotes/origin/topic
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit
- ! [rejected]        master<span class="hljs-function">     -&gt;</span> origin/mymaster  (non fast forward)
- * [<span class="hljs-keyword">new</span> branch]      topic<span class="hljs-function">      -&gt;</span> origin/topic
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster \
+   topic:refs/remotes/origin/topic
+From git@github.com:schacon/simplegit
+ ! [rejected]        master     -&gt; origin/mymaster  (non fast forward)
+ * [new branch]      topic      -&gt; origin/topic
 </code></pre><!--In this case, the master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.-->
 
 <p>In diesem Fall wurde ein Pull zurückgewiesen, weil der Branch nicht mit einem simplen Fast-forward aktualisiert werden konnte. Du kannst einen Merge erzwingen, indem Du der Refspec ein <code>+</code> voranstellst.</p>
 <!--You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:-->
 
 <p>Du kannst außerdem natürlich auch mehrere Refspecs in Deiner Konfiguration spezifizieren. Wenn Du z.B. immer die Branches <code>master</code> und <code>experiment</code> holen willst, fügst Du die folgenden Zeilen hinzu:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git@<span class="hljs-filename">github.com</span>:schacon/simplegit-<span class="hljs-filename">progit.git
-       fetch = +refs/heads/master</span>:refs/remotes/origin/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
        fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 </code></pre><!--You can’t use partial globs in the pattern, so this would be invalid:-->
 
 <p>Du kannst keine partiellen Glob-Muster verwenden, d.h. Folgendes wäre ungültig:</p>
-<pre><code>fetch = +refs/heads/qa*<span class="hljs-symbol">:refs/remotes/origin/qa*</span>
+<pre><code>fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 </code></pre><!--However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:-->
 
 <p>Allerdings kannst Du Namensräume verwenden, um etwas Ähnliches zu erreichen. Nehmen wir an, Du hast ein QA-Team, das regelmäßig verschiedene Branches pusht, und Du willst nun den Branch master und sämtliche Branches des QA-Teams, aber keine anderen Branches haben. Dann kannst Du eine Config-Sektion wie die folgende verwenden:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/<span class="hljs-symbol">master:</span>refs/remotes/origin/master
-       fetch = +refs/heads/qa/*<span class="hljs-symbol">:refs/remotes/origin/qa/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
+       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 </code></pre><!--If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.-->
 
 <p>In einem großen Team mit einem komplexen Workflow, in dem ein QA-Team, Entwickler und ein Integrations-Team jeweils eigene Branches pushen, kann man auf diese Weise Branches einfach in Namensräume einteilen.</p>
@@ -929,14 +932,14 @@ From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">
 <!--If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run-->
 
 <p>Wenn das QA-Team seinen Branch <code>master</code> in einem externen Repository als <code>qa/master</code> speichern will, kann es das wie folgt tun:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>$ git push origin master:refs/heads/qa/master
 </code></pre><!--If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:-->
 
 <p>Um Git so zu konfigurieren, dass diese Refspec jedes Mal automatisch für <code>git push origin</code> verwendet wird, kann man den <code>push</code> Wert in der Config-Datei setzen:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
-       push = refs/heads/<span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
+       push = refs/heads/master:refs/heads/qa/master
 </code></pre><!--Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.-->
 
 <p>Auf diese Weise wird <code>git push origin</code> den lokalen Branch <code>master</code> als <code>qa/master</code> auf dem Server <code>origin</code> speichern.</p>
@@ -946,7 +949,7 @@ From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">
 <!--You can also use the refspec to delete references from the remote server by running something like this:-->
 
 <p>Man kann Refspecs außerdem verwenden, um Referenzen aus einem externen Repository zu löschen:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:topic</span>
+<pre><code>$ git push origin :topic
 </code></pre><!--Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.-->
 
 <p>Das Refspec Format ist <code>&lt;Quelle&gt;:&lt;Ziel&gt;</code>. Wenn man den Teil <code>&lt;Quelle&gt;</code> weglässt, dann heißt das im obigen Beispiel, dass man den Branch <code>topic</code> auf dem Server <code>origin</code> auf „nichts“ setzt, d.h. also löscht.</p>
@@ -968,9 +971,9 @@ From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

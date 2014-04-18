@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_548">
+                    <section class="normal" id="section-gitbook_619">
                     
                         <h1 id="rebasen">Rebasen</h1>
 <p>In Git zijn er twee hoofdmanieren om wijzigingen te integreren van de ene branch in een andere: de <code>merge</code> en de <code>rebase</code>. In deze paragraaf ga je leren wat rebasen is, hoe je dat moet doen, waarom het een zeer bijzondere stukje gereedschap is en in welke gevallen je het niet wilt gebruiken.</p>
@@ -859,8 +862,8 @@
 <p>In dit voorbeeld, zou je het volgende uitvoeren:</p>
 <pre><code>$ git checkout experiment
 $ git rebase master
-First, rewinding head <span class="hljs-built_in">to</span> replay your work <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">top</span> <span class="hljs-title">of</span> <span class="hljs-title">it</span>...</span>
-Applying: added staged <span class="hljs-command"><span class="hljs-keyword">command</span></span>
+First, rewinding head to replay your work on top of it...
+Applying: added staged command
 </code></pre><p>Het gebeurt door naar de gezamenlijke voorouder van de twee branches te gaan (degene waar je op zit en degene waar je op rebased), de diff te nemen die geïntroduceerd is voor elke losse commit op de branch waar je op zit, die diffs in tijdelijke bestanden te bewaren, de huidige branch terug te zetten naar dezelfde commit als de branch waar je op rebased, en uiteindelijk elke diff om de beurt te applyen, Figuur 3-29 toont dit proces.</p>
 <p><img src="http://git-scm.com/figures/18333fig0329-tn.png" alt=""></p>
 <p>Figuur 3-29. De wijzigingen die geïntroduceerd zijn in C3 rebasen op C4.</p>
@@ -875,26 +878,26 @@ Applying: added staged <span class="hljs-command"><span class="hljs-keyword">com
 <p><img src="http://git-scm.com/figures/18333fig0331-tn.png" alt=""></p>
 <p>Figuur 3-31. Een historie met een topic branch vanaf een andere topic branch.</p>
 <p>Stel nu, je besluit dat je de client-kant wijzigingen wilt mergen in je hoofdlijn voor een release, maar je wilt de server-kant wijzigingen nog vasthouden totdat het verder getest is. Je kunt de wijzigingen van client pakken, die nog niet op server zitten (C8 en C9) en die opnieuw afspelen op je master branch door de <code>--onto</code> optie te gebruiken van <code>git rebase</code>:</p>
-<pre><code>$ git rebase --onto master <span class="hljs-keyword">server</span> <span class="hljs-keyword">client</span>
+<pre><code>$ git rebase --onto master server client
 </code></pre><p>Dit zegt in feite, &quot;Check de client branch uit, verzamel de patches van de gezamenlijke voorouder van de <code>client</code> en de <code>server</code> branches, en speel die opnieuw af op <code>master</code>.&quot; Het is een beetje ingewikkeld, maar het resultaat, getoond in Figuur 3-32, is erg prettig.</p>
 <p><img src="http://git-scm.com/figures/18333fig0332-tn.png" alt=""></p>
 <p>Figuur 3-32. Een topic branch rebasen vanaf een andere topic branch.</p>
 <p>Nu kun je een fast-forward doen van je master branch (zie Figuur 3-33):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge client
+<pre><code>$ git checkout master
+$ git merge client
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0333-tn.png" alt=""></p>
 <p>Figuur 3-33. Je master branch fast-forwarden om de client branch wijzigingen mee te nemen.</p>
 <p>Stel dat je besluit om de server branch ook te pullen. Je kunt de server branch rebasen op de master branch zonder het eerst te hoeven uitchecken door <code>git rebase [basisbranch] [topicbranch]</code> uit te voeren - wat de topic branch voor je uitcheckt (in dit geval, <code>server</code>) en het opnieuw afspeelt om de basis branch (<code>master</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git rebase master server
+<pre><code>$ git rebase master server
 </code></pre><p>Dit speelt het <code>server</code> werk opnieuw af op het <code>master</code> werk, zoals getoond in Figuur 3-34.</p>
 <p><img src="http://git-scm.com/figures/18333fig0334-tn.png" alt=""></p>
 <p>Figuur 3-34. Je server branch op je master branch rebasen.</p>
 <p>Daarna kan je de basis branch (<code>master</code>) fast-forwarden:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge server
+<pre><code>$ git checkout master
+$ git merge server
 </code></pre><p>Je kunt de <code>client</code> en <code>server</code> branches verwijderen, omdat al het werk geïntegreerd is en je ze niet meer nodig hebt, en de historie voor het hele proces ziet eruit zoals in Figuur 3-35:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> client
-$ git branch <span class="hljs-operator">-d</span> server
+<pre><code>$ git branch -d client
+$ git branch -d server
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0335-tn.png" alt=""></p>
 <p>Figuur 3-35. Uiteindelijke commit historie.</p>
 <h2 id="de-gevaren-van-rebasen">De gevaren van rebasen</h2>
@@ -934,9 +937,9 @@ $ git branch <span class="hljs-operator">-d</span> server
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_540">
+                    <section class="normal" id="section-gitbook_611">
                     
                         <h1 id="git-klaarmaken-voor-eerste-gebruik">Git klaarmaken voor eerste gebruik</h1>
 <p>Nu je Git op je computer hebt staan, is het handig dat je een paar dingen doet om je Gitomgeving aan je voorkeuren aan te passen. Je hoeft deze instellingen normaliter maar één keer te doen, ze blijven hetzelfde als je een nieuwe versie van Git installeert. Je kunt ze ook op elk moment weer veranderen door de commando’s opnieuw uit te voeren.</p>
@@ -857,15 +860,15 @@
 <p>Op systemen met Windows zoekt Git naar het <code>.gitconfig</code>-bestand in de <code>$HOME</code> directory (<code>%USERPROFILE%</code> in een Windows omgeving) wat zich vertaalt in <code>C:\Documents and Settings\$USER</code> of <code>C:\Users\$USER</code> voor de meesten, afhankelijk van de versie (<code>$USER</code> is <code>%USERNAME%</code> in Windows omgevingen). Het zoekt ook nog steeds naar <code>/etc/gitconfig</code>, maar dan gerelateerd aan de plek waar je MSys hebt staan, en dat is de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.</p>
 <h2 id="jouw-identiteit">Jouw identiteit</h2>
 <p>Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail adres opgeven. Dat is belangrijk omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk ingebed zit in de commits die je ronddeelt:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>Nogmaals, dit hoef je maar één keer te doen als je de <code>--global</code> optie erbij opgeeft, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kun je het commando uitvoeren zonder de <code>--global</code> optie als je in de directory van dat project zit.</p>
 <h2 id="je-tekstverwerker">Je tekstverwerker</h2>
 <p>Nu Git weet wie je bent, kun je de standaard tekstverwerker instellen die gebruikt zal worden als Git je een bericht in wil laten typen. Normaliter gebruikt Git de standaardtekstverwerker van je systeem, wat meestal Vi of Vim is. Als je een andere tekstverwerker wilt gebruiken, zoals Emacs, kun je het volgende doen:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><h2 id="je-diffprogramma">Je diffprogramma</h2>
 <p>Een andere nuttige optie die je misschien wel wilt instellen is het standaard diffprogramma om mergeconflicten op te lossen. Stel dat je vimdiff wilt gebruiken:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>Git accepteert kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge en opendiff als geldige merge tools. Je kunt ook een ander programma gebruiken, zie Hoofdstuk 7 voor meer informatie daarover.</p>
 <h2 id="je-instellingen-controleren">Je instellingen controleren</h2>
 <p>Als je je instellingen wilt controleren, kan je het <code>git config --list</code> commando gebruiken voor een lijst met alle instellingen die Git vanaf die locatie kan vinden:</p>
@@ -876,11 +879,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>Je zult sommige sleutels misschien meerdere keren langs zien komen, omdat Git dezelfde sleutel uit verschillende bestanden heeft gelezen (bijvoorbeeld <code>/etc/gitconfig</code> en <code>~/.gitconfig</code>). In dit geval gebruikt Git de laatste waarde van elke unieke sleutel die het tegenkomt.</p>
 <p>Je kan ook bekijken wat Git als instelling heeft bij een specifieke sleutel door <code>git config {sleutel}</code> in te voeren:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -899,9 +902,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

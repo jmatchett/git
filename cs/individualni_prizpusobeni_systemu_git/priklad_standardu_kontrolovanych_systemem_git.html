@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,57 +857,57 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_922">
+                    <section class="normal" id="section-gitbook_993">
                     
                         <h1 id="p-klad-standard-kontrolovan-ch-syst-mem-git">Příklad standardů kontrolovaných systémem Git</h1>
 <p>V této části použijeme to, co jsme se naučili o vytváření pracovního postupu v systému Git. Systém může kontrolovat formát uživatelovy zprávy k revizi, dovolit pouze aktualizace „rychle vpřed“ a umožňovat změnu obsahu konkrétních podadresářů projektu pouze vybraným uživatelům. V této části vytvoříte skripty pro klienta, které vývojářům pomohou zjistit, zda budou jejich revize odmítnuty, a skripty na server, které si specifikované požadavky přímo vynutí.</p>
 <p>Já jsem k napsání skriptů použil Ruby, zaprvé proto, že je to můj oblíbený skriptovací jazyk, zadruhé proto, že ho považuji za skriptovací jazyk, který nejvíce vypadá jako pseudokód. Díky tomu byste měli kód bez problému rozluštit, i když Ruby nepoužíváte. Stejně dobře však pochodíte i s jakýmkoli jiným jazykem. Všechny vzorové skripty zásuvných modulů distribuované se systémem Git jsou buď ve skriptování Perl, nebo Bash. Podíváte-li se tyto vzorové skripty, budete mít i spoustu příkladů zásuvných modulů v těchto jazycích.</p>
 <h2 id="z-suvn-modul-na-stran-serveru">Zásuvný modul na straně serveru</h2>
 <p>Veškerá práce na straně serveru bude uložena do souboru update v adresáři hooks. Soubor update bude spuštěn jednou na každou odesílanou větev a jako parametr použije referenci, do níž se odesílá, starou revizi, kde byla tato větev umístěna, a novou, odesílanou revizi. Pokud jsou revize odesílány prostřednictvím SSH, budete mít přístup také k uživateli, který data odesílá. Pokud jste všem povolili připojení s jedním uživatelem (např. „git“) na základě ověření veřejného klíče, možná budete muset poskytnout těmto uživatelům shellový wrapper, který určuje, který uživatel se připojuje na základě veřejného klíče, a nastavit proměnnou prostředí, jež tyto uživatele stanoví. V tomto okamžiku předpokládám, že je připojující se uživatel v proměnné prostředí <code>$USER</code>, a skript update tak začne shromažďovat všechny potřebné informace:</p>
-<pre><code><span class="hljs-comment">#!/usr/bin/env ruby</span>
+<pre><code>#!/usr/bin/env ruby
 
-<span class="hljs-variable">$refname</span> = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">0</span>]
-<span class="hljs-variable">$oldrev</span>  = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">1</span>]
-<span class="hljs-variable">$newrev</span>  = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">2</span>]
-<span class="hljs-variable">$user</span>    = <span class="hljs-constant">ENV</span>[<span class="hljs-string">'USER'</span>]
+$refname = ARGV[0]
+$oldrev  = ARGV[1]
+$newrev  = ARGV[2]
+$user    = ENV[&#39;USER&#39;]
 
-puts <span class="hljs-string">"Enforcing Policies... \n(<span class="hljs-subst">#{<span class="hljs-variable">$refname</span>}</span>) (<span class="hljs-subst">#{<span class="hljs-variable">$oldrev</span>[<span class="hljs-number">0</span>,<span class="hljs-number">6</span>]}</span>) (<span class="hljs-subst">#{<span class="hljs-variable">$newrev</span>[<span class="hljs-number">0</span>,<span class="hljs-number">6</span>]}</span>)"</span>
+puts &quot;Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})&quot;
 </code></pre><p>Ano, je to tak, používám globální proměnné. Ale neodsuzujte mne – náš příklad díky tomu bude názornější.</p>
 <h3 id="standardizovan-zpr-va-k-revizi">Standardizovaná zpráva k revizi</h3>
 <p>Vaším prvním úkolem bude zajistit, aby všechny zprávy k revizím splňovaly předepsaný formát. Abychom si stanovili nějaký cíl, řekněme, že každá zpráva musí obsahovat řetězec ve tvaru „ref: 1234“, protože potřebujete, aby se každá revize vztahovala k jedné pracovní položce vašeho tiketovacího systému. Každou odesílanou revizi si musíte prohlédnout, zjistit, zda zpráva k revizi obsahuje daný řetězec, a pokud v některé z nich chybí, vrátit nenulovou hodnotu, čímž odesílanou revizi odmítnete.</p>
 <p>Vezmete-li hodnoty <code>$newrev</code> a <code>$oldrev</code> a zadáte je k nízkoúrovňovému příkazu <code>git rev-list</code>, získáte seznam hodnot SHA-1 všech odesílaných revizí. Tento příkaz má v podstatě stejnou funkci jako <code>git log</code>, jeho výstupem jsou ale pouze hodnoty SHA-1 bez dalších informací. Pokud tedy chcete získat seznam všech hodnot SHA revizí provedených mezi dvěma konkrétními revizemi, můžete spustit zhruba toto:</p>
-<pre><code>$ git rev-<span class="hljs-built_in">list</span> <span class="hljs-number">538</span>c33..d14fc7
+<pre><code>$ git rev-list 538c33..d14fc7
 d14fc7c847ab946ec39590d87783c69b031bdfb7
-<span class="hljs-number">9f</span>585da4401b0a3999e84113824d15245c13f0be
-<span class="hljs-number">234071</span>a1be950e2a8d078e6141f5cd20c1e61ad3
+9f585da4401b0a3999e84113824d15245c13f0be
+234071a1be950e2a8d078e6141f5cd20c1e61ad3
 dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
-<span class="hljs-number">17716</span>ec0f1ff5c77eff40b7fe912f9f6cfd0e475
+17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475
 </code></pre><p>Tento výstup můžete vzít, projít všechny hodnoty SHA jednotlivých revizí, vzít jejich zprávy a otestovat je proti regulárnímu výrazu, který vyhledává vzor.</p>
 <p>Budete muset najít postup, jak získat zprávy všech těchto revizí, které mají být otestovány. Chcete-li získat syrová data revizí, můžete použít další nízkoúrovňový příkaz: <code>git cat-file</code>. Všem těmto nízkoúrovňovým příkazům se budu podrobněji věnovat v kapitole 9. Pro tuto chvíli se jen podívejme, co příkazem získáme:</p>
-<pre><code>$ git cat-<span class="hljs-built_in">file</span> commit ca82a6
+<pre><code>$ git cat-file commit ca82a6
 tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
-parent <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-author Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1205815931</span> -<span class="hljs-number">0700</span>
-committer Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1240030591</span> -<span class="hljs-number">0700</span>
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;schacon@gmail.com&gt; 1205815931 -0700
+committer Scott Chacon &lt;schacon@gmail.com&gt; 1240030591 -0700
 
-changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+changed the version number
 </code></pre><p>Jednoduchým způsobem, jak z revize, k níž máte hodnotu SHA-1, extrahovat její zprávu, je přejít k prvnímu prázdnému řádku a vzít vše, co následuje za ním. V systémech Unix to lze provést příkazem <code>sed</code>:</p>
-<pre><code>$ git cat-<span class="hljs-built_in">file</span> commit ca82a6 | sed <span class="hljs-string">'1,/^$/d'</span>
-changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+<pre><code>$ git cat-file commit ca82a6 | sed &#39;1,/^$/d&#39;
+changed the version number
 </code></pre><p>Tento výraz můžete použít k extrakci zpráv ze všech odesílaných revizí a skript ukončit, jestliže najdete něco, co neodpovídá požadavkům. Chcete-li skript ukončit a odesílaná data odmítnout, návratová hodnota musí být nenulová. Celá metoda vypadá takto:</p>
 <pre><code>$regex = /\[ref: (\d+)\]/
 
-<span class="hljs-comment"># enforced custom commit message format</span>
+# enforced custom commit message format
 def check_message_format
-  missed_revs = `git rev-list <span class="hljs-comment">#{$oldrev}..#{$newrev}`.split("\n")</span>
-  missed_revs.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |rev|
-    message = `git cat-<span class="hljs-built_in">file</span> commit <span class="hljs-comment">#{rev} | sed '1,/^$/d'`</span>
-    <span class="hljs-keyword">if</span> !$regex.match(message)
-      puts <span class="hljs-string">"[POLICY] Your message is not formatted correctly"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  missed_revs = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  missed_revs.each do |rev|
+    message = `git cat-file commit #{rev} | sed &#39;1,/^$/d&#39;`
+    if !$regex.match(message)
+      puts &quot;[POLICY] Your message is not formatted correctly&quot;
+      exit 1
+    end
+  end
+end
 check_message_format
 </code></pre><p>Pokud toto vložíte do skriptu <code>update</code>, budou odmítnuty všechny aktualizace s revizemi, které mají zprávu neodpovídající zadanému pravidlu.</p>
 <h3 id="syst-m-acl-podle-u-ivatel-">Systém ACL podle uživatelů</h3>
@@ -913,63 +916,63 @@ check_message_format
 <p>V našem příkladu máte několik správců, několik tvůrců dokumentace s přístupem do adresáře <code>doc</code> a jednoho vývojáře, který má jako jediný přístup do adresářů <code>lib</code> a <code>tests</code>. Soubor ACL proto bude vypadat následovně:</p>
 <pre><code>avail|nickh,pjhyett,defunkt,tpw
 avail|usinclair,cdickens,ebronte|doc
-avail<span class="hljs-localvars">|schacon|lib
-avail|schacon|tests</span>
+avail|schacon|lib
+avail|schacon|tests
 </code></pre><p>Začnete načtením těchto dat do struktury, kterou můžete použít. Abychom příklad nekomplikovali, budete vyžadovat pouze direktivy <code>avail</code> (využít). Používá se tu metoda asociativních polí, kdy klíč představuje jméno uživatele a hodnotu tvoří sada umístění, k nimž má uživatel oprávnění pro zápis:</p>
 <pre><code>def get_acl_access_data(acl_file)
-  <span class="hljs-comment"># read in ACL data</span>
-  acl_file = File.<span class="hljs-built_in">read</span>(acl_file).<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).reject { |<span class="hljs-built_in">line</span>| <span class="hljs-built_in">line</span> == <span class="hljs-string">''</span> }
+  # read in ACL data
+  acl_file = File.read(acl_file).split(&quot;\n&quot;).reject { |line| line == &#39;&#39; }
   access = {}
-  acl_file.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |<span class="hljs-built_in">line</span>|
-    avail, users, path = <span class="hljs-built_in">line</span>.<span class="hljs-built_in">split</span>(<span class="hljs-string">'|'</span>)
-    next unless avail == <span class="hljs-string">'avail'</span>
-    users.<span class="hljs-built_in">split</span>(<span class="hljs-string">','</span>).<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |user|
+  acl_file.each do |line|
+    avail, users, path = line.split(&#39;|&#39;)
+    next unless avail == &#39;avail&#39;
+    users.split(&#39;,&#39;).each do |user|
       access[user] ||= []
       access[user] &lt;&lt; path
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+    end
+  end
   access
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+end
 </code></pre><p>V kombinaci se souborem ACL, který jsme si ukázali před chvílí, poskytne tato metoda <code>get_acl_access_data</code> datovou strukturu v této podobě:</p>
-<pre><code>{<span class="hljs-string">"defunkt"</span>=&gt;[nil],
- <span class="hljs-string">"tpw"</span>=&gt;[nil],
- <span class="hljs-string">"nickh"</span>=&gt;[nil],
- <span class="hljs-string">"pjhyett"</span>=&gt;[nil],
- <span class="hljs-string">"schacon"</span>=&gt;[<span class="hljs-string">"lib"</span>, <span class="hljs-string">"tests"</span>],
- <span class="hljs-string">"cdickens"</span>=&gt;[<span class="hljs-string">"doc"</span>],
- <span class="hljs-string">"usinclair"</span>=&gt;[<span class="hljs-string">"doc"</span>],
- <span class="hljs-string">"ebronte"</span>=&gt;[<span class="hljs-string">"doc"</span>]}
+<pre><code>{&quot;defunkt&quot;=&gt;[nil],
+ &quot;tpw&quot;=&gt;[nil],
+ &quot;nickh&quot;=&gt;[nil],
+ &quot;pjhyett&quot;=&gt;[nil],
+ &quot;schacon&quot;=&gt;[&quot;lib&quot;, &quot;tests&quot;],
+ &quot;cdickens&quot;=&gt;[&quot;doc&quot;],
+ &quot;usinclair&quot;=&gt;[&quot;doc&quot;],
+ &quot;ebronte&quot;=&gt;[&quot;doc&quot;]}
 </code></pre><p>Nyní, když jste uspořádali příslušná oprávnění, zbývá zjistit, která umístění odesílané revize změnily, abyste měli jistotu, že k nim ke všem má odesílající uživatel přístup.</p>
 <p>Zjistit, které soubory byly v jedné revizi změněny, lze velmi snadno pomocí příkazu <code>git log</code> s parametrem <code>--name-only</code> (stručně popsáno v kapitole 2):</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> --name-only --pretty=<span class="hljs-built_in">format</span>:<span class="hljs-string">''</span> <span class="hljs-number">9</span>f585d
+<pre><code>$ git log -1 --name-only --pretty=format:&#39;&#39; 9f585d
 
 README
 lib/test.rb
 </code></pre><p>Jestliže používáte strukturu ACL získanou metodou <code>get_acl_access_data</code> a kontrolujete ji proti seznamu souborů v každé revizi, můžete určit, zda bude mít uživatel oprávnění odesílat všechny své revize:</p>
-<pre><code><span class="hljs-comment"># only allows certain users to modify certain subdirectories in a project</span>
+<pre><code># only allows certain users to modify certain subdirectories in a project
 def check_directory_perms
-  access = get_acl_access_data(<span class="hljs-string">'acl'</span>)
+  access = get_acl_access_data(&#39;acl&#39;)
 
-  <span class="hljs-comment"># see if anyone is trying to push something they can't</span>
-  new_commits = `git rev-list <span class="hljs-comment">#{$oldrev}..#{$newrev}`.split("\n")</span>
-  new_commits.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |rev|
-    files_modified = `git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> <span class="hljs-comment">--name-only --pretty=format:'' #{rev}`.split("\n")</span>
-    files_modified.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |path|
-      next <span class="hljs-keyword">if</span> path.size == <span class="hljs-number">0</span>
-      has_file_access = <span class="hljs-constant">false</span>
-      access[$user].<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |access_path|
-        <span class="hljs-keyword">if</span> !access_path || <span class="hljs-comment"># user has access to everything</span>
-          (path.index(access_path) == <span class="hljs-number">0</span>) <span class="hljs-comment"># access to this path</span>
-          has_file_access = <span class="hljs-constant">true</span>
-        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-      <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-      <span class="hljs-keyword">if</span> !has_file_access
-        puts <span class="hljs-string">"[POLICY] You do not have access to push to #{path}"</span>
-        exit <span class="hljs-number">1</span>
-      <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  # see if anyone is trying to push something they can&#39;t
+  new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  new_commits.each do |rev|
+    files_modified = `git log -1 --name-only --pretty=format:&#39;&#39; #{rev}`.split(&quot;\n&quot;)
+    files_modified.each do |path|
+      next if path.size == 0
+      has_file_access = false
+      access[$user].each do |access_path|
+        if !access_path || # user has access to everything
+          (path.index(access_path) == 0) # access to this path
+          has_file_access = true
+        end
+      end
+      if !has_file_access
+        puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+        exit 1
+      end
+    end
+  end
+end
 
 check_directory_perms
 </code></pre><p>Většina uvedeného by měla být jasná. Příkazem <code>git rev-list</code> získáte výpis nových revizí odesílaných na váš server. U každé z revizí uvidíte také soubory, které byly změněny, a budete se moci přesvědčit, zda má odesílající uživatel přístup ke všem umístěním, která svými daty mění. Snad jediným specifickým Ruby výrazem, který nemusí být jasný, je <code>path.index(access_path) == 0</code>, který je pravdivý, pokud kontrolovaná cesta začíná řetězcem <code>access_path</code> (cesta oprávnění) – díky tomu nepovoluje cesta v <code>access_path</code> jen konkrétní místo na disku (soubor nebo adresář), ale také všechny soubory nebo adresáře, které začínají tímto řetězcem.</p>
@@ -977,133 +980,133 @@ check_directory_perms
 <h3 id="pouze-rychle-vp-ed-">Pouze „rychle vpřed“</h3>
 <p>Poslední věcí, která nám ještě zbývá, je povolit pouze odeslání směřující „rychle vpřed“ (fast forward). Ve verzi 1.6 systému Git a novějších lze nastavit možnosti <code>receive.denyDeletes</code> a <code>receive.denyNonFastForwards</code>. Pokud však totéž nastavíte pomocí zásuvného modulu, pochodíte i ve starších verzích systému Git a navíc ho můžete nastavit pouze pro konkrétní uživatele nebo na cokoli jiného, s čím se kdy setkáte.</p>
 <p>Kontrolu můžete provést tak, že se podíváte, zda jsou některé revize dostupné ze starších verzí, ale nejsou dostupné z novějších. Pokud žádná taková revize neexistuje, směřovalo odeslání rychle vpřed. V opačném případě můžete odeslané revize odmítnout:</p>
-<pre><code><span class="hljs-comment"># enforces fast-forward only pushes</span>
+<pre><code># enforces fast-forward only pushes
 def check_fast_forward
-  missed_refs = `git rev-list <span class="hljs-comment">#{$newrev}..#{$oldrev}`</span>
-  missed_ref_count = missed_refs.<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).size
-  <span class="hljs-keyword">if</span> missed_ref_count &gt; <span class="hljs-number">0</span>
-    puts <span class="hljs-string">"[POLICY] Cannot push a non fast-forward reference"</span>
-    exit <span class="hljs-number">1</span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
+  missed_ref_count = missed_refs.split(&quot;\n&quot;).size
+  if missed_ref_count &gt; 0
+    puts &quot;[POLICY] Cannot push a non fast-forward reference&quot;
+    exit 1
+  end
+end
 
 check_fast_forward
 </code></pre><p>Nyní je vše nastaveno. Spustíte-li příkaz <code>chmod u+x .git/hooks/update</code>, což je soubor, do nějž byste měli celý tento kód vložit a poté zkusit odeslat referenci, která nesměřuje rychle vpřed, dostanete následující výstup:</p>
 <pre><code>$ git push -f origin master
-Counting objects: <span class="hljs-number">5</span>, done.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), done.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-number">323</span> bytes, done.
-Total <span class="hljs-number">3</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), done.
+Counting objects: 5, done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 323 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
 Enforcing Policies...
-(refs/heads/master) (<span class="hljs-number">8338</span>c5) (c5b616)
+(refs/heads/master) (8338c5) (c5b616)
 [POLICY] Cannot push a non fast-forward reference
-<span class="hljs-keyword">error</span>: hooks/update exited <span class="hljs-keyword">with</span> <span class="hljs-keyword">error</span> code <span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: hook declined <span class="hljs-keyword">to</span> update refs/heads/master
-<span class="hljs-keyword">To</span> git@gitserver:project.git
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
+To git@gitserver:project.git
  ! [remote rejected] master -&gt; master (hook declined)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'git@gitserver:project.git'</span>
+error: failed to push some refs to &#39;git@gitserver:project.git&#39;
 </code></pre><p>Výstup obsahuje řadu zajímavých informací. Zaprvé si všimněte místa, kde byl spuštěn zásuvný modul.</p>
-<pre><code>Enforcing Policies<span class="hljs-attribute">...</span>
-(refs/heads/master) (<span class="hljs-number">8338</span>c5) (c5b616)
+<pre><code>Enforcing Policies...
+(refs/heads/master) (8338c5) (c5b616)
 </code></pre><p>Všimněte si, že toto bylo posláno na standardní výstup „stdout“ na samém začátku skriptu update. Měli bychom také upozornit, že všechno, co váš skript vypíše do standardního výstupu stdout, bude přeneseno také klientovi.</p>
 <p>Další věcí, jíž si všimnete, je chybové hlášení.</p>
-<pre><code>[POLICY] Cannot push a non fast-forward <span class="hljs-keyword">reference</span>
-<span class="hljs-keyword">error</span>: hooks/update exited <span class="hljs-keyword">with</span> <span class="hljs-keyword">error</span> code <span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: hook declined <span class="hljs-keyword">to</span> update refs/heads/master
+<pre><code>[POLICY] Cannot push a non fast-forward reference
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
 </code></pre><p>První řádek jste vytvořili vy, dalšími dvěma řádky vám Git sděluje, že je výstup skriptu update nenulový, a proto bude odeslání odmítnuto. A na konci stojí následující:</p>
-<pre><code><span class="hljs-keyword">To</span> git@gitserver:project.git
+<pre><code>To git@gitserver:project.git
  ! [remote rejected] master -&gt; master (hook declined)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'git@gitserver:project.git'</span>
+error: failed to push some refs to &#39;git@gitserver:project.git&#39;
 </code></pre><p>Pro každou referenci, kterou váš zásuvný modul odmítne, se zobrazí jedna zpráva o odmítnutí vzdálené reference. Ze zprávy vyčtete, že byla reference odmítnuta kvůli chybě zásuvného modulu.</p>
 <p>Pokud navíc není ukazatel reference v některé z vašich revizí, zobrazí se chybové hlášení, které jste pro tento účel určili.</p>
-<pre><code>[POLICY] Your message <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> formatted correctly
+<pre><code>[POLICY] Your message is not formatted correctly
 </code></pre><p>Nebo pokud se někdo pokusí upravit soubor, k němuž nemá přístup, a odešle revizi, jejíž součástí bude tento soubor, zobrazí se podobná zpráva. Pokud se například autor dokumentace pokusí odeslat revizi, která mění obsah adresáře <code>lib</code>, zobrazí se mu upozornění:</p>
-<pre><code>[POLICY] You <span class="hljs-keyword">do</span> <span class="hljs-keyword">not</span> have access <span class="hljs-keyword">to</span> push <span class="hljs-keyword">to</span> <span class="hljs-keyword">lib</span>/test.rb
+<pre><code>[POLICY] You do not have access to push to lib/test.rb
 </code></pre><p>A to je vše. Od této chvíle budete mít k dispozici skript <code>update</code> ve spustitelné podobě, váš repozitář nikdy nebude převinut zpět a nikdy nepřijme zprávu k revizi, která by neodpovídala předepsanému vzoru. Uživatelé se navíc budou moci pohybovat jen ve vymezeném prostoru.</p>
 <h2 id="z-suvn-moduly-na-stran-klienta">Zásuvné moduly na straně klienta</h2>
 <p>Nevýhodou uvedeného postupu jsou nářky vašich uživatelů, které vás nevyhnutelně čekají jako výsledek odmítnutí jejich revizí. Odmítnete-li na poslední chvíli práci, na níž si dávali záležet, budou vaši uživatelé zmatení a otrávení, nemluvě o tom, že budou muset kvůli opravě měnit svou historii, což může bázlivější povahy odradit.</p>
 <p>Problém vám mohou pomoci vyřešit zásuvné moduly na straně klienta. Poskytněte je svým uživatelům a ti budou upozorněni pokaždé, až provedou něco, co by server s největší pravděpodobností odmítl. Všechny problémy tak budou moci opravit, dokud to ještě není příliš složité a dokud je nezapsali do revize. Jelikož se zásuvné moduly při naklonování projektu nekopírují, musíte tyto skripty distribuovat jinak a uživatelům zadat instrukce, aby je zkopírovali do svého adresáře <code>.git/hooks</code> a zajistili, že budou spustitelné. Zásuvné moduly můžete distribuovat v rámci projektu nebo v samostatném projektu, nelze je však nastavit automaticky.</p>
 <p>Pro začátek byste měli zkontrolovat zprávy k revizi, než tyto revize nahrajete, abyste měli jistotu, že server vaše změny neodmítne jen kvůli zprávám v nesprávném formátu. K tomuto účelu můžete použít zásuvný modul <code>commit-msg</code>. Necháte-li zásuvný modul přečíst zprávu k revizi ze souboru, který zadáte jako první parametr, a srovnat se vzorem, můžete systému Git uložit, aby odmítl revize, které vzoru neodpovídají:</p>
-<pre><code><span class="hljs-shebang">#!/usr/bin/env ruby</span>
-message_file = ARGV[<span class="hljs-number">0</span>]
+<pre><code>#!/usr/bin/env ruby
+message_file = ARGV[0]
 message = File.read(message_file)
 
-$regex = /\[<span class="hljs-keyword">ref</span>: (\d+)\]/
+$regex = /\[ref: (\d+)\]/
 
-<span class="hljs-keyword">if</span> !$regex.match(message)
-  puts <span class="hljs-string">"[POLICY] Your message is not formatted correctly"</span>
-  exit <span class="hljs-number">1</span>
+if !$regex.match(message)
+  puts &quot;[POLICY] Your message is not formatted correctly&quot;
+  exit 1
 end
 </code></pre><p>Je-li skript na svém místě (<code>.git/hooks/commit-msg</code>) a je spustitelný, pak v případě, že zapíšete revizi se zprávou v nedovoleném formátu, zobrazí se následující:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">commit</span> -am <span class="hljs-string">'test'</span>
-[POLICY] Your message <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> formatted correctly</span>
+<pre><code>$ git commit -am &#39;test&#39;
+[POLICY] Your message is not formatted correctly
 </code></pre><p>V takovém případě nebyla zapsána žádná revize. Pokud však zpráva obsahuje správný vzor, Git vám umožní revizi zapsat:</p>
-<pre><code>$ git commit -am <span class="hljs-string">'test [ref: 132]'</span>
-[master e05c914] test [<span class="hljs-keyword">ref</span>: <span class="hljs-number">132</span>]
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git commit -am &#39;test [ref: 132]&#39;
+[master e05c914] test [ref: 132]
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Dále se budete chtít ujistit, že neměníte soubory, jejichž úpravu vám zakazuje seznam ACL. Pokud adresář <code>.git</code> vašeho projektu obsahuje kopii souboru ACL, který jsme používali naposledy, příslušná omezení přístupu pro vás ohlídá tento skript <code>pre-commit</code>:</p>
 <pre><code>#!/usr/bin/env ruby
 
-$user    = ENV['USER']
+$user    = ENV[&#39;USER&#39;]
 
-# [ <span class="hljs-operator"><span class="hljs-keyword">insert</span> acl_access_data method <span class="hljs-keyword">from</span> above ]
+# [ insert acl_access_data method from above ]
 
-# <span class="hljs-keyword">only</span> allows certain users <span class="hljs-keyword">to</span> modify certain subdirectories <span class="hljs-keyword">in</span> a project
+# only allows certain users to modify certain subdirectories in a project
 def check_directory_perms
-  access = get_acl_access_data(<span class="hljs-string">'.git/acl'</span>)
+  access = get_acl_access_data(&#39;.git/acl&#39;)
 
-  files_modified = <span class="hljs-string">`git diff-index --cached --name-only HEAD`</span>.split(<span class="hljs-string">"\n"</span>)
-  files_modified.<span class="hljs-keyword">each</span> <span class="hljs-keyword">do</span> |path|
-    <span class="hljs-keyword">next</span> <span class="hljs-keyword">if</span> path.<span class="hljs-keyword">size</span> == <span class="hljs-number">0</span>
-    has_file_access = <span class="hljs-keyword">false</span>
-    access[$<span class="hljs-keyword">user</span>].<span class="hljs-keyword">each</span> <span class="hljs-keyword">do</span> |access_path|
-    <span class="hljs-keyword">if</span> !access_path || (path.index(access_path) == <span class="hljs-number">0</span>)
-      has_file_access = <span class="hljs-keyword">true</span>
-    <span class="hljs-keyword">end</span>
-    <span class="hljs-keyword">if</span> !has_file_access
-      puts <span class="hljs-string">"[POLICY] You do not have access to push to #{path}"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-keyword">end</span>
-  <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>
+  files_modified = `git diff-index --cached --name-only HEAD`.split(&quot;\n&quot;)
+  files_modified.each do |path|
+    next if path.size == 0
+    has_file_access = false
+    access[$user].each do |access_path|
+    if !access_path || (path.index(access_path) == 0)
+      has_file_access = true
+    end
+    if !has_file_access
+      puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+      exit 1
+    end
+  end
+end
 
-check_directory_perms</span>
+check_directory_perms
 </code></pre><p>Jedná se o přibližně stejný skript, jaký funguje na serveru, avšak se dvěma podstatnými rozdíly. Zaprvé je soubor ACL na jiném místě, protože se tento skript spouští z vašeho pracovního adresáře, a ne z adresáře Git. Cestu k souboru ACL budete muset změnit z</p>
-<pre><code><span class="hljs-keyword">access</span> = get_acl_access_data(<span class="hljs-attribute">'acl</span>')
+<pre><code>access = get_acl_access_data(&#39;acl&#39;)
 </code></pre><p>na:</p>
-<pre><code>access = get_acl_access_data(<span class="hljs-string">'.git/acl'</span>)
+<pre><code>access = get_acl_access_data(&#39;.git/acl&#39;)
 </code></pre><p>Druhým důležitým rozdílem je způsob, jak se zobrazí seznam změněných souborů. Protože serverová metoda využívá záznam revizí, ale ve vašem případě ještě nebyla revize zaznamenána, musí být seznam souborů pořízen na základě oblasti připravených změn. Místo</p>
-<pre><code>files_modified = `git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> --name-only --pretty=<span class="hljs-built_in">format</span>:<span class="hljs-string">''</span> <span class="hljs-preprocessor">#{ref}`</span>
+<pre><code>files_modified = `git log -1 --name-only --pretty=format:&#39;&#39; #{ref}`
 </code></pre><p>budete muset použít:</p>
-<pre><code><span class="hljs-comment">files_modified</span> <span class="hljs-comment">=</span> <span class="hljs-comment">`git</span> <span class="hljs-comment">diff</span><span class="hljs-literal">-</span><span class="hljs-comment">index</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">cached</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">name</span><span class="hljs-literal">-</span><span class="hljs-comment">only</span> <span class="hljs-comment">HEAD`</span>
+<pre><code>files_modified = `git diff-index --cached --name-only HEAD`
 </code></pre><p>Toto jsou však jediné dvě změny, v ostatních ohledech pracuje skript stejně. Je však třeba upozornit, že skript očekává, že lokálně pracujete v roli stejného uživatele jako odesíláte data na vzdálený server. Pokud nejsou uživatelé stejní, budete muset ručně nastavit proměnnou <code>$user</code>.</p>
 <p>Posledním krokem, který budete muset provést, je ověření, že nebudete odesílat reference nesměřující rychle vpřed. Tento krok však už není tak jednoduchý. Chcete-li vyhledat reference nesměřující rychle vpřed, budete muset buď provést přeskládání po revizi, kterou jste již odeslali, nebo se do stejné vzdálené větve pokusit odeslat jinou lokální větev.</p>
 <p>Vzhledem k tomu, že vám server sdělí, že nelze odesílat revize nesměřující rychle vpřed, a zásuvný modul neumožní odeslat revize nesplňující dané požadavky, je vaší poslední možností přeskládat revize, které jste již odeslali.</p>
 <p>Jako příklad uvedeme skript pre-rebase, který bude toto pravidlo kontrolovat. Použije seznam všech revizí, které hodláte přepsat, a ověří, zda neexistují už v některé z vašich vzdálených referencí. Pokud najde revizi, která je dostupná z některé z vašich vzdálených referencí, proces přeskládání přeruší:</p>
-<pre><code><span class="hljs-comment">#!/usr/bin/env ruby</span>
+<pre><code>#!/usr/bin/env ruby
 
-base_branch = ARGV[<span class="hljs-number">0</span>]
-<span class="hljs-keyword">if</span> ARGV[<span class="hljs-number">1</span>]
-  topic_branch = ARGV[<span class="hljs-number">1</span>]
-<span class="hljs-keyword">else</span>
-  topic_branch = <span class="hljs-string">"HEAD"</span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+base_branch = ARGV[0]
+if ARGV[1]
+  topic_branch = ARGV[1]
+else
+  topic_branch = &quot;HEAD&quot;
+end
 
-target_shas = `git rev-list <span class="hljs-comment">#{base_branch}..#{topic_branch}`.split("\n")</span>
-remote_refs = `git branch -r`.<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).map { |r| r.strip }
+target_shas = `git rev-list #{base_branch}..#{topic_branch}`.split(&quot;\n&quot;)
+remote_refs = `git branch -r`.split(&quot;\n&quot;).map { |r| r.strip }
 
-target_shas.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |sha|
-  remote_refs.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |remote_ref|
-    shas_pushed = `git rev-list ^<span class="hljs-comment">#{sha}^@ refs/remotes/#{remote_ref}`</span>
-    <span class="hljs-keyword">if</span> shas_pushed.<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).<span class="hljs-built_in">include</span>?(sha)
-      puts <span class="hljs-string">"[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+target_shas.each do |sha|
+  remote_refs.each do |remote_ref|
+    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
+    if shas_pushed.split(&quot;\n&quot;).include?(sha)
+      puts &quot;[POLICY] Commit #{sha} has already been pushed to #{remote_ref}&quot;
+      exit 1
+    end
+  end
+end
 </code></pre><p>Tento skript používá syntaxi, které jsme se v části Výběr revize v kapitole 6 nevěnovali. Seznam revizí, které už byly odeslány, získáte takto:</p>
-<pre><code>git rev-list ^#{<span class="ruby">sha}</span>^@ refs/remotes/#{<span class="ruby">remote_ref}</span>
+<pre><code>git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 </code></pre><p>Syntaxe <code>SHA^@</code> se vztahuje na všechny rodiče této revize. Vyhledáváte všechny revize, které jsou dostupné z poslední revize na vzdáleném serveru a nejsou dostupné z žádného rodiče jakékoli hodnoty SHA, kterou se pokoušíte odeslat. Tímto způsobem lze označit odeslání „rychle vpřed“.</p>
 <p>Největší nevýhodou tohoto postupu je, že může být velmi pomalý a není vždy nutný. Pokud se nesnažíte vynutit si odeslání parametrem <code>-f</code>, server vás sám upozorní a odesílané revize nepřijme. Skript je však zajímavým cvičením a teoreticky vám může pomoci předejít nutnosti vracet se v historii a přeskládávat revize kvůli opravě chyby.</p>
 
@@ -1124,9 +1127,9 @@ target_shas.<span class="hljs-keyword">each</span> <span class="hljs-built_in">d
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

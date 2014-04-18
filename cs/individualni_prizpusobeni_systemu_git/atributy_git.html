@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.2" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.2" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_918">
+                    <section class="normal" id="section-gitbook_990">
                     
                         <h1 id="atributy-git">Atributy Git</h1>
 <p>Některá z těchto nastavení lze také provést pouze pro určité umístění, a Git je tak aplikuje pouze na jeden podadresář nebo skupinu souborů. Tomuto nastavení konkrétního umístění se říká atributy Git. Nastavují se buď v souboru <code>.gitattributes</code> v jednom z vašich adresářů (většinou kořenový adresář vašeho projektu), nebo v souboru <code>.git/info/attributes</code>, pokud nechcete, aby byl soubor s atributy zapsán spolu s projektem.</p>
@@ -864,113 +867,113 @@
 <h3 id="identifikace-bin-rn-ch-soubor-">Identifikace binárních souborů</h3>
 <p>Některé soubory se tváří jako textové, ale v podstatě je s nimi třeba zacházet jako s binárními daty. Například projekty Xcode v systémech Mac obsahují soubory končící na <code>.pbxproj</code>, což je v podstatě sada dat JSON (datový formát prostého textu javascript) zapsaná na disk nástrojem IDE, který zaznamenává vaše nastavení atd. Ačkoli se technicky jedná o textový soubor, který je celý tvořen znaky ASCII, nechcete s ním nakládat jako s textovým souborem, protože se ve skutečnosti jedná o neohrabanou databázi. Pokud ji dva lidé změní, její obsah nemůžete sloučit a většinou nepochodíte ani s nástroji diff. Soubor je určen ke strojovému zpracování. Z těchto důvodů s ním budete chtít zacházet jako s binárním souborem.</p>
 <p>Chcete-li systému Git zadat, aby nakládal se všemi soubory <code>pbxproj</code> jako s binárními daty, vložte do souboru <code>.gitattributes</code> následující řádek:</p>
-<pre><code><span class="hljs-subst">*</span><span class="hljs-built_in">.</span>pbxproj <span class="hljs-attribute">-crlf</span> <span class="hljs-attribute">-diff</span>
+<pre><code>*.pbxproj -crlf -diff
 </code></pre><p>Až v projektu spustíte příkaz git show nebo git diff, Git se nebude pokoušet konvertovat nebo opravovat chyby CRLF ani vypočítat ani zobrazit rozdíly v tomto souboru pomocí nástroje diff. V systému Git verze 1.6 můžete také použít existující makro s významem <code>-crlf -diff</code>:</p>
-<pre><code>*.pbxproj <span class="hljs-keyword">binary</span>
+<pre><code>*.pbxproj binary
 </code></pre><h3 id="n-stroj-diff-pro-bin-rn-soubory">Nástroj diff pro binární soubory</h3>
 <p>Ve verzi 1.6 systému Git můžete použít funkci atributů Git k efektivnímu zpracování binárních souborů nástrojem diff. Systému Git přitom sdělíte, jak má konvertovat binární data do textového formátu, který lze zpracovávat běžným nástrojem diff.</p>
 <h3 id="soubory-ms-word">Soubory MS Word</h3>
 <p>Protože se jedná o opravdu šikovnou a nepříliš známou funkci, uvedu několik příkladů. Tuto metodu budete využívat především k řešení jednoho z nejpalčivějších problémů, s nímž se lidstvo potýká: verzování dokumentů Word. Je všeobecně známo, že Word je nejpříšejnější editor na světě, přesto ho však – bůhví proč – všichni používají. Chcete-li verzovat dokumenty Word, můžete je uložit do repozitáře Git a všechny hned zapsat do revize. K čemu to však bude? Spustíte-li příkaz <code>git diff</code> normálně, zobrazí se zhruba toto:</p>
 <pre><code>$ git diff
-diff --git a/chapter1<span class="hljs-preprocessor">.doc</span> b/chapter1<span class="hljs-preprocessor">.doc</span>
-index <span class="hljs-number">88839</span>c4.<span class="hljs-number">.4</span>afcb7c <span class="hljs-number">100644</span>
-Binary files a/chapter1<span class="hljs-preprocessor">.doc</span> <span class="hljs-keyword">and</span> b/chapter1<span class="hljs-preprocessor">.doc</span> differ
+diff --git a/chapter1.doc b/chapter1.doc
+index 88839c4..4afcb7c 100644
+Binary files a/chapter1.doc and b/chapter1.doc differ
 </code></pre><p>Srovnávat dvě verze přímo nelze, můžete je tak nanejvýš otevřít a ručně je projít, že? Nezapomínejme však na atributy Git, v této situaci vám odvedou nanahraditelnou službu. Do souboru <code>.gitattributes</code> vložte následující řádek:</p>
-<pre><code><span class="hljs-attribute">*.doc diff</span>=<span class="hljs-string">word</span>
+<pre><code>*.doc diff=word
 </code></pre><p>Systému Git tím sdělíte, že pro všechny soubory, které odpovídají této masce (.doc), by měl být při zobrazení rozdílů použít filter word. Co je to filtr „word“? To budete muset nastavit. V našem případě nastavíme Git tak, aby ke konverzi dokumentů Word do čitelných textových souborů, způsobilých ke zpracování nástrojem diff, používal program <code>strings</code>:</p>
-<pre><code>$ git config diff<span class="hljs-preprocessor">.word</span><span class="hljs-preprocessor">.textconv</span> strings
+<pre><code>$ git config diff.word.textconv strings
 </code></pre><p>Tento příkaz do vašeho <code>.git/config</code> přidá sekci, která vypadá následovně:</p>
-<pre><code>[diff <span class="hljs-string">"word"</span>]
+<pre><code>[diff &quot;word&quot;]
     textconv = strings
 </code></pre><p>Okrajová poznámka: Existují různé druhy <code>.doc</code> souborů. Některé používají kódování UTF-16 nebo jiné kódové stránky a <code>strings</code> v nich nic rozumného nenajde. Záleží na okolnostech.</p>
 <p>Git nyní ví, že až se bude pokoušet vypočítat rozdíl mezi dvěma snímky a jeden ze souborů bude končit na <code>.doc</code>, má tyto soubory spustit přes filtr word, který je definován jako program <code>strings</code>. Než se Git pokusí porovnat soubory Word nástrojem diff, efektivně vytvoří hezké textové verze souborů.</p>
 <p>Uveďme malý příklad. Kapitolu 1 této knihy jsem vložil do systému Git, do jednoho odstavce jsem přidal kousek textu a dokument jsem uložil. Poté jsem spustil příkaz <code>git diff</code>, abych se podíval, co se změnilo:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/chapter1.doc b/chapter1.doc</span>
-index c1c8a0a..b93c9e4 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/chapter1.doc</span>
+diff --git a/chapter1.doc b/chapter1.doc
+index c1c8a0a..b93c9e4 100644
+--- a/chapter1.doc
 +++ b/chapter1.doc
-@@ -<span class="hljs-number">8</span>,<span class="hljs-number">7</span> +<span class="hljs-number">8</span>,<span class="hljs-number">8</span> @@ re going <span class="hljs-keyword">to</span> cover Version Control Systems (VCS) <span class="hljs-keyword">and</span> Git basics
- re going <span class="hljs-keyword">to</span> cover how <span class="hljs-keyword">to</span> <span class="hljs-keyword">get</span> <span class="hljs-keyword">it</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">set</span> <span class="hljs-keyword">it</span> up <span class="hljs-keyword">for</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> <span class="hljs-property">time</span> <span class="hljs-keyword">if</span> you don
- t already have <span class="hljs-keyword">it</span> <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> your system.
- In Chapter Two we will go <span class="hljs-keyword">over</span> basic Git usage - how <span class="hljs-keyword">to</span> use Git <span class="hljs-keyword">for</span> <span class="hljs-keyword">the</span> <span class="hljs-number">80</span>%
--s going <span class="hljs-function_start"><span class="hljs-keyword">on</span></span>, modify stuff <span class="hljs-keyword">and</span> contribute changes. If <span class="hljs-keyword">the</span> book spontaneously
-+s going <span class="hljs-function_start"><span class="hljs-keyword">on</span></span>, modify stuff <span class="hljs-keyword">and</span> contribute changes. If <span class="hljs-keyword">the</span> book spontaneously
-+Let's see <span class="hljs-keyword">if</span> this works.
+@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
+ re going to cover how to get it and set it up for the first time if you don
+ t already have it on your system.
+ In Chapter Two we will go over basic Git usage - how to use Git for the 80%
+-s going on, modify stuff and contribute changes. If the book spontaneously
++s going on, modify stuff and contribute changes. If the book spontaneously
++Let&#39;s see if this works.
 </code></pre><p>Git mi stroze, ale pravdivě sděluje, že jsem přidal řetězec „Let’s see if this works“. Není to sice dokonalé – na konci je přidáno několik náhodných znaků – ale evidentně to funguje. Pokud se vám podaří najít či vytvořit dobře fungující převaděč dokumentů Word na prostý text, bude toto řešení bezpochyby velmi účinné. Program <code>strings</code> je však k dispozici ve většině systémů Mac i Linux, a tak možná nejprve vyzkoušejte tento program s různými binárními formáty.</p>
 <h4 id="opendocument-text-files">OpenDocument Text files</h4>
 <p>Stejný postup, který jsme použili pro soubory MS Word (<code>*.doc</code>), můžeme použít i pro soubory ve formátu OpenDocument Text (<code>*.odt</code>), kter vytváří OpenOffice.org.</p>
 <p>Do souboru <code>.gitattributes</code> přidejte následující řádek:</p>
-<pre><code><span class="hljs-attribute">*.odt diff</span>=<span class="hljs-string">odt</span>
+<pre><code>*.odt diff=odt
 </code></pre><p>A teď v <code>.git/config</code> nastavte diff filtr pro <code>odt</code>:</p>
-<pre><code>[diff <span class="hljs-string">"odt"</span>]
-    binary = <span class="hljs-keyword">true</span>
-    textconv = <span class="hljs-regexp">/usr/local</span><span class="hljs-regexp">/bin/odt</span>-to-txt
+<pre><code>[diff &quot;odt&quot;]
+    binary = true
+    textconv = /usr/local/bin/odt-to-txt
 </code></pre><p>OpenDocument soubory jsou ve skutečnosti zazipované adresáře, které obsahují více souborů (obsah ve formátu XML, styly, obrázky atd.). Potřebujeme napsat skript, který by extrahoval obsah a vrátil jej jako prostý text. Vytvořte soubor <code>/usr/local/bin/odt-to-txt</code> (můžete jej umístit i do jiného adresáře) s následujícím obsahem:</p>
-<pre><code><span class="hljs-comment">#! /usr/bin/env perl</span>
-<span class="hljs-comment"># Simplistic OpenDocument Text (.odt) to plain text converter.</span>
-<span class="hljs-comment"># Author: Philipp Kempgen</span>
+<pre><code>#! /usr/bin/env perl
+# Simplistic OpenDocument Text (.odt) to plain text converter.
+# Author: Philipp Kempgen
 
-<span class="hljs-keyword">if</span> (! <span class="hljs-keyword">defined</span>(<span class="hljs-variable">$ARGV</span>[<span class="hljs-number">0</span>])) {
-    <span class="hljs-keyword">print</span> STDERR <span class="hljs-string">"No filename given!\n"</span>;
-    <span class="hljs-keyword">print</span> STDERR <span class="hljs-string">"Usage: <span class="hljs-variable">$0</span> filename\n"</span>;
-    <span class="hljs-keyword">exit</span> <span class="hljs-number">1</span>;
+if (! defined($ARGV[0])) {
+    print STDERR &quot;No filename given!\n&quot;;
+    print STDERR &quot;Usage: $0 filename\n&quot;;
+    exit 1;
 }
 
-<span class="hljs-keyword">my</span> <span class="hljs-variable">$content</span> = <span class="hljs-string">''</span>;
-<span class="hljs-keyword">open</span> <span class="hljs-keyword">my</span> <span class="hljs-variable">$fh</span>, <span class="hljs-string">'-|'</span>, <span class="hljs-string">'unzip'</span>, <span class="hljs-string">'-qq'</span>, <span class="hljs-string">'-p'</span>, <span class="hljs-variable">$ARGV</span>[<span class="hljs-number">0</span>], <span class="hljs-string">'content.xml'</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span> <span class="hljs-variable">$!</span>;
+my $content = &#39;&#39;;
+open my $fh, &#39;-|&#39;, &#39;unzip&#39;, &#39;-qq&#39;, &#39;-p&#39;, $ARGV[0], &#39;content.xml&#39; or die $!;
 {
-    <span class="hljs-keyword">local</span> <span class="hljs-variable">$/</span> = <span class="hljs-keyword">undef</span>;  <span class="hljs-comment"># slurp mode</span>
-    <span class="hljs-variable">$content</span> = &lt;<span class="hljs-variable">$fh</span>&gt;;
+    local $/ = undef;  # slurp mode
+    $content = &lt;$fh&gt;;
 }
-<span class="hljs-keyword">close</span> <span class="hljs-variable">$fh</span>;
-<span class="hljs-variable">$_</span> = <span class="hljs-variable">$content</span>;
-<span class="hljs-regexp">s/&lt;text:span\b[^&gt;]*&gt;//g</span>;           <span class="hljs-comment"># remove spans</span>
-<span class="hljs-keyword">s</span>/&lt;text:h\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n\n<span class="hljs-variable">**</span><span class="hljs-variable">**</span>*  <span class="hljs-regexp">/g;   # headers
-s/</span>&lt;text:list-item\b[^&gt;]<span class="hljs-variable">*&gt;</span>\<span class="hljs-keyword">s</span><span class="hljs-variable">*&lt;</span>text:p\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n    --  <span class="hljs-regexp">/g;  # list items
-s/</span>&lt;text:list\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n\n/g;       <span class="hljs-comment"># lists</span>
-<span class="hljs-keyword">s</span>/&lt;text:p\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n  /g;          <span class="hljs-comment"># paragraphs</span>
-<span class="hljs-keyword">s</span>/&lt;[^&gt;]+&gt;<span class="hljs-regexp">//g</span>;                      <span class="hljs-comment"># remove all XML tags</span>
-<span class="hljs-keyword">s</span>/\n{<span class="hljs-number">2</span>,}/\n\n/g;                   <span class="hljs-comment"># remove multiple blank lines</span>
-<span class="hljs-keyword">s</span>/\A\n+<span class="hljs-regexp">//</span>;                         <span class="hljs-comment"># remove leading blank lines</span>
-<span class="hljs-keyword">print</span> <span class="hljs-string">"\n"</span>, <span class="hljs-variable">$_</span>, <span class="hljs-string">"\n\n"</span>;
+close $fh;
+$_ = $content;
+s/&lt;text:span\b[^&gt;]*&gt;//g;           # remove spans
+s/&lt;text:h\b[^&gt;]*&gt;/\n\n*****  /g;   # headers
+s/&lt;text:list-item\b[^&gt;]*&gt;\s*&lt;text:p\b[^&gt;]*&gt;/\n    --  /g;  # list items
+s/&lt;text:list\b[^&gt;]*&gt;/\n\n/g;       # lists
+s/&lt;text:p\b[^&gt;]*&gt;/\n  /g;          # paragraphs
+s/&lt;[^&gt;]+&gt;//g;                      # remove all XML tags
+s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+s/\A\n+//;                         # remove leading blank lines
+print &quot;\n&quot;, $_, &quot;\n\n&quot;;
 </code></pre><p>Učiňte jej spustitelným:</p>
-<pre><code>chmod <span class="hljs-subst">+</span>x /usr/<span class="hljs-built_in">local</span>/bin/odt<span class="hljs-attribute">-to</span><span class="hljs-attribute">-txt</span>
+<pre><code>chmod +x /usr/local/bin/odt-to-txt
 </code></pre><p>Teď už bude <code>git diff</code> schopen říci, co se v <code>.odt</code> souborech změnilo.</p>
 <h3 id="soubory-s-obr-zky">Soubory s obrázky</h3>
 <p>Dalším zajímavým problémem, který lze tímto způsobem řešit, je výpočet rozdílů u obrázkových souborů. Jedním způsobem, jak to udělat, je spustit soubory JPEG přes filtr, který extrahuje jejich informace EXIF – metadata, která se zaznamenávají s většinou obrázkových souborů. Pokud stáhnete a nainstalujete program <code>exiftool</code>, můžete ho použít ke konverzi obrázků na text prostřednictvím metadat, a nástroj diff vám tak přinejmenším zobrazí textovou verzi všech provedených změn.</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'*.png diff=exif'</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>git config diff.exif.textconv exiftool
+<pre><code>$ echo &#39;*.png diff=exif&#39; &gt;&gt; .gitattributes
+$ git config diff.exif.textconv exiftool
 </code></pre><p>Pokud nahradíte některý z obrázků ve svém projektu a spustíte příkaz <code>git diff</code>, zobrazí se asi toto:</p>
 <pre><code>diff --git a/image.png b/image.png
 index 88839c4..4afcb7c 100644
-<span class="hljs-header">--- a/image.png</span>
-<span class="hljs-header">+++ b/image.png</span>
-<span class="hljs-chunk">@@ -1,12 +1,12 @@</span>
+--- a/image.png
++++ b/image.png
+@@ -1,12 +1,12 @@
  ExifTool Version Number         : 7.74
-<span class="hljs-deletion">-File Size                       : 70 kB</span>
-<span class="hljs-deletion">-File Modification Date/Time     : 2009:04:17 10:12:35-07:00</span>
-<span class="hljs-addition">+File Size                       : 94 kB</span>
-<span class="hljs-addition">+File Modification Date/Time     : 2009:04:21 07:02:43-07:00</span>
+-File Size                       : 70 kB
+-File Modification Date/Time     : 2009:04:17 10:12:35-07:00
++File Size                       : 94 kB
++File Modification Date/Time     : 2009:04:21 07:02:43-07:00
  File Type                       : PNG
  MIME Type                       : image/png
-<span class="hljs-deletion">-Image Width                     : 1058</span>
-<span class="hljs-deletion">-Image Height                    : 889</span>
-<span class="hljs-addition">+Image Width                     : 1056</span>
-<span class="hljs-addition">+Image Height                    : 827</span>
+-Image Width                     : 1058
+-Image Height                    : 889
++Image Width                     : 1056
++Image Height                    : 827
  Bit Depth                       : 8
  Color Type                      : RGB with Alpha
 </code></pre><p>Jasně vidíte, že se změnila jak velikost souboru, tak rozměry obrázku.</p>
 <h2 id="roz-en-kl-ov-ho-slova">Rozšíření klíčového slova</h2>
 <p>Vývojáři, kteří jsou zvyklí na jiné systémy, mohou požadovat nahrazení klíčového slova pro SVN nebo CVS. Hlavním problémem v systému Git je, že nelze upravit soubor s informacemi o revizi poté, co jste revizi zapsali, protože Git nejprve provede kontrolní součet souboru. Můžete však vložit text do souboru po jeho checkoutu a opět ho odstranit, než bude přidán do revize. Atributy Git nabízejí dvě možnosti, jak to provést.</p>
 <p>První možností je automaticky vložit kontrolní součet SHA-1 blobu do pole <code>$Id$</code> v souboru. Pokud tento atribut nastavíte pro soubor nebo sadu souborů, při příštím checkoutu této větve Git nahradí toto pole kontrolním součtem SHA-1 blobu. Je tedy důležité si uvědomit, že se nejedná o SHA revize, ale SHA samotného blobu:</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'*.txt ident'</span> &gt;&gt; .gitattributes
-$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'$Id$'</span> &gt; test.txt
+<pre><code>$ echo &#39;*.txt ident&#39; &gt;&gt; .gitattributes
+$ echo &#39;$Id$&#39; &gt; test.txt
 </code></pre><p>Při příštím checkoutu tohoto souboru Git vloží SHA blobu:</p>
-<pre><code><span class="hljs-variable">$ </span>rm test.txt
-<span class="hljs-variable">$ </span>git checkout -- test.txt
-<span class="hljs-variable">$ </span>cat test.txt
-<span class="hljs-variable">$Id</span><span class="hljs-symbol">:</span> <span class="hljs-number">42812</span>b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+<pre><code>$ rm test.txt
+$ git checkout -- test.txt
+$ cat test.txt
+$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 </code></pre><p>Tento výsledek má však omezené použití. Pokud nahradíte klíčové slovo v systému CVS nebo Subversion, můžete přidat časový údaj (datestamp) – SHA tu není moc platné, protože je generováno náhodně a nelze podle něj určit, zda je jedna revize starší než jiná.</p>
 <p>Jak zjistíte, můžete pro substituce v souborech určených k zapsání/checkoutu napsat i vlastní filtry. Jedná se o filtry clean a smudge. V souboru <code>.gitattributes</code> můžete určit filtr pro konkrétní umístění a nastavit skripty, jimiž budou zpracovány soubory těsně před jejich zapsáním („clean“ – viz obrázek 7-2) a těsně před checkoutem („smudge“ – viz obrázek 7-3). Tyto filtry lze nastavit k různým šikovným úkonům.</p>
 <p><img src="http://git-scm.com/figures/18333fig0702-tn.png" alt=""></p>
@@ -978,54 +981,54 @@ $ <span class="hljs-built_in">echo</span> <span class="hljs-string">'$Id$'</span
 <p><img src="http://git-scm.com/figures/18333fig0703-tn.png" alt=""></p>
 <p>Obrázek 7-3. Filtr clean spuštěný při přípravě souborů k zapsání – git add</p>
 <p>Původní zpráva k revizi s touto funkcí uvádí jednoduchý příklad, jak můžete před zapsáním prohnat veškeré vaše céčkové zdrojové texty programem <code>indent</code>. Tuto možnost lze aplikovat nastavením atributu <code>filter</code> v souboru <code>.gitattributes</code> tak, aby přefiltroval soubory <code>*.c</code> filtrem pro úpravu odsazování:</p>
-<pre><code><span class="hljs-attribute">*.c     filter</span>=<span class="hljs-string">indent</span>
+<pre><code>*.c     filter=indent
 </code></pre><p>Poté řekněte systému Git, co má filter indent dělat v situacích smudge a clean:</p>
-<pre><code>$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.clean</span> indent
-$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.smudge</span> cat
+<pre><code>$ git config --global filter.indent.clean indent
+$ git config --global filter.indent.smudge cat
 </code></pre><p>Pokud v tomto případě zapíšete soubory odpovídající masce <code>*.c</code>, Git je ještě před zapsáním prožene programem pro úpravu odsazování a poté, před checkoutem zpět na disk, i programem <code>cat</code>. Program <code>cat</code> ve své podstatě nic neudělá: jeho výstupem jsou stejná data, která tvořila vstup. Tato kombinace ještě před zapsáním účinně přefiltruje veškeré zdrojové soubory pro jazyk C přes program <code>indent</code>.</p>
 <p>Další zajímavý příklad se týká rozšíření klíčového slova <code>$Date$</code> ve stylu RCS. Ke správnému postupu budete potřebovat malý skript, který vezme název souboru, zjistí datum poslední revize v tomto projektu a vloží datum do souboru. Tady je malý Ruby skript, který to umí:</p>
-<pre><code><span class="hljs-preprocessor">#! /usr/bin/env ruby</span>
-<span class="hljs-typedef"><span class="hljs-keyword">data</span> = <span class="hljs-type">STDIN</span>.read</span>
-<span class="hljs-title">last_date</span> = `git log <span class="hljs-comment">--pretty=format:"%ad" -1`</span>
-<span class="hljs-title">puts</span> <span class="hljs-typedef"><span class="hljs-keyword">data</span>.gsub<span class="hljs-container">('$<span class="hljs-type">Date</span>$', '$<span class="hljs-type">Date</span>: ' + <span class="hljs-title">last_date</span>.<span class="hljs-title">to_s</span> + '$')</span></span>
+<pre><code>#! /usr/bin/env ruby
+data = STDIN.read
+last_date = `git log --pretty=format:&quot;%ad&quot; -1`
+puts data.gsub(&#39;$Date$&#39;, &#39;$Date: &#39; + last_date.to_s + &#39;$&#39;)
 </code></pre><p>Skript pouze získá datum nejnovější revize z příkazu <code>git log</code> a rozšíří jím řetezce <code>$Date$</code>, které nalezne v standardním vstupu (stdin), a vrátí výsledek – snadno by to mělo jít provést v jakémkoli jazyce, který používáte. Tento soubor můžete pojmenovat <code>expand_date</code> a vložit ho do svého umístění. Nyní budete muset nastavit filtr v systému Git (pojmenujte ho <code>dater</code>) a určit, aby k operaci smudge při checkoutu souborů používal filtr <code>expand_date</code>. Při operaci clean během zapsání pak budete používat výraz Perlu:</p>
-<pre><code><span class="hljs-formula">$ git config filter.dater.smudge expand_date
-$</span> git config filter.dater.clean 'perl -pe "s/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-special">[</span>^<span class="hljs-command">\\</span><span class="hljs-command">\$</span><span class="hljs-special">]</span>*<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/"'
+<pre><code>$ git config filter.dater.smudge expand_date
+$ git config filter.dater.clean &#39;perl -pe &quot;s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/&quot;&#39;
 </code></pre><p>Tento fragment Perl vyjme vše, co najde v řetězci <code>$Date$</code>, čímž se vrátí zpět do stavu, kde jste začali. Nyní, když máte filtr hotový, můžete ho otestovat vytvořením souboru s klíčovým slovem <code>$Date$</code> a nastavením atributu Git pro tento soubor, jímž nový filtr aktivujete:</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'# $Date$'</span> &gt; date_test.txt
-$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'date*.txt filter=dater'</span> &gt;&gt; .gitattributes
+<pre><code>$ echo &#39;# $Date$&#39; &gt; date_test.txt
+$ echo &#39;date*.txt filter=dater&#39; &gt;&gt; .gitattributes
 </code></pre><p>Pokud tyto změny zapíšete a provedete nový checkout souboru, uvidíte, že bylo klíčové slovo správně substituováno:</p>
-<pre><code>$ git <span class="hljs-keyword">add</span> date_test<span class="hljs-preprocessor">.txt</span> <span class="hljs-preprocessor">.gitattributes</span>
-$ git commit -m <span class="hljs-string">"Testing date expansion in Git"</span>
-$ rm date_test<span class="hljs-preprocessor">.txt</span>
-$ git checkout date_test<span class="hljs-preprocessor">.txt</span>
-$ cat date_test<span class="hljs-preprocessor">.txt</span>
-<span class="hljs-preprocessor"># $Date: Tue Apr 21 07:26:52 2009 -0700$</span>
+<pre><code>$ git add date_test.txt .gitattributes
+$ git commit -m &quot;Testing date expansion in Git&quot;
+$ rm date_test.txt
+$ git checkout date_test.txt
+$ cat date_test.txt
+# $Date: Tue Apr 21 07:26:52 2009 -0700$
 </code></pre><p>Zde vidíte, jak může být tato metoda účinná pro uživatelsky nastavené aplikace. Přesto je na místě opatrnost. Soubor <code>.gitattributes</code> je zapisován a předáván spolu s projektem, avšak ovladač (v tomto případě je to <code>dater</code>) nikoli. Soubor tak nebude fungovat všude. Při navrhování těchto filtrů byste tedy měli myslet i na to, aby projekt pracoval správně, i když filtr selže.</p>
 <h2 id="export-repozit-e">Export repozitáře</h2>
 <p>Data atributů Git umožňují rovněž některé zajímavé úkony při exportu archivů z vašeho projektu.</p>
 <h3 id="export-ignore">export-ignore</h3>
 <p>Systému Git můžete zadat, aby při generování archivu neexportoval určité soubory nebo adresáře. Obsahuje-li projekt podadresář nebo soubor, který nechcete zahrnout do souboru archivu, ale který chcete ponechat jako součást projektu, můžete tyto soubory specifikovat atributem <code>export-ignore</code>.</p>
 <p>Řekněme například, že máte v podadresáři <code>test/</code> několik testovacích souborů, které by nemělo smysl zahrnovat do exportu tarballu vašeho projektu. Do souboru s atributy Git můžete přidat následující řádek:</p>
-<pre><code>test/ <span class="hljs-keyword">export</span>-ignore
+<pre><code>test/ export-ignore
 </code></pre><p>Až nyní spustíte příkaz git archive k vytvoření tarballu projektu, nebude tento adresář součástí archivu.</p>
 <h3 id="export-subst">export-subst</h3>
 <p>Další možností pro archivy je jednoduchá substituce klíčového slova. Git umožňuje vložit řetězec <code>$Format:$</code> do libovolného souboru s kterýmkoli ze zkrácených kódů formátování <code>--pretty=format</code>, z nichž jsme několik poznali v kapitole 2. Chcete-li do projektu zahrnout například soubor s názvem <code>LAST_COMMIT</code> a při spuštění příkazu <code>git archive</code> do něj bylo automaticky vloženo datum poslední revize, můžete nastavit tento soubor takto:</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'Last commit date: $Format:%cd$'</span> &gt; <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-variable">$ </span>echo <span class="hljs-string">"LAST_COMMIT export-subst"</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">LAST_COMMIT</span> .gitattributes
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'adding LAST_COMMIT file for archives'</span>
+<pre><code>$ echo &#39;Last commit date: $Format:%cd$&#39; &gt; LAST_COMMIT
+$ echo &quot;LAST_COMMIT export-subst&quot; &gt;&gt; .gitattributes
+$ git add LAST_COMMIT .gitattributes
+$ git commit -am &#39;adding LAST_COMMIT file for archives&#39;
 </code></pre><p>Spustíte-li příkaz <code>git archive</code>, bude po otevření soubor archivu vypadat obsah tohoto souboru takto:</p>
-<pre><code><span class="hljs-variable">$ </span>cat <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-constant">Last</span> commit <span class="hljs-symbol">date:</span> <span class="hljs-variable">$Format</span><span class="hljs-symbol">:Tue</span> <span class="hljs-constant">Apr</span> <span class="hljs-number">21</span> 08<span class="hljs-symbol">:</span><span class="hljs-number">38</span><span class="hljs-symbol">:</span><span class="hljs-number">48</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>$
+<pre><code>$ cat LAST_COMMIT
+Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 </code></pre><h2 id="strategie-slu-ov-n-">Strategie slučování</h2>
 <p>Atributy Git lze použít také k nastavení různých strategií slučování pro různé soubory v projektu. Velmi užitečnou možností je například nastavení, aby se Git nepokoušel sloučit konkrétní soubory, pokud u nich dojde ke konfliktu, a raději použil vaši verzi souboru než jinou.</p>
 <p>Tuto možnost využijete, pokud se rozdělila nebo specializovala některá z větví vašeho projektu, avšak vy z ní budete chtít začlenit změny zpět a ignorovat přitom určité soubory. Řekněme, že máte soubor s nastavením databáze database.xml, který se ve dvou větvích liší, a vy sem chcete začlenit jinou svoji větev, aniž byste tento soubor změnili. V tom případě můžete nastavit tento atribut:</p>
-<pre><code><span class="hljs-attribute">database.xml merge</span>=<span class="hljs-string">ours</span>
+<pre><code>database.xml merge=ours
 </code></pre><p>Pokud začleníte druhou větev, místo řešení konfliktů u souboru database.xml se zobrazí následující:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> topic
-Auto-merging <span class="hljs-keyword">database</span>.xml
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.</span>
+<pre><code>$ git merge topic
+Auto-merging database.xml
+Merge made by recursive.
 </code></pre><p>V tomto případě zůstane soubor database.xml ve své původní podobě.</p>
 
                     
@@ -1045,9 +1048,9 @@ Auto-merging <span class="hljs-keyword">database</span>.xml
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

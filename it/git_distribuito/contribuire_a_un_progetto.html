@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="5.2" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="5.2" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -787,11 +790,11 @@
 <p>Prima di vedere i casi specifici faccio una breve nota riguardo i messaggi delle commit. Avere una linea guida per le commit e aderirvi rende il lavoro con Git e la collaborazione con altri molto più semplice. Il progetto di Git fornisce un documento che da molti suggerimenti circa le commit per da cui creare patch: puoi trovarlo nel codice sorgente di Git nel file <code>Documentation/SubmittingPatches</code>.</p>
 <p>Innanzitutto non è il caso di inviare errori con degli spazi. Git fornisce un modo semplice per verificarli: esegui, prima di un commit, <code>git diff --check</code>, che identifica possibili errori riguardanti gli spazi e li elenca per te. Qui c&#39;è un esempio in cui ho sostituiro il colore rosso del terminale con delle <code>X</code>:</p>
 <pre><code>$ git diff --check
-lib/simplegit<span class="hljs-preprocessor">.rb</span>:<span class="hljs-number">5</span>: trailing whitespace.
-+    @git_dir = File<span class="hljs-preprocessor">.expand</span>_path(git_dir)XX
-lib/simplegit<span class="hljs-preprocessor">.rb</span>:<span class="hljs-number">7</span>: trailing whitespace.
+lib/simplegit.rb:5: trailing whitespace.
++    @git_dir = File.expand_path(git_dir)XX
+lib/simplegit.rb:7: trailing whitespace.
 + XXXXXXXXXXX
-lib/simplegit<span class="hljs-preprocessor">.rb</span>:<span class="hljs-number">26</span>: trailing whitespace.
+lib/simplegit.rb:26: trailing whitespace.
 +    def command(git_cmd)XXXX
 </code></pre><p>Se esegui il commando prima della commit, puoi vedere se stai per committare degli spazi bianchi che potrebbero infastidire altri sviluppatori.</p>
 <p>Cerca quindi di aver per ciascuna commit un insieme logico di modifiche. Se puoi, cerca di rendere i cambiamenti &quot;digeribili&quot;: non lavorare per un intero fine settimana su cinque diversi problemi per fare poi una commit massiva il lunedì. Anche se non fai commit nel weekend, il lunedì usa l&#39;area di staging per suddividere il tuo lavoro in almeno un commit per problema con un messaggio utile per ciascuna. Se modifiche diverse coinvolgono lo stesso file, usa <code>git add --patch</code> per aggiungere parti del file all&#39;area di staging (trattato in dettaglio nel capitolo 6). Il risultato finale sarà lo stesso che tu faccia una o cinque commit quando queste vengano integrate in un punto, per cui cerca di rendere le cose più semplici ai tuoi colleghi sviluppatori quando devono controllare le tue modifiche. Questo approccio inoltre rende più semplice includere o escludere alcuni dei cambiamenti, nel caso ti serva successivamente. Il capitolo 6 descrive una serie di trucchi di Git utili per riscrivere la storia e aggiungere interattivamente file all&#39;area di staging: usa questi strumenti per mantenere la cronologia pulita e comprensibile.</p>
@@ -818,56 +821,56 @@ ma le convenzioni possono essere diverse</p>
 <p>La configurazione più semplice che è più facile che incontrerai è quella del progetto privato con uno o due sviluppatori. Con privato intendo codice a sorgente chiuso: non accessibile al resto del mondo. Tu e gli altri sviluppatori avete accesso in scrittura al repository.</p>
 <p>Con questa configurazione, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion o un altro sistema centralizzato. Hai comunque i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione degli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che, nel momento del commit, l&#39;unione avviene nel tuo repository piuttosto che in quello sul server.
 Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti ed esegue il commit localmente. (In questi esempi sostituirò, per brevità, il messaggio del protocollo con <code>...</code>)</p>
-<pre><code><span class="hljs-comment"># Computer di John</span>
+<pre><code># Computer di John
 $ git clone john@githost:simplegit.git
-Initialized empty Git repository <span class="hljs-keyword">in</span> /home/john/simplegit/.git/
-<span class="hljs-keyword">...</span>
+Initialized empty Git repository in /home/john/simplegit/.git/
+...
 $ cd simplegit/
 $ vim lib/simplegit.rb
-$ git commit -am <span class="hljs-string">'rimosso valore di default non valido'</span>
+$ git commit -am &#39;rimosso valore di default non valido&#39;
 [master 738ee87] rimosso valore di default non valido
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><p>Il secondo sviluppatore, Jessica, fa la stessa cosa - clona il repository e committa le modifiche:</p>
-<pre><code><span class="hljs-comment"># Computer di Jessica</span>
+<pre><code># Computer di Jessica
 $ git clone jessica@githost:simplegit.git
-Initialized empty Git repository <span class="hljs-keyword">in</span> /home/jessica/simplegit/.git/
-<span class="hljs-keyword">...</span>
+Initialized empty Git repository in /home/jessica/simplegit/.git/
+...
 $ cd simplegit/
 $ vim TODO
-$ git commit -am <span class="hljs-string">'aggiunto il processo di reset'</span>
+$ git commit -am &#39;aggiunto il processo di reset&#39;
 [master fbff5bc] aggiunto il processo di reset
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Ora, Jessica invia il suo lavoro al server con una push:</p>
-<pre><code><span class="hljs-comment"># Computer di Jessica</span>
+<pre><code># Computer di Jessica
 $ git push origin master
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
    1edee6b..fbff5bc  master -&gt; master
 </code></pre><p>Anche John cerca di eseguire una push:</p>
-<pre><code><span class="hljs-preprocessor"># Computer di John</span>
+<pre><code># Computer di John
 $ git push origin master
-<span class="hljs-keyword">To</span> john@githost:simplegit.git
+To john@githost:simplegit.git
  ! [rejected]        master -&gt; master (non-fast forward)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'john@githost:simplegit.git'</span>
+error: failed to push some refs to &#39;john@githost:simplegit.git&#39;
 </code></pre><p>A John non è permesso fare un push perché nel frattempo lo ha già fatto Jessica. Questo è particolarmente importante se sei abituato a Subversion, perché vedrai che i due sviluppatori non hanno modificato lo stesso file. Sebbene Subversion unisca automaticamente sul server queste commit se i file modificati sono diversi, in Git sei tu che devi farlo localmente. John deve quindi scaricare le modifiche di Jessica e unirle alle sue prima di poter fare una push:</p>
 <pre><code>$ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From john@githost:simplegit
  + 049d078...fbff5bc master     -&gt; origin/master
 </code></pre><p>A questo punto, il repository locale di John somiglia a quello di figura 5-4.</p>
 <p><img src="http://git-scm.com/figures/18333fig0504-tn.png" alt=""></p>
 <p>Figura 5-4. Il repository iniziale di John.</p>
 <p>John sa quali sono le modifiche di Jessica, ma deve unirle alle sue prima poter fare una push:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> origin/master
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
- TODO |    <span class="hljs-number">1</span> +
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)</span>
+<pre><code>$ git merge origin/master
+Merge made by recursive.
+ TODO |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>L&#39;unione fila liscia e ora la cronologia delle commit di John sarà come quella di Figura 5-5.</p>
 <p><img src="http://git-scm.com/figures/18333fig0505-tn.png" alt=""></p>
 <p>Figura 5-5. Il repository di John dopo aver unito origin/master.</p>
 <p>John ora può testare il suo codice per essere sicuro che continui a funzionare correttamente e può quindi eseguire la push del tutto sul server:</p>
 <pre><code>$ git push origin master
-<span class="hljs-keyword">...</span>
+...
 To john@githost:simplegit.git
    fbff5bc..72bbc59  master -&gt; master
 </code></pre><p>La cronologia dei commit di John somiglierà quindi a quella di figura 5-6.</p>
@@ -877,44 +880,44 @@ To john@githost:simplegit.git
 <p><img src="http://git-scm.com/figures/18333fig0507-tn.png" alt=""></p>
 <p>Figura 5-7. La cronologia iniziale di Jessica.</p>
 <p>Jessica vuole sincronizzarsi con John, quindi esegue:</p>
-<pre><code><span class="hljs-comment"># Computer di Jessica</span>
+<pre><code># Computer di Jessica
 $ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From jessica@githost:simplegit
    fbff5bc..72bbc59  master     -&gt; origin/master
 </code></pre><p>Con cui recupera il lavoro che nel frattempo John ha eseguito. La cronologia di Jessica ora è quella di Figura 5-8.</p>
 <p><img src="http://git-scm.com/figures/18333fig0508-tn.png" alt=""></p>
 <p>Figura 5-8. La cronologia di Jessica dopo aver recuperato i cambiamenti di John.</p>
 <p>Jessica pensa che il suo ramo sia pronto, però vuole sapere con cosa deve unire il suo lavoro prima di eseguire la push. Esegue quindi <code>git log</code> per scoprirlo:</p>
-<pre><code>$ git log <span class="hljs-comment">--no-merges origin/master ^problema54</span>
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">738</span>ee872852dfaa9d6634e0dea7a324040193016
+<pre><code>$ git log --no-merges origin/master ^problema54
+commit 738ee872852dfaa9d6634e0dea7a324040193016
 Author: John Smith &lt;jsmith@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri May <span class="hljs-number">29</span> <span class="hljs-number">16</span>:<span class="hljs-number">01</span>:<span class="hljs-number">27</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Fri May 29 16:01:27 2009 -0700
 
-    rimosso valore di <span class="hljs-keyword">default</span> non valido</span>
+    rimosso valore di default non valido
 </code></pre><p>Ora, Jessica può unire il lavoro del suo branch nel suo master, quindi le modifiche di John (<code>origin/master</code>) nel suo branch <code>master</code>, e ritrasmettere il tutto al server con una push. Per prima cosa torna al suo branch master per integrare il lavoro svolto nell&#39;altro branch:</p>
 <pre><code>$ git checkout master
-Switched <span class="hljs-keyword">to</span> branch <span class="hljs-string">"master"</span>
-Your branch <span class="hljs-keyword">is</span> <span class="hljs-keyword">behind</span> 'origin/master' <span class="hljs-keyword">by</span> <span class="hljs-number">2</span> commits, <span class="hljs-keyword">and</span> can be fast-forwarded.
+Switched to branch &quot;master&quot;
+Your branch is behind &#39;origin/master&#39; by 2 commits, and can be fast-forwarded.
 </code></pre><p>Può decidere di unire prima <code>origin/master</code> o <code>problema54</code>: entrambi sono flussi principali, per cui non conta l&#39;ordine. Il risultato finale sarà lo stesso a prescindere dall&#39;ordine scelto, ma la cronologia sarà leggermente differente. Lei sceglie di fare il merge prima di <code>problema54</code>:</p>
 <pre><code>$ git merge problema54
-Updating fbff5bc..<span class="hljs-number">4</span>af4298
+Updating fbff5bc..4af4298
 Fast forward
- README           <span class="hljs-string">|    1 +</span>
- lib/simplegit.rb <span class="hljs-string">|    6 +++++-</span>
- <span class="hljs-number">2</span> files changed, <span class="hljs-number">6</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ README           |    1 +
+ lib/simplegit.rb |    6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletions(-)
 </code></pre><p>Non ci sono stati problemi: come puoi vedere tutto è stato molto semplice. Quindi Jessica unisce il lavoro di John (<code>origin/master</code>):</p>
 <pre><code>$ git merge origin/master
-<span class="hljs-keyword">Auto</span>-merging <span class="hljs-keyword">lib</span>/simplegit.rb
-Merge made <span class="hljs-keyword">by</span> recursive.
- <span class="hljs-keyword">lib</span>/simplegit.rb |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+Auto-merging lib/simplegit.rb
+Merge made by recursive.
+ lib/simplegit.rb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><p>Tutto viene unito correttamente, e la cronologia di Jessica è come quella di Figura 5-9.</p>
 <p><img src="http://git-scm.com/figures/18333fig0509-tn.png" alt=""></p>
 <p>Figura 5-9. La cronologia di Jessica dopo aver unito i cambiamenti di John.</p>
 <p>Ora <code>origin/master</code> è raggiungibile dal ramo <code>master</code> di Jessica, cosicché lei sia capace di eseguire delle push con successo (supponendo che John non abbia fatto altre push nel frattempo):</p>
 <pre><code>$ git push origin master
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
    72bbc59..8059c15  master -&gt; master
 </code></pre><p>Ogni sviluppatore ha eseguito alcune commit ed unito con successo il proprio lavoro con quello degli altri; vedi Figura 5-10.</p>
@@ -927,80 +930,80 @@ To jessica@githost:simplegit.git
 <p>In questo scenario, scoprirai i ruoli di contributore in un gruppo privato più grande. Imparerai come lavorare in un ambiente dove gruppi piccoli collaborano a delle funzionalità e poi queste contribuzioni sono integrate da un altra persona.</p>
 <p>Supponiamo che John e Jessica stiano lavorando insieme a una funzionalità, mentre Jessica e Josie si stiano concentrando a una seconda. In questo caso l&#39;azienda sta usando un workflow con manager d&#39;integrazione dove il lavoro di ogni gruppo è integrato solo da alcuni ingegneri, ed il branch <code>master</code> del repository principale può essere aggiornato solo da questi. In questo scenario, tutto il lavoro è eseguito sui rami suddivisi per team, e unito successivamente dagli integratori.</p>
 <p>Seguiamo il workflow di Jessica mentre lavora sulle due funzionalità, collaborando parallelamente con due diversi sviluppatori in questo ambiente. Assumendo che lei abbia già clonato il suo repository, decide di lavorare prima alla <code>funzionalitaA</code>. Crea un nuovo branch per la funzionalità e ci lavora.</p>
-<pre><code><span class="hljs-comment"># Computer di Jessica</span>
-<span class="hljs-variable">$ </span>git checkout -b featureA
-<span class="hljs-constant">Switched</span> to a new branch <span class="hljs-string">"funzionalitaA"</span>
-<span class="hljs-variable">$ </span>vim lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'aggiunto il limite alla funzione di log'</span>
-[featureA <span class="hljs-number">3300904</span>] aggiunto il limite alla funzione di log
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code># Computer di Jessica
+$ git checkout -b featureA
+Switched to a new branch &quot;funzionalitaA&quot;
+$ vim lib/simplegit.rb
+$ git commit -am &#39;aggiunto il limite alla funzione di log&#39;
+[featureA 3300904] aggiunto il limite alla funzione di log
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><p>A questo punto lei deve condividere il suo lavoro con John, così fa la push sul server del branch <code>funzionalitaA</code>. Poiché Jessica non ha permessi per fare la push sul ramo <code>master</code> (solo gli integratori ce l&#39;hanno) deve perciò eseguire la push su un altro branch per poter collaborare con John:</p>
 <pre><code>$ git push origin funzionalitaA
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
  * [new branch]      featureA -&gt; featureA
 </code></pre><p>Jessica manda una e-mail a John dicendogli che fatto la push del suo lavoro su un branch chiamato <code>funzioanlitaA</code> chiedendogli se lui può dargli un&#39;occhiata. Mentre aspetta una risposta da John, Jessica decide di iniziare a lavorare su <code>funzionalitaB</code> con Josie. Per iniziare, crea un nuovo branch basandosi sul branch <code>master</code> del server:</p>
 <h1 id="computer-di-jessica">Computer di Jessica</h1>
 <pre><code>$ git fetch origin
 $ git checkout -b featureB origin/master
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"featureB"</span>
+Switched to a new branch &quot;featureB&quot;
 </code></pre><p>Quindi Jessica esegue un paio di commit sul branch <code>funzionalitaB</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>vim lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'resa la funzione ls-tree ricorsiva'</span>
+<pre><code>$ vim lib/simplegit.rb
+$ git commit -am &#39;resa la funzione ls-tree ricorsiva&#39;
 [featureB e5b0fdc] resa la funziona ls-tree ricorsiva
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
-<span class="hljs-variable">$ </span>vim lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'aggiunto ls-files'</span>
-[featureB <span class="hljs-number">8512791</span>] aggiunto ls-files
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">5</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+$ vim lib/simplegit.rb
+$ git commit -am &#39;aggiunto ls-files&#39;
+[featureB 8512791] aggiunto ls-files
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 </code></pre><p>Il repository di Jessica è come quello di Figura 5-12.</p>
 <p><img src="http://git-scm.com/figures/18333fig0512-tn.png" alt=""></p>
 <p>Figura 5.12. La cronologia iniziale delle commit di Jessica</p>
 <p>Quando è pronta a eseguire una push del proprio lavoro riceve una e-mail da Josie che le dice che una parte del lavoro era già stato caricato sul server nel branch chiamato <code>funzionalitaBee</code>. Jessica deve unire prima le modifiche al server alle sue per poter fare la push verso il server. Può recuperare il lavoro di Josie usando <code>git fetch</code>:</p>
 <pre><code>$ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From jessica@githost:simplegit
  * [new branch]      featureBee -&gt; origin/featureBee
 </code></pre><p>Jessica ora può unire il suo lavoro a quello di Josie con <code>git merge</code>:</p>
 <pre><code>$ git merge origin/featureBee
-<span class="hljs-keyword">Auto</span>-merging <span class="hljs-keyword">lib</span>/simplegit.rb
-Merge made <span class="hljs-keyword">by</span> recursive.
- <span class="hljs-keyword">lib</span>/simplegit.rb |    <span class="hljs-number">4</span> ++++
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">4</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+Auto-merging lib/simplegit.rb
+Merge made by recursive.
+ lib/simplegit.rb |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 </code></pre><p>C&#39;è un piccolo problema: deve fare la push del suo branch <code>funzionalitaB</code> sul branch <code>funzionalitaBee</code> del server. Può farlo specificando il branch locale seguito da due punti (:) seguito a sua volta dal nome del branch remoto di destinazione al comando <code>git push</code>:</p>
 <pre><code>$ git push origin funzionalitaB:funzionalitaBee
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
    fba9af8..cd685d1  featureB -&gt; featureBee
 </code></pre><p>Questo è detto <em>refSpec</em>. Vedi il capitolo 9 per una discussione più dettagliata sui refspec di Git e cosa ci puoi fare.</p>
 <p>John manda una mail a Jessica dicendole che ha fatto la push di alcune modifiche sul branch <code>funzionalitaA</code> e le chiede di controllarle. Lei esegue <code>git fetch</code> per scaricarle:</p>
 <pre><code>$ git fetch origin
-<span class="hljs-keyword">...</span>
+...
 From jessica@githost:simplegit
-   <span class="hljs-number">3300904.</span>.aad881d  featureA   -&gt; origin/featureA
+   3300904..aad881d  featureA   -&gt; origin/featureA
 </code></pre><p>E può vederle con <code>git log</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/funzionalitaA ^funzionalitaA
+<pre><code>$ git log origin/funzionalitaA ^funzionalitaA
 commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
-<span class="hljs-constant">Author</span><span class="hljs-symbol">:</span> <span class="hljs-constant">John</span> <span class="hljs-constant">Smith</span> &lt;jsmith<span class="hljs-variable">@example</span>.com&gt;
-<span class="hljs-constant">Date</span><span class="hljs-symbol">:</span>   <span class="hljs-constant">Fri</span> <span class="hljs-constant">May</span> <span class="hljs-number">29</span> <span class="hljs-number">19</span><span class="hljs-symbol">:</span><span class="hljs-number">57</span><span class="hljs-symbol">:</span><span class="hljs-number">33</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Author: John Smith &lt;jsmith@example.com&gt;
+Date:   Fri May 29 19:57:33 2009 -0700
 
-    cambiato l<span class="hljs-string">'output del log da 25 a 30</span>
+    cambiato l&#39;output del log da 25 a 30
 </code></pre><p>Infine unisce il lavoro di John al suo nel branch <code>funzionalitaA</code>:</p>
 <pre><code>$ git checkout funzionalitaA
-Switched <span class="hljs-built_in">to</span> branch <span class="hljs-string">"funzionalitaA"</span>
-$ git <span class="hljs-built_in">merge</span> origin/funzionalitaA
-Updating <span class="hljs-number">3300904.</span>.aad881d
+Switched to branch &quot;funzionalitaA&quot;
+$ git merge origin/funzionalitaA
+Updating 3300904..aad881d
 Fast forward
- lib/simplegit.rb |   <span class="hljs-number">10</span> +++++++++-
-<span class="hljs-number">1</span> <span class="hljs-built_in">files</span> changed, <span class="hljs-number">9</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ lib/simplegit.rb |   10 +++++++++-
+1 files changed, 9 insertions(+), 1 deletions(-)
 </code></pre><p>Jessica vuole aggiustare qualcosa e fa un&#39;altro commit ed una push verso il server:</p>
-<pre><code>$ git commit -am <span class="hljs-string">'leggero aggiustamento'</span>
+<pre><code>$ git commit -am &#39;leggero aggiustamento&#39;
 [featureA ed774b3] leggero aggiustamento
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 $ git push origin featureA
-<span class="hljs-keyword">...</span>
+...
 To jessica@githost:simplegit.git
-   <span class="hljs-number">3300904.</span>.ed774b3  featureA -&gt; featureA
+   3300904..ed774b3  featureA -&gt; featureA
 </code></pre><p>La cronologia delle commit di Jessica ora sarà come quella della Figura 5-13.</p>
 <p><img src="http://git-scm.com/figures/18333fig0513-tn.png" alt=""></p>
 <p>Figura 5-13. La cronologia di Jessica dopo aver eseguito la commit sul branch.</p>
@@ -1013,60 +1016,60 @@ To jessica@githost:simplegit.git
 <h2 id="piccolo-progetto-pubblico">Piccolo progetto pubblico</h2>
 <p>Contribuire ad un progetto pubblico è leggermente differente. Poiché non hai il permesso di aggiornare direttamente i rami del progetto, devi far avere il tuo lavoro ai mantenitori in qualche altro modo. Questo primo esempio descrive come contribuire con i fork su host Git che lo supportano in maniera semplice. I siti di repo.or.cz e GitHub lo supportano, e molti mantenitori di progetti si aspettano questo tipo di contribuzione. La sezione successiva tratta i progetti che preferiscono ricevere le patch per e-mail</p>
 <p>Per iniziare probabilemnte dovrai clonare il repository principale, creare un branch per le modifiche che programmi di fare, quindi lavorarci. La sequenza è grosso modo questa:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone (url)
-<span class="hljs-variable">$ </span>cd project
-<span class="hljs-variable">$ </span>git checkout -b funzionalitaA
-<span class="hljs-variable">$ </span>(lavoro)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>(lavoro)
-<span class="hljs-variable">$ </span>git commit
+<pre><code>$ git clone (url)
+$ cd project
+$ git checkout -b funzionalitaA
+$ (lavoro)
+$ git commit
+$ (lavoro)
+$ git commit
 </code></pre><p>Potresti voler usare <code>rebase -i</code> per ridurre il tuo lavoro a una singola commit, o riorganizzare il lavoro delle commit per facilitare il lavoro di revisione dei mantenitori - vedi il Capitolo 6 per altre informazioni sul rebase interattivo.</p>
 <p>Quando il lavoro sul tuo branch è completato e sei pronto per condividerlo con i mantenitori, vai alla pagina principale del progetto e clicca sul pulsante &quot;Fork&quot;, creando la tua copia modificabile del progetto. Dovrai quindi aggiungere l&#39;URL di questo nuovo repository come un secondo remoto, chiamato in questo caso <code>miofork</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote add miofork (url)
+<pre><code>$ git remote add miofork (url)
 </code></pre><p>E dovrai eseguire una push del tuo lavoro verso il nuovo repository. È più semplice fare la push del branch a cui stai lavorando piuttosto che unirlo al tuo master e fare la push di quest&#39;ultimo. La ragione è che se il tuo lavoro non verrà accettato, oppure lo sarà solo in parte, non dovrai ripristinare il tuo master. Se i mantenitori uniscono, fanno un rebase, o prendono pezzi dal tuo lavoro col cherry-pick, otterrai il nuovo master alla prossima pull dal loro repository:</p>
-<pre><code><span class="hljs-variable">$ </span>git push myfork funzionalitaA
+<pre><code>$ git push myfork funzionalitaA
 </code></pre><p>Quando avrai eseguito la push del tuo lavoro sul tuo fork, devi avvisare i mantenitori. Questo passaggio viene spesso definito &quot;richiesta di pull&quot; (pull request), e puoi farlo tramite lo stesso sito - GitHub ha un pulsante &quot;pull request&quot; che automaticamente notifica i mantenitori - o eseguire il comando <code>git request-pull</code> e inviare manualmente via email l&#39;output ai mantenitori.</p>
 <p>Il comando <code>request-pull</code> riceve come parametri il branch di base sul quale vuoi far applicare le modifiche e l&#39;URL del repository Git da cui vuoi che le prendano, e produce il sommario di tutte queste modifiche in output. Se, per esempio, Jessica volesse inviare a John una richiesta di pull, e avesse eseguito due commit sul branch di cui ha appena effettuato il push, può eseguire questo:</p>
 <pre><code>$ git request-pull origin/master miofork
-The following changes since commit <span class="hljs-number">1</span>edee6b1d61823a2de3b09c160d7080b8d1b3a40:
-  John Smith (<span class="hljs-number">1</span>):
+The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
+  John Smith (1):
         aggiunta una nuova funzione
 
-are available <span class="hljs-keyword">in</span> the git repository at:
+are available in the git repository at:
 
-  git:<span class="hljs-comment">//githost/simplegit.git funzionalitaA</span>
+  git://githost/simplegit.git funzionalitaA
 
-Jessica Smith (<span class="hljs-number">2</span>):
-      aggiunto limite alla funzione di <span class="hljs-built_in">log</span>
-      cambiato l'output del <span class="hljs-built_in">log</span> da <span class="hljs-number">30</span> a <span class="hljs-number">25</span>
+Jessica Smith (2):
+      aggiunto limite alla funzione di log
+      cambiato l&#39;output del log da 30 a 25
 
- lib/simplegit.rb |   <span class="hljs-number">10</span> +++++++++-
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">9</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ lib/simplegit.rb |   10 +++++++++-
+ 1 files changed, 9 insertions(+), 1 deletions(-)
 </code></pre><p>L&#39;output può essere inviato ai mantenitori: riporta da dove è stato creato il nuovo branch, un riassunto delle commit e da dove si possono scaricare.</p>
 <p>In un progetto dove non sei il mantenitore normalmente è comodo avere un branch come <code>master</code> sempre collegato a <code>origin/master</code> e lavorare su altri branch che puoi eliminare nel caso non venissero accettati. Suddividere il lavoro in branch per argomento ti rende più semplice ribasare il tuo lavoro se il repository principale è stato modificato e le tue commit non possono venire applicate in maniera pulita. Se per esempio vuoi aggiungere un&#39;altra caratteristica al progetto, invece di continuare a lavorare sul branch di cui hai appena fatto la push, creane un altro partendo dal <code>master</code> del repository:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b funzionalitaB origin/master
-<span class="hljs-variable">$ </span>(lavoro)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>git push miofork funzionalitaB
-<span class="hljs-variable">$ </span>(email al mantenitore)
-<span class="hljs-variable">$ </span>git fetch origin
+<pre><code>$ git checkout -b funzionalitaB origin/master
+$ (lavoro)
+$ git commit
+$ git push miofork funzionalitaB
+$ (email al mantenitore)
+$ git fetch origin
 </code></pre><p>Ora ognuno dei tuoi lavori è separato come in una coda di modifiche che puoi riscrivere, ribasare e modificare senza che gli argomenti interferiscano o dipendano dagli altri, come in Figura 5-16.</p>
 <p><img src="http://git-scm.com/figures/18333fig0516-tn.png" alt=""></p>
 <p>Figura 5-16. Conologia iniziale col lavoro su funzionalitaB.</p>
 <p>Supponiamo che il mantenitore del progetto ha inserito una manciata di altre modifiche e provato il tuo primo branch ma non riesce più ad applicare tali modifiche in maniera pulita. In questo caso puoi provare a ribasare il nuovo <code>origin/master</code> su quel branch, risolvere i conflitti per poi inviare di nuovo le tue modifiche:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout funzionalitaA
-<span class="hljs-variable">$ </span>git rebase origin/master
-<span class="hljs-variable">$ </span>git push –f miofork featureA
+<pre><code>$ git checkout funzionalitaA
+$ git rebase origin/master
+$ git push –f miofork featureA
 </code></pre><p>Questo riscrive la tua cronologia per essere come quella di Figura 5-17.</p>
 <p><img src="http://git-scm.com/figures/18333fig0517-tn.png" alt=""></p>
 <p>Fgiura 5-17. La cronologia ddopo il lavoro su funzionalitaA.</p>
 <p>Poiché hai eseguito un rebase del branch, per poter sostituire il branch <code>funzionalitaA</code> sul server con una commit che non discenda dallo stesso, devi usare l&#39;opzione <code>-f</code> perché la push funzioni. Un&#39;alternativa sarebbe fare una push di questo nuovo lavoro su un branch diverso (chiamato per esempio <code>funzionalitaAv2</code>).</p>
 <p>Diamo un&#39;occhiata a un altro scenario possibile: il mantenitore ha visto tuo lavoro nel secondo branch e gli piace il concetto ma vorrebbe che tu cambiassi un dettaglio dell&#39;implementazione. Potresti cogliere l&#39;occasione per ribasarti sul <code>master</code> corrente. Crea un nuovo branch basato sull&#39;<code>origin/master</code> attuale, sposta lì le modifiche di <code>funzionalitaB</code>, risolvi gli eventuali conflitti, fai la modifica all&#39;implementazione ed esegui la push del tutto su un nuovo branch:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b funzionalitaBv2 origin/master
-<span class="hljs-variable">$ </span>git merge --no-commit --squash funzionalitaB
-<span class="hljs-variable">$ </span>(cambia implementazione)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>git push miofork funzionalitaBv2
+<pre><code>$ git checkout -b funzionalitaBv2 origin/master
+$ git merge --no-commit --squash funzionalitaB
+$ (cambia implementazione)
+$ git commit
+$ git push miofork funzionalitaBv2
 </code></pre><p>L&#39;opzione <code>--squash</code> prende tutto il lavoro dal branch da unire e lo aggiunge come una singola commit nel branch dove sei. L&#39;opzione <code>--no-commit</code> dice a Git di non fare la commit automaticamente. Questo ti permette di aggiungere le modifiche di un altro branch e fare ulteriori modifiche prima di effettuare la nuovo commit.</p>
 <p>Ora puoi avvisare i mantenitori che hai effettuato le modifiche richieste e che possono trovarle nel branch <code>funzionalitaBv2</code> (vedi Figura 5-18).</p>
 <p><img src="http://git-scm.com/figures/18333fig0518-tn.png" alt=""></p>
@@ -1074,74 +1077,74 @@ Jessica Smith (<span class="hljs-number">2</span>):
 <h2 id="grande-progetto-pubblico">Grande Progetto Pubblico</h2>
 <p>Molti grandi progetti hanno definito delle procedure per l&#39;invio delle patch: dovrai leggere le specifiche di ciascun progetto, perchè saranno diverse. Tuttavia molti grandi progetti pubblici accettano patch tramite la mailing list degli sviluppatori, quindi tratterò ora questo caso.</p>
 <p>Il flusso di lavoro è simile al caso precedente: crei un branch per ognuna delle modifiche sulle quali intendi lavorare. La differenza sta nel modo in cui invii tali modifiche al progetto. Invece di fare un tuo fork del progetto e di inviare le tue modifiche con una push, crei una versione e-mail di ogni commit e invii il tutto per email alla mailing list degli sviluppatori:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b topicA
-<span class="hljs-variable">$ </span>(work)
-<span class="hljs-variable">$ </span>git commit
-<span class="hljs-variable">$ </span>(work)
-<span class="hljs-variable">$ </span>git commit
+<pre><code>$ git checkout -b topicA
+$ (work)
+$ git commit
+$ (work)
+$ git commit
 </code></pre><p>Ora hai due commit che vuoi inviare alla mailing list. Usi <code>git format-patch</code> per generare un file formato mbox che possa inviare via e-mail alla lista: questo trasforma ogni commit in un messaggio email il cui oggetto è la prima linea del messaggio della commit e il contenuto è dato dal resto del messaggio della commit più la patch delle modifiche. La cosa bella di tutto ciò è che, applicando le commit da un&#39;email, vengono mantenute le informazioni delle commit, come vedrai meglio nella prossima sezione:</p>
-<pre><code>$ git format<span class="hljs-attribute">-patch</span> <span class="hljs-attribute">-M</span> origin/master
-<span class="hljs-number">0001</span><span class="hljs-attribute">-add</span><span class="hljs-attribute">-limit</span><span class="hljs-attribute">-to</span><span class="hljs-attribute">-log</span><span class="hljs-attribute">-function</span><span class="hljs-built_in">.</span>patch
-<span class="hljs-number">0002</span><span class="hljs-attribute">-changed</span><span class="hljs-attribute">-log</span><span class="hljs-attribute">-output</span><span class="hljs-attribute">-to</span><span class="hljs-subst">-</span><span class="hljs-number">30</span><span class="hljs-attribute">-from</span><span class="hljs-subst">-</span><span class="hljs-number">25.</span>patch
+<pre><code>$ git format-patch -M origin/master
+0001-add-limit-to-log-function.patch
+0002-changed-log-output-to-30-from-25.patch
 </code></pre><p>Il comando <code>format-patch</code> visualizza i nomi dei file delle patch che crea. Il parametro <code>-M</code> indica a Git di tener traccia dei file rinominati. I file alla fine avranno questo aspetto:</p>
-<pre><code>$ cat <span class="hljs-number">0001</span>-<span class="hljs-built_in">add</span>-limit-<span class="hljs-built_in">to</span>-<span class="hljs-built_in">log</span>-<span class="hljs-function"><span class="hljs-keyword">function</span>.<span class="hljs-title">patch</span></span>
-From <span class="hljs-number">330090432754092</span>d704da8e76ca5c05c198e71a8 Mon Sep <span class="hljs-number">17</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2001</span>
+<pre><code>$ cat 0001-add-limit-to-log-function.patch
+From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 From: Jessica Smith &lt;jessica@example.com&gt;
-Date: Sun, <span class="hljs-number">6</span> Apr <span class="hljs-number">2008</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> -<span class="hljs-number">0700</span>
-Subject: [PATCH <span class="hljs-number">1</span>/<span class="hljs-number">2</span>] <span class="hljs-built_in">add</span> limit <span class="hljs-built_in">to</span> <span class="hljs-built_in">log</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
+Date: Sun, 6 Apr 2008 10:17:23 -0700
+Subject: [PATCH 1/2] add limit to log function
 
-Limit <span class="hljs-built_in">log</span> functionality <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> <span class="hljs-number">20</span>
+Limit log functionality to the first 20
 
-<span class="hljs-comment">---</span>
- lib/simplegit.rb |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> <span class="hljs-built_in">files</span> changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+---
+ lib/simplegit.rb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff <span class="hljs-comment">--git a/lib/simplegit.rb b/lib/simplegit.rb</span>
-index <span class="hljs-number">76</span>f47bc..f9815f1 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/lib/simplegit.rb</span>
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index 76f47bc..f9815f1 100644
+--- a/lib/simplegit.rb
 +++ b/lib/simplegit.rb
-@@ -<span class="hljs-number">14</span>,<span class="hljs-number">7</span> +<span class="hljs-number">14</span>,<span class="hljs-number">7</span> @@ class SimpleGit
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -14,7 +14,7 @@ class SimpleGit
+   end
 
-   def <span class="hljs-built_in">log</span>(treeish = <span class="hljs-string">'master'</span>)
--    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log #{treeish}"</span>)</span>
-+    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log -n 20 #{treeish}"</span>)</span>
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+   def log(treeish = &#39;master&#39;)
+-    command(&quot;git log #{treeish}&quot;)
++    command(&quot;git log -n 20 #{treeish}&quot;)
+   end
 
-   def ls_tree(treeish = <span class="hljs-string">'master'</span>)
-<span class="hljs-comment">--</span>
-<span class="hljs-number">1.6</span><span class="hljs-number">.2</span>.rc1<span class="hljs-number">.20</span>.g8c5b.dirty
+   def ls_tree(treeish = &#39;master&#39;)
+--
+1.6.2.rc1.20.g8c5b.dirty
 </code></pre><p>Puoi anche modificare questi file per aggiungere maggiori informazioni per la mailing list che però non vuoi che vengano visualizzate all&#39;interno del messaggio della commit. Se aggiungi del testo tra la riga con <code>---</code> e l&#39;inizio della patch (ad esempio la riga <code>lib/simplegit.rb</code>), gli sviluppatori potranno leggerlo ma verrà escluso dal messaggio della commit una volta che la patch sarà applicata.</p>
 <p>Per inviare le patch alla mailing list, puoi copiare ed incollare il file nel tuo programma di posta o inviare il tutto dalla riga di comando. Incollare il testo è spesso causa di problemi di formattazione, sopratutto con i client di posta &quot;intelligenti&quot; che non mantengono correttamente i caratteri di a-capo e altri caratteri di spaziatura. Fortunatamente Git fornisce uno strumento che ti aiuta a inviare correttamente le patch tramite IMAP, che potrebbe facilitarti il compito. Ti mostrerò come mandare una patch con Gmail perché è il client di posta che utilizzo, ma troverai istruzioni dettagliate per molti client di posta alla fine del documento <code>Documention/SubmittingPatches</code>, che trovi nel codice sorgente di Git.</p>
 <p>Prima di tutto devi configurare la sezione imap nel tuo file <code>~/.gitconfig</code>. Puoi configurare ogni parametro separatamente con una serie di comandi <code>git config</code> o scriverli direttamente con un editor di testo. Alla fine il tuo file di configurazione dovrebbe comunque essere più o meno così:</p>
 <pre><code>[imap]
-  folder = <span class="hljs-string">"[Gmail]/Drafts"</span>
-  host = imaps:<span class="hljs-comment">//imap.gmail.com</span>
-  user = user<span class="hljs-annotation">@gmail</span>.com
+  folder = &quot;[Gmail]/Drafts&quot;
+  host = imaps://imap.gmail.com
+  user = user@gmail.com
   pass = p4ssw0rd
-  port = <span class="hljs-number">993</span>
-  sslverify = <span class="hljs-keyword">false</span>
+  port = 993
+  sslverify = false
 </code></pre><p>Se il tuo server IMAP non usa SSL, probabilmente le ultime due righe non ti saranno necessarie e il valore del campo host sarà <code>imap://</code> invece di <code>imaps://</code>.
 Quando avrai configurato tutto, potrai usare <code>git send-email</code> per inviare la serie di patch alla cartella &quot;Bozze&quot; del tuo server IMAP:</p>
-<pre><code>$ git <span class="hljs-built_in">send</span>-email *.patch
-<span class="hljs-number">0001</span>-added-limit-<span class="hljs-built_in">to</span>-<span class="hljs-built_in">log</span>-<span class="hljs-function"><span class="hljs-keyword">function</span>.<span class="hljs-title">patch</span></span>
-<span class="hljs-number">0002</span>-changed-<span class="hljs-built_in">log</span>-output-<span class="hljs-built_in">to</span>-<span class="hljs-number">30</span>-<span class="hljs-built_in">from</span>-<span class="hljs-number">25.</span>patch
-Who should <span class="hljs-operator">the</span> emails appear <span class="hljs-built_in">to</span> be <span class="hljs-built_in">from</span>? [Jessica Smith &lt;jessica@example.com&gt;]
-Emails will be sent <span class="hljs-built_in">from</span>: Jessica Smith &lt;jessica@example.com&gt;
-Who should <span class="hljs-operator">the</span> emails be sent <span class="hljs-built_in">to</span>? jessica@example.com
-Message-ID <span class="hljs-built_in">to</span> be used <span class="hljs-keyword">as</span> In-Reply-To <span class="hljs-keyword">for</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> email? y
+<pre><code>$ git send-email *.patch
+0001-added-limit-to-log-function.patch
+0002-changed-log-output-to-30-from-25.patch
+Who should the emails appear to be from? [Jessica Smith &lt;jessica@example.com&gt;]
+Emails will be sent from: Jessica Smith &lt;jessica@example.com&gt;
+Who should the emails be sent to? jessica@example.com
+Message-ID to be used as In-Reply-To for the first email? y
 </code></pre><p>Per ciascuna patch che stai per inviare, Git produce alcune informazioni di log che appariranno più o meno così:</p>
-<pre><code>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; <span class="hljs-keyword">from</span>
-  \line <span class="hljs-comment">'From: Jessica Smith <span class="hljs-xmlDocTag">&lt;jessica@example.com&gt;</span>'</span>
+<pre><code>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from
+  \line &#39;From: Jessica Smith &lt;jessica@example.com&gt;&#39;
 OK. Log says:
 Sendmail: /usr/sbin/sendmail -i jessica@example.com
-<span class="hljs-keyword">From</span>: Jessica Smith &lt;jessica@example.com&gt;
-<span class="hljs-keyword">To</span>: jessica@example.com
-Subject: [PATCH <span class="hljs-number">1</span>/<span class="hljs-number">2</span>] added limit <span class="hljs-keyword">to</span> log <span class="hljs-keyword">function</span>
-<span class="hljs-built_in">Date</span>: Sat, <span class="hljs-number">30</span> May <span class="hljs-number">2009</span> <span class="hljs-number">13</span>:<span class="hljs-number">29</span>:<span class="hljs-number">15</span> -<span class="hljs-number">0700</span>
-Message-Id: &lt;<span class="hljs-number">1243715356</span>-<span class="hljs-number">61726</span>-<span class="hljs-number">1</span>-git-send-email-jessica@example.com&gt;
-X-Mailer: git-send-email <span class="hljs-number">1.6</span><span class="hljs-number">.2</span>.rc1<span class="hljs-number">.20</span>.g8c5b.dirty
-<span class="hljs-keyword">In</span>-Reply-<span class="hljs-keyword">To</span>: &lt;y&gt;
+From: Jessica Smith &lt;jessica@example.com&gt;
+To: jessica@example.com
+Subject: [PATCH 1/2] added limit to log function
+Date: Sat, 30 May 2009 13:29:15 -0700
+Message-Id: &lt;1243715356-61726-1-git-send-email-jessica@example.com&gt;
+X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
+In-Reply-To: &lt;y&gt;
 References: &lt;y&gt;
 
 Result: OK
@@ -1166,9 +1169,9 @@ Result: OK
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

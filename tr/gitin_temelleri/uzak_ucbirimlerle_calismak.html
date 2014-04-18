@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397503670764">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,69 +367,69 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_228">
+                    <section class="normal" id="section-gitbook_254">
                     
                         <h1 id="uzak-u-birimlerle-al-mak">Uzak Uçbirimlerle Çalışmak</h1>
 <p>Bir Git projesine katkıda bulunabilmek için uzaktaki yazılım havuzlarını nasıl düzenleyeceğinizi bilmeniz gerekir. Uzaktaki yazılım havuzları, projenizin İnternet&#39;te ya da başka bir ağda barındırılan sürümleridir. Birden fazla uzak yazılım havuzunuz olabilir, bunlardan her biri sizin için ya salt okunur ya da okunur/yazılır durumdadır. Başkalarıyla ortak çalışmak, bu yazılım havuzlarını düzenlemeyi, onlardan veri çekip (<em>pull</em>) onlara veri iterek (<em>push</em>) çalışmalarınızı paylaşmayı gerektirir.</p>
 <p>Uzaktaki yazılım havuzlarınızı düzenleyebilmek için, projenize uzak yazılım havuzlarının nasıl ekleneceğini, kullanılmayan havuzların nasıl çıkarılacağını, çeşitli uzak dalları düzenlemeyi ve onların izlenen dallar olarak belirleyip belirlememeyi ve daha başka şeyleri gerektirir. Bu alt bölümde bu uzağı yönetme yeteneklerini inceleyeceğiz.</p>
 <h2 id="uzak-u-birimleri-g-r-nt-leme">Uzak Uçbirimleri Görüntüleme</h2>
 <p>Projenizde hangi uzak sunucuları ayarladığınızı görme için <code>git remote</code> komutunu kullanabilirsiniz. Bu komut, her bir uzak uçbirimin belirlenmiş kısa adını görüntüler. Eğer yazılım havuzunuzu bir yerden klonlamışsanız, en azından <em>origin</em> uzak uçbirimini görmelisiniz —bu Git&#39;in klonlamanın yapıldığı sunucuya verdiği öntanımlı addır.</p>
-<pre><code>$ git clone git:<span class="hljs-comment">//github.com/schacon/ticgit.git</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /<span class="hljs-keyword">private</span>/tmp/ticgit/.git/
-remote: Counting objects: <span class="hljs-number">595</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">269</span>/<span class="hljs-number">269</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">595</span> (delta <span class="hljs-number">255</span>), reused <span class="hljs-number">589</span> (delta <span class="hljs-number">253</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">595</span>/<span class="hljs-number">595</span>), <span class="hljs-number">73.31</span> KiB | <span class="hljs-number">1</span> KiB/s, <span class="hljs-keyword">done</span>.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">255</span>/<span class="hljs-number">255</span>), <span class="hljs-keyword">done</span>.
+<pre><code>$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
 $ cd ticgit
 $ git remote
 origin
 </code></pre><p><code>-v</code> seçeneğini kullanarak Git&#39;in bu kısa ad için depoladığı URL&#39;yi de görebilirsiniz:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote -v
-origin    <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/ticgit.git</span>
+<pre><code>$ git remote -v
+origin    git://github.com/schacon/ticgit.git
 </code></pre><p>Projenizde birden çok uzak uçbirim varsa, bu komut hepsini listeleyecektir. Örneğin, benim Git yazılım havuzum şöyle görünüyor:</p>
 <pre><code>$ cd grit
 $ git remote -v
-bakkdoor  git://github<span class="hljs-preprocessor">.com</span>/bakkdoor/grit<span class="hljs-preprocessor">.git</span>
-cho45     git://github<span class="hljs-preprocessor">.com</span>/cho45/grit<span class="hljs-preprocessor">.git</span>
-defunkt   git://github<span class="hljs-preprocessor">.com</span>/defunkt/grit<span class="hljs-preprocessor">.git</span>
-koke      git://github<span class="hljs-preprocessor">.com</span>/koke/grit<span class="hljs-preprocessor">.git</span>
-origin    git@github<span class="hljs-preprocessor">.com</span>:mojombo/grit<span class="hljs-preprocessor">.git</span>
+bakkdoor  git://github.com/bakkdoor/grit.git
+cho45     git://github.com/cho45/grit.git
+defunkt   git://github.com/defunkt/grit.git
+koke      git://github.com/koke/grit.git
+origin    git@github.com:mojombo/grit.git
 </code></pre><p>Bu demek oluyor ki bu kullanıcıların herhangi birinden kolaylıkla çekme işlemi (<em>pull</em>) yapabiliriz. Fakat dikkat ederseniz, yalnızca <em>origin</em> uçbiriminin SSH URL&#39;si var, yani yalnızca o havuza kod itebiliriz (<em>push</em>) (niye böyle olduğunu <em>4. Bölüm</em>&#39;de inceleyeceğiz)</p>
 <h2 id="uzak-u-birimler-eklemek">Uzak Uçbirimler Eklemek</h2>
 <p>Önceki alt bölümlerde uzak uçbirim eklemekten söz ettim ve bazı örnekler verdim, ama bir kez daha konuyu açıkça incelemekte yarar var. Uzaktaki bir yazılım havuzunu kısa bir ad vererek eklemek için <code>git remote add [kisa_ad] [url]</code> komutunu çalıştırın:</p>
 <pre><code>$ git remote
 origin
-$ git remote <span class="hljs-keyword">add</span> pb git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+$ git remote add pb git://github.com/paulboone/ticgit.git
 $ git remote -v
-origin    git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span>
-pb    git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+origin    git://github.com/schacon/ticgit.git
+pb    git://github.com/paulboone/ticgit.git
 </code></pre><p>Artık bütün bir URL yerine <code>pb</code>&#39;yi kullanabilirsiniz. Örneğin, Paul&#39;ün yazılım havuzunda bulunan ama sizde bulunmayan bütün bilgileri getirmek için <code>git fetch pb</code> komutunu kullanabilirsiniz:</p>
 <pre><code>$ git fetch pb
-remote: Counting objects: <span class="hljs-number">58</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">41</span>/<span class="hljs-number">41</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">44</span> (delta <span class="hljs-number">24</span>), reused <span class="hljs-number">1</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-keyword">done</span>.
-From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
- * [<span class="hljs-keyword">new</span> branch]      master     -&gt; pb/master
- * [<span class="hljs-keyword">new</span> branch]      ticgit     -&gt; pb/ticgit
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit
 </code></pre><p>Paul&#39;ün <code>mastertr</code> dalı sizin yazılım havuzunuzda da <code>pb/master</code> olarak erişilebilir durumdadır —kendi dallarınızdan biriyle birleştirebilir (<em>merge</em>) ya da bir yerel dal olarak seçip içeriğini inceleyebilirsiniz.</p>
 <h2 id="uzak-u-birimlerden-getirme-ve-ekme-i-lemi-yapmak">Uzak Uçbirimlerden Getirme ve Çekme İşlemi Yapmak</h2>
 <p>Biraz önce gördüğünüz gibi, uzaktaki yazılım havuzlarından veri almak için şu komutu kullanabilirsiniz:</p>
-<pre><code>$ git fetch <span class="hljs-preprocessor">[</span>uzak<span class="hljs-attribute">-sunucu</span><span class="hljs-attribute">-ad</span>ı<span class="hljs-preprocessor">]</span><span class="hljs-markup"></span>
+<pre><code>$ git fetch [uzak-sunucu-adı]
 </code></pre><p>Bu komut, söz konusu uzaktaki yazılım havuzuna gidip orada bulunup da sizin projenizde bulunmayan bütün veriyi getirir. Bunu yaptıktan sonra sizin projenizde o uzak yazılım havuzundaki bütün dallara referanslar oluşur —ki bunları birleştirme yapmak ya da içeriği incelemek için kullanabilirsiniz. (Dalların ne olduğunu ve onları nasıl kullanabileceğinizi <em>3. Bölüm</em>&#39;de ayrıntılı biçimde inceleyeceğiz.)</p>
 <p>Bir yazılım havuzunu klonladığınızda, klonlama komutu söz konusu kaynak yazılım havuzunu <em>origin</em> adıyla uzak uçbirimler arasına ekler. Dolayısıyla, <code>git fetch origin</code> komutu, klonlamayı yaptığınızdan (ya da en son getirme işlemini (<em>fetch</em>) yatığınızdan) beri sunucuya itilmiş yeni değişiklikleri getirir. Unutmayın, <code>fetch</code> komutu veriyi yeler yazılım havuzunuza indirir —otomatik olarak sizin yaptıklarınızla birleştirmeye, ya da çalıştığınız şeyler üzerinde değişiklik yapmaya kalkışmaz. Hazır olduğunuzda birleştirme işlemini sizin yapmanız gerekir.</p>
 <p>Uzaktaki bir dalı izlemek üzere ayarlanmış bir dalınız varsa (daha fazla bilgi için sonraki alt bölüme ve <em>3. Bölüm</em>&#39;e bakınız) bu dal üzerinde <code>git pull</code> komutunu kullanarak uzaktaki yazılım havuzundaki veriyi hem getirip hem de mevcut dalınızla birleştirebilirsiniz. Bu çalışması daha kolay bir düzen olabilir; bu arada, <code>git clone</code> komutu, otomatik olarak, yerel yazılım havuzunuzda, uzaktaki yazılım havuzunun <code>master</code> dalını takip eden bir <code>master</code> dalı oluşturur (uzaktaki yazılım havuzunun <code>master</code> adında bir dalı olması koşuluyla). <code>git pull</code> komutu genellikle yereldeki yazılım havuzunuza kaynaklık eden sunucudan veriyi getirip otomatik olarak üzerinde çalışmakta olduğunuz dalla birleştirir.</p>
 <h2 id="uzaktaki-yaz-l-m-havuzuna-veri-i-tmek">Uzaktaki Yazılım Havuzuna Veri İtmek</h2>
 <p>Projeniz paylaşmak istediğiniz bir hale geldiğinde, yaptıklarınızı kaynağa itmeniz gerekir. Bunun için kullanılan komut basittir: <code>git push [uzak-sunucu-adi] [dal-adi]</code>. Projenizdeki <code>master</code> dalını <code>origin</code> sunucunuzdaki <code>master</code> dalına itmek isterseniz (yineleyelim; kolanlama işlemi genellikle bu isimleri otomatik olarak oluşturur), şu komutu kullanabilirsiniz:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git push origin master
 </code></pre><p>Bu komut, yalnızca yazma yetkisine sahip olduğunuz bir sunucudan klonlama yapmışsanız ve son getirme işleminizden beri hiç kimse itme işlemi yapmamışsa istediğiniz sonucu verir. Eğer sizinle birlikte bir başkası daha klonlama yapmışsa ve o kişi sizden önce itme yapmışsa, sizin itme işleminiz reddedilir. İtmeden önce sizden önce itilmiş değişiklikleri çekip kendi çalışmanızla birleştirmeniz gerekir. Uzaktaki yazılım havuzlarına itme yapmak konusunda daha ayrıntılı bilgi için bkz. <em>3. Bölüm</em>.</p>
 <h2 id="uzak-u-birim-hakk-nda-bilgi-almak">Uzak Uçbirim Hakkında Bilgi Almak</h2>
 <p>Belirli bir uzak uçbirim hakkında daha fazla bilgi almak isterseniz <code>git remote show [ucbirim-adi]</code> komutunu kullanabilirsiniz. Bu komutu <code>origin</code> gibi belirli bir uçbirim kısa adıyla kullanırsanız şöyle bir sonuç alırsınız:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git://github.com/schacon/ticgit.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  URL: git://github.com/schacon/ticgit.git
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
   Tracked remote branches
     master
@@ -435,14 +438,14 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
 <p>Yukarıdaki verdiğimiz, basit bir örnekti. Git&#39;i daha yoğun biçimde kullandığınızda, <code>git remote show</code> komutu çok daha fazla bilgi içerecektir:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git@github.com:defunkt/github.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">issues</span></span>
+  URL: git@github.com:defunkt/github.git
+  Remote branch merged with &#39;git pull&#39; while on branch issues
     issues
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
-  New remote branches (next fetch will store <span class="hljs-operator">in</span> remotes/origin)
+  New remote branches (next fetch will store in remotes/origin)
     caching
-  Stale tracking branches (use <span class="hljs-string">'git remote prune'</span>)
+  Stale tracking branches (use &#39;git remote prune&#39;)
     libwalker
     walker2
   Tracked remote branches
@@ -452,19 +455,19 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
     issues
     master
     postgres
-  Local branch pushed <span class="hljs-operator">with</span> <span class="hljs-string">'git push'</span>
+  Local branch pushed with &#39;git push&#39;
     master:master
 </code></pre><p>Bu çıktı, belirli dallarda <code>git push</code> komutunu çalıştırdığınızda hangi dalların otomatik olarak itileceğini gösteriyor. Buna ek olarak uzak uçbirimde bulunup da sizin projenizde henüz bulunmayan uzak dalları, uzak uçbirimden silinmiş olduğu halde sizin projenizde bulunan dalları ve <code>git pull</code> komutunu çalıştırdığınızda otomatik olarak birleştirme işlemine uğrayacak birden çok dalı gösteriyor.</p>
 <h2 id="uzan-u-birimleri-kald-rmak-ve-yeniden-adland-rmak">Uzan Uçbirimleri Kaldırmak ve Yeniden Adlandırmak</h2>
 <p>Bir uçbirimin kısa adını değiştirmek isterseniz, Git&#39;in yeni sürümlerinde bunu <code>git remote rename</code> komutuyla yapabilirsiniz. Örneğin, <code>pb</code> uçbirimini <code>paul</code> diye yeniden adlandırmak isterseniz, bunu <code>git remote rename</code>&#39;i kullanarak yapabilirsiniz:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rename pb paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rename pb paul
+$ git remote
 origin
 paul
 </code></pre><p>Bu işlemin uçbirim dal adlarını da değiştirdiğini hatırlatmakta yarar var. Bu işlemden önce <code>pb/master</code> olan dalın adı artık <code>paul/master</code> olacaktır.</p>
 <p>Bir uçbirim referansını herhangi bir nedenle —sunucuyu taşımış ya da belirli bir yansıyı artık kullanmıyor olabilirsiniz; ya da belki katılımcılardan birisi artık katkıda bulunmuyordur— kaldırmak isterseniz <code>git remote rm</code> komutunu kullanabilirsiniz:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rm paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rm paul
+$ git remote
 origin
 </code></pre>
                     
@@ -484,9 +487,9 @@ origin
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

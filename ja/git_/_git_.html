@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397503664233">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397847843648">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="使い始める" class="chapter done new-chapter" data-progress="2" style="left: 0%;"></a>
     
         <a href="../git.html" title="最初のGitの構成" class="chapter done " data-progress="2.5" style="left: 5.882352941176471%;"></a>
     
@@ -743,21 +746,21 @@
                         <h1 id="-git-">サーバー用の Git の取得</h1>
 <p>Git サーバーを立ち上げるには、既存のリポジトリをエクスポートして新たなベアリポジトリ (作業ディレクトリを持たないリポジトリ) を作らなければなりません。これは簡単にできます。リポジトリをクローンして新たにベアリポジトリを作成するには、clone コマンドでオプション <code>--bare</code> を指定します。慣例により、ベアリポジトリのディレクトリ名の最後は <code>.git</code> とすることになっています。</p>
 <pre><code>$ git clone --bare my_project my_project.git
-Cloning into bare repository <span class="hljs-string">'my_project.git'</span><span class="hljs-keyword">...</span>
+Cloning into bare repository &#39;my_project.git&#39;...
 done.
 </code></pre><p>このコマンドを実行したときの出力はちょっとわかりにくいかもしれません。<code>clone</code> は基本的に <code>git init</code> をしてから <code>git fetch</code> をするのと同じことなので、<code>git init</code> の部分の出力も見ることになります。そのメッセージは「空のディレクトリを作成しました」というものです。実際にどんなオブジェクトの転送が行われたのかは何も表示されませんが、きちんと転送は行われています。これで、<code>my_project.git</code> ディレクトリに Git リポジトリのデータができあがりました。</p>
 <p>これは、おおざっぱに言うと次の操作と同じようなことです。</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> -Rf my_project/<span class="hljs-preprocessor">.git</span> my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ cp -Rf my_project/.git my_project.git
 </code></pre><p>設定ファイルにはちょっとした違いもありますが、ほぼこんなものです。作業ディレクトリなしで Git リポジトリを受け取り、それ単体のディレクトリを作成しました。</p>
 <h2 id="-">ベアリポジトリのサーバー上への設置</h2>
 <p>ベアリポジトリを取得できたので、あとはそれをサーバー上においてプロトコルを準備するだけです。ここでは、<code>git.example.com</code> というサーバーがあってそこに SSH でアクセスできるものと仮定しましょう。Git リポジトリはサーバー上の <code>/opt/git</code> ディレクトリに置く予定です。新しいリポジトリを作成するには、ベアリポジトリを次のようにコピーします。</p>
-<pre><code>$ scp -r my_project<span class="hljs-preprocessor">.git</span> user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git
+<pre><code>$ scp -r my_project.git user@git.example.com:/opt/git
 </code></pre><p>この時点で、同じサーバーに SSH でアクセスできてかつ <code>/opt/git</code> ディレクトリへの読み込みアクセス権限がある人なら、次のようにしてこのリポジトリをクローンできるようになりました。</p>
-<pre><code>$ git clone user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git/my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone user@git.example.com:/opt/git/my_project.git
 </code></pre><p>ユーザーが SSH でアクセスでき、かつ <code>/opt/git/my_project.git</code> ディレクトリへの書き込みアクセス権限があれば、すでにプッシュもできる状態になっています。<code>git init</code> コマンドで <code>--shared</code> オプションを指定すると、リポジトリに対するグループ書き込みパーミッションを自動的に追加することができます。</p>
-<pre><code><span class="hljs-variable">$ </span>ssh user<span class="hljs-variable">@git</span>.example.com
-<span class="hljs-variable">$ </span>cd /opt/git/my_project.git
-<span class="hljs-variable">$ </span>git init --bare --shared
+<pre><code>$ ssh user@git.example.com
+$ cd /opt/git/my_project.git
+$ git init --bare --shared
 </code></pre><p>既存の Git リポジトリからベアリポジトリを作成し、メンバーが SSH でアクセスできるサーバーにそれを配置するだけ。簡単ですね。これで、そのプロジェクトでの共同作業ができるようになりました。</p>
 <p>複数名が使用する Git サーバーをたったこれだけの作業で用意できるというのは特筆すべきことです。サーバー SSH アクセス可能なアカウントを作成し、ベアリポジトリをサーバーのどこかに置き、そこに読み書き可能なアクセス権を設定する。これで準備OK。他には何もいりません。</p>
 <p>次のいくつかのセクションでは、より洗練された環境を作るための方法を説明します。いちいちユーザーごとにアカウントを作らなくて済む方法、一般向けにリポジトリへの読み込みアクセスを開放する方法、ウェブ UI の設定、Gitosis の使い方などです。しかし、数名のメンバーで閉じたプロジェクトでの作業なら、SSH サーバーとベアリポジトリ <em>さえ</em> あれば十分なことは覚えておきましょう。</p>
@@ -787,9 +790,9 @@ done.
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

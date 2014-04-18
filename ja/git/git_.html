@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="8.2" data-basepath=".." data-revision="1397503664233">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="8.2" data-basepath=".." data-revision="1397847843648">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="使い始める" class="chapter done new-chapter" data-progress="2" style="left: 0%;"></a>
     
         <a href="../git.html" title="最初のGitの構成" class="chapter done " data-progress="2.5" style="left: 5.882352941176471%;"></a>
     
@@ -747,102 +750,102 @@
 <h2 id="subversion">Subversion</h2>
 <p>先ほどの節で <code>git svn</code> の使い方を読んでいれば、話は簡単です。まず <code>git svn clone</code> でリポジトリを作り、そして Subversion サーバーを使うのをやめ、新しい Git サーバーにプッシュし、あとはそれを使い始めればいいのです。これまでの歴史が欲しいのなら、それも Subversion サーバーからプルすることができます (多少時間がかかります)。</p>
 <p>しかし、インポートは完全ではありません。また時間もかかるので、正しくやるのがいいでしょう。まず最初に問題になるのが作者 (author) の情報です。Subversion ではコミットした人すべてがシステム上にユーザーを持っており、それがコミット情報として記録されます。たとえば先ほどの節のサンプルで言うと <code>schacon</code> がそれで、<code>blame</code> の出力や <code>git svn log</code> の出力に含まれています。これをうまく Git の作者データとしてマップするには、Subversion のユーザーと Git の作者のマッピングが必要です。<code>users.txt</code> という名前のファイルを作り、このような書式でマッピングを記述します。</p>
-<pre><code>schacon = <span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span> &lt;schacon<span class="hljs-variable">@geemail</span>.com&gt;
-selse = <span class="hljs-constant">Someo</span> <span class="hljs-constant">Nelse</span> &lt;selse<span class="hljs-variable">@geemail</span>.com&gt;
+<pre><code>schacon = Scott Chacon &lt;schacon@geemail.com&gt;
+selse = Someo Nelse &lt;selse@geemail.com&gt;
 </code></pre><p>SVN で使っている作者の一覧を取得するには、このようにします。</p>
-<pre><code>$ svn <span class="hljs-keyword">log</span> ^<span class="hljs-subst">/</span> <span class="hljs-subst">--</span><span class="hljs-built_in">xml</span> <span class="hljs-subst">|</span> grep <span class="hljs-attribute">-P</span> <span class="hljs-string">"^&lt;author"</span> <span class="hljs-subst">|</span> sort <span class="hljs-attribute">-u</span> <span class="hljs-subst">|</span> <span class="hljs-subst">\</span>
-      perl <span class="hljs-attribute">-pe</span> <span class="hljs-string">'s/&lt;author&gt;(.*?)&lt;\/author&gt;/$1 = /'</span> <span class="hljs-subst">&gt;</span> users<span class="hljs-built_in">.</span>txt
+<pre><code>$ svn log ^/ --xml | grep -P &quot;^&lt;author&quot; | sort -u | \
+      perl -pe &#39;s/&lt;author&gt;(.*?)&lt;\/author&gt;/$1 = /&#39; &gt; users.txt
 </code></pre><p>これは、まずログを XML フォーマットで出力します。その中から作者を捜して重複を省き、XML を除去します (ちょっと見ればわかりますが、これは <code>grep</code> や <code>sort</code>、そして <code>perl</code> といったコマンドが使える環境でないと動きません)。この出力を users.txt にリダイレクトし、そこに Git のユーザーデータを書き足していきます。</p>
 <p>このファイルを <code>git svn</code> に渡せば、作者のデータをより正確にマッピングできるようになります。また、Subversion が通常インポートするメタデータを含めないよう <code>git svn</code> に指示することもできます。そのためには <code>--no-metadata</code> を <code>clone</code> コマンドあるいは <code>init</code> コマンドに渡します。そうすると、 <code>import</code> コマンドは次のようになります。</p>
-<pre><code>$ git svn clone http:<span class="hljs-comment">//my-project.googlecode.com/svn/ \</span>
-      <span class="hljs-subst">--</span>authors<span class="hljs-attribute">-file</span><span class="hljs-subst">=</span>users<span class="hljs-built_in">.</span>txt <span class="hljs-subst">--</span>no<span class="hljs-attribute">-metadata</span> <span class="hljs-attribute">-s</span> my_project
+<pre><code>$ git svn clone http://my-project.googlecode.com/svn/ \
+      --authors-file=users.txt --no-metadata -s my_project
 </code></pre><p>これで、Subversion をちょっとマシにインポートした <code>my_project</code> ディレクトリができあがりました。コミットがこんなふうに記録されるのではなく、</p>
-<pre><code>commit <span class="hljs-number">37</span>efa680e8473b615de980fa935944215428a35a
-<span class="hljs-label">Author:</span> schacon &lt;schacon<span class="hljs-localvars">@4</span>c93b258-<span class="hljs-number">373</span>f-<span class="hljs-number">11</span>de-be05-<span class="hljs-number">5</span>f7a86268029&gt;
-<span class="hljs-label">Date:</span>   Sun May <span class="hljs-number">3</span> <span class="hljs-number">00</span>:<span class="hljs-number">12</span>:<span class="hljs-number">22</span> <span class="hljs-number">2009</span> +<span class="hljs-number">0000</span>
+<pre><code>commit 37efa680e8473b615de980fa935944215428a35a
+Author: schacon &lt;schacon@4c93b258-373f-11de-be05-5f7a86268029&gt;
+Date:   Sun May 3 00:12:22 2009 +0000
 
     fixed install - go to trunk
 
-    git-svn-id: https://my-project<span class="hljs-preprocessor">.googlecode</span><span class="hljs-preprocessor">.com</span>/svn/trunk<span class="hljs-localvars">@94</span> <span class="hljs-number">4</span>c93b258-<span class="hljs-number">373</span>f-<span class="hljs-number">11</span>de-
-    be05-<span class="hljs-number">5</span>f7a86268029
+    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
+    be05-5f7a86268029
 </code></pre><p>次のように記録されています。</p>
-<pre><code><span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">03</span>a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
+<pre><code>commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 Author: Scott Chacon &lt;schacon@geemail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun May <span class="hljs-number">3</span> <span class="hljs-number">00</span>:<span class="hljs-number">12</span>:<span class="hljs-number">22</span> <span class="hljs-number">2009</span> +<span class="hljs-number">0000</span>
+Date:   Sun May 3 00:12:22 2009 +0000
 
-    fixed install - <span class="hljs-keyword">go</span> <span class="hljs-keyword">to</span> trunk</span>
+    fixed install - go to trunk
 </code></pre><p>Author フィールドの見た目がずっとよくなっただけではなく、<code>git-svn-id</code> もなくなっています。</p>
 <p>インポートした後に、ちょっとした後始末が必要です。たとえば、<code>git svn</code> が準備した変な参照などです。まずはタグを移動して、奇妙なリモートブランチではなくちゃんとしたタグとして扱えるようにします。そして、残りのブランチを移動してローカルで扱えるようにします。</p>
 <p>タグを Git のタグとして扱うには、次のコマンドを実行します。</p>
-<pre><code>$ git <span class="hljs-keyword">for</span>-each-ref refs/remotes/tags | cut <span class="hljs-operator">-d</span> / <span class="hljs-operator">-f</span> <span class="hljs-number">4</span>- | grep -v @ | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> tagname; <span class="hljs-keyword">do</span> git tag <span class="hljs-string">"<span class="hljs-variable">$tagname</span>"</span> <span class="hljs-string">"tags/<span class="hljs-variable">$tagname</span>"</span>; git branch -r <span class="hljs-operator">-d</span> <span class="hljs-string">"tags/<span class="hljs-variable">$tagname</span>"</span>; <span class="hljs-keyword">done</span>
+<pre><code>$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag &quot;$tagname&quot; &quot;tags/$tagname&quot;; git branch -r -d &quot;tags/$tagname&quot;; done
 </code></pre><p>これは、リモートブランチのうち <code>tag/</code> で始まる名前のものを、実際の (軽量な) タグに変えます。</p>
 <p>次に、<code>refs/remotes</code> 以下にあるそれ以外の参照をローカルブランチに移動します。</p>
-<pre><code>$ git <span class="hljs-keyword">for</span>-each-ref refs/remotes | cut <span class="hljs-operator">-d</span> / <span class="hljs-operator">-f</span> <span class="hljs-number">3</span>- | grep -v @ | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> branchname; <span class="hljs-keyword">do</span> git branch <span class="hljs-string">"<span class="hljs-variable">$branchname</span>"</span> <span class="hljs-string">"refs/remotes/<span class="hljs-variable">$branchname</span>"</span>; git branch -r <span class="hljs-operator">-d</span> <span class="hljs-string">"<span class="hljs-variable">$branchname</span>"</span>; <span class="hljs-keyword">done</span>
+<pre><code>$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch &quot;$branchname&quot; &quot;refs/remotes/$branchname&quot;; git branch -r -d &quot;$branchname&quot;; done
 </code></pre><p>これで、今まであった古いブランチはすべて Git のブランチとなり、古いタグもすべて Git のタグになりました。最後に残る作業は、新しい Git サーバーをリモートに追加してプッシュすることです。自分のサーバーをリモートとして追加するには以下のようにします｡</p>
-<pre><code><span class="hljs-variable">$ </span>git remote add origin git<span class="hljs-variable">@my</span>-git-<span class="hljs-symbol">server:</span>myrepository.git
+<pre><code>$ git remote add origin git@my-git-server:myrepository.git
 </code></pre><p>すべてのブランチやタグを一緒にプッシュするには、このようにします。</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">push</span> <span class="hljs-comment">origin</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">all</span>
-<span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">push</span> <span class="hljs-comment">origin</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">tags</span>
+<pre><code>$ git push origin --all
+$ git push origin --tags
 </code></pre><p>これで、ブランチやタグも含めたすべてを、新しい Git サーバーにきれいにインポートできました。</p>
 <h2 id="perforce">Perforce</h2>
 <p>次のインポート元としてとりあげるのは Perforce です。Perforce からのインポートツールも Git に同梱されています｡ただし､使用しているGitのバージョンが1.7.11より古い場合は同梱されておらず､Gitソースコードの <code>contrib</code> から取り出す必要があります。ソースコードは git.kernel.org からダウンロードできます。</p>
-<pre><code>$ git clone git://git<span class="hljs-preprocessor">.kernel</span><span class="hljs-preprocessor">.org</span>/pub/scm/git/git<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 $ cd git/contrib/fast-import
 </code></pre><p>この <code>fast-import</code> ディレクトリにある実行可能な Python スクリプト <code>git-p4</code> が、それです。このツールを使うには、Python と <code>p4</code> ツールがマシンにインストールされていなければなりません。たとえば、Jam プロジェクトを Perforce Public Depot からインポートします。クライアントをセットアップするには、環境変数 P4PORT をエクスポートして Perforce depot の場所を指すようにしなければなりません。</p>
-<pre><code>$ <span class="hljs-keyword">export</span> P4PORT=<span class="hljs-keyword">public</span>.perforce.com:<span class="hljs-number">1666</span>
+<pre><code>$ export P4PORT=public.perforce.com:1666
 </code></pre><p><code>git-p4 clone</code> コマンドを実行して Jam プロジェクトを Perforce サーバーからインポートし、depot とプロジェクトそしてプロジェクトの取り込み先のパスを指定します。</p>
-<pre><code>$ git<span class="hljs-attribute">-p4</span> clone <span class="hljs-comment">//public/jam/src@all /opt/p4import</span>
-Importing from <span class="hljs-comment">//public/jam/src@all into /opt/p4import</span>
-Reinitialized existing Git repository <span class="hljs-keyword">in</span> /opt/p4import<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
-<span class="hljs-keyword">Import</span> destination: refs/remotes/p4/master
-Importing revision <span class="hljs-number">4409</span> (<span class="hljs-number">100</span><span class="hljs-subst">%</span>)
+<pre><code>$ git-p4 clone //public/jam/src@all /opt/p4import
+Importing from //public/jam/src@all into /opt/p4import
+Reinitialized existing Git repository in /opt/p4import/.git/
+Import destination: refs/remotes/p4/master
+Importing revision 4409 (100%)
 </code></pre><p><code>/opt/p4import</code> ディレクトリに移動して <code>git log</code> を実行すると、インポートされた内容を見ることができます。</p>
 <pre><code>$ git log -2
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">1</span>fd4ec126171790efd2db83548b85b1bbbc07dc2
+commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
 Author: Perforce staff &lt;support@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu Aug <span class="hljs-number">19</span> <span class="hljs-number">10</span>:<span class="hljs-number">18</span>:<span class="hljs-number">45</span> <span class="hljs-number">2004</span> -<span class="hljs-number">0800</span>
+Date:   Thu Aug 19 10:18:45 2004 -0800
 
-    <span class="hljs-keyword">Drop</span> <span class="hljs-string">'rc3'</span> moniker <span class="hljs-keyword">of</span> jam-<span class="hljs-number">2.5</span>.  Folded rc2 <span class="hljs-keyword">and</span> rc3 RELNOTES <span class="hljs-keyword">into</span>
-    the main part <span class="hljs-keyword">of</span> the document.  Built new tar/zip balls.
+    Drop &#39;rc3&#39; moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+    the main part of the document.  Built new tar/zip balls.
 
-    <span class="hljs-keyword">Only</span> <span class="hljs-number">16</span> months later.
+    Only 16 months later.
 
-    [git-p4: depot-paths = <span class="hljs-string">"//public/jam/src/"</span>: change = <span class="hljs-number">4409</span>]
+    [git-p4: depot-paths = &quot;//public/jam/src/&quot;: change = 4409]
 
-<span class="hljs-keyword">commit</span> ca8870db541a23ed867f38847eda65bf4363371d
+commit ca8870db541a23ed867f38847eda65bf4363371d
 Author: Richard Geiger &lt;rmg@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Apr <span class="hljs-number">22</span> <span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">34</span> <span class="hljs-number">2003</span> -<span class="hljs-number">0800</span>
+Date:   Tue Apr 22 20:51:34 2003 -0800
 
-    <span class="hljs-keyword">Update</span> derived jamgram.c
+    Update derived jamgram.c
 
-    [git-p4: depot-paths = <span class="hljs-string">"//public/jam/src/"</span>: change = <span class="hljs-number">3108</span>]</span>
+    [git-p4: depot-paths = &quot;//public/jam/src/&quot;: change = 3108]
 </code></pre><p><code>git-p4</code> という識別子が各コミットに含まれることがわかるでしょう。この識別子はそのままにしておいてもかまいません。後で万一 Perforce のチェンジ番号を参照しなければならなくなったときのために使えます。しかし、もし削除したいのならここで消しておきましょう。新しいリポジトリ上で何か作業を始める前のこの段階で。<code>git filter-branch</code> を使えば、この識別子を一括削除することができます。</p>
-<pre><code>$ git filter-branch --msg-filter <span class="hljs-comment">'</span>
-        sed -e <span class="hljs-string">"/^\[git-p4:/d"</span>
-<span class="hljs-comment">'</span>
-Rewrite <span class="hljs-number">1</span>fd4ec126171790efd2db83548b85b1bbbc07dc2 (<span class="hljs-number">123</span>/<span class="hljs-number">123</span>)
-Ref <span class="hljs-comment">'refs/heads/master' was rewritten</span>
+<pre><code>$ git filter-branch --msg-filter &#39;
+        sed -e &quot;/^\[git-p4:/d&quot;
+&#39;
+Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><p><code>git log</code> を実行すれば各コミットの SHA-1 チェックサムがすべて変わったことがわかります。そして <code>git-p4</code> 文字列はコミットメッセージから消えました。</p>
 <pre><code>$ git log -2
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">10</span>a16d60cffca14d454a15c6164378f4082bc5b0
+commit 10a16d60cffca14d454a15c6164378f4082bc5b0
 Author: Perforce staff &lt;support@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu Aug <span class="hljs-number">19</span> <span class="hljs-number">10</span>:<span class="hljs-number">18</span>:<span class="hljs-number">45</span> <span class="hljs-number">2004</span> -<span class="hljs-number">0800</span>
+Date:   Thu Aug 19 10:18:45 2004 -0800
 
-    <span class="hljs-keyword">Drop</span> <span class="hljs-string">'rc3'</span> moniker <span class="hljs-keyword">of</span> jam-<span class="hljs-number">2.5</span>.  Folded rc2 <span class="hljs-keyword">and</span> rc3 RELNOTES <span class="hljs-keyword">into</span>
-    the main part <span class="hljs-keyword">of</span> the document.  Built new tar/zip balls.
+    Drop &#39;rc3&#39; moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+    the main part of the document.  Built new tar/zip balls.
 
-    <span class="hljs-keyword">Only</span> <span class="hljs-number">16</span> months later.
+    Only 16 months later.
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">2</span>b6c6db311dd76c34c66ec1c40a49405e6b527b2
+commit 2b6c6db311dd76c34c66ec1c40a49405e6b527b2
 Author: Richard Geiger &lt;rmg@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Apr <span class="hljs-number">22</span> <span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">34</span> <span class="hljs-number">2003</span> -<span class="hljs-number">0800</span>
+Date:   Tue Apr 22 20:51:34 2003 -0800
 
-    <span class="hljs-keyword">Update</span> derived jamgram.c</span>
+    Update derived jamgram.c
 </code></pre><p>これで、インポートした内容を新しい Git サーバーにプッシュする準備がととのいました。</p>
 <h2 id="-">カスタムインポーター</h2>
 <p>Subversion や Perforce 以外のシステムを使っている場合は、それ用のインポートツールを探さなければなりません。CVS、Clear Case、Visual Source Safe、あるいはアーカイブのディレクトリなどのためのツールはオンラインで公開されています。これらのツールがうまく動かなかったり手元で使っているバージョン管理ツールがもっとマイナーなものだったり、あるいはインポート処理で特殊な操作をしたりしたい場合は <code>git fast-import</code> を使います。このコマンドはシンプルな指示を標準入力から受け取って、特定の Git データを書き出します。生の Git コマンドを使ったり生のオブジェクトを書きだそうとしたりする (詳細は第 9 章を参照ください) よりもずっと簡単に Git オブジェクトを作ることができます。この方法を使えばインポートスクリプトを自作することができます。必要な情報を元のシステムから読み込み、単純な指示を標準出力に出せばよいのです。そして、このスクリプトの出力をパイプで <code>git fast-import</code> に送ります。</p>
 <p>手軽に試してみるために、シンプルなインポーターを書いてみましょう。currentで作業をしており、プロジェクトのバックアップはディレクトリまるごとのコピーで行っているものとします。バックアップディレクトリの名前は、タイムスタンプをもとに <code>back_YYYY_MM_DD</code> としています。これらを Git にインポートしてみましょう。ディレクトリの構造は、このようになっています。</p>
-<pre><code><span class="hljs-variable">$ </span>ls /opt/import_from
+<pre><code>$ ls /opt/import_from
 back_2009_01_02
 back_2009_01_04
 back_2009_01_14
@@ -853,145 +856,145 @@ current
 <p>まず最初に対象ディレクトリに移動し、コミットとしてインポートするスナップショットとしてサブディレクトリを識別します。基本的なメインループは、このようになります。</p>
 <pre><code>last_mark = nil
 
-<span class="hljs-comment"># 各ディレクトリをループ</span>
-Dir.chdir(ARGV[<span class="hljs-number">0</span>]) <span class="hljs-built_in">do</span>
-  Dir.glob(<span class="hljs-string">"*"</span>).<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |dir|
-    next <span class="hljs-keyword">if</span> File.<span class="hljs-built_in">file</span>?(dir)
+# 各ディレクトリをループ
+Dir.chdir(ARGV[0]) do
+  Dir.glob(&quot;*&quot;).each do |dir|
+    next if File.file?(dir)
 
-    <span class="hljs-comment"># 対象ディレクトリに移動</span>
-    Dir.chdir(dir) <span class="hljs-built_in">do</span>
+    # 対象ディレクトリに移動
+    Dir.chdir(dir) do
       last_mark = print_export(dir, last_mark)
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+    end
+  end
+end
 </code></pre><p>各ディレクトリ内で実行している <code>print_export</code> は、前のスナップショットの内容とマークを受け取ってこのディレクトリの内容とマークを返します。このようにして、それぞれを適切にリンクさせます。「マーク」とは <code>fast-import</code> 用語で、コミットに対する識別子を意味します。コミットを作成するときにマークをつけ、それを使って他のコミットとリンクさせます。つまり、<code>print_export</code> メソッドで最初にやることは、ディレクトリ名からマークを生成することです。</p>
-<pre><code><span class="hljs-attribute">mark </span>=<span class="hljs-string"> convert_dir_to_mark(dir)</span>
+<pre><code>mark = convert_dir_to_mark(dir)
 </code></pre><p>これを行うには、まずディレクトリの配列を作り、そのインデックスの値をマークとして使います。マークは整数値でなければならないからです。メソッドの中身はこのようになります。</p>
-<pre><code><span class="hljs-variable">$marks</span> = []
-<span class="hljs-function"><span class="hljs-keyword">def</span> </span>convert_dir_to_mark(dir)
-  <span class="hljs-keyword">if</span> !<span class="hljs-variable">$marks</span>.<span class="hljs-keyword">include</span>?(dir)
-    <span class="hljs-variable">$marks</span> &lt;&lt; dir
-  <span class="hljs-keyword">end</span>
-  (<span class="hljs-variable">$marks</span>.index(dir) + <span class="hljs-number">1</span>).to_s
-<span class="hljs-keyword">end</span>
+<pre><code>$marks = []
+def convert_dir_to_mark(dir)
+  if !$marks.include?(dir)
+    $marks &lt;&lt; dir
+  end
+  ($marks.index(dir) + 1).to_s
+end
 </code></pre><p>これで各コミットを整数値で表せるようになりました。次に必要なのは、コミットのメタデータ用の日付です。日付はディレクトリ名で表されているので、ここから取得します。<code>print_export</code> ファイルで次にすることは、これです。</p>
-<pre><code><span class="hljs-attribute">date </span>=<span class="hljs-string"> convert_dir_to_date(dir)</span>
+<pre><code>date = convert_dir_to_date(dir)
 </code></pre><p><code>convert_dir_to_date</code> の定義は次のようになります。</p>
 <pre><code>def convert_dir_to_date(dir)
-  <span class="hljs-keyword">if</span> dir == <span class="hljs-string">'current'</span>
-    <span class="hljs-constant">return</span> Time.now().to_i
-  <span class="hljs-keyword">else</span>
-    dir = dir.gsub(<span class="hljs-string">'back_'</span>, <span class="hljs-string">''</span>)
-    (year, month, day) = dir.<span class="hljs-built_in">split</span>(<span class="hljs-string">'_'</span>)
-    <span class="hljs-constant">return</span> Time.<span class="hljs-built_in">local</span>(year, month, day).to_i
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  if dir == &#39;current&#39;
+    return Time.now().to_i
+  else
+    dir = dir.gsub(&#39;back_&#39;, &#39;&#39;)
+    (year, month, day) = dir.split(&#39;_&#39;)
+    return Time.local(year, month, day).to_i
+  end
+end
 </code></pre><p>これは、各ディレクトリの日付に対応する整数値を返します。コミットのメタ情報として必要な最後の情報はコミッターのデータで、これはグローバル変数にハードコードします。</p>
-<pre><code><span class="hljs-variable">$author</span> = <span class="hljs-string">'Scott Chacon &lt;schacon@example.com&gt;'</span>
+<pre><code>$author = &#39;Scott Chacon &lt;schacon@example.com&gt;&#39;
 </code></pre><p>これで、コミットのデータをインポーターに流せるようになりました。最初の情報で示しているのは、今定義しているのがコミットオブジェクトであることとどのブランチにいるのかを表す宣言です。その後に先ほど生成したマークが続き、さらにコミッターの情報とコミットメッセージが続いた後にひとつ前のコミットが (もし存在すれば) 続きます。コードはこのようになります。</p>
-<pre><code><span class="hljs-comment"># インポート情報の表示</span>
-puts <span class="hljs-string">'commit refs/heads/master'</span>
-puts <span class="hljs-string">'mark :'</span> + mark
-puts <span class="hljs-string">"committer <span class="hljs-subst">#{<span class="hljs-variable">$author</span>}</span> <span class="hljs-subst">#{date}</span> -0700"</span>
-export_data(<span class="hljs-string">'imported from '</span> + dir)
-puts <span class="hljs-string">'from :'</span> + last_mark <span class="hljs-keyword">if</span> last_mark
+<pre><code># インポート情報の表示
+puts &#39;commit refs/heads/master&#39;
+puts &#39;mark :&#39; + mark
+puts &quot;committer #{$author} #{date} -0700&quot;
+export_data(&#39;imported from &#39; + dir)
+puts &#39;from :&#39; + last_mark if last_mark
 </code></pre><p>タイムゾーン (-0700) をハードコードしているのは、そのほうがお手軽だったからです。別のシステムからインポートする場合は、タイムゾーンを適切に指定しなければなりません。コミットメッセージは、次のような特殊な書式にする必要があります。</p>
-<pre><code><span class="hljs-typedef"><span class="hljs-keyword">data</span> <span class="hljs-container">(<span class="hljs-title">size</span>)</span>\n<span class="hljs-container">(<span class="hljs-title">contents</span>)</span></span>
+<pre><code>data (size)\n(contents)
 </code></pre><p>まず最初に「data」という単語、そして読み込むデータのサイズ、改行、最後にデータがきます。同じ書式は後でファイルのコンテンツを指定するときにも使うので、ヘルパーメソッド <code>export_data</code> を作ります。</p>
-<pre><code><span class="hljs-function"><span class="hljs-keyword">def</span> </span>export_data(string)
-  print <span class="hljs-string">"data <span class="hljs-subst">#{string.size}</span>\n<span class="hljs-subst">#{string}</span>"</span>
-<span class="hljs-keyword">end</span>
+<pre><code>def export_data(string)
+  print &quot;data #{string.size}\n#{string}&quot;
+end
 </code></pre><p>残っているのは、各スナップショットが持つファイルのコンテンツを指定することです。今回の場合はどれも一つのディレクトリにまとまっているので簡単です。<code>deleteall</code> コマンドを表示し、それに続けてディレクトリ内の各ファイルの中身を表示すればよいのです。そうすれば、Git が各スナップショットを適切に記録します。</p>
-<pre><code>puts <span class="hljs-string">'deleteall'</span>
-Dir.glob(<span class="hljs-string">"**/*"</span>).<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |<span class="hljs-built_in">file</span>|
-  next <span class="hljs-keyword">if</span> !File.<span class="hljs-built_in">file</span>?(<span class="hljs-built_in">file</span>)
-  inline_data(<span class="hljs-built_in">file</span>)
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+<pre><code>puts &#39;deleteall&#39;
+Dir.glob(&quot;**/*&quot;).each do |file|
+  next if !File.file?(file)
+  inline_data(file)
+end
 </code></pre><p>注意:    多くのシステムではリビジョンを「あるコミットと別のコミットの差分」と考えているので、fast-importでもその形式でコマンドを受け取ることができます。つまりコミットを指定するときに、追加/削除/変更されたファイルと新しいコンテンツの中身で指定できるということです。各スナップショットの差分を算出してそのデータだけを渡すこともできますが、処理が複雑になります。すべてのデータを渡して、Git に差分を算出させたほうがよいでしょう。もし差分を渡すほうが手元のデータに適しているようなら、<code>fast-import</code> のマニュアルで詳細な方法を調べましょう。</p>
 <p>新しいファイルの内容、あるいは変更されたファイルと変更後の内容を表す書式は次のようになります。</p>
-<pre><code>M <span class="hljs-number">644</span> <span class="hljs-keyword">inline</span> path/<span class="hljs-keyword">to</span>/<span class="hljs-keyword">file</span>
+<pre><code>M 644 inline path/to/file
 data (size)
-(<span class="hljs-keyword">file</span> contents)
+(file contents)
 </code></pre><p>この 644 はモード (実行可能ファイルがある場合は、そのファイルについては 755 を指定する必要があります) を表し、inline とはファイルの内容をこの次の行に続けて指定するという意味です。<code>inline_data</code> メソッドは、このようになります。</p>
-<pre><code><span class="hljs-function"><span class="hljs-keyword">def</span> </span>inline_data(file, code = <span class="hljs-string">'M'</span>, mode = <span class="hljs-string">'644'</span>)
-  content = <span class="hljs-constant">File</span>.read(file)
-  puts <span class="hljs-string">"<span class="hljs-subst">#{code}</span> <span class="hljs-subst">#{mode}</span> inline <span class="hljs-subst">#{file}</span>"</span>
+<pre><code>def inline_data(file, code = &#39;M&#39;, mode = &#39;644&#39;)
+  content = File.read(file)
+  puts &quot;#{code} #{mode} inline #{file}&quot;
   export_data(content)
-<span class="hljs-keyword">end</span>
+end
 </code></pre><p>先ほど定義した <code>export_data</code> メソッドを再利用することができます。この書式はコミットメッセージの書式と同じだからです。</p>
 <p>最後に必要となるのは、現在のマークを返して次の処理に渡せるようにすることです。</p>
-<pre><code><span class="hljs-keyword">return</span> mark
+<pre><code>return mark
 </code></pre><p>注意: Windows 上で動かす場合はさらにもう一手間必要です。先述したように、Windows の改行文字は CRLF ですが git fast-import は LF にしか対応していません。この問題に対応して git fast-import をうまく動作させるには、CRLF ではなく LF を使うよう ruby に指示しなければなりません。</p>
-<pre><code><span class="hljs-variable">$stdout</span>.<span class="hljs-keyword">binmode</span>
+<pre><code>$stdout.binmode
 </code></pre><p>これで終わりです。このスクリプトを実行すれば、次のような結果が得られます。</p>
 <pre><code>$ ruby import.rb /opt/import_from
 commit refs/heads/master
-mark :<span class="hljs-number">1</span>
-committer Scott Chacon &lt;schacon@geemail.com&gt; <span class="hljs-number">1230883200</span> -<span class="hljs-number">0700</span>
-data <span class="hljs-number">29</span>
-imported <span class="hljs-built_in">from</span> back_2009_01_02deleteall
-M <span class="hljs-number">644</span> inline <span class="hljs-built_in">file</span>.rb
-data <span class="hljs-number">12</span>
-<span class="hljs-built_in">version</span> <span class="hljs-constant">two</span>
+mark :1
+committer Scott Chacon &lt;schacon@geemail.com&gt; 1230883200 -0700
+data 29
+imported from back_2009_01_02deleteall
+M 644 inline file.rb
+data 12
+version two
 commit refs/heads/master
-mark :<span class="hljs-number">2</span>
-committer Scott Chacon &lt;schacon@geemail.com&gt; <span class="hljs-number">1231056000</span> -<span class="hljs-number">0700</span>
-data <span class="hljs-number">29</span>
-imported <span class="hljs-built_in">from</span> back_2009_01_04from :<span class="hljs-number">1</span>
+mark :2
+committer Scott Chacon &lt;schacon@geemail.com&gt; 1231056000 -0700
+data 29
+imported from back_2009_01_04from :1
 deleteall
-M <span class="hljs-number">644</span> inline <span class="hljs-built_in">file</span>.rb
-data <span class="hljs-number">14</span>
-<span class="hljs-built_in">version</span> <span class="hljs-constant">three</span>
-M <span class="hljs-number">644</span> inline <span class="hljs-built_in">new</span>.rb
-data <span class="hljs-number">16</span>
-<span class="hljs-built_in">new</span> <span class="hljs-built_in">version</span> <span class="hljs-constant">one</span>
+M 644 inline file.rb
+data 14
+version three
+M 644 inline new.rb
+data 16
+new version one
 (...)
 </code></pre><p>インポーターを動かすには、インポート先の Git レポジトリにおいて､インポーターの出力をパイプで <code>git fast-import</code> に渡す必要があります。インポート先に新しいディレクトリを作成したら､以下のように <code>git init</code> を実行し、そしてスクリプトを実行してみましょう｡</p>
 <pre><code>$ git init
-Initialized empty Git repository in /opt/import<span class="hljs-emphasis">_to/.git/
-$ ruby import.rb /opt/import_</span>from | git fast-import
-<span class="hljs-header">git-fast-import statistics:
----------------------------------------------------------------------</span>
-Alloc'd objects:       5000
+Initialized empty Git repository in /opt/import_to/.git/
+$ ruby import.rb /opt/import_from | git fast-import
+git-fast-import statistics:
+---------------------------------------------------------------------
+Alloc&#39;d objects:       5000
 Total objects:           18 (         1 duplicates                  )
-<span class="hljs-code">      blobs  :            7 (         1 duplicates          0 deltas)</span>
-<span class="hljs-code">      trees  :            6 (         0 duplicates          1 deltas)</span>
-<span class="hljs-code">      commits:            5 (         0 duplicates          0 deltas)</span>
-<span class="hljs-code">      tags   :            0 (         0 duplicates          0 deltas)</span>
+      blobs  :            7 (         1 duplicates          0 deltas)
+      trees  :            6 (         0 duplicates          1 deltas)
+      commits:            5 (         0 duplicates          0 deltas)
+      tags   :            0 (         0 duplicates          0 deltas)
 Total branches:           1 (         1 loads     )
-<span class="hljs-code">      marks:           1024 (         5 unique    )</span>
-<span class="hljs-code">      atoms:              3</span>
+      marks:           1024 (         5 unique    )
+      atoms:              3
 Memory total:          2255 KiB
-<span class="hljs-code">       pools:          2098 KiB</span>
-<span class="hljs-header">     objects:           156 KiB
----------------------------------------------------------------------</span>
-pack<span class="hljs-emphasis">_report: getpagesize()            =       4096
-pack_</span>report: core.packedGitWindowSize =   33554432
-pack<span class="hljs-emphasis">_report: core.packedGitLimit      =  268435456
-pack_</span>report: pack<span class="hljs-emphasis">_used_</span>ctr            =          9
-pack<span class="hljs-emphasis">_report: pack_</span>mmap<span class="hljs-emphasis">_calls          =          5
-pack_</span>report: pack<span class="hljs-emphasis">_open_</span>windows        =          1 /          1
-<span class="hljs-header">pack_report: pack_mapped              =       1356 /       1356
----------------------------------------------------------------------</span>
+       pools:          2098 KiB
+     objects:           156 KiB
+---------------------------------------------------------------------
+pack_report: getpagesize()            =       4096
+pack_report: core.packedGitWindowSize =   33554432
+pack_report: core.packedGitLimit      =  268435456
+pack_report: pack_used_ctr            =          9
+pack_report: pack_mmap_calls          =          5
+pack_report: pack_open_windows        =          1 /          1
+pack_report: pack_mapped              =       1356 /       1356
+---------------------------------------------------------------------
 </code></pre><p>ご覧のとおり、処理が正常に完了すると、処理内容に関する統計情報が表示されます。この場合は、全部で 18 のオブジェクトからなる 5 つのコミットが 1 つのブランチにインポートされたことがわかります。では、<code>git log</code> で新しい歴史を確認しましょう。</p>
 <pre><code>$ git log -2
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">10</span>bfe7d22ce15ee25b60a824c8982157ca593d41
+commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
 Author: Scott Chacon &lt;schacon@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun May <span class="hljs-number">3</span> <span class="hljs-number">12</span>:<span class="hljs-number">57</span>:<span class="hljs-number">39</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Sun May 3 12:57:39 2009 -0700
 
-    imported <span class="hljs-keyword">from</span> <span class="hljs-keyword">current</span>
+    imported from current
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">7e519590</span>de754d079dd73b44d695a42c9d2df452
+commit 7e519590de754d079dd73b44d695a42c9d2df452
 Author: Scott Chacon &lt;schacon@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Feb <span class="hljs-number">3</span> <span class="hljs-number">01</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Tue Feb 3 01:00:00 2009 -0700
 
-    imported <span class="hljs-keyword">from</span> back_2009_02_03</span>
+    imported from back_2009_02_03
 </code></pre><p>きれいな Git リポジトリができていますね。ここで重要なのは、この時点ではまだ何もチェックアウトされていないということです。作業ディレクトリには何もファイルがありません。ファイルを取得するには、ブランチをリセットして <code>master</code> の現在の状態にしなければなりません。</p>
 <pre><code>$ ls
-$ git reset <span class="hljs-comment">--hard master</span>
-HEAD <span class="hljs-keyword">is</span> now <span class="hljs-keyword">at</span> <span class="hljs-number">10</span>bfe7d imported <span class="hljs-keyword">from</span> current
+$ git reset --hard master
+HEAD is now at 10bfe7d imported from current
 $ ls
-<span class="hljs-type">file</span>.rb  lib
+file.rb  lib
 </code></pre><p><code>fast-import</code> ツールにはさらに多くの機能があります。さまざまなモードを処理したりバイナリデータを扱ったり、複数のブランチやそのマージ、タグ、進捗状況表示などです。より複雑なシナリオのサンプルは Git のソースコードの <code>contrib/fast-import</code> ディレクトリにあります。先ほど取り上げた <code>git-p4</code> スクリプトがよい例となるでしょう。</p>
 
                     
@@ -1011,9 +1014,9 @@ $ ls
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

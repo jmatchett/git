@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -781,63 +784,63 @@
 Amministrare repository remoti include il sapere aggiungere repository remoti, rimuovere quelli che non sono validi, amministrare vari rami remoti e definire quando sono tracciati o meno, e altro. In questa sezione, vedremo le tecniche di amministrazione remota.</p>
 <h2 id="visualizzare-la-sorgente-remota">Visualizzare la Sorgente Remota</h2>
 <p>Per vedere quale server remoto hai configurato, puoi lanciare il comando git remote. Questo elenca i soprannomi di ogni nodo specificato. Se hai clonato il tuo repository, dovresti al limite vedere origin —  che è il nome predefinito che Git da al server che hai clonato:</p>
-<pre><code>$ git clone git:<span class="hljs-comment">//github.com/schacon/ticgit.git</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /<span class="hljs-keyword">private</span>/tmp/ticgit/.git/
-remote: Counting objects: <span class="hljs-number">595</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">269</span>/<span class="hljs-number">269</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">595</span> (delta <span class="hljs-number">255</span>), reused <span class="hljs-number">589</span> (delta <span class="hljs-number">253</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">595</span>/<span class="hljs-number">595</span>), <span class="hljs-number">73.31</span> KiB | <span class="hljs-number">1</span> KiB/s, <span class="hljs-keyword">done</span>.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">255</span>/<span class="hljs-number">255</span>), <span class="hljs-keyword">done</span>.
+<pre><code>$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
 $ cd ticgit
 $ git remote
 origin
 </code></pre><p>Puoi anche specificare <code>-v</code>, che mostra l&#39;URL che Git ha salvato per il soprannome:</p>
 <pre><code>$ git remote -v
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (fetch)
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (<span class="hljs-keyword">push</span>)
+origin  git://github.com/schacon/ticgit.git (fetch)
+origin  git://github.com/schacon/ticgit.git (push)
 </code></pre><p>Se hai più di un repository remoto, il comando li elenca tutti. Per esempio, il mio repository Grit assomiglia a questo.</p>
 <pre><code>$ cd grit
 $ git remote -v
-bakkdoor  git://github<span class="hljs-preprocessor">.com</span>/bakkdoor/grit<span class="hljs-preprocessor">.git</span>
-cho45     git://github<span class="hljs-preprocessor">.com</span>/cho45/grit<span class="hljs-preprocessor">.git</span>
-defunkt   git://github<span class="hljs-preprocessor">.com</span>/defunkt/grit<span class="hljs-preprocessor">.git</span>
-koke      git://github<span class="hljs-preprocessor">.com</span>/koke/grit<span class="hljs-preprocessor">.git</span>
-origin    git@github<span class="hljs-preprocessor">.com</span>:mojombo/grit<span class="hljs-preprocessor">.git</span>
+bakkdoor  git://github.com/bakkdoor/grit.git
+cho45     git://github.com/cho45/grit.git
+defunkt   git://github.com/defunkt/grit.git
+koke      git://github.com/koke/grit.git
+origin    git@github.com:mojombo/grit.git
 </code></pre><p>Questo significa che possiamo prendere i contributi da qualsiasi di questi utenti in modo facile. Ma nota che solo origin è un URL SSH, è l&#39;unico dove posso fare il push (vedremo questa cosa nel Capitolo 4).</p>
 <h2 id="aggiungere-un-repository-remoto">Aggiungere un Repository Remoto</h2>
 <p>Ho menzionato e fornito alcune dimostrazioni, nelle sezioni precedenti, sull&#39;aggiunta di repository remoti, ma qui scendo nello specifico. Per aggiungere un nuovo repository Git con un soprannome per riconoscerlo velocemente, avvia <code>git remote add [soprannome] [url]</code>:</p>
 <pre><code>$ git remote
 origin
-$ git remote <span class="hljs-keyword">add</span> pb git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+$ git remote add pb git://github.com/paulboone/ticgit.git
 $ git remote -v
-origin    git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span>
-pb    git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+origin    git://github.com/schacon/ticgit.git
+pb    git://github.com/paulboone/ticgit.git
 </code></pre><p>Ora puoi usare la stringa pb dalla linea di comando al posto dell&#39;intero URL. Per esempio, se vuoi prelevare tutte le informazioni che Paul ha ma che ancora non hai nel tuo repository, puoi lanciare git fetch pb:</p>
 <pre><code>$ git fetch pb
-remote: Counting objects: <span class="hljs-number">58</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">41</span>/<span class="hljs-number">41</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">44</span> (delta <span class="hljs-number">24</span>), reused <span class="hljs-number">1</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-keyword">done</span>.
-From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
- * [<span class="hljs-keyword">new</span> branch]      master     -&gt; pb/master
- * [<span class="hljs-keyword">new</span> branch]      ticgit     -&gt; pb/ticgit
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit
 </code></pre><p>Il ramo master di Paul è accessibile localmente come <code>pb/master</code> —  puoi unirlo in uno dei tuoi rami, o puoi caricare un tuo ramo locale a questo punto per ispezionarlo.</p>
 <h2 id="prelevare-e-trarre-da-sorgenti-in-remoto">Prelevare e Trarre da Sorgenti in Remoto</h2>
 <p>Come già visto, per ottenere i dati da un progetto remoto, puoi farlo:</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch [nome-remoto]
+<pre><code>$ git fetch [nome-remoto]
 </code></pre><p>Il comando va sul progetto remoto e si tira giù tutti i dati dal progetto remoto che ancora non hai. Dopo aver fatto questo, dovresti avere tutti i riferimenti ai rami da questa sorgente remota, che poi potrai fondere o ispezionare in ogni momento. (Vedremo cosa sono i rami e come usarli in maggior dettaglio al <em>Capitolo 3</em>).</p>
 <p>Se hai clonato un repository, il comando automaticamente aggiunge un repository remoto sotto il nome origin. Così, <code>git fetch origin</code> preleva ogni lavoro che è stato inserito su quel server da quando hai fatto la clonazione (o dall&#39;ultimo prelievo). E&#39; importante notare che il comando <code>fetch</code> mette i dati nel tuo repository locale — non unisce automaticamente e non modifica alcun file su cui tu stai lavorando. Devi eseguire la fusione manualmente nel tuo lavoro, quando sei pronto.</p>
 <p>Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando <code>git pull</code> per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando <code>git clone</code> automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumendo che il sorgente remoto abbia un ramo master). Lanciare <code>git pull</code> generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.</p>
 <h2 id="inserire-nella-sorgente-remota">Inserire nella Sorgente Remota</h2>
 <p>Quando hai il tuo progetto al punto in cui lo vuoi condividere, devi inviarlo a monte (push upstream). Il comando per fare questo è semplice: <code>git push [nome-remoto] [nome-ramo]</code>. Se vuoi fare il push del tuo ramo master al tuo server <code>origin</code> (ancora, generalmente con la clonazione sono impostati entrambi questi nomi automaticamente), puoi lanciare il push per mettere il tuo lavoro sul server:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git push origin master
 </code></pre><p>Questo comando funziona solamente se hai fatto una clonazione da un server in cui hai i permessi di scrittura e se nessuno ha inviato dati nel mentre. Se tu e qualcun altro clonate un repository nello stesso momento ed essi inviano i dati, e poi tu invii i dati, il tuo invio verrà gustamente rifiutato. Devi prima scaricare il loro lavoro ed incorporarlo nel tuo per poter inviare le tue modifiche. Vedi il <em>Capitolo 3</em> per maggiori dettagli ed informazioni su come fare il push su server remoti.</p>
 <h2 id="ispezionare-una-sorgente-remota">Ispezionare una Sorgente Remota</h2>
 <p>Se vuoi vedere più informazioni su di una sorgente remota in particolare, puoi usare il comando <code>git remote show [nome-remoto]</code>. Se lanci il comando con un soprannome particolare, come <code>origin</code>, avrai qualcosa di simile a questo:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git://github.com/schacon/ticgit.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  URL: git://github.com/schacon/ticgit.git
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
   Tracked remote branches
     master
@@ -846,14 +849,14 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
 <p>Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, tuttavia, potrai vedere molte più informazioni da <code>git remote show</code>:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git@github.com:defunkt/github.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">issues</span></span>
+  URL: git@github.com:defunkt/github.git
+  Remote branch merged with &#39;git pull&#39; while on branch issues
     issues
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
-  New remote branches (next fetch will store <span class="hljs-operator">in</span> remotes/origin)
+  New remote branches (next fetch will store in remotes/origin)
     caching
-  Stale tracking branches (use <span class="hljs-string">'git remote prune'</span>)
+  Stale tracking branches (use &#39;git remote prune&#39;)
     libwalker
     walker2
   Tracked remote branches
@@ -863,136 +866,136 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
     issues
     master
     postgres
-  Local branch pushed <span class="hljs-operator">with</span> <span class="hljs-string">'git push'</span>
+  Local branch pushed with &#39;git push&#39;
     master:master
 </code></pre><p>Questo comando mostra quale ramo è automaticamente caricato quando lanci <code>git push</code> su certe diramazioni. Inoltre ti mostrerà quali rami remoti sul server che ancora non possiedi, quali rami remoti possiedi e che saranno rimossi dal server, e le diramazioni che saranno automaticamente unite quando lancerai <code>git pull</code>.</p>
 <h2 id="rimuovere-e-rinominare-sorgenti-remote">Rimuovere e Rinominare Sorgenti Remote</h2>
 <p>Se vuoi rinominare un riferimento, nelle nuove versioni di Git, puoi lanciare <code>git remote rename</code> per cambiare il soprannome di una sorgente remota. Per esempio, se vuoi rinominare <code>pb</code> in <code>paul</code>, puoi farlo con <code>git remote rename</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rename pb paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rename pb paul
+$ git remote
 origin
 paul
 </code></pre><p>Vale la pena ricordare che questo cambia anche i nomi dei rami remoti. Quello che prima era riferito a <code>pb/master</code> ora è <code>paul/master</code>.</p>
 <p>Se vuoi rimuovere un riferimento per una qualche ragione — hai spostato il server o non stai più usando un mirror particolare, o magari un collaboratore non collabora più — puoi usare <code>git remote rm</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rm paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rm paul
+$ git remote
 origin
 </code></pre><h2 id="etichettare">Etichettare</h2>
 <p>Come la maggior parte dei VCS, Git ha la possibilità di contrassegnare (tag, ndt) dei punti specifici della storia come importanti. Generalmente, le persone usano questa funzionalità per marcare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare le etichette disponibili, come crearne di nuove, ed i differenti tipi di etichette esistenti.</p>
 <h2 id="elencare-le-proprie-etichette">Elencare le Proprie Etichette</h2>
 <p>Elencare le etichette disponibili in Git è facilissimo. Semplicemente digita <code>git tag</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git tag
-v<span class="hljs-number">0</span>.<span class="hljs-number">1</span>
-v1.<span class="hljs-number">3</span>
+<pre><code>$ git tag
+v0.1
+v1.3
 </code></pre><p>Questo comando elenca le etichette in ordine alfabetico; l&#39;ordine con il quale compaiono non è realmente importante.</p>
 <p>Puoi inoltre cercare le etichette con uno schema specifico. Il repository sorgente di Git, per esempio, contiene più di 240 etichette. Se sei solo interessato a vedere quelli della serie 1.4.2, puoi lanciare:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-l</span> <span class="hljs-string">'v1.4.2.*'</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.2</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.4</span>
+<pre><code>$ git tag -l &#39;v1.4.2.*&#39;
+v1.4.2.1
+v1.4.2.2
+v1.4.2.3
+v1.4.2.4
 </code></pre><h2 id="creare-etichette">Creare Etichette</h2>
 <p>Git usa due principali tipi di etichette: lightweight (semplificate, ndt) e annotated (commentate, ndt). Un&#39;etichetta lightweight è molto simile ad un ramo che non è cambiato —  è semplicemente un riferimento ad uno specifico commit. Le etichette annotated, tuttavia, sono salvate come oggetti nel database Git. Ne viene calcolato il checksum; contengono il nome, l&#39;e-mail e la data di chi ha inserito l&#39;etichetta; hanno un messaggio; e possono essere firmati e verificati con GNU Privacy Guard (GPG). É generalmente raccomandato creare etichette annotated così puoi avere tutte queste informazioni; ma se vuoi temporaneamente inserire un&#39;etichetta e per qualche ragione non vuoi avere queste informazioni, le etichette lightweight sono ancora disponibili.</p>
 <h2 id="etichette-annotated">Etichette Annotated</h2>
 <p>Creare un&#39;etichetta annotated in Git è semplice. La via più facile è specificare <code>-a</code> quando si lancia il comando <code>tag</code>:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.4</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my version 1.4'</span>
-$ git <span class="hljs-built_in">tag</span>
-v0<span class="hljs-number">.1</span>
-v1<span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span>
+<pre><code>$ git tag -a v1.4 -m &#39;my version 1.4&#39;
+$ git tag
+v0.1
+v1.3
+v1.4
 </code></pre><p><code>-m</code> specifica il messaggio, che è salvato con l&#39;etichetta. Se non specifichi un messaggio per una etichetta annotated, Git lancerà il tuo editor così potrai inserirlo.</p>
 <p>Puoi vedere i dati dell&#39;etichetta assieme al commit in cui è stato inserito l&#39;etichetta con il comando <code>git show</code>:</p>
-<pre><code>$ git show v1<span class="hljs-number">.4</span>
-<span class="hljs-built_in">tag</span> v1<span class="hljs-number">.4</span>
-Tagger: Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gee<span class="hljs-attribute">-mail</span><span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">14</span>:<span class="hljs-number">45</span>:<span class="hljs-number">11</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0800</span>
+<pre><code>$ git show v1.4
+tag v1.4
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 14:45:11 2009 -0800
 
-my version <span class="hljs-number">1.4</span>
-commit <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-Merge: <span class="hljs-number">4</span>a447f7<span class="hljs-attribute">...</span> a6b4c97<span class="hljs-attribute">...</span>
-Author: Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gee<span class="hljs-attribute">-mail</span><span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0800</span>
+my version 1.4
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    Merge branch <span class="hljs-string">'experiment'</span>
+    Merge branch &#39;experiment&#39;
 </code></pre><p>Questo mostra le informazioni di chi ha eseguito l&#39;etichetta, la data del commit della stessa, ed il messaggio prima di mostrare le informazioni del commit.</p>
 <h2 id="firmare-le-etichette">Firmare le Etichette</h2>
 <p>Puoi anche firmare le tue etichette con GPG, assumendo che tu abbia una chiave privata. Tutto quello che devi fare è usare <code>-s</code> invece di <code>-a</code>:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-s</span> v1<span class="hljs-number">.5</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my signed 1.5 tag'</span>
-You need a passphrase <span class="hljs-keyword">to</span> unlock the secret key for
-user: <span class="hljs-string">"Scott Chacon &lt;schacon@gee-mail.com&gt;"</span>
-<span class="hljs-number">1024</span><span class="hljs-attribute">-bit</span> DSA key, ID F721C45A, created <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">09</span>
+<pre><code>$ git tag -s v1.5 -m &#39;my signed 1.5 tag&#39;
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;schacon@gee-mail.com&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09
 </code></pre><p>Se lanci <code>git show</code> su questa etichetta, potrai vedere la tua firma GPG in allegato ad essa:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> v1<span class="hljs-number">.5</span>
-tag v1<span class="hljs-number">.5</span>
+<pre><code>$ git show v1.5
+tag v1.5
 Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">15</span>:<span class="hljs-number">22</span>:<span class="hljs-number">20</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Mon Feb 9 15:22:20 2009 -0800
 
-my signed <span class="hljs-number">1.5</span> tag
------<span class="hljs-keyword">BEGIN</span> PGP SIGNATURE-----
-Version: GnuPG v1<span class="hljs-number">.4</span><span class="hljs-number">.8</span> (Darwin)
+my signed 1.5 tag
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.8 (Darwin)
 
 iEYEABECAAYFAkmQurIACgkQON3DxfchxFr5cACeIMN+ZxLKggJQf0QYiQBwgySN
 Ki0An2JeAVUCAiJ7Ox6ZEtK+NvZAj82/
 =WryJ
------<span class="hljs-keyword">END</span> PGP SIGNATURE-----
-<span class="hljs-keyword">commit</span> <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">4</span>a447f7... a6b4c97...
+-----END PGP SIGNATURE-----
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    <span class="hljs-keyword">Merge</span> branch <span class="hljs-string">'experiment'</span></span>
+    Merge branch &#39;experiment&#39;
 </code></pre><p>Più avanti, imparerai come verificare le etichette firmate.</p>
 <h2 id="etichette-lightweight">Etichette Lightweight</h2>
 <p>Un altro modo per marcare i commit è usare le etichette lightweight. Questo è semplicemente fare il checksum del commit salvato in un file — nessun&#39;altra informazione è mantenuta. Per creare un&#39;etichetta semplificata, non fornire l&#39;opzione <code>-a</code>, <code>s</code> o <code>-m</code>:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> v1<span class="hljs-number">.4</span><span class="hljs-attribute">-lw</span>
-$ git <span class="hljs-built_in">tag</span>
-v0<span class="hljs-number">.1</span>
-v1<span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span>
-v1<span class="hljs-number">.4</span><span class="hljs-attribute">-lw</span>
-v1<span class="hljs-number">.5</span>
+<pre><code>$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5
 </code></pre><p>A questo punto, se lanci <code>git show</code> sulla tua etichetta, non vedrai altre informazioni aggiuntive. Il comando semplicemente mostra il commit:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> v1<span class="hljs-number">.4</span>-lw
-<span class="hljs-keyword">commit</span> <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">4</span>a447f7... a6b4c97...
+<pre><code>$ git show v1.4-lw
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    <span class="hljs-keyword">Merge</span> branch <span class="hljs-string">'experiment'</span></span>
+    Merge branch &#39;experiment&#39;
 </code></pre><h2 id="verificare-le-etichette">Verificare le Etichette</h2>
 <p>Per verificarele etichetta firmate, usa <code>git tag -v [nome-tag]</code>. Questo comando usa la verifica GPG della firma. Avrai bisogno della chiave pubblica del firmatario nel tuo portachiavi affinché funzioni correttamente:</p>
 <pre><code>$ git tag -v v1.4.2.1
 object 883653babd8ee7ea23e6a5c392bb739348b1eb61
-type <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-tag v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
-tagger Junio C Hamano &lt;junkio@cox.net&gt; <span class="hljs-number">1158138501</span> -<span class="hljs-number">0700</span>
+type commit
+tag v1.4.2.1
+tagger Junio C Hamano &lt;junkio@cox.net&gt; 1158138501 -0700
 
-GIT <span class="hljs-number">1.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
+GIT 1.4.2.1
 
-Minor fixes since <span class="hljs-number">1.4</span><span class="hljs-number">.2</span>, including git-mv <span class="hljs-keyword">and</span> git-http <span class="hljs-keyword">with</span> alternates.
-gpg: Signature made Wed Sep <span class="hljs-number">13</span> <span class="hljs-number">02</span>:<span class="hljs-number">08</span>:<span class="hljs-number">25</span> <span class="hljs-number">2006</span> PDT <span class="hljs-keyword">using</span> DSA <span class="hljs-keyword">key</span> ID F3119B9A
-gpg: Good signature <span class="hljs-keyword">from</span> <span class="hljs-string">"Junio C Hamano &lt;junkio@cox.net&gt;"</span>
-gpg:                 aka <span class="hljs-string">"[jpeg image of size 1513]"</span>
-<span class="hljs-keyword">Primary</span> <span class="hljs-keyword">key</span> fingerprint: <span class="hljs-number">3565</span> <span class="hljs-number">2</span>A26 <span class="hljs-number">2040</span> E066 C9A7  <span class="hljs-number">4</span>A7D C0C6 D9A4 F311 <span class="hljs-number">9</span>B9A</span>
+Minor fixes since 1.4.2, including git-mv and git-http with alternates.
+gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Good signature from &quot;Junio C Hamano &lt;junkio@cox.net&gt;&quot;
+gpg:                 aka &quot;[jpeg image of size 1513]&quot;
+Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 </code></pre><p>Se non hai la chiave pubblica del firmatario, otterrai qualche cosa di simile a questo invece:</p>
-<pre><code><span class="hljs-attribute">gpg</span>: <span class="hljs-string">Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A</span>
-<span class="hljs-attribute">gpg</span>: <span class="hljs-string">Can't check signature: public key not found</span>
-<span class="hljs-attribute">error</span>: <span class="hljs-string">could not verify the tag 'v1.4.2.1'</span>
+<pre><code>gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Can&#39;t check signature: public key not found
+error: could not verify the tag &#39;v1.4.2.1&#39;
 </code></pre><h2 id="inserire-una-etichetta-successivamente">Inserire una Etichetta Successivamente</h2>
 <p>Puoi anche etichettare i commit che hai già superato. Supponiamo che la storia dei tuoi commit sia come questa: </p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=oneline</span>
-<span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6 Merge branch <span class="hljs-string">'experiment'</span>
-a6b4c97498bd301d84096da251c98a07c7723e65 beginning <span class="hljs-built_in">write</span> support
-<span class="hljs-number">0</span>d52aaab4479697da7686c15f77a3d64d9165190 <span class="hljs-constant">one</span> more thing
-<span class="hljs-number">6</span>d52a271eda8725415634dd79daabbc4d9b6008e Merge branch <span class="hljs-string">'experiment'</span>
-<span class="hljs-number">0</span>b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added <span class="hljs-operator">a</span> commit <span class="hljs-function"><span class="hljs-keyword">function</span></span>
-<span class="hljs-number">4682</span>c3261057305bdd616e23b64b0857d832627b added <span class="hljs-operator">a</span> todo <span class="hljs-built_in">file</span>
-<span class="hljs-number">166</span>ae0c4d3f420721acbb115cc33848dfcc2121a started <span class="hljs-built_in">write</span> support
-<span class="hljs-number">9</span>fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
-<span class="hljs-number">964</span>f16d36dfccde844893cac5b347e7b3d44abbc commit <span class="hljs-operator">the</span> todo
-<span class="hljs-number">8</span>a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
+<pre><code>$ git log --pretty=oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch &#39;experiment&#39;
+a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch &#39;experiment&#39;
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit function
+4682c3261057305bdd616e23b64b0857d832627b added a todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a started write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 </code></pre><p>Ora, supponiamo che ti sia dimenticato di mettere l&#39;etichetta v1.2 al tuo progetto, che è al commit &quot;updated rakefile&quot;. Puoi aggiungerlo successivamente. Per marcare questo commit, devi specificare il checksum (o parte di esso) del commit alla fine del comando:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.2</span> <span class="hljs-number">9</span>fceb02
+<pre><code>$ git tag -a v1.2 9fceb02
 </code></pre><p>Puoi vedere che hai marcato il commit:</p>
 <pre><code>$ git tag
 v0.1
@@ -1005,36 +1008,36 @@ v1.5
 $ git show v1.2
 tag v1.2
 Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">15</span>:<span class="hljs-number">32</span>:<span class="hljs-number">16</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Mon Feb 9 15:32:16 2009 -0800
 
-version <span class="hljs-number">1.2</span>
+version 1.2
 commit 9fceb02d0ae598e95dc970b74767f19372d61af8
 Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;
-Date:   Sun Apr <span class="hljs-number">27</span> <span class="hljs-number">20</span>:<span class="hljs-number">43</span>:<span class="hljs-number">35</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sun Apr 27 20:43:35 2008 -0700
 
     updated rakefile
-<span class="hljs-keyword">...</span>
+...
 </code></pre><h2 id="condividere-le-etichette">Condividere le Etichette</h2>
 <p>Di base, il comando <code>git push</code> non trasferisce le etichette sui server remoti. Devi esplicitamente inviare le etichette da condividere con il server dopo averle create. Questo processo è come condividere rami remoti — puoi lanciare <code>git push origin [nometag]</code>.</p>
-<pre><code>$ git push origin v1<span class="hljs-number">.5</span>
-Counting objects: <span class="hljs-number">50</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">38</span>/<span class="hljs-number">38</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-number">4.56</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">44</span> (delta <span class="hljs-number">18</span>), reused <span class="hljs-number">8</span> (delta <span class="hljs-number">1</span>)
+<pre><code>$ git push origin v1.5
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
 To git@github.com:schacon/simplegit.git
-* [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.5</span> -&gt; v1<span class="hljs-number">.5</span>
+* [new tag]         v1.5 -&gt; v1.5
 </code></pre><p>Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l&#39;opzione <code>--tags</code> del comando <code>git push</code>. Questo trasferirà tutti le tue etichette sul server remoto che non sono ancora presenti.</p>
 <pre><code>$ git push origin --tags
-Counting <span class="hljs-attribute">objects</span>: <span class="hljs-number">50</span>, done.
-Compressing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">38</span>/<span class="hljs-number">38</span>), done.
-Writing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-number">4.56</span> KiB, done.
-Total <span class="hljs-number">44</span> (delta <span class="hljs-number">18</span>), reused <span class="hljs-number">8</span> (delta <span class="hljs-number">1</span>)
-To git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> tag]         v0<span class="hljs-number">.1</span><span class="hljs-function"> -&gt;</span> v0<span class="hljs-number">.1</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.2</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.2</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.4</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.4</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.4</span>-lw<span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.4</span>-lw
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.5</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.5</span>
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To git@github.com:schacon/simplegit.git
+ * [new tag]         v0.1 -&gt; v0.1
+ * [new tag]         v1.2 -&gt; v1.2
+ * [new tag]         v1.4 -&gt; v1.4
+ * [new tag]         v1.4-lw -&gt; v1.4-lw
+ * [new tag]         v1.5 -&gt; v1.5
 </code></pre><p>Ora, quando qualcun altro clona o scarica dal tuo repository, avrà anche tutti le tue etichette.</p>
 
                     
@@ -1054,9 +1057,9 @@ To git<span class="hljs-property">@github</span>.<span class="hljs-attribute">co
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

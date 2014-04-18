@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,14 +847,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_881">
+                    <section class="normal" id="section-gitbook_739">
                     
                         <h1 id="o-que-um-branch">O que é um Branch</h1>
 <p>Para compreender realmente a forma como o Git cria branches, precisamos dar um passo atrás e examinar como o Git armazena seus dados. Como você pode se lembrar do capítulo 1, o Git não armazena dados como uma série de mudanças ou deltas, mas sim como uma série de snapshots.</p>
 <p>Quando você faz um commit no Git, o Git guarda um objeto commit que contém um ponteiro para o snapshot do conteúdo que você colocou na área de seleção, o autor e os metadados da mensagem, zero ou mais ponteiros para o commit ou commits que são pais deste commit: nenhum pai para o commit inicial, um pai para um commit normal e múltiplos pais para commits que resultem de um merge de dois ou mais branches.</p>
 <p>Para visualizar isso, vamos supor que você tenha um diretório contendo três arquivos, e colocou todos eles na área de seleção e fez o commit. Colocar na área de seleção cria o checksum de cada arquivo (o hash SHA-1 que nos referimos no capítulo 1), armazena esta versão do arquivo no repositório Git (o Git se refere a eles como blobs), e acrescenta este checksum à área de seleção (staging area):</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span> test.rb <span class="hljs-constant">LICENSE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'commit inicial do meu projeto'</span>
+<pre><code>$ git add README test.rb LICENSE
+$ git commit -m &#39;commit inicial do meu projeto&#39;
 </code></pre><p>Quando você cria um commit executando <code>git commit</code>, o Git calcula o checksum de cada subdiretório (neste caso, apenas o diretório raiz do projeto) e armazena os objetos de árvore no repositório Git. O Git em seguida, cria um objeto commit que tem os metadados e um ponteiro para a árvore do projeto raiz, então ele pode recriar este snapshot quando necessário.</p>
 <p>Seu repositório Git agora contém cinco objetos: um blob para o conteúdo de cada um dos três arquivos, uma árvore que lista o conteúdo do diretório e especifica quais nomes de arquivos são armazenados em quais blobs, e um commit com o ponteiro para a raiz dessa árvore com todos os metadados do commit. Conceitualmente, os dados em seu repositório Git se parecem como na Figura 3-1.</p>
 <p><img src="http://git-scm.com/figures/18333fig0301-tn.png" alt=""></p>
@@ -863,7 +866,7 @@
 <p><img src="http://git-scm.com/figures/18333fig0303-tn.png" alt=""></p>
 <p>Figura 3-3. Branch apontando para o histórico de commits.</p>
 <p>O que acontece se você criar um novo branch? Bem, isso cria um novo ponteiro para que você possa se mover. Vamos dizer que você crie um novo branch chamado testing. Você faz isso com o comando <code>git branch</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch testing
+<pre><code>$ git branch testing
 </code></pre><p>Isso cria um novo ponteiro para o mesmo commit em que você está no momento (ver a Figura 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Figura 3-4. Múltiplos branches apontando para o histórico de commits.</p>
@@ -871,25 +874,25 @@
 <p><img src="http://git-scm.com/figures/18333fig0305-tn.png" alt=""></p>
 <p>Figura 3-5. HEAD apontando para o branch em que você está.</p>
 <p>Para mudar para um branch existente, você executa o comando <code>git checkout</code>. Vamos mudar para o novo branch testing:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout testing
+<pre><code>$ git checkout testing
 </code></pre><p>Isto move o HEAD para apontar para o branch de testes (ver Figura 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Figura 3-6. O HEAD aponta para outro branch quando você troca de branches.</p>
 <p>Qual é o significado disso? Bem, vamos fazer um outro commit:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'fiz uma alteração'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;fiz uma alteração&#39;
 </code></pre><p>A figura 3-7 ilustra o resultado.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Figura 3-7. O branch para o qual HEAD aponta avança com cada commit.</p>
 <p>Isso é interessante, porque agora o seu branch testing avançou, mas o seu branch <code>master</code> ainda aponta para o commit em que estava quando você executou <code>git checkout</code> para trocar de branch. Vamos voltar para o branch <code>master</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>A figura 3-8 mostra o resultado.</p>
 <p><img src="http://git-scm.com/figures/18333fig0308-tn.png" alt=""></p>
 <p>Figura 3-8. O HEAD se move para outro branch com um checkout.</p>
 <p>Esse comando fez duas coisas. Ele alterou o ponteiro HEAD para apontar novamente para o branch <code>master</code>, e reverteu os arquivos em seu diretório de trabalho para o estado em que estavam no snapshot para o qual o <code>master</code> apontava. Isto significa também que as mudanças feitas a partir deste ponto em diante, irão divergir de uma versão anterior do projeto. Ele essencialmente &quot;volta&quot; o trabalho que você fez no seu branch testing, temporariamente, de modo que você possa ir em uma direção diferente.</p>
 <p>Vamos fazer algumas mudanças e fazer o commit novamente:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'fiz outra alteração'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;fiz outra alteração&#39;
 </code></pre><p>Agora o histórico do seu projeto divergiu (ver Figura 3-9). Você criou e trocou para um branch, trabalhou nele, e então voltou para o seu branch principal e trabalhou mais. Ambas as mudanças são isoladas em branches distintos: você pode alternar entre os branches e fundi-los (merge) quando estiver pronto. E você fez tudo isso simplesmente com os comandos <code>branch</code> e <code>checkout</code>.</p>
 <p><img src="http://git-scm.com/figures/18333fig0309-tn.png" alt=""></p>
 <p>Figura 3-9. O histórico dos branches diverge.</p>
@@ -914,9 +917,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

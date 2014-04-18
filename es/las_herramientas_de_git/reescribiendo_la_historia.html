@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.4" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.4" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -842,141 +845,141 @@
 <h2 id="modificar-la-ltima-confirmaci-n-de-cambios">Modificar la última confirmación de cambios</h2>
 <p>Modificar la última confirmación de cambios (commit) es probablemente el arreglo realizado con más frecuencia. Dos suelen ser los cambios básicos a realizar: cambiar el mensaje o cambiar los archivos añadidos, modificados o borrados.</p>
 <p>Cambiar el mensaje de la última confirmación de cambios, es muy sencillo:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><p>Mediante este comando, el editor de textos arranca con el mensaje escrito en la última confirmación de cambios; listo para ser modificado. Al guardar y cerrar en el editor, este escribe una nueva confirmación de cambios y reemplaza con ella la última confirmación existente.</p>
 <p>Si se desea cambiar la instantánea (snapshot) de archivos en la última confirmación de cambios, habitualmente por haber tenido algún descuido al añadir algún archivo de reciente creación. El proceso a seguir es básicamente el mismo. Se preparan en el área de preparación los archivos deseados; con los comandos <code>git add</code> o <code>git rm</code>, según corresponda. Y, a continuación, se lanza el comando <code>git commit --amend</code>. Este tendrá en cuenta dicha preparación para rehacer la instantánea de archivos en la nueva confirmación de cambios. </p>
 <p>Es importante ser cuidadoso con esta técnica. Porque al modifcar cualquier confirmación de cambios, cambia también su código SHA-1. Es como si se realizara una pequeña reorganización (rebase). Y, por tanto, aquí también se aplica la regla de no modificar nunca una confirmación de cambios que ya haya sido enviada (push) a otros.</p>
 <h2 id="modificar-m-ltiples-confirmaciones-de-cambios">Modificar múltiples confirmaciones de cambios</h2>
 <p>Para modificar una confirmación de cambios situada bastante atrás en el historial, es necesario emplear herramientas más complejas. Git no dispone de herramientas directas para modifica el historial de confirmaciones de cambio. Pero es posible emplear la herramienta de reorganización (rebase) para modificar series de confirmaciones; en la propia cabeza (HEAD) donde estaban basadas originalmente, en lugar de moverlas a otra distinta. Dentro de la herramienta de reorganización interactiva, es posible detenerse justo tras cada confirmación de cambios a modificar. Para cambiar su mensaje, añadir archivos, o cualquier otra modificación. Este modo interactivo se activa utilizando la opción <code>-i</code> en el comando <code>git rebase</code>.  La profundidad en la historia a modificar vendrá dada por la confirmación de cambios (commit) que se indique al comando.</p>
 <p>Por ejemplo, para modificar las tres últimas confirmaciones de cambios, se  indicara el padre de la última conformación a modificar, es decir habrá que escribir <code>HEAD~2^</code> or <code>HEAD~3</code> tras el comando <code>git rebase -i</code>. La nomenclatura  <code>~3</code> es la mas sencilla de recordar, porque lo que se desea es modificar las tres últimas confirmaciones. Pero sin perder de vista que realmente se está señalando a cuatro confirmaciones de cambio más atras, al padre de la última de las confirmaciones de cambio a modificar. </p>
-<pre><code><span class="hljs-variable">$ </span>git rebase -i <span class="hljs-constant">HEAD</span>~<span class="hljs-number">3</span>
+<pre><code>$ git rebase -i HEAD~3
 </code></pre><p>Es importante avisar de nuevo que se trata de un comando de reorganización: todas y cada una de las confirmaciones de cambios en el rango <code>HEAD~3..HEAD</code> van a ser reescritas, (cambia su código SHA-1), tanto si se modifica algo en ellas como si no. Por tanto, es importante no afectar a ninguna confirmación de cambios que haya sido ya enviada (push) a un servidor central. So pena de confundir a otros desarrolladores, a los cuales se estaria dando una versión alternativa de un mismo cambio.</p>
 <p>Al lanzar este comando, se verán una lista de confirmaciones de cambio en la pantalla del editor de textos:</p>
 <pre><code>pick f7f3f6d changed my name a bit
-pick <span class="hljs-number">310154</span>e updated<span class="hljs-constant"> README </span>formatting and added blame
+pick 310154e updated README formatting and added blame
 pick a5f4a0d added cat-filepick f7f3f6d changed my name a bit
-pick <span class="hljs-number">310154</span>e updated<span class="hljs-constant"> README </span>formatting and added blame
+pick 310154e updated README formatting and added blame
 pick a5f4a0d added cat-file
 
-<span class="hljs-preprocessor"># Rebase 710f0f8..a5f4a0d onto 710f0f8</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Commands:</span>
-<span class="hljs-preprocessor">#  p, pick = use commit</span>
-<span class="hljs-preprocessor">#  e, edit = use commit, but stop for amending</span>
-<span class="hljs-preprocessor">#  s, squash = use commit, but meld into previous commit</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
-<span class="hljs-preprocessor"># However, if you remove everything, the rebase will be aborted.</span>
-<span class="hljs-preprocessor">###</span>
+# Rebase 710f0f8..a5f4a0d onto 710f0f8
+#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+###
 </code></pre><p>Es importante destacar que esas confirmaciones de cambios se han listado en el orden opuesto al que normalmente son mostradas en el comando <code>log</code>.  En este último, se suele ver algo así como:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> <span class="hljs-variable">%s</span>"</span> HEAD~<span class="hljs-number">3</span>..HEAD
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; HEAD~3..HEAD
 a5f4a0d added cat-file
-<span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-f7f3f6d changed <span class="hljs-keyword">my</span> name a bit
+310154e updated README formatting and added blame
+f7f3f6d changed my name a bit
 </code></pre><p>Prestar atención al orden inverso. La reorganización interactiva lanza un script. Un script que, comenzando por la confirmación de cambios indicada en la línea del comando (<code>HEAD~3</code>), va a reaplicar los cambios introducidos en cada una de las confirmaciones, desde arriba hasta abajo. En la lista se ven las mas antiguas encima, en lugar de las más recientes, precisamente porque esas van a ser las primeras en reaplicarse.</p>
 <p>Para que el script se detenga en cada confirmación de cambios a modificar, hay que editarlo. Y se ha de cambiar la palabra &#39;pick&#39; por la palabra &#39;edit&#39; en cada una de las confirmaciones de cambio donde se desee detener el script. Por ejemplo, para modificar solo el mensaje de la tercera confirmación de cambios, el script quedaria:</p>
-<pre><code>edit f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>edit f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><p>Cuando se guarde y cierre en el editor, Git hará un rebobinado hacia atras hasta la última de las confirmaciones de cambios en la lista, y mostrará algo así como:</p>
-<pre><code>$ git rebase -i HEAD~<span class="hljs-number">3</span>
-Stopped <span class="hljs-keyword">at</span> <span class="hljs-number">7482e0</span>d... updated <span class="hljs-keyword">the</span> gemspec <span class="hljs-keyword">to</span> hopefully work better
-You can amend <span class="hljs-keyword">the</span> commit now, <span class="hljs-keyword">with</span>
+<pre><code>$ git rebase -i HEAD~3
+Stopped at 7482e0d... updated the gemspec to hopefully work better
+You can amend the commit now, with
 
-       git commit <span class="hljs-comment">--amend</span>
+       git commit --amend
 
-Once you’re satisfied <span class="hljs-keyword">with</span> your changes, <span class="hljs-command">run</span>
+Once you’re satisfied with your changes, run
 
-       git rebase <span class="hljs-comment">--continue</span>
+       git rebase --continue
 </code></pre><p>Estas instrucciones indican exactamente lo que se ha de realizar. Teclear</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><p>Cambiar el mensaje de la confirmación de cambios y salir del editor. Para luego lanzar</p>
-<pre><code>$ git rebase --<span class="hljs-keyword">continue</span>
+<pre><code>$ git rebase --continue
 </code></pre><p>Las otras dos confirmaciones de cambio serán reaplicadas automáticamene. Y ya estará completa la reorganización. Si se ha cambiado &#39;pick&#39; por &#39;edit&#39; en más de una línea, estos pasos se habrán de repetir por cada una de las confirmaciones de cambios a modificar. En cada una de ellas, Git se detendrá, permitiendo enmendar la confirmación de cambios y continuar tras la modificación.</p>
 <h2 id="reordenar-confirmaciones-de-cambios">Reordenar confirmaciones de cambios</h2>
 <p>Las reorganizaciones interactivas también se pueden emplear para reordenar o para eliminar completamente ciertas confirmaciones de cambios (commits). Por ejemplo, si se desea eliminar la confirmación de &quot;added cat-file&quot; y cambiar el orden en que se han introducido las otras dos confirmaciones de cambios, el script de reorganización pasaría de ser:</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-filepick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-filepick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><p>a quedar en algo como:</p>
-<pre><code>pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
+<pre><code>pick 310154e updated README formatting and added blame
+pick f7f3f6d changed my name a bit
 </code></pre><p>Cuando se guarde y salga en el editor, Git rebobinará la rama hasta el padre de las confirmaciones de cambio indicadas, reaplicará <code>310154e</code> y luego <code>f7f3f6d</code>, para finalmente detenerse. De esta forma se habrá cambiado el orden de las dos confirmaciones de cambio, y se habrá eliminado completamente la de &quot;added cat-file&quot;.</p>
 <h2 id="combinar-varias-confirmaciones-en-una-sola">Combinar varias confirmaciones en una sola</h2>
 <p>Con la herramienta de reorganización interactiva, es posible recombinar una serie de confirmaciones de cambio y agruparlas todas en una sola. El propio script indica las instrucciones a seguir:</p>
-<pre><code><span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Commands:</span>
-<span class="hljs-preprocessor">#  p, pick = use commit</span>
-<span class="hljs-preprocessor">#  e, edit = use commit, but stop for amending</span>
-<span class="hljs-preprocessor">#  s, squash = use commit, but meld into previous commit</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
-<span class="hljs-preprocessor"># However, if you remove everything, the rebase will be aborted.</span>
-<span class="hljs-preprocessor">###</span>
+<pre><code>#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+###
 </code></pre><p>Si, en lugar de &#39;pick&#39; o de &#39;edit&#39;, se indica &#39;squash&#39; delante de alguna de las confirmaciones de cambio, Git aplicará simultáneamente dicha confirmación y la que esté inmediatamente delante de ella.  Permitiendo también combinar los mensajes de ambas. Por ejemplo, si se desea hacer una única confirmación de cambios fusionando las tres, el script quedaría en algo como:</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-squash <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-squash a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+squash 310154e updated README formatting and added blame
+squash a5f4a0d added cat-file
 </code></pre><p>Cuando se guarde y salga en el editor, Git rebobinará la historia, reaplicará las tres confirmaciones de cambio, y volverá al editor para fusionar también los mensajes de esas tres confirmaciones. </p>
-<pre><code># This <span class="hljs-keyword">is</span> a combination <span class="hljs-keyword">of</span> <span class="hljs-number">3</span> commits.
-# The first commit<span class="hljs-attribute">'s</span> message <span class="hljs-keyword">is</span>:
-changed my name a <span class="hljs-typename">bit</span>
+<pre><code># This is a combination of 3 commits.
+# The first commit&#39;s message is:
+changed my name a bit
 
-# This <span class="hljs-keyword">is</span> the <span class="hljs-number">2</span>nd commit message:
+# This is the 2nd commit message:
 
-updated README formatting <span class="hljs-keyword">and</span> added blame
+updated README formatting and added blame
 
-# This <span class="hljs-keyword">is</span> the <span class="hljs-number">3</span>rd commit message:
+# This is the 3rd commit message:
 
-added cat-<span class="hljs-keyword">file</span>
+added cat-file
 </code></pre><p>Al guardar esto, se tendrá una sola confirmación de cambios que introducirá todos los cambios que estaban en las tres confirmaciones de cambios previamente existentes.</p>
 <h2 id="dividir-una-confirmaci-n-de-cambios-en-varias">Dividir una confirmación de cambios en varias</h2>
 <p>Dividir una confirmación de cambios (commit), implica deshacerla y luego volver a preparar y confirmar trozos de la misma tantas veces como nuevas confirmaciones se desean tener al final.  Por ejemplo, si se desea dividir la confirmación de cambios de enmedio de entre las tres citadas en ejemplos anteriores. Es decir, si en lugar de &quot;updated README formatting and added blame&quot;, se desea separar esa confirmación en dos: &quot;updated README formatting&quot; y &quot;added blame&quot;.  Se puede realizar cambiando la instrucción en el script de <code>rebase -i</code>, desde &#39;split&#39; a &#39;edit&#39;: </p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-edit <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+edit 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><p>Después, cuando el script devuelva la línea de comandos, se ha de deshacer (reset) esa confirmación de cambios, coger los cambios recién deshechos y crear multiples nuevas confirmaciones de cambios con ellos. Al guardar y salir en el editor, Git rebobinará la historia hasta el padre de la primera confirmación de cambios en la lista, reaplicará esa primera confirmación  (<code>f7f3f6d</code>), luego reaplicará la segunda (<code>310154e</code>) y luego devolverá la línea de comandos. En esta línea de comando, es donde se desharan los cambios tecleando el comando <code>git reset HEAD^</code> para dejar sin preparar (unstaged) los archivos cambiados. Para, seguidamente, elaborar tantas confirmaciones de cambios como se desee, a base de pasar archivos al área de preparación y confirmarlos. Y, finalmente, teclear el comando <code>git rebase --continue</code> para completar la tarea. </p>
-<pre><code><span class="hljs-variable">$ </span>git reset <span class="hljs-constant">HEAD</span>^
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'updated README formatting'</span>
-<span class="hljs-variable">$ </span>git add lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'added blame'</span>
-<span class="hljs-variable">$ </span>git rebase --continue
+<pre><code>$ git reset HEAD^
+$ git add README
+$ git commit -m &#39;updated README formatting&#39;
+$ git add lib/simplegit.rb
+$ git commit -m &#39;added blame&#39;
+$ git rebase --continue
 </code></pre><p>Tras esto, Git reaplicará la última de las confirmaciones de cambios  (<code>a5f4a0d</code>) en el script. Quedando la historia: </p>
-<pre><code>$ git <span class="hljs-keyword">log</span> -<span class="hljs-number">4</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> <span class="hljs-variable">%s</span>"</span>
-<span class="hljs-number">1</span>c002dd added cat-file
-<span class="hljs-number">9</span>b29157 added blame
-<span class="hljs-number">35</span>cfb2b updated README formatting
-f3cc40e changed <span class="hljs-keyword">my</span> name a bit
+<pre><code>$ git log -4 --pretty=format:&quot;%h %s&quot;
+1c002dd added cat-file
+9b29157 added blame
+35cfb2b updated README formatting
+f3cc40e changed my name a bit
 </code></pre><p>De nuevo, merece recalcar el hecho de que estas operaciones cambian los códigos SHA-1 de todas las confirmaciones de cambio afectadas. Y que, por tanto, no se deben hacer sobre confirmaciones de cambio enviadas(push) a algún repositorio compartido.</p>
 <h2 id="la-opci-n-nuclear-filter-branch">La opción nuclear: filter-branch</h2>
 <p>Existe una opción de reescritura del historial que se puede utilizar si se necesita reescribir un gran número de confirmaciones de cambio de forma mas o menos automatizada. Por ejemplo, para cambiar una dirección de correo electrónico globalmente, o para quitar un archivo de todas y cada una de las confirmaciones de cambios en una determinada rama. El comando en cuestión es <code>filter-branch</code>, y permite reescribir automáticamente grandes porciones del historial. Precisamente por ello, no debería utilizarse a no ser que el proyecto aún no se haya hecho público (es decir, otras personas no han basado su trabajo en alguna de las confirmaciones de cambio que se van a modificar). De todas formas, allá donde sea aplicable, puede ser de gran utilidad. Se van a ilustrar unas cuantas de las ocasiones donde se podría utilizar,  para dar así una idea de sus capacidades.</p>
 <h3 id="quitar-un-archivo-de-cada-confirmaci-n-de-cambios">Quitar un archivo de cada confirmación de cambios</h3>
 <p>Es algo que frecuentemente suele ser necesario. Alguien confirma cambios y almacena accidentalmente un enorme archivo binario cuando lanza un <code>git add .</code> sin pensarlo demasiado. Y es necesario quitarlo del repositorio. O podria suceder que se haya confirmado y almacenado accidentalmente un archivo que contiene una contraseña importante, Y el proyecto se va a hacer de código abierto. En estos casos, la mejor opción es utilizar la herramienta <code>filter-branch</code> para limpiar todo el historial.  Por ejemplo, para quitar un archivo llamado passwords.txt del repositorio, se puede emplear la opción <code>--tree-filter</code> del comando <code>filter-branch</code>:</p>
-<pre><code>$ git <span class="hljs-keyword">filter</span>-branch --tree-<span class="hljs-keyword">filter</span> <span class="hljs-string">'rm -f passwords.txt'</span> HEAD
-Rewrite <span class="hljs-number">6</span>b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (<span class="hljs-number">21</span>/<span class="hljs-number">21</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --tree-filter &#39;rm -f passwords.txt&#39; HEAD
+Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><p>Esta opción <code>--tree-filter</code>, tras cada extracción (checkout) del proyecto, lanzará el comando especificado y reconfirmará los cambios resultantes(recommit). En esta ocasión, se eliminará un archivo llamado passwords.txt de todas y cada una de las instantáneas (snapshot) almacenadas, tanto si este existe como si no. Otro ejemplo: si se desean eliminar todos los archivos de respaldo del editor que han sido almacenados por error, se podría lanzar algo así como  <code>git filter-branch --tree-filter &quot;find * -type f -name &#39;*~&#39; -delete&quot; HEAD</code>.</p>
 <p>Y se iria viendo como Git reescribe árboles y confirmaciones de cambio, hasta que el apuntador de la rama llegue al final. Una recomendación: en general, suele ser buena idea lanzar cualquiera de estas operaciones primero sobre una rama de pruebas y luego reinicializar (hard-reset) la rama maestra (master), una vez se haya comprobado que el resultado de las operaciones es el esperado. Si se desea lanzar <code>filter-branch</code> sobre todas las ramas del repositorio, se ha de pasar la opción <code>--all</code> al comando. </p>
 <h3 id="haciendo-que-una-subcarpeta-sea-la-nueva-carpeta-raiz">Haciendo que una subcarpeta sea la nueva carpeta raiz</h3>
 <p>Por ejemplo, en el caso de que se haya importado trabajo desde otro sistema de control de versiones, y se tengan algunas subcarpetas sin sentido (trunk, tags,...). <code>filter-branch</code> puede ser de utilidad para que, por ejemplo, la subcarpeta <code>trunk</code> sea la nueva carpeta raiz del proyecto en todas y cada una de las confirmaciones de cambios:</p>
-<pre><code>$ git <span class="hljs-built_in">filter</span>-branch <span class="hljs-comment">--subdirectory-filter trunk HEAD</span>
-Rewrite <span class="hljs-number">856</span>f0bf61e41a27326cdae8f09fe708d679f596f (<span class="hljs-number">12</span>/<span class="hljs-number">12</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --subdirectory-filter trunk HEAD
+Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><p>Tras este comando, la nueva raiz del proyecto pasa a ser el contenido de la carpeta <code>trunk</code>. Y, además, Git elimina automáticamente todas las confirmaciones de cambio (commits) que no afectaban a  dicha subcarpeta. </p>
 <h3 id="cambiando-direcciones-de-correo-e-de-forma-global">Cambiando direcciones de correo-e de forma global</h3>
 <p>Otra utilidad típica para utilizar <code>filter-branch</code> es cuando alguien ha olvidado ejecutar <code>git config</code> para configurar su nombre y dirección de correo electrónico antes de comenzar a trabajar. O cuando se va a pasar a código abierto un proyecto, pero previamente se desea cambiar todas las direcciones de correo empresariales por direcciones personales. En cualquier caso, se pueden cambiar de un golpe las direcciones de correo en multiples confirmaciones de cambio. Aunque es necesario ser cuidadoso para actuar solo sobre aquellas direcciones que se deseen cambiar, utilizando para ello la opción <code>--commit-filter</code>: </p>
-<pre><code>$ git filter-branch --commit-filter <span class="hljs-comment">'</span>
-        <span class="hljs-keyword">if</span> [ <span class="hljs-string">"$GIT_AUTHOR_EMAIL"</span> = <span class="hljs-string">"schacon@localhost"</span> ];
-        <span class="hljs-keyword">then</span>
-                GIT_AUTHOR_NAME=<span class="hljs-string">"Scott Chacon"</span>;
-                GIT_AUTHOR_EMAIL=<span class="hljs-string">"schacon@example.com"</span>;
-                git commit-tree <span class="hljs-string">"$@"</span>;
-        <span class="hljs-keyword">else</span>
-                git commit-tree <span class="hljs-string">"$@"</span>;
-        fi<span class="hljs-comment">' HEAD</span>
+<pre><code>$ git filter-branch --commit-filter &#39;
+        if [ &quot;$GIT_AUTHOR_EMAIL&quot; = &quot;schacon@localhost&quot; ];
+        then
+                GIT_AUTHOR_NAME=&quot;Scott Chacon&quot;;
+                GIT_AUTHOR_EMAIL=&quot;schacon@example.com&quot;;
+                git commit-tree &quot;$@&quot;;
+        else
+                git commit-tree &quot;$@&quot;;
+        fi&#39; HEAD
 </code></pre><p>Este comando pasa por todo el repositorio y reescribe cada confirmación de cambios donde detecte la dirección de correo indicada, para reemplazarla por la nueva. Y, debido a que cada confirmación de cambios contiene el código SHA-1 de sus ancestros, este comando cambia también todos los códigos SHA del historial; no solamente los de las confirmaciones de cambio que contenian la dirección indicada.</p>
 
                     
@@ -996,9 +999,9 @@ Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

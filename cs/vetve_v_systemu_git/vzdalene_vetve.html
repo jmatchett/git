@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_946">
+                    <section class="normal" id="section-gitbook_1018">
                     
                         <h1 id="vzd-len-v-tve">Vzdálené větve</h1>
 <p>Vzdálené větve jsou reference (tj. odkazy) na stav větví ve vašich vzdálených repozitářích. Jsou to lokální větve, které nemůžete přesouvat. Přesouvají se automaticky při síťové komunikaci. Vzdálené větve slouží jako záložky, které vám připomínají, kde byly větve ve vzdálených repozitářích, když jste se k nim naposledy připojili.</p>
@@ -878,42 +881,42 @@
 <p>Chcete-li svou větev sdílet s okolním světem, musíte ji odeslat na vzdálený server, k němuž máte oprávnění pro zápis. Vaše lokální větve nejsou automaticky synchronizovány se vzdálenými servery, na něž zapisujete – ty, které chcete sdílet, musíte explicitně odeslat. Tímto způsobem si můžete zachovat soukromé větve pro práci, kterou nehodláte sdílet, a odesílat pouze tematické větve, na nichž chcete spolupracovat.</p>
 <p>Máte-li větev s názvem <code>serverfix</code>, na níž chcete spolupracovat s ostatními, můžete ji odeslat stejným způsobem, jakým jste odesílali svou první větev. Spusťte příkaz <code>git push (server) (větev)</code>:</p>
 <pre><code>$ git push origin serverfix
-Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-number">1.74</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 20, done.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 1.74 KiB, done.
+Total 15 (delta 5), reused 0 (delta 0)
 To git@github.com:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> branch]      serverfix -&gt; serverfix
+ * [new branch]      serverfix -&gt; serverfix
 </code></pre><p>Toto je zkrácená verze příkazu. Git automaticky rozšíří název větve <code>serverfix</code> na <code>refs/heads/serverfix:refs/heads/serverfix</code>, což znamená: „Vezmi mou lokální větev <code>serverfix</code> a odešli ji na vzdálený server, kde aktualizuje tamní větev <code>serverfix</code>.“ Části <code>refs/heads/</code> se budeme podrobněji věnovat v kapitole 9, pro většinu uživatelů však nebude zajímavá. Můžete rovněž zadat příkaz <code>git push origin serverfix:serverfix</code>, který provede totéž. Systému Git říká: „Vezmi mou větev <code>serverfix</code> a udělej z ní <code>serverfix</code> na vzdáleném serveru.“ Tento formát můžete použít k odeslání lokální větve do vzdálené větve, která se jmenuje jinak. Pokud jste nechtěli, aby se větev na vzdáleném serveru jmenovala <code>serverfix</code>, mohli jste zadat příkaz ve tvaru <code>git push origin serverfix:awesomebranch</code>. Vaše lokální větev <code>serverfix</code> by byla odeslána do větve <code>awesomebranch</code> ve vzdáleném projektu.</p>
 <p>Až bude příště některý z vašich spolupracovníků vyzvedávat data ze serveru, obdrží referenci o tom, kde se nachází serverová verze větve <code>serverfix</code> ve vzdálené větvi <code>origin/serverfix</code>:</p>
 <pre><code>$ git fetch origin
-remote: Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (15/15), done.
 From git@github.com:schacon/simplegit
- * [<span class="hljs-keyword">new</span> branch]      serverfix    -&gt; origin/serverfix
+ * [new branch]      serverfix    -&gt; origin/serverfix
 </code></pre><p>Tady je důležité upozornit, že pokud vyzvedáváte data a stáhnete s nimi i nové vzdálené větve, nemáte automaticky jejich lokální, editovatelné kopie. Jinak řečeno: v tomto případě nebudete mít novou větev <code>serverfix</code>, budete mít pouze ukazatel <code>origin/serverfix</code>, který nemůžete měnit.</p>
 <p>Chcete-li začlenit tato data do své aktuální pracovní větve, spusťte příkaz <code>git merge origin/serverfix</code>. Chcete-li mít vlastní větev <code>serverfix</code>, na níž budete pracovat, můžete ji ze vzdálené větve vyvázat:</p>
 <pre><code>$ git checkout -b serverfix origin/serverfix
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Tímto způsobem získáte lokální větev, na níž můžete pracovat a která začíná na pozici <code>origin/serverfix</code>.</p>
 <h2 id="sleduj-c-v-tve">Sledující větve</h2>
 <p>Checkoutem lokální větve ze vzdálené větve automaticky vytvoříte tzv. Sledující větev (angl. tracking branch). Sledující větve jsou lokální větve s přímým vztahem ke vzdálené větvi. Pokud se nacházíte na Sledující větvi a zadáte příkaz <code>git push</code>, Git automaticky ví, na který server a do které větve má data odeslat. Také příkazem <code>git pull</code> zadaným na sledovací větvi vyzvednete všechny vzdálené reference a Git poté odpovídající vzdálenou větev automaticky začlení.</p>
 <p>Pokud klonujete repozitář, většinou se vytvoří větev <code>master</code>, která bude sledovat větev <code>origin/master</code>. To je také důvod, proč příkazy <code>git push</code> a <code>git pull</code> fungují i bez dalších parametrů. Pokud chcete, můžete nastavit i jiné sledující větve – takové, které nebudou sledovat větve na serveru <code>origin</code> a nebudou sledovat hlavní větev <code>master</code>. Jednoduchým případem je příklad, který jste právě viděli: spuštění příkazu <code>git checkout -b [větev] [vzdálený server]/[větev]</code>. Máte-li Git ve verzi 1.6.2 nebo novější, můžete použít také zkrácenou variantu <code>--track</code>:</p>
-<pre><code>$ git checkout <span class="hljs-comment">--track origin/serverfix</span>
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+<pre><code>$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Chcete-li nastavit lokální větev s jiným názvem, než má vzdálená větev, můžete jednoduše použít první variantu s odlišným názvem lokální větve:</p>
 <pre><code>$ git checkout -b sf origin/serverfix
-Branch sf <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"sf"</span>
+Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;sf&quot;
 </code></pre><p>Vaše lokální větev „sf“ bude nyní automaticky stahovat data ze vzdálené větve origin/serverfix a bude do ní i odesílat.</p>
 <h2 id="maz-n-vzd-len-ch-v-tv-">Mazání vzdálených větví</h2>
 <p>Předpokládejme, že už nepotřebujete jednu ze vzdálených větví. Spolu se svými spolupracovníky jste dokončili určitou funkci a začlenili jste ji do větve <code>master</code> na vzdáleném serveru (nebo do jakékoli jiné větve, kterou používáte pro stabilní kód). Vzdálenou větev nyní můžete smazat pomocí poněkud neohrabané syntaxe <code>git push [vzdálený server] :[větev]</code>. Chcete-li ze serveru odstranit větev <code>serverfix</code>, můžete to provést takto:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:serverfix</span>
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit.git
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
  - [deleted]         serverfix
 </code></pre><p>Šup! A větev je ze serveru pryč. Na této stránce si možná chcete ohnout rožek, protože tento příkaz budete určitě potřebovat, ale jeho syntaxi pravděpodobně zapomenete. Zapamatovat si jej ale můžete tak, že si vybavíte příkaz <code>git push [vzdálený server] [lokální větev]:[vzdálená větev]</code>, o kterém jsme se zmínili před chvílí. Pokud vynecháte složku <code>[lokální větev]</code>, pak v podstatě říkáte: „Neber na mé straně nic a toto nic teď bude <code>[vzdálená větev]</code>.“</p>
 
@@ -934,9 +937,9 @@ Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</sp
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

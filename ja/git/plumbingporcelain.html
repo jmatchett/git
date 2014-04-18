@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397503664233">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397847843648">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="使い始める" class="chapter done new-chapter" data-progress="2" style="left: 0%;"></a>
     
         <a href="../git.html" title="最初のGitの構成" class="chapter done " data-progress="2.5" style="left: 5.882352941176471%;"></a>
     
@@ -744,8 +747,8 @@
 <p>本書は、<code>checkout</code> や <code>branch</code>、<code>remote</code> などの約30のコマンドを用いて、Git の使い方を説明しています。ですが、Git は元々、完全にユーザフレンドリーなバージョン管理システムというよりもむしろ、バージョン管理システムのためのツール類でした。そのため、下位レベルの仕事を行うためのコマンドが沢山あり、UNIXの形式（またはスクリプトから呼ばれる形式）と密に関わりながら設計されました。これらのコマンドは、通常は &quot;配管（plumbing）&quot; コマンドと呼ばれ、よりユーザフレンドリーなコマンドは &quot;磁器（porcelain）&quot; コマンドと呼ばれます。</p>
 <p>本書のはじめの8つの章は、ほぼ例外なく磁器コマンドを取り扱いますが、本章では下位レベルの配管コマンドを専ら使用することになります。なぜなら、それらのコマンドは、Gitの内部動作にアクセスして、Gitの内部で、何を、どのように、どうして行うのかを確かめるのに役に立つからです。それらのコマンドは、コマンドラインから実行するのに使用されるのではなく、むしろ新規のツールとカスタムスクリプトのための構成要素（building blocks）として使用されます。</p>
 <p>新規の、または既存のディレクトリで <code>git init</code> を実行すると、Git は <code>.git</code> というディレクトリを作ります。Git が保管して操作するほとんどすべてのものがそこに格納されます。もしもレポジトリをバックアップするかクローンを作りたいなら、この1つのディレクトリをどこかにコピーすることで、必要とするほとんどすべてのことが満たされます。この章では全体を通して、<code>.git</code> ディレクトリの中を基本的に取り扱います。その中は以下のようになっています。</p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">HEAD</span>
+<pre><code>$ ls
+HEAD
 branches/
 config
 description
@@ -774,9 +777,9 @@ refs/
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

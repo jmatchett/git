@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_606">
+                    <section class="normal" id="section-gitbook_822">
                     
                         <h1 id="acc-s-public">Accès public</h1>
 <p>Et si vous voulez permettre des accès anonymes en lecture ?
@@ -856,28 +859,28 @@ Supposons que vos dépôts soient dans le répertoire <code>/opt/git</code> et q
 Vous pouvez bien sûr utiliser n&#39;importe quel serveur web mais nous utiliserons Apache pour montrer la configuration nécessaire.</p>
 <p>Premièrement, il faut activer le crochet :</p>
 <pre><code>$ cd projet.git
-$ mv hooks/<span class="hljs-built_in">post</span>-update.sample hooks/<span class="hljs-built_in">post</span>-update
-$ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in">post</span>-update
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>Quelle est l&#39;action de ce crochet <code>post-update</code> ?
 Il contient simplement ceci :</p>
 <pre><code>$ cat .git/hooks/post-update
-<span class="hljs-shebang">#!/bin/sh</span>
-<span class="hljs-keyword">exec</span> git-update-server-info
+#!/bin/sh
+exec git-update-server-info
 </code></pre><p>Cela signifie que lorsque vous poussez vers le serveur via SSH, Git lance cette commande pour mettre à jour les fichiers nécessaires lorsqu&#39;on tire par HTTP.</p>
 <p>Ensuite, il faut ajouter dans la configuration Apache une entrée VirtualHost dont la racine pointe sur vos dépôts Git.
 Ici, nous supposerons que vous avez réglé un DNS avec résolution générique qui renvoit <code>*.gitserveur</code> vers la machine qui héberge ce système :</p>
-<pre><code><span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
-    <span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> git.gitserveur
-    <span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /opt/git
-    <span class="hljs-tag">&lt;Directory /opt/git/&gt;</span>
-        <span class="hljs-keyword"><span class="hljs-common">Order</span></span> allow, deny
-        <span class="hljs-keyword"><span class="hljs-common">allow</span></span> from <span class="hljs-literal">all</span>
-    <span class="hljs-tag">&lt;/Directory&gt;</span>
-<span class="hljs-tag">&lt;/VirtualHost&gt;</span>
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName git.gitserveur
+    DocumentRoot /opt/git
+    &lt;Directory /opt/git/&gt;
+        Order allow, deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
 </code></pre><p>Vous devrez aussi positionner le groupe d&#39;utilisateurs Unix du répertoire <code>/opt/git</code> à <code>www-data</code> de manière à ce que le serveur web puisse avoir accès en lecture seule aux répertoires si le serveur Apache lance le script CGI avec cet utilisateur (par défaut) :</p>
-<pre><code>$ chgrp -<span class="hljs-type">R</span> www-<span class="hljs-typedef"><span class="hljs-keyword">data</span> /opt/git</span>
+<pre><code>$ chgrp -R www-data /opt/git
 </code></pre><p>Après avoir redémarré Apache, vous devriez être capable de cloner vos dépôts en spécifiant l&#39;URL de votre projet :</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/git.gitserveur/projet</span>.git
+<pre><code>$ git clone http://git.gitserveur/projet.git
 </code></pre><p>Ainsi, vous pouvez donner accès en lecture seule à tous vos projets à un grand nombre d&#39;utilisateurs en quelques minutes.
 Une autre option simple pour fournir un accès public non-authentifié consiste à lancer un <em>daemon</em> Git, bien que cela requière de démoniser le processus — nous traiterons cette option dans un chapitre ultérieur si vous préférez cette option.</p>
 
@@ -898,9 +901,9 @@ Une autre option simple pour fournir un accès public non-authentifié consiste 
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

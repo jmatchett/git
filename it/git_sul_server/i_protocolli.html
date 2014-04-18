@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -774,7 +777,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_364">
+                    <section class="normal" id="section-gitbook_366">
                     
                         <h1 id="i-protocolli">I Protocolli</h1>
 <p>Git può utilizzare i maggiori quattro protocolli di rete per trasferire i dati: Locale, Secure Shell (SSH), Git e HTTP. Qui vedremo cosa sono e in quali circostanze di base si vogliono (o non si vogliono) usare.</p>
@@ -782,12 +785,12 @@
 <h2 id="il-protocollo-locale">Il Protocollo Locale</h2>
 <p>Quello più semplice è il <em>protocollo locale</em>, in cui il repository remoto è in un&#39;altra directory sul disco. Questo è spesso utilizzato se ciascuno nel tuo team ha un accesso ad un file system condiviso come NFS, o nel caso meno probabile tutti accedano allo stesso computer. Quest&#39;ultimo caso non è l&#39;ideale, perché tutte le istanze del codice nel repository risiederebbero sullo stesso computer, facendo diventare molto più probabile una perdita catastrofica dei dati.</p>
 <p>Se disponi di un filesystem montato in comune, allora si può clonare, inviare e trarre da un repository locale basato su file. Per clonare un repository come questo o per aggiungerne uno da remoto per un progetto esistente, utilizza il percorso al repository come URL. Ad esempio, per clonare un repository locale, è possibile eseguire qualcosa di simile a questo:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone /opt/git/project.git
+<pre><code>$ git clone /opt/git/project.git
 </code></pre><p>O questo:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">file:</span>/<span class="hljs-regexp">//opt</span><span class="hljs-regexp">/git/project</span>.git
+<pre><code>$ git clone file:///opt/git/project.git
 </code></pre><p>Git funziona in modo leggermente diverso se si specifica esplicitamente <code>file://</code> all&#39;inizio dell&#39;URL. Se si specifica il percorso, Git tenta di utilizzare gli hardlink o copia direttamente i file necessari. Se specifichi <code>file://</code>, Git abilita i processi che normalmente si usano per trasferire i dati su una rete che sono generalmente un metodo molto meno efficace per il trasferimento dei dati. La ragione principale per specificare il prefisso <code>file://</code>  è quella in cui si desidera una copia pulita del repository senza riferimenti od oggetti estranei — in genere dopo l&#39;importazione da un altro sistema di controllo di versione o qualcosa di simile (vedi il Capitolo 9 relativo ai compiti per la manutenzione). Qui useremo il percorso normale, perché così facendo è quasi sempre più veloce.</p>
 <p>Per aggiungere un repository locale a un progetto Git esistente, puoi eseguire qualcosa di simile a questo:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> local_proj /opt/git/project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add local_proj /opt/git/project.git
 </code></pre><p>Quindi, puoi fare inviare e trarre da quel remoto come se si stesse lavorando su una rete.</p>
 <h3 id="i-pro">I Pro</h3>
 <p>I pro dei repository basati su file sono che sono semplici e che utilizzano i permessi sui file e l&#39;accesso alla rete già esistenti. Se hai già un filesystem condiviso a cui l&#39;intero team ha accesso, la creazione di un repository è molto facile. Si mette la copia nuda del repository da qualche parte dove tutti hanno un accesso condiviso e si impostano i permessi di lettura/scrittura, come se si facesse per qualsiasi directory condivisa. Proprio per questo scopo vedremo come esportare una copia bare del repository nella prossima sezione, &quot;Installare Git su un server.&quot;</p>
@@ -798,9 +801,9 @@
 <h2 id="il-protocollo-ssh">Il Protocollo SSH</h2>
 <p>Probabilmente il protocollo più utilizzato per Git è SSH. Questo perché un accesso via SSH ad un server è già impostato in molti posti — e se non c&#39;è, è facile crearlo. SSH inoltre è l&#39;unico protocollo di rete in cui puoi facilmente leggere e scrivere. Gli altri due protocolli (HTTP e Git) sono generalmente solo di lettura, quindi se li hai a disposizione per la massa generica, hai comunque bisogno di SSH per i tuoi comandi di scrittura. SSH è inoltre un protocollo di rete con autenticazione; e dato che è dappertutto, è generalmente facile da configurare e usare.</p>
 <p>Per clonare un repository Git via SSH, puoi specificare un URL ssh:// come questo:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">ssh:</span>/<span class="hljs-regexp">/user@server/project</span>.git
+<pre><code>$ git clone ssh://user@server/project.git
 </code></pre><p>O non specificare proprio il protocollo — Git utilizza SSH non lo specifichi:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone user<span class="hljs-variable">@server</span><span class="hljs-symbol">:project</span>.git
+<pre><code>$ git clone user@server:project.git
 </code></pre><p>Puoi anche non specificare l&#39;utente, e Git utilizzerà l&#39;utente con il quale sei ora connesso.</p>
 <h3 id="i-pro">I Pro</h3>
 <p>I pro nell&#39;usare SSH sono tanti. Primo, se vuoi avere un&#39;autenticazione con l&#39;accesso in scrittura al tuo repository su una rete devi usarlo. Secondo, SSH è relativamente semplice da impostare — il demone SSH è ovunque, molti amministratori di rete hanno esperienza con lui e molte distribuzioni di OS sono impostate con lui o hanno dei strumenti per amministrarlo. Poi, l&#39;accesso via SSH è sicuro — tutti i dati trasferiti sono criptati ed autenticati. Infine, come i protocolli Git e Local, SSH è efficiente, rende i dati il più compressi possibile prima di trasferirli.</p>
@@ -815,13 +818,13 @@
 Inoltre è probabilmente il protocollo più difficile da configurare. Deve avviare un proprio demone, che è particolare — vedremo le impostazioni nella sezione “Gitosis” di questo capitolo — richiede la configurazione di <code>xinetd</code> o simili, il che non è una passeggiata. Inoltre richiede un accesso tramite il firewall alla porta 9418, che non è una porta standard che i firewall delle aziende permettono di usare sempre. Un firewall di una grande azienda spesso blocca questa sconosciuta porta.</p>
 <h2 id="il-protocollo-http-s">Il Protocollo HTTP/S</h2>
 <p>Infine abbiamo il protocollo HTTP. Il bello del protocollo HTTP o HTTPS è la semplicità nel configurarlo. Fondamentalmente, tutto quello che devi fare è mettere solo il repository Git sulla document root HTTP ed impostare uno specifico gancio <code>post-update</code> ed il gioco è fatto (vedi il Capitolo 7 per i dettagli sui ganci Git). A questo punto, chiunque in grado di accedere al server web sotto cui hai messo il repository può clonare il repository. Per permettere l&#39;accesso in lettura al repository via HTTP, fai una cosa simile:</p>
-<pre><code><span class="hljs-variable">$ </span>cd /var/www/htdocs/
-<span class="hljs-variable">$ </span>git clone --bare /path/to/git_project gitproject.git
-<span class="hljs-variable">$ </span>cd gitproject.git
-<span class="hljs-variable">$ </span>mv hooks/post-update.sample hooks/post-update
-<span class="hljs-variable">$ </span>chmod a+x hooks/post-update
+<pre><code>$ cd /var/www/htdocs/
+$ git clone --bare /path/to/git_project gitproject.git
+$ cd gitproject.git
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>Questo è quanto. L&#39;aggancio <code>post-update</code> che è messo assieme a Git di default avvia il comando appropriato (<code>git update-server-info</code>) per far lavorare correttamente il prelievo e la clonazione HTTP. Questo comando è avviato quando lanci un invio al tuo repository via SSH; poi, altre persone possono clonarlo con una cosa simile:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/example.com/gitproject</span>.git
+<pre><code>$ git clone http://example.com/gitproject.git
 </code></pre><p>In questo caso particolare, stiamo usando il percorso <code>/var/www/htdocs</code> che è comunemente presente nelle installazioni di Apache, ma puoi usare un qualsiasi altro server web — basta mettere la base del repository nel percorso. I dati di Git sono forniti come file statici (vedi Capitolo 9 per dettagli su come sono esattamente forniti).</p>
 <p>É anche possibile fare l&#39;invio con Git via HTTP, la tecnica non è molto utilizzata e richiede di impostare un complesso WebDAV. Dato che è raramente utilizzato, non lo vedremo in questo libro. Se sei interessato ad usare i protocolli HTTP-push, puoi leggere su come preparare un repository a questo scopo a <code>http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt</code>. Una cosa carina dell&#39;invio con Git via HTTP è utilizzare un qualsiasi server WebDAV, senza alcune specifiche funzionalità di Git; così, puoi usare questa funzionalità se il tuo hosting web fornisce un supporto WebDAV per scrivere aggiornamenti al tuo sito web.</p>
 <h3 id="i-pro">I Pro</h3>
@@ -848,9 +851,9 @@ Inoltre è probabilmente il protocollo più difficile da configurare. Deve avvia
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

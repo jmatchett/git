@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="8.1" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="8.1" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_957">
+                    <section class="normal" id="section-gitbook_886">
                     
                         <h1 id="git-und-subversion">Git und Subversion</h1>
 <!--Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.-->
@@ -884,29 +887,29 @@
 <!--To follow along, you first need to create a new local Subversion repository:-->
 
 <p>Zunächst einmal musst Du ein neues lokales Subversion-Repository anlegen:</p>
-<pre><code><span class="hljs-variable">$ </span>mkdir /tmp/test-svn
-<span class="hljs-variable">$ </span>svnadmin create /tmp/test-svn
+<pre><code>$ mkdir /tmp/test-svn
+$ svnadmin create /tmp/test-svn
 </code></pre><!--Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:-->
 
 <p>Anschließend gibst Du allen Usern die Möglichkeit, die revprops zu ändern. Am einfachsten geht das, indem wir ein pre-revprop-change Skript erstellen, das immer 0 zurückgibt:</p>
 <pre><code>$ cat /tmp/test-svn/hooks/pre-revprop-change
-<span class="hljs-shebang">#!/bin/sh</span>
-<span class="hljs-keyword">exit</span> <span class="hljs-number">0</span>;
+#!/bin/sh
+exit 0;
 $ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 </code></pre><!--You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.-->
 
 <p>Jetzt kannst Du dieses Projekt auf Deinen lokalen Rechner mit einem Aufruf von <code>svnsync init</code> synchronisieren. Als Optionen gibst Du das Ziel- und das Quell-Repository an.</p>
-<pre><code><span class="hljs-variable">$ </span>svnsync init <span class="hljs-symbol">file:</span>/<span class="hljs-regexp">//tmp</span><span class="hljs-regexp">/test-svn http:/</span><span class="hljs-regexp">/progit-example.googlecode.com/svn</span><span class="hljs-regexp">/</span>
+<pre><code>$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 </code></pre><!--This sets up the properties to run the sync. You can then clone the code by running-->
 
 <p>Das richtet die Properties ein, um die Synchronisierung laufen zu lassen. Nun kannst Du den Code klonen:</p>
 <pre><code>$ svnsync sync file:///tmp/test-svn
-Committed revision <span class="hljs-number">1.</span>
-Copied properties <span class="hljs-keyword">for</span> revision <span class="hljs-number">1.</span>
-Committed revision <span class="hljs-number">2.</span>
-Copied properties <span class="hljs-keyword">for</span> revision <span class="hljs-number">2.</span>
-Committed revision <span class="hljs-number">3.</span>
-<span class="hljs-keyword">...</span>
+Committed revision 1.
+Copied properties for revision 1.
+Committed revision 2.
+Copied properties for revision 2.
+Committed revision 3.
+...
 </code></pre><!--Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.-->
 
 <p>Obwohl diese Operation möglicherweise nur ein paar wenige Minuten in Anspruch nimmt, wird das Kopieren des Quell-Repositories von einem entfernten Repository in ein lokales fast eine Stunde dauern, auch wenn weniger als 100 Commits getätigt wurden. Subversion muss jede Revision einzeln klonen und sie dann in ein anderes Repository schieben – das ist zwar ziemlich ineffizient, aber für uns der einfachste Weg.</p>
@@ -916,58 +919,58 @@ Committed revision <span class="hljs-number">3.</span>
 <!--Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:-->
 
 <p>Jetzt, da wir ein beschreibbares Subversion Repository haben, können wir mit einem typischen Workflow loslegen. Du beginnst mit dem <code>git svn clone</code>Kommando, das ein komplettes Subversion-Repository in ein lokales Git-Repository importiert. Denk daran, dass Du <code>file:///tmp/test-svn</code> im folgenden Beispiel mit der URL Deines eigenen Subversion-Repositorys ersetzt, wenn Du den Import für ein real existierendes Subversion-Repository durchführen willst.</p>
-<pre><code>$ git svn clone file:<span class="hljs-comment">///tmp/test-svn -T trunk -b branches -t tags</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /Users/schacon/projects/testsvnsync/svn<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
-r1 <span class="hljs-subst">=</span> b4e387bc68740b5af56c2a5faf4003ae42bd135c (trunk)
-      A    m4/acx_pthread<span class="hljs-built_in">.</span>m4
-      A    m4/stl_hash<span class="hljs-built_in">.</span>m4
-<span class="hljs-attribute">...</span>
-r75 <span class="hljs-subst">=</span> d1957f3b307922124eec6314e15bcda59e3d9610 (trunk)
-Found possible branch point: file:<span class="hljs-comment">///tmp/test-svn/trunk =&gt; \</span>
-    file:<span class="hljs-comment">///tmp/test-svn /branches/my-calc-branch, 75</span>
-Found branch <span class="hljs-keyword">parent</span>: (my<span class="hljs-attribute">-calc</span><span class="hljs-attribute">-branch</span>) d1957f3b307922124eec6314e15bcda59e3d9610
-Following <span class="hljs-keyword">parent</span> <span class="hljs-keyword">with</span> do_switch
-Successfully followed <span class="hljs-keyword">parent</span>
-r76 <span class="hljs-subst">=</span> <span class="hljs-number">8624824</span>ecc0badd73f40ea2f01fce51894189b01 (my<span class="hljs-attribute">-calc</span><span class="hljs-attribute">-branch</span>)
+<pre><code>$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
+Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
+r1 = b4e387bc68740b5af56c2a5faf4003ae42bd135c (trunk)
+      A    m4/acx_pthread.m4
+      A    m4/stl_hash.m4
+...
+r75 = d1957f3b307922124eec6314e15bcda59e3d9610 (trunk)
+Found possible branch point: file:///tmp/test-svn/trunk =&gt; \
+    file:///tmp/test-svn /branches/my-calc-branch, 75
+Found branch parent: (my-calc-branch) d1957f3b307922124eec6314e15bcda59e3d9610
+Following parent with do_switch
+Successfully followed parent
+r76 = 8624824ecc0badd73f40ea2f01fce51894189b01 (my-calc-branch)
 Checked out HEAD:
- file:<span class="hljs-comment">///tmp/test-svn/branches/my-calc-branch r76</span>
+ file:///tmp/test-svn/branches/my-calc-branch r76
 </code></pre><!--This runs the equivalent of two commands — `git svn init` followed by `git svn fetch` — on the URL you provide. This can take a while. The test project has only about 75 commits and the codebase isn’t that big, so it takes just a few minutes. However, Git has to check out each version, one at a time, and commit it individually. For a project with hundreds or thousands of commits, this can literally take hours or even days to finish.-->
 
 <p>Hier werden für die angegebene URL eigentlich zwei Befehle ausgeführt, <code>git svn init</code> und anschließend <code>git svn fetch</code>. Das kann auch eine Weile dauern. Das Testprojekt hat nur etwa 75 Commits und die Codebase ist nicht so groß, daher benötigen wir nur ein paar Minuten. Da Git aber jede Version einzeln auschecken muss, kann es unter Umständen Stunden oder gar Tage dauern, bis die Ausführung des Befehls fertig ist.</p>
 <!--The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:-->
 
 <p>Die Parameter <code>-T trunk -b branches -t tags</code> teilen Git mit, dass das Subversion-Repository den normalen Konventionen bezüglich Branching und Tagging folgt. Wenn Du Deinen Trunk, Deine Branches oder Deine Tags anders benannt hast, kannst Du diese hier anpassen. Da die Angabe aus dem Beispiel für die meisten Repositories gängig ist, kannst Du das ganze auch mit <code>-s</code> abkürzen. Diese Option steht für das Standard-Repository-Layount und umfasst die oben genannten Parameter. Der folgende Befehl ist äquivalent zum zuvor genannten:</p>
-<pre><code>$ git svn clone file:<span class="hljs-comment"><span class="hljs-xmlDocTag">///</span>tmp/test-svn -s</span>
+<pre><code>$ git svn clone file:///tmp/test-svn -s
 </code></pre><!--At this point, you should have a valid Git repository that has imported your branches and tags:-->
 
 <p>Jetzt solltest Du ein Git-Repository erzeugt haben, in das Deine Branches und Tags übernommen wurden:</p>
 <pre><code>$ git branch -a
 * master
   my-calc-branch
-  tags/<span class="hljs-number">2.0</span><span class="hljs-number">.2</span>
-  tags/<span class="hljs-keyword">release</span>-<span class="hljs-number">2.0</span><span class="hljs-number">.1</span>
-  tags/<span class="hljs-keyword">release</span>-<span class="hljs-number">2.0</span><span class="hljs-number">.2</span>
-  tags/<span class="hljs-keyword">release</span>-<span class="hljs-number">2.0</span><span class="hljs-number">.2</span>rc1
+  tags/2.0.2
+  tags/release-2.0.1
+  tags/release-2.0.2
+  tags/release-2.0.2rc1
   trunk
 </code></pre><!--It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:-->
 
 <p>An dieser Stelle soll die wichtige Anmerkung nicht fehlen, dass dieses Tool die Namespaces Deiner entfernten Referenzen unterschiedlich behandelt. Wenn Du ein normales Git-Repository klonst, werden alle Branches auf jenem entfernten Server für Dich lokal verfügbar gemacht, zum Beispiel als <code>origin/[branch]</code>, der Namespace entspricht dem Namen des entfernten Branches. <code>git svn</code> get allerdings davon aus, dass es nicht mehrere entfernte Repositorys gibt und speichert daher seie Referenzen auf die Bereiche entfernter Server ohne Namespaces. Du kannst das Git-Kommando <code>show-ref</code> verwenden, um Dir die vollständigen Namen aller Referenzen anzeigen zu lassen:</p>
 <pre><code>$ git show-ref
-<span class="hljs-number">1</span>cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
-aee1ecc26318164f355a883f5d99cff0c852d3c4 refs/<span class="hljs-comment">remotes/my-calc-branch</span>
-<span class="hljs-number">03</span>d09b0e2aad427e34a6d50ff147128e76c0e0f5 refs/<span class="hljs-comment">remotes/tags/2.0.2</span>
-<span class="hljs-number">50</span>d02cc0adc9da4319eeba0900430ba219b9c376 refs/<span class="hljs-comment">remotes/tags/release-2.0.1</span>
-<span class="hljs-number">4</span>caaa711a50c77879a91b8b90380060f672745cb refs/<span class="hljs-comment">remotes/tags/release-2.0.2</span>
-<span class="hljs-number">1</span>c4cb508144c513ff1214c3488abe66dcb92916f refs/<span class="hljs-comment">remotes/tags/release-2.0.2rc1</span>
-<span class="hljs-number">1</span>cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/<span class="hljs-comment">remotes/trunk</span>
+1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
+aee1ecc26318164f355a883f5d99cff0c852d3c4 refs/remotes/my-calc-branch
+03d09b0e2aad427e34a6d50ff147128e76c0e0f5 refs/remotes/tags/2.0.2
+50d02cc0adc9da4319eeba0900430ba219b9c376 refs/remotes/tags/release-2.0.1
+4caaa711a50c77879a91b8b90380060f672745cb refs/remotes/tags/release-2.0.2
+1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
+1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 </code></pre><!--A normal Git repository looks more like this:-->
 
 <p>Ein normales Git-Repository sieht dagegen eher so aus:</p>
 <pre><code>$ git show-ref
-<span class="hljs-number">83</span>e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
-<span class="hljs-number">3</span>e15e38c198baac84223acfc6224bb8b99ff2281 refs/<span class="hljs-comment">remotes/gitserver/master</span>
-<span class="hljs-number">0</span>a30dd3b0c795b80212ae723640d4e5d48cabdff refs/<span class="hljs-comment">remotes/origin/master</span>
-<span class="hljs-number">25812380387</span>fdd55f916652be4881c6f11600d6f refs/<span class="hljs-comment">remotes/origin/testing</span>
+83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
+3e15e38c198baac84223acfc6224bb8b99ff2281 refs/remotes/gitserver/master
+0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
+25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 </code></pre><!--You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`.-->
 
 <p>Du hast zwei entfernte Server: einen, der <code>gitserver</code> heißt und einen <code>master</code>-Branch beinhaltet, und einen weiteren, der <code>origin</code> heißt und zwei Branches (<code>master</code> und <code>testing</code>) enthält.</p>
@@ -980,14 +983,14 @@ aee1ecc26318164f355a883f5d99cff0c852d3c4 refs/<span class="hljs-comment">remotes
 <!--Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:-->
 
 <p>Mit unserem funktionierenden Repository können wir nun am Projekt arbeiten und unsere Änderungen commiten; dabei nutzen wir Git als SVN-Client. Wenn Du eine der Dateien bearbeitest und sie commitest, hast Du lokal einen Commit in Git, der auf dem Subversion-Server (noch) nicht vorhanden ist:</p>
-<pre><code>$ git commit -am 'Adding git-svn instructions <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> README'
-[master <span class="hljs-number">97031e5</span>] Adding git-svn instructions <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> README
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code>$ git commit -am &#39;Adding git-svn instructions to the README&#39;
+[master 97031e5] Adding git-svn instructions to the README
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 </code></pre><!--Next, you need to push your change upstream. Notice how this changes the way you work with Subversion — you can do several commits offline and then push them all at once to the Subversion server. To push to a Subversion server, you run the `git svn dcommit` command:-->
 
 <p>Als nächsten Schritt wirst Du Deine Änderungen einchecken wollen. Dein Umgang mit Subversion wird sich dabei verändern -- Du kannst eine Vielzahl an Commits lokal durchführen und dann alle zusammen an den Subversion-Server schicken. Um Deine Änderungen auf den Subversion-Server zu pushen, verwendest Du das <code>git svn dcommit</code> Kommando:</p>
 <pre><code>$ git svn dcommit
-Committing to file:///tmp/test-svn/trunk <span class="hljs-keyword">...</span>
+Committing to file:///tmp/test-svn/trunk ...
        M      README.txt
 Committed r79
        M      README.txt
@@ -997,14 +1000,14 @@ Resetting to the latest refs/remotes/trunk
 </code></pre><!--This takes all the commits you’ve made on top of the Subversion server code, does a Subversion commit for each, and then rewrites your local Git commit to include a unique identifier. This is important because it means that all the SHA-1 checksums for your commits change. Partly for this reason, working with Git-based remote versions of your projects concurrently with a Subversion server isn’t a good idea. If you look at the last commit, you can see the new `git-svn-id` that was added:-->
 
 <p>Das bündelt alle Commits, die Du auf Basis des Codes im Subversion-Server durchgeführt hast und und führt für jede Änderung ein Subversion-Commit durch. Anschließend werden Deine lokalen Git-Commits angepasst und jeder von ihnen bekommt einen eindeutigen Identifier. Das bedeutet, dass alle SHA-1 Checksums Deiner Commits verändert werden. Dies ist einer der Gründe, warum das Arbeiten mit Git-basierten entfernten Versionen Deines Projekts und zeitgleich mit einem Subversion-Server keine gute Idee ist. Wenn Du Dir den letzten Commit ansiehst, wirst Du feststellen, dass eine neue <code>git-svn-id</code> hinzugefügt wurde.</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> <span class="hljs-subst">-</span><span class="hljs-number">1</span>
-commit <span class="hljs-number">938</span>b1a547c2cc92033b74d32030e86468294a5c8
-Author: schacon <span class="hljs-subst">&lt;</span>schacon@<span class="hljs-number">4</span>c93b258<span class="hljs-subst">-</span><span class="hljs-number">373</span>f<span class="hljs-subst">-</span><span class="hljs-number">11</span>de<span class="hljs-attribute">-be05</span><span class="hljs-subst">-</span><span class="hljs-number">5</span>f7a86268029<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Sat May <span class="hljs-number">2</span> <span class="hljs-number">22</span>:<span class="hljs-number">06</span>:<span class="hljs-number">44</span> <span class="hljs-number">2009</span> <span class="hljs-subst">+</span><span class="hljs-number">0000</span>
+<pre><code>$ git log -1
+commit 938b1a547c2cc92033b74d32030e86468294a5c8
+Author: schacon &lt;schacon@4c93b258-373f-11de-be05-5f7a86268029&gt;
+Date:   Sat May 2 22:06:44 2009 +0000
 
-    Adding git<span class="hljs-attribute">-svn</span> instructions <span class="hljs-keyword">to</span> the README
+    Adding git-svn instructions to the README
 
-    git<span class="hljs-attribute">-svn</span><span class="hljs-attribute">-id</span>: file:<span class="hljs-comment">///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029</span>
+    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 </code></pre><!--Notice that the SHA checksum that originally started with `97031e5` when you committed now begins with `938b1a5`. If you want to push to both a Git server and a Subversion server, you have to push (`dcommit`) to the Subversion server first, because that action changes your commit data.-->
 
 <p>Die SHA-Checksum Deines ursprünglichen Commits begann mit <code>97031e5</code>, jetzt fängt sie mit <code>938b1a5</code> an. Wenn Du zugleich auf einen Git- und einen Subversion-Server pushen willst, solltest Du zunächst an den Subversion-Server pushen (<code>dcommit</code>), da diese Aktion Deine Commit-Daten verändert.</p>
@@ -1015,23 +1018,23 @@ Author: schacon <span class="hljs-subst">&lt;</span>schacon@<span class="hljs-nu
 
 <p>Wenn Du mit anderen Entwicklern zusammenarbeitest, wirst Du irgendwann an den Punkt gelangen an dem einer von Euch Änderungen ins Repository pusht und jemand anderes versuchen wird, ebenfalls seine Änderungen zu pushen und damit einen Konflikt erzeugt. Diese Änderung wird solange zurückgewiesen bis Du die Arbeit des anderen Entwicklers mergt. Mit <code>git svn</code> sieht das so aus:</p>
 <pre><code>$ git svn dcommit
-Committing <span class="hljs-built_in">to</span> <span class="hljs-built_in">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk ...</span>
-Merge conflict during commit: Your <span class="hljs-built_in">file</span> <span class="hljs-operator">or</span> <span class="hljs-built_in">directory</span> <span class="hljs-string">'README.txt'</span> is probably \
-out-<span class="hljs-operator">of</span>-<span class="hljs-built_in">date</span>: resource out <span class="hljs-operator">of</span> <span class="hljs-built_in">date</span>; <span class="hljs-keyword">try</span> updating <span class="hljs-keyword">at</span> /Users/schacon/libexec/git-\
-core/git-svn <span class="hljs-built_in">line</span> <span class="hljs-number">482</span>
+Committing to file:///tmp/test-svn/trunk ...
+Merge conflict during commit: Your file or directory &#39;README.txt&#39; is probably \
+out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
+core/git-svn line 482
 </code></pre><!--To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:-->
 
 <p>Um diese Situation zu lösen, kannst Du <code>git svn rebase</code> laufen lassen. Das zieht alle Änderungen vom Server, die Dir noch fehlen und führt ein rebase Deiner lokalen Kopie durch (auf Basis dessen, was auf dem Server vorhanden ist).</p>
 <pre><code>$ git svn rebase
        M      README.txt
 r80 = ff829ab914e8775c7c025d741beb3d523ee30bc4 (trunk)
-First, rewinding head <span class="hljs-keyword">to</span> replay your work <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> top <span class="hljs-keyword">of</span> <span class="hljs-keyword">it</span>...
-Applying: <span class="hljs-keyword">first</span> user change
+First, rewinding head to replay your work on top of it...
+Applying: first user change
 </code></pre><!--Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:-->
 
 <p>Jetzt sind alle Deine Arbeiten auf der gleichen Ebene wie die auf dem Subversion-Server und nun kannst Du erfolgreich ein <code>dcommit</code> absetzen:</p>
 <pre><code>$ git svn dcommit
-Committing to file:///tmp/test-svn/trunk <span class="hljs-keyword">...</span>
+Committing to file:///tmp/test-svn/trunk ...
        M      README.txt
 Committed r81
        M      README.txt
@@ -1042,19 +1045,19 @@ Resetting to the latest refs/remotes/trunk
 
 <p>Es ist wichtig, im Hinterkopf zu behalten, dass <code>git svn</code> sich an dieser Stelle anders als Git verhält. Git erwartet von Dir, dass Du upstream-Arbeiten, die Du lokal noch nicht hast, zunächst mergst, bevor Du pushen kannst. Dieses Vorgehen ist bei <code>git svn</code> nur nötig, wenn es Konflikte bei den Änderungen gibt. Wenn jemand anderes eine geänderte Datei gepusht hat und Du eine andere geänderte Datei pushst, wird Dein <code>dcommit</code> problemlos funktionieren:</p>
 <pre><code>$ git svn dcommit
-Committing <span class="hljs-built_in">to</span> <span class="hljs-built_in">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk ...</span>
+Committing to file:///tmp/test-svn/trunk ...
        M      configure.ac
 Committed r84
        M      autogen.sh
-r83 = <span class="hljs-number">8</span>aa54a74d452f82eee10076ab2584c1fc424853b (trunk)
+r83 = 8aa54a74d452f82eee10076ab2584c1fc424853b (trunk)
        M      configure.ac
 r84 = cdbac939211ccb18aa744e581e46563af5d962d0 (trunk)
-W: d2f23b80f67aaaa1f6f5aaef48fce3263ac71a92 <span class="hljs-operator">and</span> refs/remotes/trunk differ, \
-  <span class="hljs-keyword">using</span> rebase:
-:<span class="hljs-number">100755</span> <span class="hljs-number">100755</span> efa5a59965fbbb5b2b0a12890f1b351bb5493c18 \
-  <span class="hljs-number">015e4</span>c98c482f0fa71e4d5434338014530b37fa6 M   autogen.sh
-First, rewinding head <span class="hljs-built_in">to</span> replay your work <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">top</span> <span class="hljs-title">of</span> <span class="hljs-title">it</span>...</span>
-Nothing <span class="hljs-built_in">to</span> <span class="hljs-built_in">do</span>.
+W: d2f23b80f67aaaa1f6f5aaef48fce3263ac71a92 and refs/remotes/trunk differ, \
+  using rebase:
+:100755 100755 efa5a59965fbbb5b2b0a12890f1b351bb5493c18 \
+  015e4c98c482f0fa71e4d5434338014530b37fa6 M   autogen.sh
+First, rewinding head to replay your work on top of it...
+Nothing to do.
 </code></pre><!--This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.-->
 
 <p>Das ist darum wichtig, weil der daraus resultierende Projekt-Status auf keinem der Computer existierte als Du die Änderungen gepusht hast. Wenn die Änderungen nicht zueinander kompatibel sind aber keinen Konflikt ergeben, wirst Du Probleme bekommen, die schwer zu diagnostizieren sind. Das ist der Unterschied zu einem Git-Server — mit Git kannst Du den Zustand Deines Client-Systems komplett testen bevor Du ihn veröffentlichst, während Du bei Subversion nie sicher sein kannst, dass der Zustand direkt vor und direkt nach dem Commit identisch sind.</p>
@@ -1064,8 +1067,8 @@ Nothing <span class="hljs-built_in">to</span> <span class="hljs-built_in">do</sp
 <pre><code>$ git svn rebase
        M      generate_descriptor_proto.sh
 r82 = bd16df9173e424c6f52c337ab6efa7f7643282f1 (trunk)
-First, rewinding head <span class="hljs-keyword">to</span> replay your work <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> top <span class="hljs-keyword">of</span> <span class="hljs-keyword">it</span>...
-Fast-forwarded master <span class="hljs-keyword">to</span> refs/remotes/trunk.
+First, rewinding head to replay your work on top of it...
+Fast-forwarded master to refs/remotes/trunk.
 </code></pre><!--Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.-->
 
 <p>Wenn Du <code>git svn rebase</code>ab und an ausführst, stellst Du sicher, dass Dein Code immer up-to-date ist. Du musst Dir aber sicher sein, dass Dein Arbeitsverzeichnis „sauber“ ist, bevor Du den Befehl ausführst. Wenn Du lokale Änderungen hast, musst Du Deine Arbeit vor dem <code>git svn rebase</code> entweder stashen oder temporär commiten. Anderenfalls wird die Ausführung des Befehls angehalten, wenn das Rebase in einem Merge-Konflikt enden würde.</p>
@@ -1080,21 +1083,21 @@ Fast-forwarded master <span class="hljs-keyword">to</span> refs/remotes/trunk.
 <p>Angenommen, Deine Historie sieht wie folgt aus: Du hast einen Zweig mit dem Namen <code>experiment</code> angelegt, zwei Commits durchgeführt und diese dann anschließen mit <code>master</code>zusammengeführt. Führst Du nun ein <code>dcommit</code> durch, sieht die Ausgabe wie folgt aus:</p>
 <pre><code>$ git svn dcommit
 Committing to file:///tmp/test-svn/trunk ...
-       M      CHANGES<span class="hljs-preprocessor">.txt</span>
+       M      CHANGES.txt
 Committed r85
-       M      CHANGES<span class="hljs-preprocessor">.txt</span>
-r85 = <span class="hljs-number">4</span>bfebeec434d156c36f2bcd18f4e3d97dc3269a2 (trunk)
-No changes between current HEAD <span class="hljs-keyword">and</span> refs/remotes/trunk
+       M      CHANGES.txt
+r85 = 4bfebeec434d156c36f2bcd18f4e3d97dc3269a2 (trunk)
+No changes between current HEAD and refs/remotes/trunk
 Resetting to the latest refs/remotes/trunk
-<span class="hljs-label">COPYING.txt:</span> locally modified
-<span class="hljs-label">INSTALL.txt:</span> locally modified
-       M      COPYING<span class="hljs-preprocessor">.txt</span>
-       M      INSTALL<span class="hljs-preprocessor">.txt</span>
+COPYING.txt: locally modified
+INSTALL.txt: locally modified
+       M      COPYING.txt
+       M      INSTALL.txt
 Committed r86
-       M      INSTALL<span class="hljs-preprocessor">.txt</span>
-       M      COPYING<span class="hljs-preprocessor">.txt</span>
-r86 = <span class="hljs-number">2647</span>f6b86ccfcaad4ec58c520e369ec81f7c283c (trunk)
-No changes between current HEAD <span class="hljs-keyword">and</span> refs/remotes/trunk
+       M      INSTALL.txt
+       M      COPYING.txt
+r86 = 2647f6b86ccfcaad4ec58c520e369ec81f7c283c (trunk)
+No changes between current HEAD and refs/remotes/trunk
 Resetting to the latest refs/remotes/trunk
 </code></pre><!--Running `dcommit` on a branch with merged history works fine, except that when you look at your Git project history, it hasn’t rewritten either of the commits you made on the `experiment` branch — instead, all those changes appear in the SVN version of the single merge commit.-->
 
@@ -1115,13 +1118,13 @@ Resetting to the latest refs/remotes/trunk
 
 <p>Um einen neuen Zweig in Subversion anzulegen, führst Du <code>git svn branch [branchname]</code> aus:</p>
 <pre><code>$ git svn branch opera
-Copying <span class="hljs-keyword">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...</span>
-Found possible branch point: <span class="hljs-keyword">file</span>:<span class="hljs-comment">///tmp/test-svn/trunk =&gt; \</span>
-  <span class="hljs-keyword">file</span>:<span class="hljs-comment">///tmp/test-svn/branches/opera, 87</span>
-Found branch <span class="hljs-keyword">parent</span>: (opera) <span class="hljs-number">1</span>f6bfe471083cbca06ac8d4176f7ad4de0d62e5f
-Following <span class="hljs-keyword">parent</span> with do_switch
-Successfully followed <span class="hljs-keyword">parent</span>
-r89 = <span class="hljs-number">9</span>b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
+Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
+Found possible branch point: file:///tmp/test-svn/trunk =&gt; \
+  file:///tmp/test-svn/branches/opera, 87
+Found branch parent: (opera) 1f6bfe471083cbca06ac8d4176f7ad4de0d62e5f
+Following parent with do_switch
+Successfully followed parent
+r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 </code></pre><!--This does the equivalent of the `svn copy trunk branches/opera` command in Subversion and operates on the Subversion server. It’s important to note that it doesn’t check you out into that branch; if you commit at this point, that commit will go to `trunk` on the server, not `opera`.-->
 
 <p>Dieser Befehl macht genau das gleiche wie das <code>svn copy trunk branches/opera</code>-Kommando in Subversion und arbeitet auf dem Subversion-Server. Wichtig hierbei ist, dass Du mit Deiner Arbeit nicht automatisch in diesen Zweig wechselst: wenn Du zu diesem Zeitpunkt einen Commit durchführst, wird dieser in <code>trunk</code> auf dem Server landen, nicht im <code>opera</code>-Zweig.</p>
@@ -1134,7 +1137,7 @@ r89 = <span class="hljs-number">9</span>b6fe0b90c5c9adf9165f700897518dbc54a7cbf 
 <!--If you want to work on more than one branch simultaneously, you can set up local branches to `dcommit` to specific Subversion branches by starting them at the imported Subversion commit for that branch. If you want an `opera` branch that you can work on separately, you can run-->
 
 <p>Wenn Du gleichzeitig mit mehr als einem Zweig arbeiten willst, kannst Du lokale Zweige derart anlegen, dass ein <code>dcommit</code> für sie in bestimmte Subversion-Zweige durchgeführt wird. Dazu startest Du diese beim importierten Subversion-Commit für diesen Zweig. Wenn Du einen <code>opera</code>-Zweig haben willst, an dem Du separat arbeiten kannst, führst Du</p>
-<pre><code><span class="hljs-variable">$ </span>git branch opera remotes/opera
+<pre><code>$ git branch opera remotes/opera
 </code></pre><!--Now, if you want to merge your `opera` branch into `trunk` (your `master` branch), you can do so with a normal `git merge`. But you need to provide a descriptive commit message (via `-m`), or the merge will say "Merge branch opera" instead of something useful.-->
 
 <p>aus. Wenn Du jetzt Deinen <code>opera</code>-Zweig in <code>trunk</code> (Deinen <code>master</code>-Zweig) zusammenführen willst , kannst Du das mit einem normalen <code>git merge</code> machen. Du solltest allerdings eine aussagekräftige Commit-Beschreibung angeben (mit <code>-m</code>) oder sie wird statt etwas Sinnvollem „Merge branch opera“ lauten.</p>
@@ -1154,18 +1157,18 @@ Unglücklicherweise gibt es kein ideales Mittel, diese Situation zu vermeiden �
 <!--If you’re used to Subversion and want to see your history in SVN output style, you can run `git svn log` to view your commit history in SVN formatting:-->
 
 <p>Wenn Du an Subversion gewöhnt bist und Deine Historie so sehen möchtest, wie SVN sie ausgeben würde, kannst Du <code>git svn log</code> ausführen, um Deine Commit-Historie in der SVN-Formatierung anzusehen:</p>
-<pre><code><span class="hljs-header">$ git svn log
-------------------------------------------------------------------------</span>
+<pre><code>$ git svn log
+------------------------------------------------------------------------
 r87 | schacon | 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009) | 2 lines
 
 autogen change
 
-<span class="hljs-code">------------------------------------------------------------------------
+------------------------------------------------------------------------
 r86 | schacon | 2009-05-02 16:00:21 -0700 (Sat, 02 May 2009) | 2 lines
 
-Merge branch 'experiment'
+Merge branch &#39;experiment&#39;
 
-------------------------------------------------------------------------</span>
+------------------------------------------------------------------------
 r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
 
 updated the changelog
@@ -1179,18 +1182,18 @@ updated the changelog
 
 <p>Genauso wie das Kommando <code>git svn log</code> den <code>svn log</code>-Befehl offline simuliert kannst Du das Pendant zu <code>svn annotate</code> mit dem Befehl <code>git svn blame [FILE]</code> ausführen. Die Ausgabe sieht so aus:</p>
 <pre><code>$ git svn blame README.txt
- <span class="hljs-number">2</span>   temporal Protocol Buffers - Google<span class="hljs-attribute">'s</span> data interchange format
- <span class="hljs-number">2</span>   temporal Copyright <span class="hljs-number">2008</span> Google Inc.
- <span class="hljs-number">2</span>   temporal http://code.google.com/apis/protocolbuffers/
- <span class="hljs-number">2</span>   temporal
-<span class="hljs-number">22</span>   temporal C++ Installation - Unix
-<span class="hljs-number">22</span>   temporal =======================
- <span class="hljs-number">2</span>   temporal
-<span class="hljs-number">79</span>    schacon Committing <span class="hljs-keyword">in</span> git-svn.
-<span class="hljs-number">78</span>    schacon
- <span class="hljs-number">2</span>   temporal <span class="hljs-keyword">To</span> build <span class="hljs-keyword">and</span> install the C++ Protocol <span class="hljs-keyword">Buffer</span> runtime <span class="hljs-keyword">and</span> the Protocol
- <span class="hljs-number">2</span>   temporal <span class="hljs-keyword">Buffer</span> compiler (protoc) execute the following:
- <span class="hljs-number">2</span>   temporal
+ 2   temporal Protocol Buffers - Google&#39;s data interchange format
+ 2   temporal Copyright 2008 Google Inc.
+ 2   temporal http://code.google.com/apis/protocolbuffers/
+ 2   temporal
+22   temporal C++ Installation - Unix
+22   temporal =======================
+ 2   temporal
+79    schacon Committing in git-svn.
+78    schacon
+ 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
+ 2   temporal Buffer compiler (protoc) execute the following:
+ 2   temporal
 </code></pre><!--Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.-->
 
 <p>Auch dieser Befehl zeigt die Commits nicht an, die Du lokal getätigt hast, genauso wenig wie jene, die in der Zwischenzeit zum Subversion-Server übertragen wurden.</p>
@@ -1201,16 +1204,16 @@ updated the changelog
 
 <p>Die selben Informationen wie bei <code>svn info</code> bekommst Du, wenn Du <code>git svn info</code> ausführst:</p>
 <pre><code>$ git svn info
-<span class="hljs-label">Path:</span> .
-<span class="hljs-label">URL:</span> https://schacon-test<span class="hljs-preprocessor">.googlecode</span><span class="hljs-preprocessor">.com</span>/svn/trunk
-Repository Root: https://schacon-test<span class="hljs-preprocessor">.googlecode</span><span class="hljs-preprocessor">.com</span>/svn
-Repository UUID: <span class="hljs-number">4</span>c93b258-<span class="hljs-number">373</span>f-<span class="hljs-number">11</span>de-be05-<span class="hljs-number">5</span>f7a86268029
-<span class="hljs-label">Revision:</span> <span class="hljs-number">87</span>
+Path: .
+URL: https://schacon-test.googlecode.com/svn/trunk
+Repository Root: https://schacon-test.googlecode.com/svn
+Repository UUID: 4c93b258-373f-11de-be05-5f7a86268029
+Revision: 87
 Node Kind: directory
-<span class="hljs-label">Schedule:</span> normal
+Schedule: normal
 Last Changed Author: schacon
-Last Changed Rev: <span class="hljs-number">87</span>
-Last Changed Date: <span class="hljs-number">2009</span>-<span class="hljs-number">05</span>-<span class="hljs-number">02</span> <span class="hljs-number">16</span>:<span class="hljs-number">07</span>:<span class="hljs-number">37</span> -<span class="hljs-number">0700</span> (Sat, <span class="hljs-number">02</span> May <span class="hljs-number">2009</span>)
+Last Changed Rev: 87
+Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 </code></pre><!--This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.-->
 
 <p>Genauso wie <code>blame</code> und <code>log</code> läuft die Ausführung dieses Befehls offline ab und ist nur so aktuell wie zu dem Zeitpunkt, zu dem Du das letzte Mal mit dem Subversion-Server verbunden warst.</p>
@@ -1223,7 +1226,7 @@ Last Changed Date: <span class="hljs-number">2009</span>-<span class="hljs-numbe
 <!--The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:-->
 
 <p>Der zweite Befehl ist <code>git svn show-ignore</code>, der Dir diejenigen Zeilen auf stdout ausgibt, die Du in eine <code>.gitignore</code>-Datei einfügen musst. So kannst Du die Ausgabe des Befehls direkt in die Ausnahmedatei umleiten:</p>
-<pre><code><span class="hljs-variable">$ </span>git svn show-ignore &gt; .git/info/exclude
+<pre><code>$ git svn show-ignore &gt; .git/info/exclude
 </code></pre><!--That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.-->
 
 <p>Auf diese Weise müllst Du Dein Projekt nicht mit <code>.gitignore</code>-Dateien zu. Das ist eine gute Wahl wenn Du der einzige Git-Benutzer in Deinem Team bist (alle anderen benutzen Subversion) und Deine Kollegen keine <code>.gitignore</code>-Dateien im Projekt haben wollen.</p>
@@ -1261,9 +1264,9 @@ Last Changed Date: <span class="hljs-number">2009</span>-<span class="hljs-numbe
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

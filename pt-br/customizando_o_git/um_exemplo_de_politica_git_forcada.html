@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,57 +847,57 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_823">
+                    <section class="normal" id="section-gitbook_682">
                     
                         <h1 id="um-exemplo-de-pol-tica-git-for-ada">Um exemplo de Política Git Forçada</h1>
 <p>Nesta seção, você vai usar o que aprendeu para estabelecer um fluxo de trabalho Git que verifica um formato de mensagem personalizado para commit, e força o uso apenas de push fast-forward, e permite que apenas alguns usuários possam modificar determinados subdiretórios em um projeto. Você vai construir scripts cliente que ajudam ao desenvolvedor saber se seu push será rejeitado e scripts de servidor que fazem valer as políticas.</p>
 <p>Eu usei Ruby para escrever estes, isso porque é a minha linguagem de script preferida e porque eu sinto que é a linguagem de script que mais parece com pseudocódigo; assim você deve ser capaz de seguir o código, mesmo que você não use Ruby. No entanto, qualquer linguagem funcionará bem. Todos os exemplos de scripts de hooks distribuídos com o Git são feitos em Perl ou Bash, então você também pode ver vários exemplos de hooks nessas linguagens olhando os exemplos.</p>
 <h2 id="hook-do-lado-servidor">Hook do Lado Servidor</h2>
 <p>Todo o trabalho do lado servidor irá para o arquivo update no seu diretório de hooks. O arquivo update é executado uma vez por branch de cada push e leva a referência do push para a revisão antiga onde o branch estava, e a nova revisão do push. Você também terá acesso ao usuário que está realizando o push, se o push está sendo executado através de SSH. Se você permitiu que todos se conectem com um único usuário (como &quot;git&quot;), através de autenticação de chave pública, você pode ter que dar ao usuário um &quot;shell wrapper&quot; que determina qual usuário está se conectando com base na chave pública, e definir uma variável de ambiente especificando o usuário. Aqui eu assumo que o usuário de conexão está na variável de ambiente <code>$USER</code>, então, seu script de atualização começa reunindo todas as informações que você precisa:</p>
-<pre><code><span class="hljs-comment">#!/usr/bin/env ruby</span>
+<pre><code>#!/usr/bin/env ruby
 
-<span class="hljs-variable">$refname</span> = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">0</span>]
-<span class="hljs-variable">$oldrev</span>  = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">1</span>]
-<span class="hljs-variable">$newrev</span>  = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">2</span>]
-<span class="hljs-variable">$user</span>    = <span class="hljs-constant">ENV</span>[<span class="hljs-string">'USER'</span>]
+$refname = ARGV[0]
+$oldrev  = ARGV[1]
+$newrev  = ARGV[2]
+$user    = ENV[&#39;USER&#39;]
 
-puts <span class="hljs-string">"Enforcing Policies... \n(<span class="hljs-subst">#{<span class="hljs-variable">$refname</span>}</span>) (<span class="hljs-subst">#{<span class="hljs-variable">$oldrev</span>[<span class="hljs-number">0</span>,<span class="hljs-number">6</span>]}</span>) (<span class="hljs-subst">#{<span class="hljs-variable">$newrev</span>[<span class="hljs-number">0</span>,<span class="hljs-number">6</span>]}</span>)"</span>
+puts &quot;Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})&quot;
 </code></pre><p>Sim, eu estou usando variáveis ​​globais. Não me julgue — é mais fácil para demonstrar desta maneira.</p>
 <h3 id="impondo-um-formato-espec-fico-de-mensagens-de-commit">Impondo um Formato Específico de Mensagens de Commit</h3>
 <p>Seu primeiro desafio é impor que cada mensagem de commit deve aderir a um formato específico. Só para se ter uma meta, vamos supor que cada mensagem tem de incluir uma string que parece com &quot;ref: 1234&quot; porque você quer que cada commit tenha um link para um item de trabalho no seu sistema de chamados. Você deve olhar para cada commit do push, ver se essa sequência está na mensagem de commit, e, se a string estiver ausente de qualquer um dos commits, retornar zero para que o push seja rejeitado.</p>
 <p>Você pode obter uma lista dos valores SHA-1 de todos os commits de um push, através dos valores <code>$newrev</code> e <code>$oldrev</code> e passando-os para um comando Git plumbing chamado <code>git rev-list</code>. Este é basicamente o comando <code>git log</code>, mas por padrão ele mostra apenas os valores SHA-1 e nenhuma outra informação. Assim, para obter uma lista de todos os SHAs de commits introduzidos entre um commit SHA e outro, você pode executar algo como abaixo:</p>
-<pre><code>$ git rev-<span class="hljs-built_in">list</span> <span class="hljs-number">538</span>c33..d14fc7
+<pre><code>$ git rev-list 538c33..d14fc7
 d14fc7c847ab946ec39590d87783c69b031bdfb7
-<span class="hljs-number">9f</span>585da4401b0a3999e84113824d15245c13f0be
-<span class="hljs-number">234071</span>a1be950e2a8d078e6141f5cd20c1e61ad3
+9f585da4401b0a3999e84113824d15245c13f0be
+234071a1be950e2a8d078e6141f5cd20c1e61ad3
 dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
-<span class="hljs-number">17716</span>ec0f1ff5c77eff40b7fe912f9f6cfd0e475
+17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475
 </code></pre><p>Você pode pegar essa saída, percorrer cada um dos SHAs dos commits, pegar a mensagem para ele, e testar a mensagem contra uma expressão regular que procura um padrão.</p>
 <p>Você tem que descobrir como pegar a mensagem de confirmação de cada um dos commits para testar. Para obter os dados brutos do commit, você pode usar um outro comando plumbing chamado <code>git cat-file</code>. Eu vou falar de todos estes comandos plumbing em detalhes no Capítulo 9; mas, por agora, aqui está o resultado do comando:</p>
-<pre><code>$ git cat-<span class="hljs-keyword">file</span> commit ca82a6
+<pre><code>$ git cat-file commit ca82a6
 tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
-<span class="hljs-keyword">parent</span> <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-author Scott Chacon &lt;schacon<span class="hljs-variable">@gmail</span>.com&gt; <span class="hljs-number">1205815931</span> -<span class="hljs-number">0700</span>
-committer Scott Chacon &lt;schacon<span class="hljs-variable">@gmail</span>.com&gt; <span class="hljs-number">1240030591</span> -<span class="hljs-number">0700</span>
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;schacon@gmail.com&gt; 1205815931 -0700
+committer Scott Chacon &lt;schacon@gmail.com&gt; 1240030591 -0700
 
 changed the verison number
 </code></pre><p>Uma maneira simples de obter a mensagem de confirmação de um commit quando você tem o valor SHA-1 é ir para a primeira linha em branco e retirar tudo depois dela. Você pode fazer isso com o comando <code>sed</code> em sistemas Unix:</p>
-<pre><code>$ git cat-<span class="hljs-built_in">file</span> commit ca82a6 | sed <span class="hljs-string">'1,/^$/d'</span>
-changed <span class="hljs-operator">the</span> verison <span class="hljs-built_in">number</span>
+<pre><code>$ git cat-file commit ca82a6 | sed &#39;1,/^$/d&#39;
+changed the verison number
 </code></pre><p>Você pode usar isso para pegar a mensagem de cada commit do push e sair se você ver algo que não corresponde. Para sair do script e rejeitar o push, retorne um valor diferente de zero. Todo o método se parece com este:</p>
 <pre><code>$regex = /\[ref: (\d+)\]/
 
-<span class="hljs-comment"># enforced custom commit message format</span>
+# enforced custom commit message format
 def check_message_format
-  missed_revs = `git rev-list <span class="hljs-comment">#{$oldrev}..#{$newrev}`.split("\n")</span>
-  missed_revs.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |rev|
-    message = `git cat-<span class="hljs-built_in">file</span> commit <span class="hljs-comment">#{rev} | sed '1,/^$/d'`</span>
-    <span class="hljs-keyword">if</span> !$regex.match(message)
-      puts <span class="hljs-string">"[POLICY] Your message is not formatted correctly"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  missed_revs = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  missed_revs.each do |rev|
+    message = `git cat-file commit #{rev} | sed &#39;1,/^$/d&#39;`
+    if !$regex.match(message)
+      puts &quot;[POLICY] Your message is not formatted correctly&quot;
+      exit 1
+    end
+  end
+end
 check_message_format
 </code></pre><p>Colocar isso no seu script <code>update</code> rejeitará atualizações que contenham commits que tem mensagens que não aderem à sua regra.</p>
 <h3 id="impondo-um-sistema-acl-baseado-em-usu-rio">Impondo um Sistema ACL Baseado em Usuário</h3>
@@ -903,64 +906,64 @@ check_message_format
 <p>Neste caso, você tem alguns administradores, alguns escritores de documentação com acesso ao diretório <code>doc</code>, e um desenvolvedor que só tem acesso aos diretórios <code>lib</code> e <code>tests</code>, seu arquivo ACL fica assim:</p>
 <pre><code>avail|nickh,pjhyett,defunkt,tpw
 avail|usinclair,cdickens,ebronte|doc
-avail<span class="hljs-localvars">|schacon|lib
-avail|schacon|tests</span>
+avail|schacon|lib
+avail|schacon|tests
 </code></pre><p>Você começa lendo esses dados em uma estrutura que você pode usar. Neste caso, para manter o exemplo simples, você só vai cumprir as diretrizes do <code>avail</code>. Aqui está um método que lhe dá um array associativo onde a chave é o nome do usuário e o valor é um conjunto de paths que o usuário tem acesso de escrita:</p>
 <pre><code>def get_acl_access_data(acl_file)
-  <span class="hljs-comment"># read in ACL data</span>
-  acl_file = File.<span class="hljs-built_in">read</span>(acl_file).<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).reject { |<span class="hljs-built_in">line</span>| <span class="hljs-built_in">line</span> == <span class="hljs-string">''</span> }
+  # read in ACL data
+  acl_file = File.read(acl_file).split(&quot;\n&quot;).reject { |line| line == &#39;&#39; }
   access = {}
-  acl_file.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |<span class="hljs-built_in">line</span>|
-    avail, users, path = <span class="hljs-built_in">line</span>.<span class="hljs-built_in">split</span>(<span class="hljs-string">'|'</span>)
-    next unless avail == <span class="hljs-string">'avail'</span>
-    users.<span class="hljs-built_in">split</span>(<span class="hljs-string">','</span>).<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |user|
+  acl_file.each do |line|
+    avail, users, path = line.split(&#39;|&#39;)
+    next unless avail == &#39;avail&#39;
+    users.split(&#39;,&#39;).each do |user|
       access[user] ||= []
       access[user] &lt;&lt; path
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+    end
+  end
   access
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+end
 </code></pre><p>No arquivo ACL que você viu anteriormente, o método <code>get_acl_access_data</code> retorna uma estrutura de dados que se parece com esta:</p>
-<pre><code>{<span class="hljs-string">"defunkt"</span>=&gt;[nil],
- <span class="hljs-string">"tpw"</span>=&gt;[nil],
- <span class="hljs-string">"nickh"</span>=&gt;[nil],
- <span class="hljs-string">"pjhyett"</span>=&gt;[nil],
- <span class="hljs-string">"schacon"</span>=&gt;[<span class="hljs-string">"lib"</span>, <span class="hljs-string">"tests"</span>],
- <span class="hljs-string">"cdickens"</span>=&gt;[<span class="hljs-string">"doc"</span>],
- <span class="hljs-string">"usinclair"</span>=&gt;[<span class="hljs-string">"doc"</span>],
- <span class="hljs-string">"ebronte"</span>=&gt;[<span class="hljs-string">"doc"</span>]}
+<pre><code>{&quot;defunkt&quot;=&gt;[nil],
+ &quot;tpw&quot;=&gt;[nil],
+ &quot;nickh&quot;=&gt;[nil],
+ &quot;pjhyett&quot;=&gt;[nil],
+ &quot;schacon&quot;=&gt;[&quot;lib&quot;, &quot;tests&quot;],
+ &quot;cdickens&quot;=&gt;[&quot;doc&quot;],
+ &quot;usinclair&quot;=&gt;[&quot;doc&quot;],
+ &quot;ebronte&quot;=&gt;[&quot;doc&quot;]}
 </code></pre><p>Agora que você tem as permissões organizadas, é preciso determinar quais os paths que os commits do push modificam, de modo que você pode ter certeza que o usuário que está fazendo o push tem acesso a todos eles.</p>
 <p>Você pode muito facilmente ver quais arquivos foram modificados em um único commit com a opção <code>--name-only</code> do comando <code>git log</code> (mencionado brevemente no Capítulo 2):</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> --name-only --pretty=<span class="hljs-built_in">format</span>:<span class="hljs-string">''</span> <span class="hljs-number">9</span>f585d
+<pre><code>$ git log -1 --name-only --pretty=format:&#39;&#39; 9f585d
 
 README
 lib/test.rb
 </code></pre><p>Se você usar a estrutura ACL retornada pelo método <code>get_acl_access_data</code> e verificar a relação dos arquivos listados em cada um dos commits, você pode determinar se o usuário tem acesso ao push de todos os seus commits:</p>
-<pre><code><span class="hljs-comment"># only allows certain users to modify certain subdirectories in a project</span>
+<pre><code># only allows certain users to modify certain subdirectories in a project
 def check_directory_perms
-  access = get_acl_access_data(<span class="hljs-string">'acl'</span>)
+  access = get_acl_access_data(&#39;acl&#39;)
 
 
-  <span class="hljs-comment"># see if anyone is trying to push something they can't</span>
-  new_commits = `git rev-list <span class="hljs-comment">#{$oldrev}..#{$newrev}`.split("\n")</span>
-  new_commits.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |rev|
-    files_modified = `git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> <span class="hljs-comment">--name-only --pretty=format:'' #{rev}`.split("\n")</span>
-    files_modified.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |path|
-      next <span class="hljs-keyword">if</span> path.size == <span class="hljs-number">0</span>
-      has_file_access = <span class="hljs-constant">false</span>
-      access[$user].<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |access_path|
-        <span class="hljs-keyword">if</span> !access_path || <span class="hljs-comment"># user has access to everything</span>
-          (path.index(access_path) == <span class="hljs-number">0</span>) <span class="hljs-comment"># access to this path</span>
-          has_file_access = <span class="hljs-constant">true</span>
-        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-      <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-      <span class="hljs-keyword">if</span> !has_file_access
-        puts <span class="hljs-string">"[POLICY] You do not have access to push to #{path}"</span>
-        exit <span class="hljs-number">1</span>
-      <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  # see if anyone is trying to push something they can&#39;t
+  new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  new_commits.each do |rev|
+    files_modified = `git log -1 --name-only --pretty=format:&#39;&#39; #{rev}`.split(&quot;\n&quot;)
+    files_modified.each do |path|
+      next if path.size == 0
+      has_file_access = false
+      access[$user].each do |access_path|
+        if !access_path || # user has access to everything
+          (path.index(access_path) == 0) # access to this path
+          has_file_access = true
+        end
+      end
+      if !has_file_access
+        puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+        exit 1
+      end
+    end
+  end
+end
 
 check_directory_perms
 </code></pre><p>A maior parte do código deve ser fácil de acompanhar. Você receberá uma lista de novos commits do push com <code>git rev-list</code>. Então, para cada um desses, você acha quais arquivos são modificados e verifica se o usuário que está fazendo o push tem acesso a todos os paths sendo modificados. Um Rubyism que pode não ser claro é <code>path.index(access_path) == 0</code>, que é verdadeiro se o caminho começa com <code>access_path</code> — isso garante que <code>access_path</code> não esta apenas em um dos caminhos permitidos, mas um path permitido começa com cada path acessado.</p>
@@ -968,133 +971,133 @@ check_directory_perms
 <h3 id="impondo-apenas-fast-forward-pushes">Impondo Apenas Fast-Forward Pushes</h3>
 <p>A única coisa que resta é impor apenas fast-forward pushes. Nas versões Git 1.6 ou mais recentes, você pode definir as configurações <code>receive.denyDeletes</code> e <code>receive.denyNonFastForwards</code>. Mas utilizar um hook irá funcionar em versões mais antigas do Git, e você pode modificá-lo para impor a diretiva apenas para determinados usuários ou fazer qualquer outra coisa que você queira.</p>
 <p>A lógica para verificar isso é ver se algum commit é acessível a partir da revisão mais antiga que não é acessível a partir da versão mais recente. Se não houver nenhum, então foi um push Fast-Forward; caso contrário, você nega ele:</p>
-<pre><code><span class="hljs-comment"># enforces fast-forward only pushes</span>
+<pre><code># enforces fast-forward only pushes
 def check_fast_forward
-  missed_refs = `git rev-list <span class="hljs-comment">#{$newrev}..#{$oldrev}`</span>
-  missed_ref_count = missed_refs.<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).size
-  <span class="hljs-keyword">if</span> missed_ref_count &gt; <span class="hljs-number">0</span>
-    puts <span class="hljs-string">"[POLICY] Cannot push a non fast-forward reference"</span>
-    exit <span class="hljs-number">1</span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
+  missed_ref_count = missed_refs.split(&quot;\n&quot;).size
+  if missed_ref_count &gt; 0
+    puts &quot;[POLICY] Cannot push a non fast-forward reference&quot;
+    exit 1
+  end
+end
 
 check_fast_forward
 </code></pre><p>Tudo está configurado. Se você executar <code>chmod u+x .git/hooks/update</code>, que é o arquivo no qual você deve ter colocado todo este código, e então tentar fazer um push de uma referência não fast-forwarded, você verá algo como isto:</p>
 <pre><code>$ git push -f origin master
-Counting objects: <span class="hljs-number">5</span>, done.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), done.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-number">323</span> bytes, done.
-Total <span class="hljs-number">3</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), done.
+Counting objects: 5, done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 323 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
 Enforcing Policies...
-(refs/heads/master) (<span class="hljs-number">8338</span>c5) (c5b616)
+(refs/heads/master) (8338c5) (c5b616)
 [POLICY] Cannot push a non fast-forward reference
-<span class="hljs-keyword">error</span>: hooks/update exited <span class="hljs-keyword">with</span> <span class="hljs-keyword">error</span> code <span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: hook declined <span class="hljs-keyword">to</span> update refs/heads/master
-<span class="hljs-keyword">To</span> git@gitserver:project.git
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
+To git@gitserver:project.git
  ! [remote rejected] master -&gt; master (hook declined)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'git@gitserver:project.git'</span>
+error: failed to push some refs to &#39;git@gitserver:project.git&#39;
 </code></pre><p>Há algumas coisas interessantes aqui. Primeiro, você vê quando o hook começa a funcionar.</p>
-<pre><code>Enforcing Policies<span class="hljs-attribute">...</span>
-(refs/heads/master) (<span class="hljs-number">8338</span>c5) (c5b616)
+<pre><code>Enforcing Policies...
+(refs/heads/master) (8338c5) (c5b616)
 </code></pre><p>Observe que você imprimiu aquilo no stdout no início do seu script de atualização. É importante notar que qualquer coisa que seu script imprima no stdout será transferido para o cliente.</p>
 <p>A próxima coisa que você vai notar é a mensagem de erro.</p>
-<pre><code>[POLICY] Cannot push a non fast-forward <span class="hljs-keyword">reference</span>
-<span class="hljs-keyword">error</span>: hooks/update exited <span class="hljs-keyword">with</span> <span class="hljs-keyword">error</span> code <span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: hook declined <span class="hljs-keyword">to</span> update refs/heads/master
+<pre><code>[POLICY] Cannot push a non fast-forward reference
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
 </code></pre><p>A primeira linha foi impressa por você, as outras duas foram pelo Git dizendo que o script de atualização não retornou zero e é isso que está impedindo seu push. Por último, você verá isso:</p>
-<pre><code><span class="hljs-keyword">To</span> git@gitserver:project.git
+<pre><code>To git@gitserver:project.git
  ! [remote rejected] master -&gt; master (hook declined)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'git@gitserver:project.git'</span>
+error: failed to push some refs to &#39;git@gitserver:project.git&#39;
 </code></pre><p>Você verá uma mensagem de rejeição remota para cada referência que o seu hook impediu, e ele diz que ele foi recusado especificamente por causa de uma falha de hook.</p>
 <p>Além disso, se o marcador ref não existir em nenhum dos seus commits, você verá a mensagem de erro que você está imprimindo para ele.</p>
-<pre><code>[POLICY] Your message <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> formatted correctly
+<pre><code>[POLICY] Your message is not formatted correctly
 </code></pre><p>Ou se alguém tentar editar um arquivo que não têm acesso e fazer um push de um commit que o contém, ele verá algo semelhante. Por exemplo, se um autor de documentação tenta fazer um push de um commit modificando algo no diretório <code>lib</code>, ele verá</p>
-<pre><code>[POLICY] You <span class="hljs-keyword">do</span> <span class="hljs-keyword">not</span> have access <span class="hljs-keyword">to</span> push <span class="hljs-keyword">to</span> <span class="hljs-keyword">lib</span>/test.rb
+<pre><code>[POLICY] You do not have access to push to lib/test.rb
 </code></pre><p>Isto é tudo. A partir de agora, desde que o script <code>update</code> esteja lá e seja executável, seu repositório nunca será rebobinado e nunca terá uma mensagem de commit sem o seu padrão nela, e os usuários terão restrições.</p>
 <h2 id="hooks-do-lado-cliente">Hooks do Lado Cliente</h2>
 <p>A desvantagem desta abordagem é a choraminga que resultará inevitavelmente quando os pushes de commits de seus usuários forem rejeitados. Tendo seu trabalho cuidadosamente elaborada rejeitado no último minuto pode ser extremamente frustrante e confuso; e, além disso, eles vão ter que editar seu histórico para corrigi-lo, o que nem sempre é para os fracos de coração.</p>
 <p>A resposta para este dilema é fornecer alguns hooks do lado cliente que os usuários possam usar para notificá-los quando eles estão fazendo algo que o servidor provavelmente rejeitará. Dessa forma, eles podem corrigir quaisquer problemas antes de fazer o commit e antes desses problemas se tornarem mais difíceis de corrigir. Já que hooks não são transferidos com um clone de um projeto, você deve distribuir esses scripts de alguma outra forma e, então, usuários devem copiá-los para seu diretório <code>.git/hooks</code> e torná-los executáveis. Você pode distribuir esses hooks dentro do projeto ou em um projeto separado, mas não há maneiras de configurá-los automaticamente.</p>
 <p>Para começar, você deve verificar a sua mensagem de confirmação antes que cada commit seja gravado, então você saberá que o servidor não irá rejeitar as alterações devido a mensagens de commit mal formatadas. Para fazer isso, você pode adicionar o hook <code>commit-msg</code>. Se fizer ele ler as mensagens do arquivo passado como o primeiro argumento e comparar ele com o padrão, você pode forçar o Git a abortar o commit se eles não corresponderem:</p>
-<pre><code><span class="hljs-shebang">#!/usr/bin/env ruby</span>
-message_file = ARGV[<span class="hljs-number">0</span>]
+<pre><code>#!/usr/bin/env ruby
+message_file = ARGV[0]
 message = File.read(message_file)
 
-$regex = /\[<span class="hljs-keyword">ref</span>: (\d+)\]/
+$regex = /\[ref: (\d+)\]/
 
-<span class="hljs-keyword">if</span> !$regex.match(message)
-  puts <span class="hljs-string">"[POLICY] Your message is not formatted correctly"</span>
-  exit <span class="hljs-number">1</span>
+if !$regex.match(message)
+  puts &quot;[POLICY] Your message is not formatted correctly&quot;
+  exit 1
 end
 </code></pre><p>Se esse script está no lugar correto (em <code>.git/hooks/commit-msg</code>) e é executável, e você fizer um commit com uma mensagem que não está formatada corretamente, você verá isso:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">commit</span> -am <span class="hljs-string">'test'</span>
-[POLICY] Your message <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> formatted correctly</span>
+<pre><code>$ git commit -am &#39;test&#39;
+[POLICY] Your message is not formatted correctly
 </code></pre><p>Nenhum commit foi concluído nessa instância. No entanto, se a mensagem conter o padrão adequado, o Git permite o commit:</p>
-<pre><code>$ git commit -am <span class="hljs-string">'test [ref: 132]'</span>
-[master e05c914] test [<span class="hljs-keyword">ref</span>: <span class="hljs-number">132</span>]
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git commit -am &#39;test [ref: 132]&#39;
+[master e05c914] test [ref: 132]
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Em seguida, você quer ter certeza de que você não está modificando os arquivos que estão fora do seu escopo ACL. Se o seu diretório de projeto <code>.git</code> contém uma cópia do arquivo ACL que você usou anteriormente, então o seguinte script <code>pre-commit</code> irá impor essas restrições para você:</p>
 <pre><code>#!/usr/bin/env ruby
 
-$user = ENV['USER']
+$user = ENV[&#39;USER&#39;]
 
-# [ <span class="hljs-operator"><span class="hljs-keyword">insert</span> acl_access_data method <span class="hljs-keyword">from</span> above ]
+# [ insert acl_access_data method from above ]
 
-# <span class="hljs-keyword">only</span> allows certain users <span class="hljs-keyword">to</span> modify certain subdirectories <span class="hljs-keyword">in</span> a project
+# only allows certain users to modify certain subdirectories in a project
 def check_directory_perms
-  access = get_acl_access_data(<span class="hljs-string">'.git/acl'</span>)
+  access = get_acl_access_data(&#39;.git/acl&#39;)
 
-  files_modified = <span class="hljs-string">`git diff-index --cached --name-only HEAD`</span>.split(<span class="hljs-string">"\n"</span>)
-  files_modified.<span class="hljs-keyword">each</span> <span class="hljs-keyword">do</span> |path|
-    <span class="hljs-keyword">next</span> <span class="hljs-keyword">if</span> path.<span class="hljs-keyword">size</span> == <span class="hljs-number">0</span>
-    has_file_access = <span class="hljs-keyword">false</span>
-    access[$<span class="hljs-keyword">user</span>].<span class="hljs-keyword">each</span> <span class="hljs-keyword">do</span> |access_path|
-    <span class="hljs-keyword">if</span> !access_path || (path.index(access_path) == <span class="hljs-number">0</span>)
-      has_file_access = <span class="hljs-keyword">true</span>
-    <span class="hljs-keyword">end</span>
-    <span class="hljs-keyword">if</span> !has_file_access
-      puts <span class="hljs-string">"[POLICY] You do not have access to push to #{path}"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-keyword">end</span>
-  <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>
+  files_modified = `git diff-index --cached --name-only HEAD`.split(&quot;\n&quot;)
+  files_modified.each do |path|
+    next if path.size == 0
+    has_file_access = false
+    access[$user].each do |access_path|
+    if !access_path || (path.index(access_path) == 0)
+      has_file_access = true
+    end
+    if !has_file_access
+      puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+      exit 1
+    end
+  end
+end
 
-check_directory_perms</span>
+check_directory_perms
 </code></pre><p>Este é aproximadamente o mesmo script da parte do lado servidor, mas com duas diferenças importantes. Primeiro, o arquivo ACL está em um lugar diferente, porque este script é executado a partir do seu diretório de trabalho, e não de seu diretório Git. Você tem que mudar o path para o arquivo ACL, disso</p>
-<pre><code><span class="hljs-keyword">access</span> = get_acl_access_data(<span class="hljs-attribute">'acl</span>')
+<pre><code>access = get_acl_access_data(&#39;acl&#39;)
 </code></pre><p>para isso:</p>
-<pre><code>access = get_acl_access_data(<span class="hljs-string">'.git/acl'</span>)
+<pre><code>access = get_acl_access_data(&#39;.git/acl&#39;)
 </code></pre><p>A outra diferença importante é a forma como você obtem uma lista dos arquivos que foram alterados. Como o método do lado servidor olha no log de ​​commits e, neste momento, o commit não foi gravado ainda, você deve pegar sua lista de arquivos da área staging. Em vez de</p>
-<pre><code>files_modified = `git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> --name-only --pretty=<span class="hljs-built_in">format</span>:<span class="hljs-string">''</span> <span class="hljs-preprocessor">#{ref}`</span>
+<pre><code>files_modified = `git log -1 --name-only --pretty=format:&#39;&#39; #{ref}`
 </code></pre><p>você deve usar</p>
-<pre><code><span class="hljs-comment">files_modified</span> <span class="hljs-comment">=</span> <span class="hljs-comment">`git</span> <span class="hljs-comment">diff</span><span class="hljs-literal">-</span><span class="hljs-comment">index</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">cached</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">name</span><span class="hljs-literal">-</span><span class="hljs-comment">only</span> <span class="hljs-comment">HEAD`</span>
+<pre><code>files_modified = `git diff-index --cached --name-only HEAD`
 </code></pre><p>Mas essas são as duas únicas diferenças — caso contrário, o script funciona da mesma maneira. Uma ressalva é que ele espera que você esteja executando localmente como o mesmo usuário que você fez o push para a máquina remota. Se ele for diferente, você deve definir a variável <code>$user</code> manualmente.</p>
 <p>A última coisa que você tem que fazer é verificar se você não está tentando fazer o push de referências não fast-forwarded, mas isso é um pouco menos comum. Para obter uma referência que não é um fast-forward, você tem que fazer um rebase depois de um commit que já foi enviado por um push ou tentar fazer o push de um branch local diferente até o mesmo branch remoto.</p>
 <p>Como o servidor vai dizer que você não pode fazer um push não fast-forward de qualquer maneira, e o hook impede pushes forçados, a única coisa acidental que você pode tentar deter são commits de rebase que já foram enviados por um push.</p>
 <p>Aqui está um exemplo de script pré-rebase que verifica isso. Ele recebe uma lista de todos os commits que você está prestes a reescrever e verifica se eles existem em qualquer uma das suas referências remotas. Se ele vê um que é acessível a partir de uma de suas referências remotas, ele aborta o rebase:</p>
-<pre><code><span class="hljs-comment">#!/usr/bin/env ruby</span>
+<pre><code>#!/usr/bin/env ruby
 
-base_branch = ARGV[<span class="hljs-number">0</span>]
-<span class="hljs-keyword">if</span> ARGV[<span class="hljs-number">1</span>]
-  topic_branch = ARGV[<span class="hljs-number">1</span>]
-<span class="hljs-keyword">else</span>
-  topic_branch = <span class="hljs-string">"HEAD"</span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+base_branch = ARGV[0]
+if ARGV[1]
+  topic_branch = ARGV[1]
+else
+  topic_branch = &quot;HEAD&quot;
+end
 
-target_shas = `git rev-list <span class="hljs-comment">#{base_branch}..#{topic_branch}`.split("\n")</span>
-remote_refs = `git branch -r`.<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).map { |r| r.strip }
+target_shas = `git rev-list #{base_branch}..#{topic_branch}`.split(&quot;\n&quot;)
+remote_refs = `git branch -r`.split(&quot;\n&quot;).map { |r| r.strip }
 
-target_shas.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |sha|
-  remote_refs.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |remote_ref|
-    shas_pushed = `git rev-list ^<span class="hljs-comment">#{sha}^@ refs/remotes/#{remote_ref}`</span>
-    <span class="hljs-keyword">if</span> shas_pushed.<span class="hljs-built_in">split</span>(“\n”).<span class="hljs-built_in">include</span>?(sha)
-      puts <span class="hljs-string">"[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+target_shas.each do |sha|
+  remote_refs.each do |remote_ref|
+    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
+    if shas_pushed.split(“\n”).include?(sha)
+      puts &quot;[POLICY] Commit #{sha} has already been pushed to #{remote_ref}&quot;
+      exit 1
+    end
+  end
+end
 </code></pre><p>Este script utiliza uma sintaxe que não foi coberta na seção Seleção de Revisão do Capítulo 6. Você obterá uma lista de commits que já foram foram enviados em um push executando isto:</p>
-<pre><code>git rev-list ^#{<span class="ruby">sha}</span>^@ refs/remotes/#{<span class="ruby">remote_ref}</span>
+<pre><code>git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 </code></pre><p>A sintaxe <code>SHA^@</code> resolve para todos os pais daquele commit. Você está à procura de qualquer commit que é acessível a partir do último commit no remoto e que não é acessível a partir de qualquer pai de qualquer um dos SHAs que você está tentando fazer o push — o que significa que é um fast-forward.</p>
 <p>A principal desvantagem desta abordagem é que ela pode ser muito lenta e muitas vezes é desnecessária — se você não tentar forçar o push com <code>-f</code>, o servidor irá avisá-lo e não aceitará o push. No entanto, é um exercício interessante e pode, em teoria, ajudar a evitar um rebase que você possa mais tarde ter que voltar atrás e corrigir.</p>
 
@@ -1115,9 +1118,9 @@ target_shas.<span class="hljs-keyword">each</span> <span class="hljs-built_in">d
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

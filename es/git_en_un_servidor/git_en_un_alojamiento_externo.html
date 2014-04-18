@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.9" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.9" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -839,7 +842,7 @@
                         <h1 id="git-en-un-alojamiento-externo">Git en un alojamiento externo</h1>
 <p>Si no quieres realizar todo el trabajo de preparar tu propio servidor Git, tienes varias opciones para alojar tus proyectos Git en una ubicación externa dedicada. Esta forma de trabajar tiene varias ventajas: un alberge externo suele ser rápido de configurar y sencillo de iniciar proyectos en él; además de no ser necesario preocuparte de su mantenimiento ni de su monitorización. Incluso en el caso de que tengas tu propio servidor interno, puede resultar interesante utilizar también un lugar público; para albergar tu código abierto --normalmente, ahí suele ser más sencillo de localizar por parte de la comunidad--</p>
 <p>Actualmente tienes un gran número de opciones del alojamiento, cada una con sus ventajas y desventajas. Para obtener una lista actualizada, puedes mirar en la página GitHosting del wiki principal de Git:</p>
-<pre><code><span class="hljs-label">https:</span>//git<span class="hljs-preprocessor">.wiki</span><span class="hljs-preprocessor">.kernel</span><span class="hljs-preprocessor">.org</span>/index<span class="hljs-preprocessor">.php</span>/GitHosting
+<pre><code>https://git.wiki.kernel.org/index.php/GitHosting
 </code></pre><p>Por ser imposible el cubrir todos ellos, y porque da la casualidad de que trabajo en uno de ellos, concretamente, en esta sección veremos cómo crear una cuenta y nuevos proyectos albergados en &#39;GitHub&#39;. Así podrás hacerte una idea de cómo suelen funcionar estos alberges externos. </p>
 <p>GitHub es, de lejos, el mayor sitio de alberge público de proyectos Git de código abierto. Y es también uno de los pocos que ofrece asimismo opciones de alberge privado; de tal forma que puedes tener tanto tus proyectos de código abierto y como los de código comercial cerrado en un mismo emplazamiento. De hecho, nosotros utilizamos también GitHub para colaborar privadamente en este libro.</p>
 <h2 id="github">GitHub</h2>
@@ -868,12 +871,12 @@ Clicando sobre el botón de &quot;Estoy de acuerdo, registramé&quot; (&quot;I a
 <p><img src="http://git-scm.com/figures/18333fig0407-tn.png" alt=""></p>
 <p>Figura 4-7. Instrucciones para un nuevo repositório.</p>
 <p>Estas instrucciones son similares a las que ya hemos visto. Para inicializar un proyecto, no siendo aún un proyecto Git, sueles utilizar:</p>
-<pre><code><span class="hljs-variable">$ </span>git init
-<span class="hljs-variable">$ </span>git add .
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
+<pre><code>$ git init
+$ git add .
+$ git commit -m &#39;initial commit&#39;
 </code></pre><p>Una vez tengas un repositorio local Git, añadele el sitio GitHub como un remoto y envia (push) allí tu rama principal:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:testinguser/iphone_project<span class="hljs-preprocessor">.git</span>
-$ git <span class="hljs-keyword">push</span> origin master
+<pre><code>$ git remote add origin git@github.com:testinguser/iphone_project.git
+$ git push origin master
 </code></pre><p>Así, tu proyecto estará alojado en GitHub; y podrás dar su URL a cualquiera con quien desees compartirlo. En este ejemplo, la URL es <code>http://github.com/testinguser/iphone_project</code>. En la página de cabecera de cada uno de tus proyectos, podrás ver dos URLs (ver Figura 4-8).</p>
 <p><img src="http://git-scm.com/figures/18333fig0408-tn.png" alt=""></p>
 <p>Figura 4-8. Cabecera de proyecto, con una URL pública y otra URL privada.</p>
@@ -930,9 +933,9 @@ $ git <span class="hljs-keyword">push</span> origin master
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

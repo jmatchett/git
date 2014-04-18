@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -780,8 +783,8 @@
 <p>Per capire realmente come Git sfrutta le diramazioni, dobbiamo tornare un attimo indietro ed esaminare come Git immagazzina i dati. Come ricorderai dal Capitolo 1, Git non salva i dati come una serie di cambiamenti o codifiche delta, ma come una serie di istantanee.</p>
 <p>Quando fai un commit con Git, Git immagazzina un oggetto commit che contiene un puntatore all&#39;istantanea del contenuto di ciò che hai parcheggiato, l&#39;autore ed il messaggio, e zero o più puntatori al o ai commit che sono i diretti genitori del commit: zero genitori per il primo commit, un genitore per un commit normale, e più genitori per un commit che risulta da una fusione di due o più rami.</p>
 <p>Per visualizzarli, assumiamo che tu abbia una directory con tre file, li parcheggi ed esegui il commit. Parcheggiando il checksum di ogni singolo file (abbiamo parlato dell&#39;hash SHA-1 nel Capitolo 1), salviamo la versione del file nel repository Git (Git fa riferimento ad essi come blob), e aggiunge questi checksum all&#39;area di staging, o di parcheggio:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span> test.rb <span class="hljs-constant">LICENSE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit of my project'</span>
+<pre><code>$ git add README test.rb LICENSE
+$ git commit -m &#39;initial commit of my project&#39;
 </code></pre><p>Quando crei il commit lanciado <code>git commit</code>, Git calcola il checksum di ogni directory (in questo caso, solamente la directory radice del progetto) e salva questi tre oggetti nel repository Git. Git poi crea un commit dell&#39;oggetto che ha i metadati ed un puntatore alla radice dell&#39;albero del progetto in maniera da ricreare l&#39;istantanea quando si vuole.</p>
 <p>Il tuo repository Git ora contiene cinque oggetti: un blob per i contenuti di ogni singolo file nell&#39;albero, un albero che elenca i contenuti della directory e specifica i nomi dei file che devono essere salvati come blob, e un commit con il puntatore alla radice dell&#39;albero e a tutti i metadati del commit. Concettualmente, i dati nel tuo repository Git assomigliano alla Figura 3-1. </p>
 <p><img src="http://git-scm.com/figures/18333fig0301-tn.png" alt=""></p>
@@ -793,7 +796,7 @@
 <p><img src="http://git-scm.com/figures/18333fig0303-tn.png" alt=""></p>
 <p>Figura 3-3. Ramo che punta alla storia dei commit dei dati.</p>
 <p>Cosa succede se crei un nuovo ramo? Beh, farlo crea un nuovo puntatore che tu puoi muovere. Diciamo che crei un ramo chiamato testing. Lo farai con il comando <code>git branch</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch testing
+<pre><code>$ git branch testing
 </code></pre><p>Questo creerà un nuovo puntatore al commit in cui tu ti trovi correntemente (vedi Figura 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Figura 3-4. Rami multipli che puntano alla storia dei commit dei dati.</p>
@@ -801,25 +804,25 @@
 <p><img src="http://git-scm.com/figures/18333fig0305-tn.png" alt=""></p>
 <p>Figura 3-5. Il file HEAD punta al ramo in cui ti trovi ora.</p>
 <p>Per spostarsi in un ramo preesistente, devi usare il comando <code>git checkout</code>. Dunque spostati nel ramo testing:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout testing
+<pre><code>$ git checkout testing
 </code></pre><p>Questo sposterà il puntatore HEAD al ramo testing (vedi Figura 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Figura 3-6. HEAD punta ad un altro ramo dopo che ti sei spostato.</p>
 <p>Qual&#39;è il significato di tutto questo? Beh, facciamo un altro commit:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made a change'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made a change&#39;
 </code></pre><p>La Figura 3-7 illustra il risultato.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Figura 3-7. Il ramo a cui punta HEAD si muoverà avanti ad ogni commit.</p>
 <p>Questo è interessante, perché ora il tuo ramo testing è stato spostato in avanti, ma il tuo ramo master punta ancora al commit in cui ti trovavi prima di spostarti di ramo con <code>git checkout</code>. Ora torna indietro al ramo master:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>La Figura 3-8 mostra il risultato.</p>
 <p>insert 18333fig0308.png 
 Figura 3-8. HEAD si è spostato ad un altro ramo con un checkout.</p>
 <p>Questo comando ha fatto due cose. Ha spostato il puntatore HEAD indietro per puntare al ramo master e ha riportato i file nella tua directory di lavoro allo stato in cui si trovavano in quel momento. Questo significa anche che i cambiamenti che farai da questo punto in poi saranno separati da una versione più vecchia del progetto. Essenzialmente riavvolge temporaneamente il lavoro che hai fatto nel tuo ramo testing così puoi muoverti in una direzione differente.</p>
 <p>Fai ora un po&#39; di modifiche ed esegui ancora un commit:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made other changes'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made other changes&#39;
 </code></pre><p>Ora la storia del tuo progetto è separata (vedi Figura 3-9). Hai creato e ti sei spostato in un ramo, hai fatto un lavoro in esso e poi sei tornato sul ramo principale e hai fatto dell&#39;altro lavoro. Entrambi questi cambiamenti sono isolati in rami separati: puoi spostarti indietro o in avanti fra i rami e poi fonderli assieme quando sarai pronto. E puoi farlo semplicemente con i comandi <code>branch</code> e <code>checkout</code>.</p>
 <p><img src="http://git-scm.com/figures/18333fig0309-tn.png" alt=""></p>
 <p>Figura 3-9. Le storie dei rami sono separate.</p>
@@ -844,9 +847,9 @@ Figura 3-8. HEAD si è spostato ad un altro ramo con un checkout.</p>
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

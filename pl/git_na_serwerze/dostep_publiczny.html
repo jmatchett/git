@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397503694381">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397847855018">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -824,167 +827,167 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_392">
+                    <section class="normal" id="section-gitbook_393">
                     
                         <h1 id="dost-p-publiczny">Dostęp publiczny</h1>
 <p>Co jeśli chcesz anonimowego dostępu do odczytu z twojego projektu? Być może zamiast hostingu wewnętrznego, prywatnego projektu chcesz hostować projekt open source. Albo masz garść serwerów automatycznej budowy lub serwery ciągłej integracji, które często się zmieniają i nie chcesz generować cały czas kluczy SSH  - chcesz po prostu dodać prosty anonimowy dostęp odczytu.</p>
 <p>Prawdopodobnie najprostszym sposobem dla niewielkich instalacji jest prowadzić statyczny serwer www z głównym dokumentem w miejscu gdzie są twoje repozytoria i umożliwić podpięcie <code>post-update</code>, o którym wspomnieliśmy w pierwszej sekcji tego rozdziału. Popracujmy z poprzednim przykładem. Powiedzmy, że masz swoje repozytoria w <code>/opt/git/</code> i serwer Apache działa na twoim sprzęcie. Ponownie, możesz użyć do tego każdego serwera www, ale jako przykład zaprezentujemy parę podstawowych konfiguracji Apache, które powinny dać ci obraz czego możesz potrzebować.</p>
 <p>Na początku musisz umożliwić to podpięcie:</p>
 <pre><code>$ cd project.git
-$ mv hooks/<span class="hljs-built_in">post</span>-update.sample hooks/<span class="hljs-built_in">post</span>-update
-$ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in">post</span>-update
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>Jeśli używasz Gita w wersji wcześniejszej niż 1.6, polecenie <code>mv</code> nie jest konieczne — tylko w ostatnich wersjach Gita przykłady podpięć posiadają w nazwie rozszerzenie <code>.sample</code>. </p>
 <p>Co robi to podpięcie <code>post-update</code>? Generalnie wygląda ono tak:</p>
 <pre><code>$ cat .git/hooks/post-update 
-<span class="hljs-shebang">#!/bin/sh</span>
-<span class="hljs-keyword">exec</span> git-update-server-info
+#!/bin/sh
+exec git-update-server-info
 </code></pre><p>To oznacza, że kiedy wysyłasz do serwera przez SSH, Git uruchomi tę komendę, aby uaktualnić pliki potrzebne do ściągania przez HTTP.</p>
 <p>Następnie do ustawień swojego serwera Apache musisz dodać pozycję VirtualHost z głównym dokumentem jako główny katalog twoich projektów Git. Tutaj zakładamy, ze masz ustawiony wildcard DNS do wysyłania <code>*.gitserver</code> do jakiegokolwiek pudła, którego używasz do uruchamiania tego wszystkiego:</p>
-<pre><code><span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
-    <span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> git.gitserver
-    <span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /opt/git
-    <span class="hljs-tag">&lt;Directory /opt/git/&gt;</span>
-        <span class="hljs-keyword"><span class="hljs-common">Order</span></span> allow, deny
-        <span class="hljs-keyword"><span class="hljs-common">allow</span></span> from <span class="hljs-literal">all</span>
-    <span class="hljs-tag">&lt;/Directory&gt;</span>
-<span class="hljs-tag">&lt;/VirtualHost&gt;</span>
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName git.gitserver
+    DocumentRoot /opt/git
+    &lt;Directory /opt/git/&gt;
+        Order allow, deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
 </code></pre><p>Będziesz tez musiał ustawić unixową grupę użytkowników do ścieżki <code>/opt/git</code> na <code>www-data</code> tak aby twój serwer www mógł dokonać odczytu z repozytoriów, ponieważ instancja serwera Apache uruchamiająca skrypt CGI (domyślnie) będzie go uruchamiać jako ten użytkownik:</p>
-<pre><code>$ chgrp -<span class="hljs-type">R</span> www-<span class="hljs-typedef"><span class="hljs-keyword">data</span> /opt/git</span>
+<pre><code>$ chgrp -R www-data /opt/git
 </code></pre><p>Kiedy zrestartujesz serwer Apache powinieneś móc sklonować swoje repozytoria do tego katalogu określając URL dla swojego projektu.</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/git.gitserver/project</span>.git
+<pre><code>$ git clone http://git.gitserver/project.git
 </code></pre><p>W ten sposób możesz ustawić oparty na HTTP dostęp odczytu do swoich projektów dla sporej liczby użytkowników w kilka minut. Inną prostą opcją dla publicznego nieautoryzowanego dostępu jest uruchomienie demona Git, jednakże to wymaga zdemonizowania tego procesu - zajmiemy się tą opcją w następnej sekcji, jeśli preferujesz tę drogę.</p>
 <h2 id="gitweb">GitWeb</h2>
 <p>Teraz, gdy już podstawy odczytu i zapisu są dostępne tylko dla Twojego projektu, możesz założyć prostą internetową wizualizacje. Do tego celu Git wyposażony jest w skrypt CGI o nazwie GitWeb. Jak widać GitWeb stosowany jest w miejscach takich jak:<code>http://git.kernel.org</code> (patrz rys. 4-1).</p>
 <p><img src="http://git-scm.com/figures/18333fig0401-tn.png" alt=""></p>
 <p>Figure 4-1.GitWeb internetowy interfejs użytkownika.</p>
 <p>Jeśli chcesz zobaczyć jak GitWeb będzie wyglądał dla Twojego projektu, Git posiada polecenie do uruchamiania tymczasowej instancji, pod warunkiem, że posiadasz lekki serwer taki jak <code>lighttpd</code> lub <code>webrick</code>. Na komputerach z zainstalowanym linuxem <code>lighttpd</code> jest bardzo często instalowany więc należy go uruchomić wpisując <code>git instaweb</code> w katalogu projektu. Jeśli używasz komputera Mac, Leopard jest automatycznie instalowany z Ruby więc <code>webrick</code> może być najlepszym rozwiązaniem. Aby rozpocząć <code>instaweb</code> bez tymczasowej instancji, należy uruchomić go z opcją <code>--httpd</code>.</p>
-<pre><code><span class="hljs-variable">$git</span> instaweb <span class="hljs-subst">--</span>httpd<span class="hljs-subst">=</span>webrick
-<span class="hljs-preprocessor">[</span><span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">21</span> <span class="hljs-number">10</span>:<span class="hljs-number">02</span>:<span class="hljs-number">21</span><span class="hljs-preprocessor">]</span><span class="hljs-markup"> INFO  WEBrick 1.3.1
-</span><span class="hljs-preprocessor">[</span><span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">21</span> <span class="hljs-number">10</span>:<span class="hljs-number">02</span>:<span class="hljs-number">21</span><span class="hljs-preprocessor">]</span><span class="hljs-markup"> INFO  ruby 1.8.6 (2008-03-03) </span><span class="hljs-preprocessor">[</span>universal<span class="hljs-attribute">-darwin9</span><span class="hljs-number">.0</span><span class="hljs-preprocessor">]</span><span class="hljs-markup"></span>
+<pre><code>$git instaweb --httpd=webrick
+[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
+[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 </code></pre><p>Powyższe polecenie uruchamia serwer HTTPD na porcie 1234, a następnie automatycznie uruchamia przeglądarkę internetową, która otwiera się na tej stronie. Kiedy skończysz i chcesz wyłączyć serwer, użyj tego samego polecenia z opcją <code>--stop</code></p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">instaweb</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">httpd=webrick</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">stop</span>
+<pre><code>$ git instaweb --httpd=webrick --stop
 </code></pre><p>Jeśli chcesz aby uruchomiony interfejs WWW był cały czas dostępny dla Twojego zespołu lub projektu open source, będziesz musiał skonfigurować skrypt CGI dla normalnego serwera WWW. Niektóre dystrybucje linuxa mają pakiet <code>gitweb</code>, który można zainstalować przez <code>apt</code> lub <code>yum</code>, więc warto spróbować tego w pierwszej kolejności. Jeśli się nie uda to musimy zainstalować GitWeb ręcznie, co trwa tylko chwile. Najpierw musimy pobrać kod źródłowy GitWeb i wygenerować własny skrypt CGI:</p>
-<pre><code>$ git clone git://git<span class="hljs-preprocessor">.kernel</span><span class="hljs-preprocessor">.org</span>/pub/scm/git/git<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
  $ cd git/
- $ make GITWEB_PROJECTROOT=<span class="hljs-string">"/opt/git"</span> \
-    prefix=/usr gitweb/gitweb<span class="hljs-preprocessor">.cgi</span>
- $ sudo <span class="hljs-keyword">cp</span> -Rf gitweb /var/www/
+ $ make GITWEB_PROJECTROOT=&quot;/opt/git&quot; \
+    prefix=/usr gitweb/gitweb.cgi
+ $ sudo cp -Rf gitweb /var/www/
 </code></pre><p>Zwróć uwagę że musisz ręcznie podać lokalizacje swoich repozytoriów gita w zmiennej <code>GITWEB_PROJECTROOT</code>. Następnie należy stworzyć serwer Apache używający skryptu CGI, na którym można dodać wirtualnego hosta:</p>
-<pre><code>$<span class="hljs-subst">&lt;</span>VirtualHost <span class="hljs-subst">*</span>:<span class="hljs-number">80</span><span class="hljs-subst">&gt;</span>
+<pre><code>$&lt;VirtualHost *:80&gt;
     ServerName gitserver
-    DocumentRoot /<span class="hljs-built_in">var</span>/www/gitweb
-    <span class="hljs-subst">&lt;</span>Directory /<span class="hljs-built_in">var</span>/www/gitweb<span class="hljs-subst">&gt;</span>
-        Options ExecCGI <span class="hljs-subst">+</span>FollowSymLinks <span class="hljs-subst">+</span>SymLinksIfOwnerMatch
-        AllowOverride <span class="hljs-literal">All</span>
-        <span class="hljs-keyword">order</span> allow,deny
-        Allow from <span class="hljs-literal">all</span>
-        AddHandler cgi<span class="hljs-attribute">-script</span> cgi
-        DirectoryIndex gitweb<span class="hljs-built_in">.</span>cgi
-    <span class="hljs-subst">&lt;</span>/Directory<span class="hljs-subst">&gt;</span>
-<span class="hljs-subst">&lt;</span>/VirtualHost<span class="hljs-subst">&gt;</span>
+    DocumentRoot /var/www/gitweb
+    &lt;Directory /var/www/gitweb&gt;
+        Options ExecCGI +FollowSymLinks +SymLinksIfOwnerMatch
+        AllowOverride All
+        order allow,deny
+        Allow from all
+        AddHandler cgi-script cgi
+        DirectoryIndex gitweb.cgi
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
 </code></pre><p>GitWeb można używać z dowolnym serwerem CGI. Jeśli wolisz korzystać z czegoś innego to nie powinno być trudne do skonfigurowania. W tym momencie powinieneś być w stanie odwiedzić <code>http://gitserver/</code> w celu przeglądania repozytoriów online, a także używać <code>http://git.gitserver</code> w celu klonowania i pobierania repozytoriów HTTP.</p>
 <h2 id="gitosis">Gitosis</h2>
 <p>Gdy będziemy trzymać klucze publiczne wszystkich użytkowników w pliku <code>authorized_keys</code> trzeba się liczyć, iż takie repozytorium będzie działać bardzo niestabilnie. Kiedy będziesz miał setki użytkowników, możesz napotkać pewne problemy przy zarządzaniu nimi. Za każdym razem musisz skonfigurować powłokę na serwerze w której nie masz kontroli dostępu - każdy użytkownik może zmieniać prawa dostępu do projektów.</p>
 <p>Warto więc jednak przedstawić projekt oprogramowania wykorzystywanego na szeroką skalę o nazwie Gitosis. Gitosis to w zasadzie zestaw skryptów, który nie tylko pomoże Ci zarządzać plikiem <code>authorized_keys</code>, ale udostępnia również kilka prostych narzędzie kontroli dostępu. Ciekawostką jest fakt, iż narzędzie odpowiedzialne za dodawanie użytkowników oraz zarządzanie ich prawami nie jest aplikacją www lecz specjalnym repozytorium. Po wprowadzeniu zmian oraz ich zatwierdzeniu, Gitosis konfiguruje samodzielnie serwer, co jest bardzo wielkim udogodnieniem.</p>
 <p>Instalacja Gitosis nie należy do najłatwiejszych, lecz nie jest skomplikowana. Jest najłatwiejsza przy wykorzystaniu systemu Linux - poniższe przykłady zostały zaimplementowane w Ubuntu ver. 8.10.</p>
 <p>Gitosis wymaga pewnych pakietów Pythona, więc najpierw trzeba uruchomić pakiet instalacyjny Pythona:</p>
-<pre><code>$ apt<span class="hljs-attribute">-get</span> install python<span class="hljs-attribute">-setuptools</span>
+<pre><code>$ apt-get install python-setuptools
 </code></pre><p>Następnie musisz skopiować oraz zainstalować pakiet Gitosis z głównej strony projektu:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/github.com/tv</span>42/gitosis.git
-<span class="hljs-variable">$ </span>cd gitosis
-<span class="hljs-variable">$ </span>sudo python setup.py install
+<pre><code>$ git clone https://github.com/tv42/gitosis.git
+$ cd gitosis
+$ sudo python setup.py install
 </code></pre><p>Co zainstaluje kilka plików wykonywalnych, których to Gitosis potrzebuje do poprawnego działania. Gitosis będzie proponował umieścić repozytoria w <code>/home/git</code>, co jest poprawne. Lecz Twoje repozytoria są w <code>/opt/git</code>, więc zamiast konfigurować wszystko od początku najlepszym posunięciem będzie stworzenie dowiązania:</p>
-<pre><code>$ ln <span class="hljs-operator">-s</span> /opt/git /home/git/repositories
+<pre><code>$ ln -s /opt/git /home/git/repositories
 </code></pre><p>Gitosis będzie teraz zarządzać Twoimi kluczami, więc musisz usunąć bieżący plik, następnie dodać ponownie klucze i pozwolić Gitosis na kontrole pliku <code>authorized_keys</code>. Teraz musimy przenieść plik <code>authorized_keys</code>:</p>
-<pre><code>$ mv /home/git/<span class="hljs-preprocessor">.ssh</span>/authorized_keys /home/git/<span class="hljs-preprocessor">.ssh</span>/ak<span class="hljs-preprocessor">.bak</span> 
+<pre><code>$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak 
 </code></pre><p>Kolejnym krokiem będzie zmiana powłoki na powłokę użytkownika, jeżeli zmienisz ją poleceniem <code>git-shell</code>. Ludzie wciąż nie będą mogli się zalogować, ale Gitosis będzie już ją kontrolował. Więc zmieńmy tą konkretną linię w pliku <code>/etc/passwd</code></p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/usr/bin/git-shell</span>
+<pre><code>git:x:1000:1000::/home/git:/usr/bin/git-shell
 </code></pre><p>wróćmy do tego:</p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/bin/sh</span>
+<pre><code>git:x:1000:1000::/home/git:/bin/sh
 </code></pre><p>Nadszedł czas, aby zainicjować Gitosis. Można to zrobić poprzez polecenie <code>gitosis-init</code> z użyciem klucza publicznego. Jeśli Twojego klucza publicznego nie ma na serwerze, musisz go tam skopiować.</p>
-<pre><code>$ sudo <span class="hljs-attribute">-H</span> <span class="hljs-attribute">-u</span> git gitosis<span class="hljs-attribute">-init</span> <span class="hljs-subst">&lt;</span> /tmp/id_dsa<span class="hljs-built_in">.</span>pub
-Initialized empty Git repository <span class="hljs-keyword">in</span> /opt/git/gitosis<span class="hljs-attribute">-admin</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
-Reinitialized existing Git repository <span class="hljs-keyword">in</span> /opt/git/gitosis<span class="hljs-attribute">-admin</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
+<pre><code>$ sudo -H -u git gitosis-init &lt; /tmp/id_dsa.pub
+Initialized empty Git repository in /opt/git/gitosis-admin.git/
+Reinitialized existing Git repository in /opt/git/gitosis-admin.git/
 </code></pre><p>Dzięki temu użytkownik z kluczem publicznym może modyfikować repozytorium. Następnie musisz ustawić ręcznie atrybut wykonywalności w skrypcie <code>post-update</code> w celu kontroli nowego repozytorium. </p>
-<pre><code>$ sudo chmod <span class="hljs-number">755</span> /opt/git/gitosis<span class="hljs-attribute">-admin</span><span class="hljs-built_in">.</span>git/hooks/post<span class="hljs-attribute">-update</span>
+<pre><code>$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 </code></pre><p>Jeśli serwer został poprawnie skonfigurowany, możesz spróbować zalogować się jako użytkownik, do którego przypisałeś klucze publiczne dla zainicjowania Gitosis. Powinieneś zobaczyć coś takiego:</p>
 <pre><code>$ ssh git@gitserver
-PTY allocation request failed <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">channel</span> <span class="hljs-title">0</span></span>
-fatal: unrecognized <span class="hljs-command"><span class="hljs-keyword">command</span> <span class="hljs-string">'gitosis-serve schacon@quaternion'</span></span>
-Connection <span class="hljs-built_in">to</span> gitserver closed.
+PTY allocation request failed on channel 0
+fatal: unrecognized command &#39;gitosis-serve schacon@quaternion&#39;
+Connection to gitserver closed.
 </code></pre><p>Co oznacza, że system rozpoznał Cię lecz zamknął połączenie z powodu braku poleceń dla repozytorium. Więc spróbujmy skopiować repozytorium Gitosis:</p>
-<pre><code><span class="hljs-comment"># on your local computer</span>
-<span class="hljs-variable">$ </span>git clone git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:gitosis-admin</span>.git
+<pre><code># on your local computer
+$ git clone git@gitserver:gitosis-admin.git
 </code></pre><p>Teraz masz katalog o nazwie <code>gitosis-admin</code>, który zawiera dwa podkatalogi:</p>
-<pre><code><span class="hljs-variable">$ </span>cd gitosis-admin
-<span class="hljs-variable">$ </span>find .
+<pre><code>$ cd gitosis-admin
+$ find .
 ./gitosis.conf
 ./keydir
 ./keydir/scott.pub
 </code></pre><p>Plik <code>gitosis.conf</code> jest odpowiedzialny za określanie użytkowników, repozytorium oraz praw dostępu. W katalogu <code>keydir</code> można przechowywać klucze publiczne dla wszystkich użytkowników, którzy mają jakikolwiek dostęp do Twojego repozytorium - jeden plik na użytkownika. Nazwa pliku w katalogu <code>keydir</code> (w poprzednim przykładzie, <code>scott.pub</code>) będzie inna w Twoim przypadku - Gitosis tworzy nazwę z dopisku na końcu klucza publicznego, który został zaimportowany razem z <code>gitosis-init</code>.</p>
 <p>Jeżeli spojrzymy na plik <code>gitosis.conf</code>, powinien zawierać on informację o projekcie  <code>gitosis-admin</code> którego właśnie skopiowaliśmy:</p>
-<pre><code>$ cat gitosis<span class="hljs-built_in">.</span>conf
-<span class="hljs-preprocessor">[</span>gitosis<span class="hljs-preprocessor">]</span><span class="hljs-markup">
+<pre><code>$ cat gitosis.conf
+[gitosis]
 
-</span><span class="hljs-preprocessor">[</span><span class="hljs-keyword">group</span> gitosis<span class="hljs-attribute">-admin</span><span class="hljs-preprocessor">]</span><span class="hljs-markup">
+[group gitosis-admin]
 writable = gitosis-admin
-members = scott</span>
+members = scott
 </code></pre><p>To pokazuje, że użytkownik &#39;scott&#39; - użytkownik posiadający ten sam klucz publiczny z którego został zainicjowany Gitosis jest jedynym, który posiada dostęp do projektu <code>gitosis-admin</code>.</p>
 <p>Teraz, dodajmy nowy projekt dla Ciebie. Dodamy nową sekcję o nazwie <code>mobile</code> w której umieścisz listę programistów swojego zespołu oraz całego projektu. Ponieważ &#39;scott&#39; jest tylko zwykłym użytkownikiem, musimy dodać &quot;scotta&quot; jako jedynego członka zespołu, następnie tworzymy nowe repozytorium o nazwie <code>iphone_project</code>:</p>
-<pre><code><span class="hljs-title">[group mobile]</span>
-<span class="hljs-setting">writable = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members = <span class="hljs-value">scott</span></span>
+<pre><code>[group mobile]
+writable = iphone_project
+members = scott
 </code></pre><p>Ilekroć dokonasz zmian w projekcie <code>gitosis-admin</code>, musisz zatwierdzić oraz przesłać je z powrotem na serwer w celu aktualizacji zmian:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'add iphone_project and mobile group'</span>
-[master]<span class="hljs-symbol">:</span> created <span class="hljs-number">8962</span><span class="hljs-symbol">da8:</span> <span class="hljs-string">"changed name"</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">4</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
-<span class="hljs-variable">$ </span>git push
-<span class="hljs-constant">Counting</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">5</span>, done.
-<span class="hljs-constant">Compressing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">2</span>/<span class="hljs-number">2</span>), done.
-<span class="hljs-constant">Writing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-number">272</span> bytes, done.
-<span class="hljs-constant">Total</span> <span class="hljs-number">3</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:/opt/git/gitosis-admin</span>.git
-   fb27aec..<span class="hljs-number">8962</span>da8  master -&gt; master
+<pre><code>$ git commit -am &#39;add iphone_project and mobile group&#39;
+[master]: created 8962da8: &quot;changed name&quot;
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+$ git push
+Counting objects: 5, done.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 272 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To git@gitserver:/opt/git/gitosis-admin.git
+   fb27aec..8962da8  master -&gt; master
 </code></pre><p>Możemy wykonać pierwszą akcję dla nowego projektu <code>iphone_project</code> poprzez dodanie swojego serwera jako zdalnego, do lokalnej wersji projektu. Nie trzeba będzie już tworzyć ręcznie pustych repozytoriów dla nowych projektów na serwerze - Gitosis będzie tworzyć je automatycznie.</p>
-<pre><code><span class="hljs-variable">$ </span>git remote add origin git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:iphone_project</span>.git
-<span class="hljs-variable">$ </span>git push origin master
-<span class="hljs-constant">Initialized</span> empty <span class="hljs-constant">Git</span> repository <span class="hljs-keyword">in</span> /opt/git/iphone_project.git/
-<span class="hljs-constant">Counting</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">3</span>, done.
-<span class="hljs-constant">Writing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-number">230</span> bytes, done.
-<span class="hljs-constant">Total</span> <span class="hljs-number">3</span> (delta <span class="hljs-number">0</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:iphone_project</span>.git
+<pre><code>$ git remote add origin git@gitserver:iphone_project.git
+$ git push origin master
+Initialized empty Git repository in /opt/git/iphone_project.git/
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 230 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@gitserver:iphone_project.git
  * [new branch]      master -&gt; master
 </code></pre><p>Zauważ, że nie musimy określać ścieżek (w rzeczywistości, ten sposób by nie zadziałał), po prostu użyj dwukropka, następnie nazwy projektu - Gitosis znajdzie projekt automatycznie.</p>
 <p>Jeżeli chcesz pracować nad tym projektem wraz ze swoimi przyjaciółmi, będziesz musiał ponownie dodać ich klucze publiczne. Ale zamiast dołączać je ręcznie do pliku <code>~/.ssh/authorized_keys</code> na serwerze, dodaj je do katalogu <code>keydir</code>, każdy klucz w osobnym pliku. Spróbujmy dodać klucze publiczne dla nowych użytkowników:</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor">.john</span><span class="hljs-preprocessor">.pub</span> keydir/john<span class="hljs-preprocessor">.pub</span>
-$ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor">.josie</span><span class="hljs-preprocessor">.pub</span> keydir/josie<span class="hljs-preprocessor">.pub</span>
-$ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor">.jessica</span><span class="hljs-preprocessor">.pub</span> keydir/jessica<span class="hljs-preprocessor">.pub</span>
+<pre><code>$ cp /tmp/id_rsa.john.pub keydir/john.pub
+$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
+$ cp /tmp/id_rsa.jessica.pub keydir/jessica.pub
 </code></pre><p>Teraz możemy dodać ich wszystkich do naszego zespołu o nazwie &#39;mobile&#39;, w którym będą mieli prawa do zapisu jak i odczytu.</p>
-<pre><code><span class="hljs-title">iphone_project:
-</span>
+<pre><code>iphone_project:
+
 [group mobile]
-<span class="hljs-constant">writable</span> = iphone_project
-<span class="hljs-constant">members</span> = scott john josie jessica
+writable = iphone_project
+members = scott john josie jessica
 </code></pre><p>Po zatwierdzeniu i wysłaniu zmian, wszyscy czterej użytkownicy będą mieli prawa odczytu a także zapisu w tym projekcie.</p>
 <p>Gitosis posiada bardzo łatwy i sprawny system kontroli dostępu. Jeżeli chcesz aby John posiadał tylko prawa do odczytu w zakresie tego projektu, możesz posłużyć się poniższym przykładem:</p>
-<pre><code><span class="hljs-title">[group mobile]</span>
-<span class="hljs-setting">writable = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members = <span class="hljs-value">scott josie jessica</span></span>
+<pre><code>[group mobile]
+writable = iphone_project
+members = scott josie jessica
 
-<span class="hljs-title">[group mobile_ro]</span>
-<span class="hljs-setting">readonly = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members = <span class="hljs-value">john</span></span>
+[group mobile_ro]
+readonly = iphone_project
+members = john
 </code></pre><p>Teraz John może kopiować projekt oraz pobierać aktualizacje, ale Gitosis nie pozwoli mu cofnąć wcześniej wprowadzonych zmian. Można tworzyć wiele podobnych grup zawierających różnych użytkowników i różne projekty. Można również określić grupę dla zbioru użytkowników innej grupy (używając <code>@</code> jako prefiksu), poprzez dziedziczenie.</p>
-<pre><code><span class="hljs-title">[group mobile_committers]</span>
-<span class="hljs-setting">members = <span class="hljs-value">scott josie jessica</span></span>
+<pre><code>[group mobile_committers]
+members = scott josie jessica
 
-<span class="hljs-title">[group mobile]</span>
-<span class="hljs-setting">writable  = <span class="hljs-value">iphone_project</span></span>
-<span class="hljs-setting">members   = <span class="hljs-value">@mobile_committers</span></span>
+[group mobile]
+writable  = iphone_project
+members   = @mobile_committers
 
-<span class="hljs-title">[group mobile_2]</span>
-<span class="hljs-setting">writable  = <span class="hljs-value">another_iphone_project</span></span>
-<span class="hljs-setting">members   = <span class="hljs-value">@mobile_committers john</span></span>
+[group mobile_2]
+writable  = another_iphone_project
+members   = @mobile_committers john
 </code></pre><p>Jeśli masz jakieś problemy, pomocnym może się okazać ustawienie <code>loglevel=DEBUG</code> w sekcji <code>[gitosis]</code>. Jeżeli straciłeś poprzednią konfigurację poprzez podmianę jej na niewłaściwą, możesz ręcznie naprawić plik na serwerze <code>/home/git/.gitosis.conf</code> - plik konfiguracyjny Gitosis. Wyślij plik <code>gitosis.conf</code> do wyżej wymienionego katalogu. Jeżeli chcesz edytować ten plik ręcznie, pamiętaj że pozostanie on do następnej zmiany w projekcie <code>gitosis-admin</code>.</p>
 
                     
@@ -1004,9 +1007,9 @@ $ <span class="hljs-keyword">cp</span> /tmp/id_rsa<span class="hljs-preprocessor
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

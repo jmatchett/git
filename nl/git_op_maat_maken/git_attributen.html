@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.2" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.2" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_580">
+                    <section class="normal" id="section-gitbook_650">
                     
                         <h1 id="git-attributen">Git attributen</h1>
 <p>Een aantal van deze instellingen kan ook gedaan worden voor een pad, zodat Git die instellingen alleen toepast voor een subdirectory of subset van bestanden. Deze pad-specifieke instellingen worden Git attributen genoemd en worden in een <code>.gitattribute</code> bestand in een van je directories gezet (normaliter in de hoofddirectory van je project) of in het <code>.git/info/attributes</code> bestand als je niet wilt dat het attributes bestand gecommit wordt met je project.</p>
@@ -854,9 +857,9 @@
 <h3 id="binaire-bestanden-identificeren">Binaire bestanden identificeren</h3>
 <p>Sommige bestanden zien eruit als tekstbestanden, maar moeten toch behandeld worden als binaire gegevens. Bijvoorbeeld, Xcode projecten op de Mac bevatten een bestand dat eindigt in <code>.pbxproj</code>, wat eigenlijk een JSON (javascript gegevens in platte tekst formaat) gegevensset is, dat geschreven wordt naar de schijf door de IDE en waarin je bouw-instellingen enzovoorts opgeslagen zijn. Alhoewel het technisch gezien een tekstbestand is, omdat het volledig ASCII is, zul je het niet als zodanig willen behandelen omdat het eigenlijk een lichtgewicht gegevensbank is – je kunt de inhoud niet mergen als twee mensen het gewijzigd hebben, en diffs zijn over het algemeen niet behulpzaam. Het bestand is bedoeld om gebruikt te worden door een machine. In essentie wil je het behandelen als een binair bestand.</p>
 <p>Om Git te vertellen dat hij alle <code>pbxproj</code> bestanden als binaire gegevens moet behandelen, voeg je de volgende regel toe aan je <code>.gitattributes</code> bestand:</p>
-<pre><code><span class="hljs-subst">*</span><span class="hljs-built_in">.</span>pbxproj <span class="hljs-attribute">-crlf</span> <span class="hljs-attribute">-diff</span>
+<pre><code>*.pbxproj -crlf -diff
 </code></pre><p>Nu zal Git niet proberen om CRLF problemen te corrigeren of repareren; noch zal het proberen een diff te berekenen of te tonen voor de veranderingen in dit bestand als je <code>git show</code> of <code>git diff</code> uitvoert op je project. In de 1.6 serie van Git, kun je ook het ingebouwde macro <code>binary</code> gebruiken die <code>-crlf -diff</code> vervangt:</p>
-<pre><code>*.pbxproj <span class="hljs-keyword">binary</span>
+<pre><code>*.pbxproj binary
 </code></pre><h3 id="binaire-bestanden-diff-en">Binaire bestanden diff&#39;en</h3>
 <p>In Git kan je de functionaliteit van Git attributen gebruiken om binaire bestanden uiteindelijk toch te diff&#39;en. Je doet dit door Git te vertellen hoe het de binaire gegevens naar tekst formaat moet omzetten, die dan via de normale diff vergeleken kan worden. Maar de vraag is hoe je de <em>binaire</em> gegevens naar tekst omzet. De beste oplossing is om een tool te vinden die deze conversie van binair naar tekstformaat voor je doet. Helaas kunnen weinig binaire formaten als mens-leesbaar formaat gerepresenteerd worden (probeer maar eens de gegevens van een geluidsfragment om te zetten naar tekst). Als dit het geval is en je bent er niet in geslaagd om een tekst-representatie te krijgen van de inhoud van het bestand, is het vaak relatief eenvoudig om een menselijk leesbare omschrijving van de inhoud of metadata te verkrijgen. Metadata geeft je niet een volledige representatie van de inhoud van het bestand, maar het is in elk geval beter dan niets.</p>
 <p>We gaan beide beschreven varianten gebruiken om bruikbare diff&#39;s te krijgen voor vaakgebruikte binaire formaten.</p>
@@ -864,103 +867,103 @@
 <h3 id="ms-word-bestanden">MS Word bestanden</h3>
 <p>Ten eerste zullen we de beschreven techniek gebruiken om een van de meest ergerlijke problemen in de menselijke geschiedenis op te lossen: Word documenten onder versiebeheer brengen. Iedereen weet dat Word een van de slechtste editors verkrijgbaar is; maar, vreemd genoeg, iedereen gebruikt het. Als je Word documenten in versie beheer wilt krijgen, kan je ze in een Git repostiory gooien en om de zoveel tijd een commit uitvoeren, maar wat voor nut heeft dit? Als je <code>git diff</code> uitvoert, zou je iets als dit zien:</p>
 <pre><code>$ git diff
-diff --git a/chapter1<span class="hljs-preprocessor">.doc</span> b/chapter1<span class="hljs-preprocessor">.doc</span>
-index <span class="hljs-number">88839</span>c4.<span class="hljs-number">.4</span>afcb7c <span class="hljs-number">100644</span>
-Binary files a/chapter1<span class="hljs-preprocessor">.doc</span> <span class="hljs-keyword">and</span> b/chapter1<span class="hljs-preprocessor">.doc</span> differ
+diff --git a/chapter1.doc b/chapter1.doc
+index 88839c4..4afcb7c 100644
+Binary files a/chapter1.doc and b/chapter1.doc differ
 </code></pre><p>Je kunt niet direct twee versies vergelijken tenzij je ze uitcheckt en handmatig doorneemt, toch? Maar gelukkig kan je dit toch redelijk goed met Git attributen doen. Zet de volgende regel in je <code>.gitattributes</code> bestand:</p>
-<pre><code><span class="hljs-attribute">*.doc diff</span>=<span class="hljs-string">word</span>
+<pre><code>*.doc diff=word
 </code></pre><p>Dit vertelt Git dat alle bestanden die in het patroon (.doc) passen het &quot;word&quot; filter moeten gebruiken als je een diff probeert te bekijken die wijzigingen bevat. Wat is dat &quot;word&quot; filter eigenlijk? Je moet het zelf opzetten. Hier ga je Git configureren om het <code>catdoc</code> programma te gebruiken, die specifiek geschreven is om tekst uit binaire MS Word documenten te extraheren (je kunt het krijgen op <code>http://www.wagner.pp.ru/~vitus/software/catdoc/</code>), om Word documenten in leesbare tekstbestanden te converteren, en die vervolgens juist diff&#39;en:</p>
-<pre><code>$ git config diff<span class="hljs-preprocessor">.word</span><span class="hljs-preprocessor">.textconv</span> catdoc
+<pre><code>$ git config diff.word.textconv catdoc
 </code></pre><p>Dit commando voegt een sectie toe aan je <code>.git/config</code>, wat er ongeveer zo uitziet:</p>
-<pre><code>[diff <span class="hljs-string">"word"</span>]
+<pre><code>[diff &quot;word&quot;]
     textconv = catdoc
 </code></pre><p>Nu weet Git dat wanneer het probeert een diff uit te voeren tussen twee snapshots, en bestandsnamen eindigen op <code>.doc</code> dat het deze bestanden door de &quot;word&quot; filter moet halen, die gedefinieerd is als het <code>catdoc</code> programma. Effectief maakt het twee gewone tekst-gebaseerde versies van je Word bestanden vooraleer te proberen ze met diff te vergelijken.</p>
 <p>Hier is een voorbeeld. Ik heb hoofdstuk 1 van dit boek in Git gezet, wat tekst in een paragraaf toegevoegd en daarna het document gesaved. Daarna voerde ik <code>git diff</code> uit om te zien wat er gewijzigd was:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/chapter1.doc b/chapter1.doc</span>
-index c1c8a0a..b93c9e4 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/chapter1.doc</span>
+diff --git a/chapter1.doc b/chapter1.doc
+index c1c8a0a..b93c9e4 100644
+--- a/chapter1.doc
 +++ b/chapter1.doc
-@@ -<span class="hljs-number">128</span>,<span class="hljs-number">7</span> +<span class="hljs-number">128</span>,<span class="hljs-number">7</span> @@ <span class="hljs-operator">and</span> data size)
- Since its birth <span class="hljs-operator">in</span> <span class="hljs-number">2005</span>, Git has evolved <span class="hljs-operator">and</span> matured <span class="hljs-built_in">to</span> be easy <span class="hljs-built_in">to</span> use
- <span class="hljs-operator">and</span> yet retain these initial qualities. It’s incredibly fast, <span class="hljs-keyword">it</span>’s
- very efficient <span class="hljs-operator">with</span> large projects, <span class="hljs-operator">and</span> <span class="hljs-keyword">it</span> has <span class="hljs-operator">an</span> incredible branching
--<span class="hljs-keyword">system</span> <span class="hljs-keyword">for</span> non-linear development.
-+<span class="hljs-keyword">system</span> <span class="hljs-keyword">for</span> non-linear development (See Chapter <span class="hljs-number">3</span>).
+@@ -128,7 +128,7 @@ and data size)
+ Since its birth in 2005, Git has evolved and matured to be easy to use
+ and yet retain these initial qualities. It’s incredibly fast, it’s
+ very efficient with large projects, and it has an incredible branching
+-system for non-linear development.
++system for non-linear development (See Chapter 3).
 </code></pre><p>Git vertelt me succesvol en kort en bondig dat ik de tekst &quot;(See Chapter 3)&quot; heb toegevoegd, wat juist is. Werkt perfect!</p>
 <h4 id="opendocument-tekst-bestanden">OpenDocument tekst bestanden</h4>
 <p>Dezelfde aanpak die we hebben gebruikt vooro MS Word bestanden (<code>*.doc</code>) kan worden gebruikt bij OpenDocument Tekst bestanden (<code>*.odt</code>) wat gemaakt is door OpenOffice.org.</p>
 <p>Voeg de volgende regel toe aan je <code>.gitattributes</code> bestand:</p>
-<pre><code><span class="hljs-attribute">*.odt diff</span>=<span class="hljs-string">odt</span>
+<pre><code>*.odt diff=odt
 </code></pre><p>Zet nu het <code>odt</code> diff filter op in <code>.git/config</code>:</p>
-<pre><code>[diff <span class="hljs-string">"odt"</span>]
-    binary = <span class="hljs-keyword">true</span>
-    textconv = <span class="hljs-regexp">/usr/local</span><span class="hljs-regexp">/bin/odt</span>-to-txt
+<pre><code>[diff &quot;odt&quot;]
+    binary = true
+    textconv = /usr/local/bin/odt-to-txt
 </code></pre><p>OpenDocument bestanden zijn eigenlijk gezipte directories met daarin meerdere bestanden (de inhoud ervan in een XML formaat, stylesheets, plaatjes, etc.). Ze zullen een script moeten schrijven om de inhoud te extraheren en dit terug te geven als platte tekst. Maak een bestand <code>/usr/local/bin/odt-to-txt</code> (het staat je vrij om dit in een andere directory neer te zetten) met de volgende inhoud:</p>
-<pre><code><span class="hljs-comment">#! /usr/bin/env perl</span>
-<span class="hljs-comment"># Simplistic OpenDocument Text (.odt) to plain text converter.</span>
-<span class="hljs-comment"># Author: Philipp Kempgen</span>
+<pre><code>#! /usr/bin/env perl
+# Simplistic OpenDocument Text (.odt) to plain text converter.
+# Author: Philipp Kempgen
 
-<span class="hljs-keyword">if</span> (! <span class="hljs-keyword">defined</span>(<span class="hljs-variable">$ARGV</span>[<span class="hljs-number">0</span>])) {
-    <span class="hljs-keyword">print</span> STDERR <span class="hljs-string">"No filename given!\n"</span>;
-    <span class="hljs-keyword">print</span> STDERR <span class="hljs-string">"Usage: <span class="hljs-variable">$0</span> filename\n"</span>;
-    <span class="hljs-keyword">exit</span> <span class="hljs-number">1</span>;
+if (! defined($ARGV[0])) {
+    print STDERR &quot;No filename given!\n&quot;;
+    print STDERR &quot;Usage: $0 filename\n&quot;;
+    exit 1;
 }
 
-<span class="hljs-keyword">my</span> <span class="hljs-variable">$content</span> = <span class="hljs-string">''</span>;
-<span class="hljs-keyword">open</span> <span class="hljs-keyword">my</span> <span class="hljs-variable">$fh</span>, <span class="hljs-string">'-|'</span>, <span class="hljs-string">'unzip'</span>, <span class="hljs-string">'-qq'</span>, <span class="hljs-string">'-p'</span>, <span class="hljs-variable">$ARGV</span>[<span class="hljs-number">0</span>], <span class="hljs-string">'content.xml'</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span> <span class="hljs-variable">$!</span>;
+my $content = &#39;&#39;;
+open my $fh, &#39;-|&#39;, &#39;unzip&#39;, &#39;-qq&#39;, &#39;-p&#39;, $ARGV[0], &#39;content.xml&#39; or die $!;
 {
-    <span class="hljs-keyword">local</span> <span class="hljs-variable">$/</span> = <span class="hljs-keyword">undef</span>;  <span class="hljs-comment"># slurp mode</span>
-    <span class="hljs-variable">$content</span> = &lt;<span class="hljs-variable">$fh</span>&gt;;
+    local $/ = undef;  # slurp mode
+    $content = &lt;$fh&gt;;
 }
-<span class="hljs-keyword">close</span> <span class="hljs-variable">$fh</span>;
-<span class="hljs-variable">$_</span> = <span class="hljs-variable">$content</span>;
-<span class="hljs-regexp">s/&lt;text:span\b[^&gt;]*&gt;//g</span>;           <span class="hljs-comment"># remove spans</span>
-<span class="hljs-keyword">s</span>/&lt;text:h\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n\n<span class="hljs-variable">**</span><span class="hljs-variable">**</span>*  <span class="hljs-regexp">/g;   # headers
-s/</span>&lt;text:list-item\b[^&gt;]<span class="hljs-variable">*&gt;</span>\<span class="hljs-keyword">s</span><span class="hljs-variable">*&lt;</span>text:p\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n    --  <span class="hljs-regexp">/g;  # list items
-s/</span>&lt;text:list\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n\n/g;       <span class="hljs-comment"># lists</span>
-<span class="hljs-keyword">s</span>/&lt;text:p\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n  /g;          <span class="hljs-comment"># paragraphs</span>
-<span class="hljs-keyword">s</span>/&lt;[^&gt;]+&gt;<span class="hljs-regexp">//g</span>;                      <span class="hljs-comment"># remove all XML tags</span>
-<span class="hljs-keyword">s</span>/\n{<span class="hljs-number">2</span>,}/\n\n/g;                   <span class="hljs-comment"># remove multiple blank lines</span>
-<span class="hljs-keyword">s</span>/\A\n+<span class="hljs-regexp">//</span>;                         <span class="hljs-comment"># remove leading blank lines</span>
-<span class="hljs-keyword">print</span> <span class="hljs-string">"\n"</span>, <span class="hljs-variable">$_</span>, <span class="hljs-string">"\n\n"</span>;
+close $fh;
+$_ = $content;
+s/&lt;text:span\b[^&gt;]*&gt;//g;           # remove spans
+s/&lt;text:h\b[^&gt;]*&gt;/\n\n*****  /g;   # headers
+s/&lt;text:list-item\b[^&gt;]*&gt;\s*&lt;text:p\b[^&gt;]*&gt;/\n    --  /g;  # list items
+s/&lt;text:list\b[^&gt;]*&gt;/\n\n/g;       # lists
+s/&lt;text:p\b[^&gt;]*&gt;/\n  /g;          # paragraphs
+s/&lt;[^&gt;]+&gt;//g;                      # remove all XML tags
+s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+s/\A\n+//;                         # remove leading blank lines
+print &quot;\n&quot;, $_, &quot;\n\n&quot;;
 </code></pre><p>En maak het uitvoerbaar</p>
-<pre><code>chmod <span class="hljs-subst">+</span>x /usr/<span class="hljs-built_in">local</span>/bin/odt<span class="hljs-attribute">-to</span><span class="hljs-attribute">-txt</span>
+<pre><code>chmod +x /usr/local/bin/odt-to-txt
 </code></pre><p>Nu zal <code>git diff</code> je kunnen vertellen wat er gewijzigd is in <code>.odt</code> bestanden.</p>
 <h4 id="beeldbestanden">Beeldbestanden</h4>
 <p>Een ander interessant probleem dat je hiermee kunt oplossen is het diff&#39;en van beeldbestanden. Een manier om dit te doen is PNG bestanden door een filter te halen dat de EXIF informatie eruit peutert - dat is metadata die wordt opgeslagen bij de meeste beeldbestand formaten. Als je het <code>exiftool</code> programma downloadt en installeert, kan je dit gebruiken om je plaatjes naar tekst over de metadata om te zetten, zodat de diff op z&#39;n minst een tekstuele representatie van eventuele wijzigingen laat zien:</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'*.png diff=exif'</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>git config diff.exif.textconv exiftool
+<pre><code>$ echo &#39;*.png diff=exif&#39; &gt;&gt; .gitattributes
+$ git config diff.exif.textconv exiftool
 </code></pre><p>Als je een plaatje in je project vervangt en <code>git diff</code> uitvoert, dan zie je zoiets als dit:</p>
 <pre><code>diff --git a/image.png b/image.png
 index 88839c4..4afcb7c 100644
-<span class="hljs-header">--- a/image.png</span>
-<span class="hljs-header">+++ b/image.png</span>
-<span class="hljs-chunk">@@ -1,12 +1,12 @@</span>
+--- a/image.png
++++ b/image.png
+@@ -1,12 +1,12 @@
  ExifTool Version Number         : 7.74
-<span class="hljs-deletion">-File Size                       : 70 kB</span>
-<span class="hljs-deletion">-File Modification Date/Time     : 2009:04:21 07:02:45-07:00</span>
-<span class="hljs-addition">+File Size                       : 94 kB</span>
-<span class="hljs-addition">+File Modification Date/Time     : 2009:04:21 07:02:43-07:00</span>
+-File Size                       : 70 kB
+-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
++File Size                       : 94 kB
++File Modification Date/Time     : 2009:04:21 07:02:43-07:00
  File Type                       : PNG
  MIME Type                       : image/png
-<span class="hljs-deletion">-Image Width                     : 1058</span>
-<span class="hljs-deletion">-Image Height                    : 889</span>
-<span class="hljs-addition">+Image Width                     : 1056</span>
-<span class="hljs-addition">+Image Height                    : 827</span>
+-Image Width                     : 1058
+-Image Height                    : 889
++Image Width                     : 1056
++Image Height                    : 827
  Bit Depth                       : 8
  Color Type                      : RGB with Alpha
 </code></pre><p>Je kunt eenvoudig zien dat zowel de bestandsgrootte als de beeld dimensies gewijzigd zijn.</p>
 <h2 id="keyword-expansie">Keyword expansie</h2>
 <p>Keyword expansie zoals in SVN of CVS gebruikt wordt, wordt vaak gevraagd door ontwikkelaars die gewend zijn aan die systemen. Het grote probleem in Git is dat je een bestand niet mag wijzigen met informatie over de commit nadat je het gecommit hebt, omdat Git eerst de checksum van het bestand maakt. Maar, je kunt tekst in een bestand injecteren zodra het uitgechecked wordt en dit weer verwijderen voordat het aan een commit toegevoegd wordt. Met Git attributen zijn er twee manieren om dit te doen.</p>
 <p>Als eerste kun je de SHA-1 checksum van een blob automatisch in een <code>$Id$</code> veld in het bestand stoppen. Als je dit attribuut in een bestand of aantal bestanden zet, dan zal Git de volgende keer dat je die branch uitcheckt dat veld vervangen met de SHA-1 van de blob. Het is belangrijk om op te merken dat het niet de SHA van de commit is, maar van de blob zelf:</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'*.txt ident'</span> &gt;&gt; .gitattributes
-$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'$Id$'</span> &gt; test.txt
+<pre><code>$ echo &#39;*.txt ident&#39; &gt;&gt; .gitattributes
+$ echo &#39;$Id$&#39; &gt; test.txt
 </code></pre><p>De volgende keer dat je dit bestand uitcheckt, injecteert Git de SHA van de blob:</p>
-<pre><code><span class="hljs-variable">$ </span>rm text.txt
-<span class="hljs-variable">$ </span>git checkout -- text.txt
-<span class="hljs-variable">$ </span>cat test.txt
-<span class="hljs-variable">$Id</span><span class="hljs-symbol">:</span> <span class="hljs-number">42812</span>b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+<pre><code>$ rm text.txt
+$ git checkout -- text.txt
+$ cat test.txt
+$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 </code></pre><p>Echter dit resultaat heeft slechts een beperkte nut. Als je sleutelwoord vervanging (keyword substitution) in CVS of Subversion gebruikt hebt, kun je een datumstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of de ene SHA ouder of nieuwer is dan de andere.</p>
 <p>Je kunt echter je eigen filters voor het doen van vervanging bij commit/checkout schrijven. Dit zijn de &quot;kuis&quot; (&quot;clean&quot;) en &quot;besmeer&quot; (&quot;smudge&quot;) filters. In het <code>.gitattributes</code> bestand kan je voor bepaalde paden een filter instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze uitgechecked worden (&quot;smudge&quot;, zie Figuur 7-2) en vlak voordat ze gecommit worden (&quot;clean&quot;, zie Figuur 7-3). De filters kunnen ingesteld worden om allerlei leuke dingen doen.</p>
 <p><img src="http://git-scm.com/figures/18333fig0702-tn.png" alt=""></p>
@@ -968,54 +971,54 @@ $ <span class="hljs-built_in">echo</span> <span class="hljs-string">'$Id$'</span
 <p><img src="http://git-scm.com/figures/18333fig0703-tn.png" alt=""></p>
 <p>Figuur 7-3. Het “clean” filter wordt uitgevoerd zodra bestanden worden gestaged.</p>
 <p>De originele commit boodschap van deze functionaliteit geeft een eenvoudig voorbeeld hoe je al je C broncode door het <code>indent</code> programma kunt laten bewerken alvorens te committen. Je kunt het instellen door het filter attribuut in je <code>.gitattributes</code> bestand te zetten zodat <code>*.c</code> bestanden door de &quot;indent&quot; filter gehaald worden:</p>
-<pre><code><span class="hljs-attribute">*.c     filter</span>=<span class="hljs-string">indent</span>
+<pre><code>*.c     filter=indent
 </code></pre><p>Vervolgens vertel je Git wat het &quot;indent&quot; filter doet bij smudge en clean:</p>
-<pre><code>$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.clean</span> indent
-$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.smudge</span> cat
+<pre><code>$ git config --global filter.indent.clean indent
+$ git config --global filter.indent.smudge cat
 </code></pre><p>In dit geval zal Git, als je bestanden commit die met <code>*.c</code> overeenkomen, ze door het indent programma halen alvorens ze te committen, en ze door het <code>cat</code> programma halen alvorens ze op de schijf uit te checken. Het <code>cat</code> programma is eigenlijk een no-op: het geeft de gegevens onveranderd door. Deze combinatie zal effectief alle C broncode bestanden door <code>indent</code> filteren alvorens te committen.</p>
 <p>Een ander interessant voorbeeld is <code>$Date$</code> sleutelwoord expansie, in RCS stijl. Om dit goed te doen, moet je een klein script hebben dat een bestandsnaam pakt, de laatste commit datum voor dit project opzoekt, en de datum in dat bestand toevoegt. Hier volgt een klein Ruby script dat dat doet:</p>
-<pre><code><span class="hljs-preprocessor">#! /usr/bin/env ruby</span>
-<span class="hljs-typedef"><span class="hljs-keyword">data</span> = <span class="hljs-type">STDIN</span>.read</span>
-<span class="hljs-title">last_date</span> = `git log <span class="hljs-comment">--pretty=format:"%ad" -1`</span>
-<span class="hljs-title">puts</span> <span class="hljs-typedef"><span class="hljs-keyword">data</span>.gsub<span class="hljs-container">('$<span class="hljs-type">Date</span>$', '$<span class="hljs-type">Date</span>: ' + <span class="hljs-title">last_date</span>.<span class="hljs-title">to_s</span> + '$')</span></span>
+<pre><code>#! /usr/bin/env ruby
+data = STDIN.read
+last_date = `git log --pretty=format:&quot;%ad&quot; -1`
+puts data.gsub(&#39;$Date$&#39;, &#39;$Date: &#39; + last_date.to_s + &#39;$&#39;)
 </code></pre><p>Het enige dat het script doet is de laatste commit datum uit het <code>git log</code> commando halen, het in iedere <code>$Date$</code> tekst stoppen die het in stdin ziet, en de resultaten afdrukken – het moet eenvoudig na te bouwen zijn in de taal waar je het beste in thuisbent. Je kunt dit bestand <code>expand_date</code> noemen en het in je pad stoppen. Nu moet je een filter in Git instellen (noem het <code>dater</code>), en het vertellen jouw <code>expand_date</code> filter te gebruiken om de bestanden tijdens checkout te &#39;besmeren&#39;. Je zult een Perl expressie gebruiken om dat op te ruimen tijdens een commit:</p>
-<pre><code><span class="hljs-formula">$ git config filter.dater.smudge expand_date
-$</span> git config filter.dater.clean 'perl -pe "s/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-special">[</span>^<span class="hljs-command">\\</span><span class="hljs-command">\$</span><span class="hljs-special">]</span>*<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/"'
+<pre><code>$ git config filter.dater.smudge expand_date
+$ git config filter.dater.clean &#39;perl -pe &quot;s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/&quot;&#39;
 </code></pre><p>Dit stukje Perl haalt alles weg dat het in een <code>$Date$</code> tekst ziet, om weer op het uitgangspunt uit te komen. Nu je filter klaar is, kun je het testen door een bestand aan te maken met het <code>$Date$</code> sleutelwoord en dan een Git attribuut voor dat bestand in te stellen, die het nieuwe filter aanroept.</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'# $Date$'</span> &gt; date_test.txt
-$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'date*.txt filter=dater'</span> &gt;&gt; .gitattributes
+<pre><code>$ echo &#39;# $Date$&#39; &gt; date_test.txt
+$ echo &#39;date*.txt filter=dater&#39; &gt;&gt; .gitattributes
 </code></pre><p>Als je die veranderingen commit en het bestand opnieuw uitcheckt, zal je zien dat het sleutelwoord correct vervangen wordt:</p>
-<pre><code>$ git <span class="hljs-keyword">add</span> date_test<span class="hljs-preprocessor">.txt</span> <span class="hljs-preprocessor">.gitattributes</span>
-$ git commit -m <span class="hljs-string">"Testing date expansion in Git"</span>
-$ rm date_test<span class="hljs-preprocessor">.txt</span>
-$ git checkout date_test<span class="hljs-preprocessor">.txt</span>
-$ cat date_test<span class="hljs-preprocessor">.txt</span>
-<span class="hljs-preprocessor"># $Date: Tue Apr 21 07:26:52 2009 -0700$</span>
+<pre><code>$ git add date_test.txt .gitattributes
+$ git commit -m &quot;Testing date expansion in Git&quot;
+$ rm date_test.txt
+$ git checkout date_test.txt
+$ cat date_test.txt
+# $Date: Tue Apr 21 07:26:52 2009 -0700$
 </code></pre><p>Je ziet hier hoe krachtig deze techniek is voor gebruik in eigengemaakte toepassingen. Je moet wel voorzichtig zijn, om dat het <code>.gitattributes</code> bestand ook gecommit wordt en meegestuurd wordt met het project, maar het filter (in dit geval <code>dater</code>) niet; dus het zal niet overal werken. Als je deze filters ontwerpt, zouden ze in staat moeten zijn om netjes te falen en het project nog steeds goed te laten werken.</p>
 <h2 id="je-repository-exporteren">Je repository exporteren</h2>
 <p>De Git attribute gegevens staan je ook toe om interessante dingen te doen als je een archief van je project exporteert.</p>
 <h3 id="export-ignore">export-ignore</h3>
 <p>Je kunt Git vertellen dat sommige bestanden of directories niet geëxporteerd moeten worden bij het genereren van een archief. Als er een subdirectory of bestand is waarvan je niet wilt dat het wordt meegenomen in je archief bestand, maar dat je wel in je project ingecheckt wil hebben, dan kun je die bestanden bepalen met behulp van het <code>export-ignore</code> attribuut.</p>
 <p>Bijvoorbeeld, stel dat je wat testbestanden in een <code>test/</code> subdirectory hebt, en dat het geen zin heeft om die in de tarball export van je project mee te nemen. Dan kan je de volgende regel in je Git attributes bestand toevoegen:</p>
-<pre><code>test/ <span class="hljs-keyword">export</span>-ignore
+<pre><code>test/ export-ignore
 </code></pre><p>Als je nu git archive uitvoert om een tarball van je project te maken, zal die map niet meegenomen worden in het archief.</p>
 <h3 id="export-subst">export-subst</h3>
 <p>Iets anders dat je kunt doen met je archieven is eenvoudige sleutelwoord vervanging. Git staat je toe om de tekst <code>$Format:$</code> met een van de <code>--pretty=format</code> formaat afkortingen in één of meer bestanden te zetten. Veel voorbeelden van die formaatafkortingen zag je al in Hoofdstuk 2. Bijvoorbeeld, als je een bestand genaamd <code>LAST_COMMIT</code> wilt meenemen in je project, waarin de laatste commit datum automatisch wordt geïnjecteerd als <code>git archive</code> loopt, kun je het bestand als volgt instellen:</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'Last commit date: $Format:%cd$'</span> &gt; <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-variable">$ </span>echo <span class="hljs-string">"LAST_COMMIT export-subst"</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">LAST_COMMIT</span> .gitattributes
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'adding LAST_COMMIT file for archives'</span>
+<pre><code>$ echo &#39;Last commit date: $Format:%cd$&#39; &gt; LAST_COMMIT
+$ echo &quot;LAST_COMMIT export-subst&quot; &gt;&gt; .gitattributes
+$ git add LAST_COMMIT .gitattributes
+$ git commit -am &#39;adding LAST_COMMIT file for archives&#39;
 </code></pre><p>Als je <code>git archive</code> uitvoert, zal de inhoud van dat bestand, als mensen het archief bestand openen, er zo uit zien:</p>
-<pre><code><span class="hljs-variable">$ </span>cat <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-constant">Last</span> commit <span class="hljs-symbol">date:</span> <span class="hljs-variable">$Format</span><span class="hljs-symbol">:Tue</span> <span class="hljs-constant">Apr</span> <span class="hljs-number">21</span> 08<span class="hljs-symbol">:</span><span class="hljs-number">38</span><span class="hljs-symbol">:</span><span class="hljs-number">48</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>$
+<pre><code>$ cat LAST_COMMIT
+Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 </code></pre><h2 id="merge-strategie-n">Merge strategieën</h2>
 <p>Je kunt Git attributen ook gebruiken om Git te vertellen dat het verschillende merge strategieën moet gebruiken voor specifieke bestanden in je project. Een erg handige toepassing is Git te vertellen dat het bepaalde bestanden niet moet proberen te mergen als ze conflicten hebben, maar jouw versie moeten gebruiken in plaats van die van de ander.</p>
 <p>Dit is handig als een branch in jouw project uiteen is gelopen of gespecialiseerd is, maar je wel in staat wilt zijn om veranderingen daarvan te mergen, en je wilt bepaalde bestanden negeren. Stel dat je een database instellingen bestand hebt dat database.xml heet en dat in twee branches verschillend is, en je wilt de andere branch mergen zonder jouw database bestand overhoop te halen. Je kunt dan een attribuut als volgt instellen:</p>
-<pre><code><span class="hljs-attribute">database.xml merge</span>=<span class="hljs-string">ours</span>
+<pre><code>database.xml merge=ours
 </code></pre><p>Als je in de andere branch merged, dan zul je in plaats van merge conflicten met je database.xml bestand zoiets als dit zien:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> topic
-Auto-merging <span class="hljs-keyword">database</span>.xml
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.</span>
+<pre><code>$ git merge topic
+Auto-merging database.xml
+Merge made by recursive.
 </code></pre><p>In dit geval blijft database.xml staan op de versie die je origineel al had.</p>
 
                     
@@ -1035,9 +1038,9 @@ Auto-merging <span class="hljs-keyword">database</span>.xml
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

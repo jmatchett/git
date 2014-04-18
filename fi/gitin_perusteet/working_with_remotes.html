@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397503664232">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.5" data-basepath=".." data-revision="1397847843645">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -286,63 +289,63 @@
 Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.</p>
 <h2 id="showing-your-remotes">Showing Your Remotes</h2>
 <p>To see which remote servers you have configured, you can run the <code>git remote</code> command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see <em>origin</em> — that is the default name Git gives to the server you cloned from:</p>
-<pre><code>$ git clone git:<span class="hljs-comment">//github.com/schacon/ticgit.git</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /<span class="hljs-keyword">private</span>/tmp/ticgit/.git/
-remote: Counting objects: <span class="hljs-number">595</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">269</span>/<span class="hljs-number">269</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">595</span> (delta <span class="hljs-number">255</span>), reused <span class="hljs-number">589</span> (delta <span class="hljs-number">253</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">595</span>/<span class="hljs-number">595</span>), <span class="hljs-number">73.31</span> KiB | <span class="hljs-number">1</span> KiB/s, <span class="hljs-keyword">done</span>.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">255</span>/<span class="hljs-number">255</span>), <span class="hljs-keyword">done</span>.
+<pre><code>$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
 $ cd ticgit
 $ git remote
 origin
 </code></pre><p>You can also specify <code>-v</code>, which shows you the URL that Git has stored for the shortname to be expanded to:</p>
 <pre><code>$ git remote -v
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (fetch)
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (<span class="hljs-keyword">push</span>)
+origin  git://github.com/schacon/ticgit.git (fetch)
+origin  git://github.com/schacon/ticgit.git (push)
 </code></pre><p>If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.</p>
 <pre><code>$ cd grit
 $ git remote -v
-bakkdoor  git://github<span class="hljs-preprocessor">.com</span>/bakkdoor/grit<span class="hljs-preprocessor">.git</span>
-cho45     git://github<span class="hljs-preprocessor">.com</span>/cho45/grit<span class="hljs-preprocessor">.git</span>
-defunkt   git://github<span class="hljs-preprocessor">.com</span>/defunkt/grit<span class="hljs-preprocessor">.git</span>
-koke      git://github<span class="hljs-preprocessor">.com</span>/koke/grit<span class="hljs-preprocessor">.git</span>
-origin    git@github<span class="hljs-preprocessor">.com</span>:mojombo/grit<span class="hljs-preprocessor">.git</span>
+bakkdoor  git://github.com/bakkdoor/grit.git
+cho45     git://github.com/cho45/grit.git
+defunkt   git://github.com/defunkt/grit.git
+koke      git://github.com/koke/grit.git
+origin    git@github.com:mojombo/grit.git
 </code></pre><p>This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in <em>Chapter 4</em>).</p>
 <h2 id="adding-remote-repositories">Adding Remote Repositories</h2>
 <p>I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run <code>git remote add [shortname] [url]</code>:</p>
 <pre><code>$ git remote
 origin
-$ git remote <span class="hljs-keyword">add</span> pb git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+$ git remote add pb git://github.com/paulboone/ticgit.git
 $ git remote -v
-origin    git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span>
-pb    git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+origin    git://github.com/schacon/ticgit.git
+pb    git://github.com/paulboone/ticgit.git
 </code></pre><p>Now you can use the string <code>pb</code> on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run <code>git fetch pb</code>:</p>
 <pre><code>$ git fetch pb
-remote: Counting objects: <span class="hljs-number">58</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">41</span>/<span class="hljs-number">41</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">44</span> (delta <span class="hljs-number">24</span>), reused <span class="hljs-number">1</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-keyword">done</span>.
-From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
- * [<span class="hljs-keyword">new</span> branch]      master     -&gt; pb/master
- * [<span class="hljs-keyword">new</span> branch]      ticgit     -&gt; pb/ticgit
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit
 </code></pre><p>Paul’s master branch is accessible locally as <code>pb/master</code> — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.</p>
 <h2 id="fetching-and-pulling-from-your-remotes">Fetching and Pulling from Your Remotes</h2>
 <p>As you just saw, to get data from your remote projects, you can run:</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch [remote-name]
+<pre><code>$ git fetch [remote-name]
 </code></pre><p>The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in <em>Chapter 3</em>.)</p>
 <p>If you clone a repository, the command automatically adds that remote repository under the name <em>origin</em>. So, <code>git fetch origin</code> fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the <code>fetch</code> command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.</p>
 <p>If you have a branch set up to track a remote branch (see the next section and <em>Chapter 3</em> for more information), you can use the <code>git pull</code> command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the <code>git clone</code> command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running <code>git pull</code> generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.</p>
 <h2 id="pushing-to-your-remotes">Pushing to Your Remotes</h2>
 <p>When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: <code>git push [remote-name] [branch-name]</code>. If you want to push your master branch to your <code>origin</code> server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git push origin master
 </code></pre><p>This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See <em>Chapter 3</em> for more detailed information on how to push to remote servers.</p>
 <h2 id="inspecting-a-remote">Inspecting a Remote</h2>
 <p>If you want to see more information about a particular remote, you can use the <code>git remote show [remote-name]</code> command. If you run this command with a particular shortname, such as <code>origin</code>, you get something like this:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git://github.com/schacon/ticgit.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  URL: git://github.com/schacon/ticgit.git
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
   Tracked remote branches
     master
@@ -351,14 +354,14 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
 <p>That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from <code>git remote show</code>:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git@github.com:defunkt/github.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">issues</span></span>
+  URL: git@github.com:defunkt/github.git
+  Remote branch merged with &#39;git pull&#39; while on branch issues
     issues
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
-  New remote branches (next fetch will store <span class="hljs-operator">in</span> remotes/origin)
+  New remote branches (next fetch will store in remotes/origin)
     caching
-  Stale tracking branches (use <span class="hljs-string">'git remote prune'</span>)
+  Stale tracking branches (use &#39;git remote prune&#39;)
     libwalker
     walker2
   Tracked remote branches
@@ -368,19 +371,19 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
     issues
     master
     postgres
-  Local branch pushed <span class="hljs-operator">with</span> <span class="hljs-string">'git push'</span>
+  Local branch pushed with &#39;git push&#39;
     master:master
 </code></pre><p>This command shows which branch is automatically pushed when you run <code>git push</code> on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run <code>git pull</code>.</p>
 <h2 id="removing-and-renaming-remotes">Removing and Renaming Remotes</h2>
 <p>If you want to rename a reference, in newer versions of Git you can run <code>git remote rename</code> to change a remote’s shortname. For instance, if you want to rename <code>pb</code> to <code>paul</code>, you can do so with <code>git remote rename</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rename pb paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rename pb paul
+$ git remote
 origin
 paul
 </code></pre><p>It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at <code>pb/master</code> is now at <code>paul/master</code>.</p>
 <p>If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use <code>git remote rm</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rm paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rm paul
+$ git remote
 origin
 </code></pre>
                     
@@ -400,9 +403,9 @@ origin
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.2" data-basepath=".." data-revision="1397503694381">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.2" data-basepath=".." data-revision="1397847855018">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -824,7 +827,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_428">
+                    <section class="normal" id="section-gitbook_431">
                     
                         <h1 id="interaktywne-u-ywanie-przechowali">Interaktywne używanie przechowali</h1>
 <!-- # Interactive Staging -->
@@ -834,15 +837,15 @@ Jeżeli uruchomisz <code>git add</code> z opcją <code>-i</code> lub <code>-inte
 <!-- Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
 If you run `git add` with the `-i` or `-\-interactive` option, Git goes into an interactive shell mode, displaying something like this: -->
 
-<pre><code>$ git <span class="hljs-keyword">add</span> -i
+<pre><code>$ git add -i
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:    unchanged        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span> index<span class="hljs-preprocessor">.html</span>
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit<span class="hljs-preprocessor">.rb</span>
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 
 *** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: <span class="hljs-keyword">add</span> untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
 What now&gt;
 </code></pre><p>Możesz zauważyć, że ta komenda pokazuje zupełnie inny obraz przechowalni - właściwie są to te same informacje które możesz otrzymać przy pomocy <code>git status</code>, ale w bardziej zwięzłej formie. Listuje ona zmiany które dodałeś do przechowalni po lewej stronie, oraz te które nie są w niej jeszcze po prawej.</p>
 <!-- You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. -->
@@ -856,86 +859,86 @@ What now&gt;
 <p>Jeżeli naciśniesz <code>2</code> lub <code>u</code> w linii <code>What now&gt;</code>, skrypt dopyta Cię o to, które pliki chcesz dodać do przechowalni:</p>
 <!-- If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage: -->
 
-<pre><code>What now&gt; <span class="hljs-number">2</span>
+<pre><code>What now&gt; 2
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:    unchanged        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span> index<span class="hljs-preprocessor">.html</span>
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit<span class="hljs-preprocessor">.rb</span>
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 Update&gt;&gt;
 </code></pre><p>Aby dodać pliki TODO i index.html do przechowalni, możesz wpisać numery: </p>
 <!-- To stage the TODO and index.html files, you can type the numbers: -->
 
 <pre><code>Update&gt;&gt; 1,2
-<span class="hljs-code">           staged     unstaged path</span>
-<span class="hljs-bullet">* </span>1:    unchanged        +0/-1 TODO
-<span class="hljs-bullet">* </span>2:    unchanged        +1/-1 index.html
+           staged     unstaged path
+* 1:    unchanged        +0/-1 TODO
+* 2:    unchanged        +1/-1 index.html
   3:    unchanged        +5/-1 lib/simplegit.rb
 Update&gt;&gt;
 </code></pre><p>Znak <code>*</code> obok każdego pliku, oznacza że plik ten będzie dodany do przechowalni. Jeżeli naciśniesz Enter, bez wpisywania niczego w <code>Update&gt;&gt;</code>, Git weźmie wszystkie zaznaczone pliki i doda je do przechowalni:</p>
 <!-- The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you: -->
 
-<pre><code><span class="hljs-operator"><span class="hljs-keyword">Update</span>&gt;&gt;
-updated <span class="hljs-number">2</span> paths
+<pre><code>Update&gt;&gt;
+updated 2 paths
 
 *** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: <span class="hljs-keyword">update</span>      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: <span class="hljs-keyword">add</span> untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">1</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 1
            staged     unstaged path
-  <span class="hljs-number">1</span>:        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span>      nothing TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      nothing index.html
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit.rb</span>
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 </code></pre><p>Teraz możesz zauważyć, że pliki TODO i index.html są w przechowalni, a plik simplegit.rb nie. Jeżeli chcesz usunąć plik TODO z przechowalni, musisz użyć opcji <code>3</code> lub <code>r</code> (cofnij, od ang. revert):</p>
 <!-- Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option: -->
 
 <pre><code>*** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: add untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">3</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 3
            staged     unstaged path
-  <span class="hljs-number">1</span>:        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> index.html
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> <span class="hljs-keyword">lib</span>/simplegit.rb
-Revert&gt;&gt; <span class="hljs-number">1</span>
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Revert&gt;&gt; 1
            staged     unstaged path
-* <span class="hljs-number">1</span>:        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> index.html
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> <span class="hljs-keyword">lib</span>/simplegit.rb
+* 1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 Revert&gt;&gt; [enter]
 reverted one path
 </code></pre><p>Spójrz ponownie na status Gita, zobaczysz teraz, że usunąłeś z poczekalni plik TODO:</p>
 <!-- Looking at your Git status again, you can see that you’ve unstaged the TODO file: -->
 
 <pre><code>*** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: <span class="hljs-keyword">add</span> untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">1</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 1
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      nothing index<span class="hljs-preprocessor">.html</span>
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit<span class="hljs-preprocessor">.rb</span>
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 </code></pre><p>Aby zobaczyć porównanie tego co jest w przechowalni, możesz użyć komendy <code>6</code> lub <code>d</code> (ang. diff). Pokaże ona listę plików, które możesz wybrać aby zobaczyć wprowadzone zmiany. Jest to podobne do działania komendy <code>git diff --cached</code>:</p>
 <!-- To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff -\-cached` on the command line: -->
 
 <pre><code>*** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: add untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">6</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 6
            staged     unstaged path
-  <span class="hljs-number">1</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      nothing <span class="hljs-keyword">index</span>.html
-Review diff&gt;&gt; <span class="hljs-number">1</span>
-diff --git a/<span class="hljs-keyword">index</span>.html b/<span class="hljs-keyword">index</span>.html
-<span class="hljs-keyword">index</span> <span class="hljs-number">4</span>d07108.<span class="hljs-number">.4335</span>f49 <span class="hljs-number">100644</span>
---- a/<span class="hljs-keyword">index</span>.html
-+++ b/<span class="hljs-keyword">index</span>.html
-@@ -<span class="hljs-number">16</span>,<span class="hljs-number">7</span> +<span class="hljs-number">16</span>,<span class="hljs-number">7</span> @@ Date Finder
+  1:        +1/-1      nothing index.html
+Review diff&gt;&gt; 1
+diff --git a/index.html b/index.html
+index 4d07108..4335f49 100644
+--- a/index.html
++++ b/index.html
+@@ -16,7 +16,7 @@ Date Finder
 
- &lt;p id=<span class="hljs-string">"out"</span>&gt;...&lt;/p&gt;
+ &lt;p id=&quot;out&quot;&gt;...&lt;/p&gt;
 
--&lt;<span class="hljs-keyword">div</span> id=<span class="hljs-string">"footer"</span>&gt;contact : support@github.com&lt;/<span class="hljs-keyword">div</span>&gt;
-+&lt;<span class="hljs-keyword">div</span> id=<span class="hljs-string">"footer"</span>&gt;contact : email.support@github.com&lt;/<span class="hljs-keyword">div</span>&gt;
+-&lt;div id=&quot;footer&quot;&gt;contact : support@github.com&lt;/div&gt;
++&lt;div id=&quot;footer&quot;&gt;contact : email.support@github.com&lt;/div&gt;
 
- &lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
+ &lt;script type=&quot;text/javascript&quot;&gt;
 </code></pre><p>Przy użyciu tych prostych komend, możesz używać trybu interaktywnego do łatwiejszej obsługi przechowalni.</p>
 <!-- With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily. -->
 
@@ -945,45 +948,45 @@ diff --git a/<span class="hljs-keyword">index</span>.html b/<span class="hljs-ke
 <p>Dla Gita możliwe jest również, aby dodać do przechowalni tylko część plików, a nie całość. Na przykład, jeżeli zrobisz dwie zmiany w swoim pliku simplegit.rb, ale chcesz dodać do przechowalni tylko jedną z nich, a drugą nie. Z interaktywnej linii poleceń, wybierz <code>5</code> lub <code>p</code> (ang. patch). Git zapyta Cię, które pliki chciałbyś tylko w części dodać do przechowalni; następnie dla każdego zaznaczonego pliku, wyświetli kawałek różnicy na plikach i zapyta czy chcesz je dodać do przechowalni po kolei: </p>
 <!-- It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one: -->
 
-<pre><code>diff <span class="hljs-comment">--git a/lib/simplegit.rb b/lib/simplegit.rb</span>
-index dd5ecc4.<span class="hljs-number">.57399e0</span> <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/lib/simplegit.rb</span>
+<pre><code>diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index dd5ecc4..57399e0 100644
+--- a/lib/simplegit.rb
 +++ b/lib/simplegit.rb
-@@ -<span class="hljs-number">22</span>,<span class="hljs-number">7</span> +<span class="hljs-number">22</span>,<span class="hljs-number">7</span> @@ class SimpleGit
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -22,7 +22,7 @@ class SimpleGit
+   end
 
-   def <span class="hljs-built_in">log</span>(treeish = <span class="hljs-string">'master'</span>)
--    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log -n 25 #{treeish}"</span>)</span>
-+    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log -n 30 #{treeish}"</span>)</span>
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+   def log(treeish = &#39;master&#39;)
+-    command(&quot;git log -n 25 #{treeish}&quot;)
++    command(&quot;git log -n 30 #{treeish}&quot;)
+   end
 
    def blame(path)
-Stage this hunk [y,n,<span class="hljs-operator">a</span>,d,/,j,J,g,e,?]?
+Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 </code></pre><p>Masz teraz dużą ilość opcji. Pisząc <code>?</code> otrzymasz listę rzeczy które możesz zrobić:</p>
 <!-- You have a lot of options at this point. Typing `?` shows a list of what you can do: -->
 
-<pre><code>Stage this hunk [y,n,<span class="hljs-operator">a</span>,d,/,j,J,g,e,?]? ?
+<pre><code>Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 y - stage this hunk
-n - <span class="hljs-built_in">do</span> <span class="hljs-operator">not</span> stage this hunk
-<span class="hljs-operator">a</span> - stage this <span class="hljs-operator">and</span> all <span class="hljs-operator">the</span> remaining hunks <span class="hljs-operator">in</span> <span class="hljs-operator">the</span> <span class="hljs-built_in">file</span>
-d - <span class="hljs-built_in">do</span> <span class="hljs-operator">not</span> stage this hunk nor <span class="hljs-keyword">any</span> <span class="hljs-operator">of</span> <span class="hljs-operator">the</span> remaining hunks <span class="hljs-operator">in</span> <span class="hljs-operator">the</span> <span class="hljs-built_in">file</span>
-g - select <span class="hljs-operator">a</span> hunk <span class="hljs-built_in">to</span> go <span class="hljs-built_in">to</span>
-/ - search <span class="hljs-keyword">for</span> <span class="hljs-operator">a</span> hunk matching <span class="hljs-operator">the</span> given regex
+n - do not stage this hunk
+a - stage this and all the remaining hunks in the file
+d - do not stage this hunk nor any of the remaining hunks in the file
+g - select a hunk to go to
+/ - search for a hunk matching the given regex
 j - leave this hunk undecided, see next undecided hunk
 J - leave this hunk undecided, see next hunk
 k - leave this hunk undecided, see previous undecided hunk
 K - leave this hunk undecided, see previous hunk
-s - <span class="hljs-built_in">split</span> <span class="hljs-operator">the</span> current hunk <span class="hljs-keyword">into</span> smaller hunks
-e - manually edit <span class="hljs-operator">the</span> current hunk
+s - split the current hunk into smaller hunks
+e - manually edit the current hunk
 ? - print help
 </code></pre><p>Zazwyczaj, będziesz wybierał <code>y</code> lub <code>n</code> jeżeli chcesz dodać do przechowalni dany kawałek, ale zapisanie wszystkich które chcesz dodać do przechowalni w plikach, lub pominięcie decyzji również może być przydatne. Jeżeli dodasz część pliku do przechowalni, a pozostałej części nie, wynik komendy status będzie podobny do:</p>
 <!-- Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this: -->
 
-<pre><code>What now&gt; <span class="hljs-number">1</span>
+<pre><code>What now&gt; 1
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> index.html
-  <span class="hljs-number">3</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>        +<span class="hljs-number">4</span>/-<span class="hljs-number">0</span> <span class="hljs-keyword">lib</span>/simplegit.rb
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:        +1/-1        +4/-0 lib/simplegit.rb
 </code></pre><p>Wynik komendy status dla pliku simplegit.rb jest interesujący. Pokazuje on, że kilka linii jest dodanych do przechowalni, a kilka nie. Masz plik, który jest tylko w części w przechowalni. W tym momencie, możesz zakończyć działanie trybu interaktywnego i uruchomić <code>git commit</code> w celu zatwierdzenia zmian.</p>
 <!-- The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files. -->
 
@@ -1007,9 +1010,9 @@ e - manually edit <span class="hljs-operator">the</span> current hunk
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

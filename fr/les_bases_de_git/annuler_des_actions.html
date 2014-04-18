@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.4" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_633">
+                    <section class="normal" id="section-gitbook_845">
                     
                         <h1 id="annuler-des-actions">Annuler des actions</h1>
 <p>À tout moment, vous pouvez désirer annuler une de vos dernières actions.
@@ -854,15 +857,15 @@ C&#39;est donc un des rares cas d&#39;utilisation de Git où des erreurs de mani
 <h2 id="modifier-le-dernier-commit-">Modifier le dernier <em>commit</em></h2>
 <p>Une des annulations les plus communes apparaît lorsqu&#39;on valide une modification trop tôt en oubliant d&#39;ajouter certains fichiers, ou si on se trompe dans le message de validation.
 Si vous souhaitez rectifier cette erreur, vous pouvez valider le complément de modification avec l&#39;option <code>--amend</code> :</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><p>Cette commande prend en compte la zone d&#39;index et l&#39;utilise pour le <em>commit</em>.
 Si aucune modification n&#39;a été réalisée depuis la dernière validation (par exemple en lançant cette commande immédiatement après la dernière validation), alors l&#39;instantané sera identique et la seule modification à introduire sera le message de validation.</p>
 <p>L&#39;éditeur de message de validation démarre, mais il contient déjà le message de la validation précédente.
 Vous pouvez éditer ce message normalement, mais il écrasera le message de la validation précédente.</p>
 <p>Par exemple, si vous validez une version puis réalisez que vous avez oublié de spécifier les modifications d&#39;un fichier, vous pouvez taper les commandes suivantes :</p>
-<pre><code><span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'validation initiale'</span>
-<span class="hljs-variable">$ </span>git add fichier_oublie
-<span class="hljs-variable">$ </span>git commit --amend
+<pre><code>$ git commit -m &#39;validation initiale&#39;
+$ git add fichier_oublie
+$ git commit --amend
 </code></pre><p>Les trois dernières commandes donnent lieu à la création d&#39;un unique <em>commit</em> — la seconde validation remplace le résultat de la première.</p>
 <h2 id="d-sindexer-un-fichier-d-j-index-">Désindexer un fichier déjà indexé</h2>
 <p>Les deux sections suivantes démontrent comment bricoler les modifications dans votre zone d&#39;index et votre zone de travail.
@@ -871,30 +874,30 @@ Par exemple, supposons que vous avez modifié deux fichiers et voulez les valide
 Comment annuler l&#39;indexation d&#39;un des fichiers ? La commande <code>git status</code> vous le rappelle :</p>
 <pre><code>$ git add .
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   LISEZMOI.txt</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   LISEZMOI.txt
+#       modified:   benchmarks.rb
+#
 </code></pre><p>Juste sous le texte « Changes to be committed », elle vous indique d&#39;utiliser <code>git reset HEAD &lt;fichier&gt;...</code> pour désindexer un fichier.
 Utilisons donc ce conseil pour désindexer le fichier <code>benchmarks.rb</code> :</p>
-<pre><code>$ git reset<span class="hljs-constant"> HEAD </span>benchmarks.rb
+<pre><code>$ git reset HEAD benchmarks.rb
 benchmarks.rb: locally modified
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   LISEZMOI.txt</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   LISEZMOI.txt
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   benchmarks.rb
+#
 </code></pre><p>La commande à taper peut sembler étrange mais elle fonctionne.
 Le fichier <code>benchmarks.rb</code> est modifié mais de retour à l&#39;état non indexé.</p>
 <h2 id="r-initialiser-un-fichier-modifi-">Réinitialiser un fichier modifié</h2>
@@ -902,22 +905,22 @@ Le fichier <code>benchmarks.rb</code> est modifié mais de retour à l&#39;état
 Comment le réinitialiser facilement, le ramener à son état du dernier instantané (ou lors du clonage, ou dans l&#39;état dans lequel vous l&#39;avez obtenu dans votre copie de travail) ?
 Heureusement, <code>git status</code> est secourable.
 Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :</p>
-<pre><code><span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+<pre><code># Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   benchmarks.rb
+#
 </code></pre><p>Ce qui vous indique de façon explicite comment annuler des modifications que vous avez faites (du moins, les nouvelles versions de Git, 1.6.1 et supérieures le font, si vous avez une version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalités pratiques).
 Faisons comme indiqué :</p>
 <pre><code>$ git checkout -- benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   LISEZMOI</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   LISEZMOI
+#
 </code></pre><p>Vous pouvez constater que les modifications ont été annulées.
 Vous devriez aussi vous apercevoir que c&#39;est une commande dangereuse : toutes les modifications que vous auriez réalisées sur ce fichier ont disparu — vous venez tout juste de l&#39;écraser avec un autre fichier.
 N&#39;utilisez jamais cette commande à moins d&#39;être vraiment sûr de ne pas vouloir de ces modifications.
@@ -943,9 +946,9 @@ Cependant, tout ce que vous perdez avant de l&#39;avoir validé n&#39;a aucune c
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

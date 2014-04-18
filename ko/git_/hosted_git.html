@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.10" data-basepath=".." data-revision="1397503683046">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.10" data-basepath=".." data-revision="1397847849763">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="시작하기" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="../__git_.html" title="짧게 보는 Git의 역사" class="chapter done " data-progress="1.2" style="left: 2.7777777777777777%;"></a>
     
@@ -776,12 +779,12 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_326">
+                    <section class="normal" id="section-gitbook_317">
                     
                         <h1 id="hosted-git">Hosted Git</h1>
 <p>Git 서버를 설치하는 등의 일을 하고 싶지 않으면 전문 호스팅 사이트를 이용하면 된다. 호스팅 사이트는 몇 가지 장점이 있다. 설정이 쉬워서 바로 프로젝트를 시작할 수 있을 뿐만 아니라 직접 서버를 관리하고 모니터링하지 않아도 된다. 내부적으로 Git 서버를 직접 설치하고 운영하고 있어도 오픈소스 프로젝트는 호스팅 사이트를 이용하는 것이 좋다. 이렇게 하면 보통 오픈소스 커뮤니티로부터 좀 더 쉽게 도움받을 수 있다.</p>
 <p>요즘은 이용할 수 있는 호스팅 사이트들이 많다. 각각 장단점이 있기 때문에 다음 페이지에서 최신 정보를 확인해보자:</p>
-<pre><code><span class="hljs-label">https:</span>//git<span class="hljs-preprocessor">.wiki</span><span class="hljs-preprocessor">.kernel</span><span class="hljs-preprocessor">.org</span>/index<span class="hljs-preprocessor">.php</span>/GitHosting
+<pre><code>https://git.wiki.kernel.org/index.php/GitHosting
 </code></pre><p>이 절에서 전부 설명할 수는 없고(필자는 저 회사 중 한군데에서 일한다) GitHub에 계정과 프로젝트를 만드는 방법을 설명한다.</p>
 <p>GitHub은 가장 큰 오픈소스 Git 호스팅 사이트이고 공개(Public) 프로젝트와 비공개(Private) 프로젝트에 대한 호스팅 서비스를 제공하는 보기 드문 사이트다. 그래서 상업용 비공개 코드와 공개 코드를 같은 곳에 둘 수 있다. 실제로 이 책도 GitHub에서 비공개로 작성했다.</p>
 <h2 id="github">GitHub</h2>
@@ -809,12 +812,12 @@
 <p><img src="http://git-scm.com/figures/18333fig0407-tn.png" alt=""></p>
 <p>그림 4-7. 새 저장소를 위한 사용설명서</p>
 <p>여기 설명하는 내용은 이미 우리가 배웠다. 프로젝트가 없을 때는 아래와 같이 프로젝트를 초기화한다:</p>
-<pre><code><span class="hljs-variable">$ </span>git init
-<span class="hljs-variable">$ </span>git add .
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
+<pre><code>$ git init
+$ git add .
+$ git commit -m &#39;initial commit&#39;
 </code></pre><p>만약 이미 로컬에 Git 저장소가 있으면 GitHub 저장소를 리모트 저장소로 등록하고 master 브랜치를 Push한다:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@GitHub<span class="hljs-preprocessor">.com</span>:testinguser/iphone_project<span class="hljs-preprocessor">.git</span>
-$ git <span class="hljs-keyword">push</span> origin master
+<pre><code>$ git remote add origin git@GitHub.com:testinguser/iphone_project.git
+$ git push origin master
 </code></pre><p>이제 프로젝트가 GitHub에서 서비스되니 공유하고 싶은 사람에게 URL을 알려 주면 된다. URL은 <code>http://github.com/testinguser/iphone_project</code>이다. 그리고 이 저장소의 정보를 잘 살펴보면 Git URL이 두 개라는 것을 발견할 수 있다.</p>
 <p><img src="http://git-scm.com/figures/18333fig0408-tn.png" alt=""></p>
 <p>그림 4-8. 프로젝트의 공개 URL과 비공개 URL</p>
@@ -871,9 +874,9 @@ $ git <span class="hljs-keyword">push</span> origin master
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

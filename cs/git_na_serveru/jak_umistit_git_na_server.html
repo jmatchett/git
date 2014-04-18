@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,26 +857,26 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_905">
+                    <section class="normal" id="section-gitbook_977">
                     
                         <h1 id="jak-um-stit-git-na-server">Jak umístit Git na server</h1>
 <p>Pro úvodní nastavení serveru Git je třeba exportovat existující repozitář do nového, holého repozitáře (bare repository), tj. do repozitáře, který neobsahuje pracovní adresář. S tím obvykle nebývá problém.
 Chcete-li naklonovat stávající repozitář, a vytvořit tak nový a holý, zadejte příkaz clone s parametrem <code>--bare</code>. Je zvykem, že adresáře s holým repozitářem končí na <code>.git</code>, například:</p>
-<pre><code>$ git clone <span class="hljs-comment">--bare my_project my_project.git</span>
-Initialized <span class="hljs-constant">empty</span> Git repository <span class="hljs-operator">in</span> /opt/projects/my_project.git/
+<pre><code>$ git clone --bare my_project my_project.git
+Initialized empty Git repository in /opt/projects/my_project.git/
 </code></pre><p>Výstup tohoto příkazu je trochu nejasný. Protože příkaz <code>clone</code> znamená v podstatě <code>git init</code> a následně <code>git fetch</code>, vidíme z části <code>git init</code>, která vytvoří prázdný adresář, nějaký výstup. Následný přenos objektu neposkytuje žádný výstup, přesto však proběhl. V adresáři <code>my_project.git</code> byste nyní měli mít kopii dat z adresáře Git.</p>
 <p>Je to přibližně stejné, jako byste zadali například:</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> -Rf my_project/<span class="hljs-preprocessor">.git</span> my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ cp -Rf my_project/.git my_project.git
 </code></pre><p>Bude tu sice pár menších rozdílů v konfiguračním souboru, ale pro náš účel můžeme příkazy považovat za ekvivalentní. Oba vezmou samotný repozitář Git (bez pracovního adresáře) a vytvoří pro něj samostatný adresář.</p>
 <h2 id="um-st-n-hol-ho-repozit-e-na-server">Umístění holého repozitáře na server</h2>
 <p>Nyní, když máte vytvořenu holou kopii repozitáře, zbývá ji už jen umístit na server a nastavit protokoly. Řekněme, že jste nastavili server nazvaný <code>git.example.com</code>, k němuž máte SSH přístup, a všechny svoje repozitáře Git chcete uložit do adresáře <code>/opt/git</code>. Nový repozitář můžete nastavit zkopírováním holého repozitáře příkazem:</p>
-<pre><code>$ scp -r my_project<span class="hljs-preprocessor">.git</span> user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git
+<pre><code>$ scp -r my_project.git user@git.example.com:/opt/git
 </code></pre><p>V tomto okamžiku mohou všichni ostatní, kdo mají SSH přístup k tomuto serveru s oprávněním pro čtení k adresáři <code>/opt/git</code>, naklonovat váš repozitář příkazem:</p>
-<pre><code>$ git clone user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git/my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone user@git.example.com:/opt/git/my_project.git
 </code></pre><p>Pokud se uživatel dostane přes SSH na server a má oprávnění k zápisu do adresáře <code>/opt/git/my_project.git</code>, má automaticky také oprávnění k odesílání dat. Zadáte-li příkaz <code>git init</code> s parametrem <code>--shared</code>, Git automaticky nastaví příslušná oprávnění skupiny k zápisu.</p>
-<pre><code><span class="hljs-variable">$ </span>ssh user<span class="hljs-variable">@git</span>.example.com
-<span class="hljs-variable">$ </span>cd /opt/git/my_project.git
-<span class="hljs-variable">$ </span>git init --bare --shared
+<pre><code>$ ssh user@git.example.com
+$ cd /opt/git/my_project.git
+$ git init --bare --shared
 </code></pre><p>Vidíte, jak je jednoduché vzít repozitář Git, vytvořit jeho holou verzi a umístit ji na server, k níž máte vy i vaši spolupracovníci SSH přístup. Nic vám teď nebrání začít spolupracovat na projektu.</p>
 <p>A to je skutečně vše, co je třeba ke spuštění serveru Git, k němuž bude mít přístup více lidí – na server stačí přidat SSH účty a umístit holý repozitář někam, kam budou mít všichni uživatelé oprávnění ke čtení i zápisu. Vše je připraveno, nic dalšího se od vás nevyžaduje.</p>
 <p>V dalších částech se podíváme na některé pokročilé možnosti nastavení. Dozvíte se v nich, jak se vyhnout nutnosti vytvářet uživatelské účty pro všechny uživatele, jak k repozitářům přiřadit veřejné oprávnění pro čtení, jak nastavit webová rozhraní nebo k čemu se používá nástroj Gitosis. To však nemění nic na tom, že ke spolupráci se skupinou lidí na soukromém projektu vystačíte s jedním SSH serverem a holým repozitářem.</p>
@@ -903,9 +906,9 @@ Initialized <span class="hljs-constant">empty</span> Git repository <span class=
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_1019">
+                    <section class="normal" id="section-gitbook_943">
                     
                         <h1 id="gitolite">Gitolite</h1>
 <!--This section serves as a quick introduction to Gitolite, and provides basic installation and setup instructions.  It cannot, however, replace the enormous amount of [documentation][gltoc] that Gitolite comes with.  There may also be occasional changes to this section itself, so you may also want to look at the latest version [here][gldpg].-->
@@ -878,10 +881,10 @@
 <!--To begin, create a user called `git` on your server and login to this user.  Copy your SSH public key (a file called `~/.ssh/id_rsa.pub` if you did a plain `ssh-keygen` with all the defaults) from your workstation, renaming it to `<yourname>.pub` (we'll use `scott.pub` in our examples).  Then run these commands:-->
 
 <p>Zu Beginn legst Du auf Deinem Server einen Benutzer mit dem Namen <code>git</code> an und loggst Dich mit diesem ein. Danach kopierst Du Deinen öffentlichen SSH Schlüssel (die Datei lautet <code>~/.ssh/id_rsa.pub</code>, falls Du <code>ssh-keygen</code> mit den Standardoptionen ausgeführt hast) von Deiner Workstation auf den Server und nennst ihn entsprechend dem Schema <code>&lt;yourname&gt;.pub</code> um (in unserem Beispiel verwenden wir die Datei <code>scott.pub</code>). Danach führst Du die folgenden Kommandos aus:</p>
-<pre><code><span class="hljs-char">$ </span>git clone <span class="hljs-method">git:</span>//github.com/sitaramc/gitolite
-<span class="hljs-char">$ </span>gitolite/install -ln
-    # assumes <span class="hljs-char">$H</span>OME/bin exists and is in your <span class="hljs-char">$P</span>ATH
-<span class="hljs-char">$ </span>gitolite setup -pk <span class="hljs-char">$H</span>OME/scott.pub
+<pre><code>$ git clone git://github.com/sitaramc/gitolite
+$ gitolite/install -ln
+    # assumes $HOME/bin exists and is in your $PATH
+$ gitolite setup -pk $HOME/scott.pub
 </code></pre><!--That last command creates new Git repository called `gitolite-admin` on the server.-->
 
 <p>Der letzte Befehl erzeugt ein neues Git Repository mit dem Namen <code>gitolite-admin</code> auf Deinem Server.</p>
@@ -900,19 +903,19 @@
 <!--Once the install is done, you switch to the `gitolite-admin` clone you just made on your workstation, and poke around to see what you got:-->
 
 <p>Nachdem die Installation abgeschlossen ist, wechselst Du in den <code>gitolite-admin</code> Klon auf Deiner Workstation und stöberst dort am besten ein wenig herum:</p>
-<pre><code><span class="hljs-variable">$ </span>cd ~<span class="hljs-regexp">/gitolite-admin/</span>
-<span class="hljs-variable">$ </span>ls
+<pre><code>$ cd ~/gitolite-admin/
+$ ls
 conf/  keydir/
-<span class="hljs-variable">$ </span>find conf keydir -type f
+$ find conf keydir -type f
 conf/gitolite.conf
 keydir/scott.pub
-<span class="hljs-variable">$ </span>cat conf/gitolite.conf
+$ cat conf/gitolite.conf
 
 repo gitolite-admin
-    <span class="hljs-constant">RW</span>+                 = scott
+    RW+                 = scott
 
 repo testing
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@all</span>
+    RW+                 = @all
 </code></pre><!--Notice that "scott" (the name of the pubkey in the `gitolite setup` command you used earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.-->
 
 <p>Es ist wichtig anzumerken, dass „scott“ (das entspricht dem Name des öffentlichen Schlüssel, den Du beim Ausführen des <code>gitolite setup</code> Kommandos angegeben hast) Lese- und Schreibzugriff auf das <code>gitolite-admin</code> Repository hat. Zusätzlich existiert eine Datei mit dem gleichen Namen. Diese beinhaltet den öffentlichen Schlüssel.</p>
@@ -925,21 +928,21 @@ repo testing
 <!--You can group users or repos for convenience.  The group names are just like macros; when defining them, it doesn’t even matter whether they are projects or users; that distinction is only made when you *use* the "macro".-->
 
 <p>Einzelne Benutzer oder Repositorys können zur besseren Verwaltung zu Gruppen zusammengefasst werden. Die Gruppennamen verhalten sich wie Makros. Beim Anlegen ist es unabhängig, ob es sich um Projekte oder Benutzer handelt. Diese Festlegung wird erst getroffen, wenn diese „Makros“ verwendet werden.</p>
-<pre><code><span class="hljs-variable">@oss_repos</span>      = linux perl rakudo git gitolite
-<span class="hljs-variable">@secret_repos</span>   = fenestra pear
+<pre><code>@oss_repos      = linux perl rakudo git gitolite
+@secret_repos   = fenestra pear
 
-<span class="hljs-variable">@admins</span>         = scott
-<span class="hljs-variable">@interns</span>        = ashok
-<span class="hljs-variable">@engineers</span>      = sitaram dilbert wally alice
-<span class="hljs-variable">@staff</span>          = <span class="hljs-variable">@admins</span> <span class="hljs-variable">@engineers</span> <span class="hljs-variable">@interns</span>
+@admins         = scott
+@interns        = ashok
+@engineers      = sitaram dilbert wally alice
+@staff          = @admins @engineers @interns
 </code></pre><!--You can control permissions at the "ref" level.  In the following example, interns can only push the "int" branch.  Engineers can push any branch whose name starts with "eng-", and tags that start with "rc" followed by a digit.  And the admins can do anything (including rewind) to any ref.-->
 
 <p>Du kannst die Berechtigungen auf „ref“-Ebene (Branches und Tags) festlegen. Im folgenden Beispiel darf die Gruppe „interns“ nur auf den „int“ Branch pushen. Die Benutzer der Gruppe „engineers“ können jeden Branch pushen, der mit dem Prefix „eng-“ beginnt. Zusätzlich kann diese Gruppe jeden Tag, mit dem Namen „rc“, gefolgt von einer einzelnen Zahl, pushen. Die Benutzer der Gruppe „admins“ können jede Operation für jeden „ref“ durchführen (inklusive Rewind-Operationen).</p>
-<pre><code>repo <span class="hljs-variable">@oss_repos</span>
-    <span class="hljs-constant">RW</span>  int<span class="hljs-variable">$ </span>               = <span class="hljs-variable">@interns</span>
-    <span class="hljs-constant">RW</span>  eng-                = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>  refs/tags/rc[<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]   = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                     = <span class="hljs-variable">@admins</span>
+<pre><code>repo @oss_repos
+    RW  int$                = @interns
+    RW  eng-                = @engineers
+    RW  refs/tags/rc[0-9]   = @engineers
+    RW+                     = @admins
 </code></pre><!--The expression after the `RW` or `RW+` is a regular expression (regex) that the refname (ref) being pushed is matched against.  So we call it a "refex"!  Of course, a refex can be far more powerful than shown here, so don’t overdo it if you’re not comfortable with Perl regexes.-->
 
 <p>Der Ausdruck hinter <code>RW</code> oder <code>RW+</code> ist ein regulärer Ausdruck (Regex), gegen den die Referenzen (ref), die gepusht werden, verglichen werden. Wir nennen das auch „Refex“. Mit einem solchen Refex hat man ein sehr mächtiges Werkzeug an der Hand und kann noch viel mehr machen, als hier aufgezeigt ist. Aus diesem Grund solltest Du es aber damit auch nicht übertreiben, wenn Du mit den regulären Ausdrücken aus Perl nicht vertraut bist.</p>
@@ -949,8 +952,8 @@ repo testing
 <!--An important feature of the config file’s syntax is that all the rules for a repository need not be in one place.  You can keep all the common stuff together, like the rules for all `oss_repos` shown above, then add specific rules for specific cases later on, like so:-->
 
 <p>Ein wichtige Eigenschaft der Syntax der Konfigurationsdatei ist, dass nicht alle Regeln für ein Repository an einer gemeinsamen Stelle festgehalten werden müssen. Du kannst die ganzen allgemeingültigen Dinge, wie zum Beispiel die oben gezeigten Regeln für alle <code>oss_repos</code>, an einer Stelle zusammenfassen und später dann spezifische Regeln für die einzelnen Fälle festlegen. Zum Beispiel folgendermaßen:</p>
-<pre><code><span class="hljs-attribute">repo gitolite
-    RW+                     </span>=<span class="hljs-string"> sitaram</span>
+<pre><code>repo gitolite
+    RW+                     = sitaram
 </code></pre><!--That rule will just get added to the ruleset for the `gitolite` repository.-->
 
 <p>Diese Regel gehört dann zum Regelsatz des <code>gitolite</code> Repository.</p>
@@ -972,9 +975,9 @@ repo testing
 <!--Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here’s how to do that:-->
 
 <p>Nehmen wir mal an, dass bei unserem bekannten Beispiel, die Gruppe „engineers“ auf alle Branches, außer master und integ, Rewind-Rechte haben soll. Das können wir folgendermaßen erreichen:</p>
-<pre><code>    <span class="hljs-constant">RW</span>  master integ    = <span class="hljs-variable">@engineers</span>
-    -   master integ    = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@engineers</span>
+<pre><code>    RW  master integ    = @engineers
+    -   master integ    = @engineers
+    RW+                 = @engineers
 </code></pre><!--Again, you simply follow the rules top down until you hit a match for your access mode, or a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won’t match the first two rules anyway, and the third rule allows it.-->
 
 <p>Noch einmal zur Wiederholung, man muss jede einzelne Regel von oben nach unten durchgehen und überprüfen, ob eine Regel auf den aktuellen Zugriffsmodus zutrifft oder ob eine Deny-Regel den Zugriff verhindert. Ein Push auf den Branch master oder integ, welcher nicht einem Rewind Push entspricht, wird durch die erste Regel erlaubt. Ein Rewind Push auf diese Refs trifft also auf die erste Regel nicht zu. Deshalb wird die zweite Regel geprüft und auf Grund der Deny-Regel wird der Push verweigert. Jeder Push (unabhängig, ob es sich um einen Rewind Push oder einen normalen Push handelt) auf eine Ref, welche nicht master oder integ entspricht, trifft nicht auf einer der beiden ersten Regeln zu, und wird damit auf Grund der dritten Regel erlaubt.</p>
@@ -985,9 +988,9 @@ repo testing
 
 <p>Neben der Zugriffsbeschränkung auf Basis von Branches, kannst Du genauso verhindern, dass eine Änderung an einer bestimmten Datei gepusht wird. Beispielsweise ist ein Makefile (oder auch andere Programme) nicht dafür geeignet, dass es von jeder x-beliebiegen Person geändert wird. Meist hängen von so einem Makefile viele Dinge ab oder vieles könnte schief laufen, wenn die Änderungen an der Datei nicht korrekt durchgeführt werden würden. Du kannst deshalb Gitolite folgendermaßen konfigurieren:</p>
 <pre><code>repo foo
-    <span class="hljs-constant">RW</span>                      =   <span class="hljs-variable">@junior_devs</span> <span class="hljs-variable">@senior_devs</span>
+    RW                      =   @junior_devs @senior_devs
 
-    -   <span class="hljs-constant">VREF</span>/<span class="hljs-constant">NAME</span>/<span class="hljs-constant">Makefile</span>  =   <span class="hljs-variable">@junior_devs</span>
+    -   VREF/NAME/Makefile  =   @junior_devs
 </code></pre><!--User who are migrating from the older Gitolite should note that there is a significant change in behaviour with regard to this feature; please see the migration guide for details.-->
 
 <p>Alle Anwender von älteren Gitolite Versionen, die auf eine neue Gitolite Version wechseln, sollten darauf achten, dass sich die neue Version signifikant anders im Bezug auf dieses Feature verhält. Die Umstellungsanleitung (migration guide) weist hier auf weitere Details hin.</p>
@@ -1024,13 +1027,13 @@ repo testing
 <!--**Access rights reporting**: Another convenient feature is what happens when you try and just ssh to the server.  Gitolite shows you what repos you have access to, and what that access may be.  Here’s an example:-->
 
 <p><strong>Zugriffsrechte herausfinden</strong>: Ein anderes praktisches Merkmal von Gitolite lernst Du kennen, wenn Du versuchst Dich über SSH auf dem Server einzuloggen. Gitolite zeigt Dir dann alle Repositorys an, auf die Du Zugriff hast und welche Berechtigung Du für diese hast. Hierzu ein Beispiel:</p>
-<pre><code>    hello scott, this is git@git running gitolite3 v3<span class="hljs-number">.01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span><span class="hljs-attribute">-g9609868</span> <span class="hljs-keyword">on</span> git <span class="hljs-number">1.7</span><span class="hljs-number">.4</span><span class="hljs-number">.4</span>
+<pre><code>    hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
-         R     anu<span class="hljs-attribute">-wsd</span>
+         R     anu-wsd
          R     entrans
-         R  W  git<span class="hljs-attribute">-notes</span>
+         R  W  git-notes
          R  W  gitolite
-         R  W  gitolite<span class="hljs-attribute">-admin</span>
+         R  W  gitolite-admin
          R     indic_web_input
          R     shreelipi_converter
 </code></pre><!--**Delegation**: For really large installations, you can delegate responsibility for groups of repositories to various people and have them manage those pieces independently.  This reduces the load on the main admin, and makes him less of a bottleneck.-->
@@ -1057,9 +1060,9 @@ repo testing
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

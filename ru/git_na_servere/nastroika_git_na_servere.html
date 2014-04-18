@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -849,21 +852,21 @@
                         <h1 id="-git-">Настройка Git на сервере</h1>
 <p>Для того чтобы осуществить первоначальную настройку любого Git-сервера, необходимо экспортировать существующий репозиторий в новый &quot;голый&quot; репозиторий, т.е. репозиторий без рабочего каталога. Обычно это несложно сделать.
 Чтобы склонировать ваш репозиторий и создать новый &quot;голый&quot; репозиторий, выполните команду clone с параметром <code>--bare</code>. По существующему соглашению, каталоги с голыми репозиториями заканчиваются на <code>.git</code>, например:</p>
-<pre><code>$ git clone <span class="hljs-comment">--bare my_project my_project.git</span>
-Initialized <span class="hljs-constant">empty</span> Git repository <span class="hljs-operator">in</span> /opt/projects/my_project.git/
+<pre><code>$ git clone --bare my_project my_project.git
+Initialized empty Git repository in /opt/projects/my_project.git/
 </code></pre><p>Вывод этой команды слегка обескураживает. Поскольку <code>clone</code> это по сути <code>git init</code>, а затем <code>git fetch</code>, мы видим вывод от <code>git init</code>, который создаёт пустой каталог. Реальное перемещение объектов не даёт вывода, однако оно действительно происходит. Теперь у вас должна появиться копия данных из каталога Git&#39;а в каталоге <code>my_project.git</code>.</p>
 <p>Это примерно то же самое, что и это:</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> -Rf my_project/<span class="hljs-preprocessor">.git</span> my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ cp -Rf my_project/.git my_project.git
 </code></pre><p>Тут есть пара небольших различий в файле конфигурации, но в вашем случае эту разницу можно считать несущественной. Можно считать, что в этом случае берётся собственно Git-репозиторий без рабочего каталога и создаётся каталог только для него.</p>
 <h2 id="-">Размещение &quot;голого&quot; репозитория на сервере</h2>
 <p>Теперь, когда у вас есть голая копия репозитория, всё, что вам нужно сделать, это поместить её на сервер и настроить протоколы. Условимся, что вы уже настроили сервер <code>git.example.com</code>, имеете к нему доступ по SSH и хотите размещать все свои Git-репозитории в каталоге <code>/opt/git</code>. Вы можете сделать новый репозиторий простым копированием голого репозитория:</p>
-<pre><code>$ scp -r my_project<span class="hljs-preprocessor">.git</span> user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git
+<pre><code>$ scp -r my_project.git user@git.example.com:/opt/git
 </code></pre><p>Теперь другие пользователи, имеющие доступ к серверу по SSH и право на чтение к каталогу <code>/opt/git</code>, могут склонировать ваш репозиторий, выполнив:</p>
-<pre><code>$ git clone user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git/my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone user@git.example.com:/opt/git/my_project.git
 </code></pre><p>Если у пользователя сервера есть право на запись в каталог <code>/opt/git/my_project.git</code>, он автоматически получает возможность отправки изменений в репозиторий. Git автоматически добавит право на запись в репозиторий для группы, если вы запустите команду <code>git init</code> с параметром <code>--shared</code>.</p>
-<pre><code><span class="hljs-variable">$ </span>ssh user<span class="hljs-variable">@git</span>.example.com
-<span class="hljs-variable">$ </span>cd /opt/git/my_project.git
-<span class="hljs-variable">$ </span>git init --bare --shared
+<pre><code>$ ssh user@git.example.com
+$ cd /opt/git/my_project.git
+$ git init --bare --shared
 </code></pre><p>Видите, это просто — взять Git-репозиторий, создать его &quot;голую&quot; версию и поместить её на сервер, к которому у вас и ваших коллег есть доступ по SSH. Теперь вы готовы работать вместе над одним проектом.</p>
 <p>Важно отметить, что это практически всё, что вам нужно сделать, чтобы получить рабочий Git-сервер, к которому несколько человек имеют доступ — просто добавьте учётные записи SSH на сервер, и положите голый репозиторий в место, к которому эти пользователи имеют доступ на чтение и запись. И всё.</p>
 <p>Из нескольких последующих разделов вы узнаете, как получить более сложные конфигурации. В том числе как не создавать учётные записи для каждого пользователя, как сделать публичный доступ на чтение репозитория, как установить веб-интерфейс, как использовать Gitosis, и др. Однако, помните, что для совместной работы пары человек на закрытом проекте, всё, что вам <em>нужно</em> — это SSH-сервер и &quot;голый&quot; репозиторий.</p>
@@ -893,9 +896,9 @@ Initialized <span class="hljs-constant">empty</span> Git repository <span class=
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

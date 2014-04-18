@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.3" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.3" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_655">
+                    <section class="normal" id="section-gitbook_868">
                     
                         <h1 id="r-f-rences-git">Références Git</h1>
 <p>On peut exécuter quelque chose comme <code>git log 1a410e</code> pour visualiser tout l&#39;historique, mais il faut se souvenir que <code>1a410e</code> est le dernier <em>commit</em> afin de parcourir l&#39;historique et trouver tous ces objets.
@@ -852,29 +855,29 @@ Vous avez besoin d&#39;un fichier ayant un nom simple qui contient l&#39;emprein
 <p>Git appelle ces pointeurs des « références », ou « refs ».
 On trouve les fichiers contenant des empreintes SHA-1 dans le répertoire <code>git/refs</code>.
 Dans le projet actuel, ce répertoire ne contient aucun fichier, mais possède une structure simple :</p>
-<pre><code>$ find <span class="hljs-preprocessor">.git</span>/refs
-<span class="hljs-preprocessor">.git</span>/refs
-<span class="hljs-preprocessor">.git</span>/refs/heads
-<span class="hljs-preprocessor">.git</span>/refs/tags
-$ find <span class="hljs-preprocessor">.git</span>/refs -type f
+<pre><code>$ find .git/refs
+.git/refs
+.git/refs/heads
+.git/refs/tags
+$ find .git/refs -type f
 $
 </code></pre><p>Pour créer une nouvelle référence servant à se souvenir du dernier <em>commit</em>, vous pouvez simplement faire ceci :</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">"1a410efbd13591db07496601ebc7a059dd55cfe9"</span> &gt; .git/refs/heads/master
+<pre><code>$ echo &quot;1a410efbd13591db07496601ebc7a059dd55cfe9&quot; &gt; .git/refs/heads/master
 </code></pre><p>Vous pouvez maintenant utiliser la référence principale que vous venez de créer à la place de l&#39;empreinte SHA-1 dans vos commandes Git :</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=oneline  master</span>
-1a410efbd13591db07496601ebc7a059dd55cfe9 third <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> <span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+<pre><code>$ git log --pretty=oneline  master
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>Il n&#39;est pas conseillé d&#39;éditer directement les fichiers des références.
 Git propose une manière sûre de mettre à jour une référence, c&#39;est la commande <code>update-ref</code> :</p>
-<pre><code>$ git update-<span class="hljs-keyword">ref</span> refs/heads/master <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
+<pre><code>$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 </code></pre><p>C&#39;est simplement ce qu&#39;est une branche dans Git : un simple pointeur ou référence sur le dernier état d&#39;une suite de travaux.
 Pour créer une branche à partir du deuxième <em>commit</em>, vous pouvez faire ceci :</p>
-<pre><code>$ git update-<span class="hljs-keyword">ref</span> refs/heads/test cac0ca
+<pre><code>$ git update-ref refs/heads/test cac0ca
 </code></pre><p>Cette branche contiendra seulement le travail effectué jusqu&#39;à ce <em>commit</em> :</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=oneline test</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d second <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+<pre><code>$ git log --pretty=oneline test
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>La base de donnée Git ressemble maintenant à quelque chose comme la figure 9-4.</p>
 <p><img src="http://git-scm.com/figures/18333fig0904-tn.png" alt=""></p>
 <p>Figure 9-4. Le répertoire d&#39;objets de Git y compris la référence au dernier état de la branche.</p>
@@ -885,23 +888,23 @@ La réponse est dans le fichier HEAD (qui veut dire tête en français, soit, ic
 Le fichier HEAD est une référence symbolique à la branche courante.
 Par référence symbolique, j&#39;entends que contrairement à une référence normale, elle ne contient pas une empreinte SHA-1, mais plutôt un pointeur vers une autre référence.
 Si vous regardez ce fichier, vous devriez voir quelque chose comme ceci :</p>
-<pre><code>$ cat <span class="hljs-preprocessor">.git</span>/HEAD
-<span class="hljs-label">ref:</span> refs/heads/master
+<pre><code>$ cat .git/HEAD
+ref: refs/heads/master
 </code></pre><p>Si vous exécutez <code>git checkout test</code>, Git met à jour ce fichier, qui ressemblera à ceci :</p>
-<pre><code>$ cat <span class="hljs-preprocessor">.git</span>/HEAD
-<span class="hljs-label">ref:</span> refs/heads/test
+<pre><code>$ cat .git/HEAD
+ref: refs/heads/test
 </code></pre><p>Quand vous exécutez <code>git commit</code>, il crée l&#39;objet <em>commit</em> en spécifiant le parent du <em>commit</em> comme étant l&#39;empreinte SHA-1 pointé par la référence du fichier HEAD :</p>
 <p>On peut éditer manuellement ce fichier, mais encore une fois, il existe une commande supplémentaire pour le faire : <code>symbolic-ref</code>.
 Vous pouvez lire le contenu de votre fichier HEAD avec cette commande :</p>
-<pre><code>$ git symbolic-<span class="hljs-keyword">ref</span> HEAD
+<pre><code>$ git symbolic-ref HEAD
 refs/heads/master
 </code></pre><p>Vous pouvez aussi initialiser la valeur de HEAD :</p>
-<pre><code>$ git symbolic-<span class="hljs-keyword">ref</span> HEAD refs/heads/test
+<pre><code>$ git symbolic-ref HEAD refs/heads/test
 $ cat .git/HEAD
-<span class="hljs-keyword">ref</span>: refs/heads/test
+ref: refs/heads/test
 </code></pre><p>Vous ne pouvez pas initialiser une référence symbolique à une valeur non contenu dans refs :</p>
-<pre><code>$ git symbolic-<span class="hljs-keyword">ref</span> HEAD test
-fatal: Refusing <span class="hljs-keyword">to</span> point HEAD outside <span class="hljs-keyword">of</span> refs/
+<pre><code>$ git symbolic-ref HEAD test
+fatal: Refusing to point HEAD outside of refs/
 </code></pre><h2 id="-tiquettes">Étiquettes</h2>
 <p>Nous venons de parcourir les trois types d&#39;objets utilisés par Git, mais il existe un quatrième objet.
 L&#39;objet étiquette (<em>tag</em> en anglais) ressemble beaucoup à un objet <em>commit</em>.
@@ -910,45 +913,45 @@ La principale différence est que l&#39;étiquette pointe vers un <em>commit</em
 C&#39;est comme une référence à une branche, mais elle ne bouge jamais : elle pointe toujours vers le même <em>commit</em>, lui donnant un nom plus sympathique.</p>
 <p>Comme présenté au chapitre 2, il existe deux types d&#39;étiquettes : annotée et légère.
 Vous pouvez créer une étiquette légère comme ceci :</p>
-<pre><code>$ git update-<span class="hljs-keyword">ref</span> refs/tags/v1<span class="hljs-number">.0</span> cac0cab538b970a37ea1e769cbbde608743bc96d
+<pre><code>$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 </code></pre><p>C&#39;est tout ce qu&#39;est une étiquette légère : une branche qui n&#39;est jamais modifiée.
 Une étiquette annotée est plus complexe.
 Quand on crée une étiquette annotée, Git crée un objet étiquette, puis enregistre une référence qui pointe vers lui plutôt que directement vers le <em>commit</em>.
 Vous pouvez voir ceci en créant une étiquette annotée (<code>-a</code> spécifie que c&#39;est une étiquette annotée) :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.1</span> <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9 –m <span class="hljs-string">'test tag'</span>
+<pre><code>$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m &#39;test tag&#39;
 </code></pre><p>Voici l&#39;empreinte SHA-1 de l&#39;objet créé :</p>
-<pre><code><span class="hljs-variable">$ </span>cat .git/refs/tags/v1.<span class="hljs-number">1</span>
-<span class="hljs-number">9585191</span>f37f7b0fb9444f35a9bf50de191beadc2
+<pre><code>$ cat .git/refs/tags/v1.1
+9585191f37f7b0fb9444f35a9bf50de191beadc2
 </code></pre><p>Exécutez ensuite, la commande <code>cat-file</code> sur l&#39;empreinte SHA-1 :</p>
-<pre><code>$ git cat<span class="hljs-attribute">-file</span> <span class="hljs-attribute">-p</span> <span class="hljs-number">9585191</span>f37f7b0fb9444f35a9bf50de191beadc2
-object <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
-<span class="hljs-keyword">type</span> commit
-<span class="hljs-built_in">tag</span> v1<span class="hljs-number">.1</span>
-tagger Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gmail<span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span> Sat May <span class="hljs-number">23</span> <span class="hljs-number">16</span>:<span class="hljs-number">48</span>:<span class="hljs-number">58</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0700</span>
+<pre><code>$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
+object 1a410efbd13591db07496601ebc7a059dd55cfe9
+type commit
+tag v1.1
+tagger Scott Chacon &lt;schacon@gmail.com&gt; Sat May 23 16:48:58 2009 -0700
 
-test <span class="hljs-built_in">tag</span>
+test tag
 </code></pre><p>Remarquez que le contenu de l&#39;objet pointe vers l&#39;empreinte SHA-1 du <em>commit</em> que vous avez étiqueté.
 Remarquez qu&#39;il n&#39;est pas nécessaire qu&#39;il pointe vers un <em>commit</em>.
 On peut étiqueter n&#39;importe quel objet.
 Par exemple, dans le code source de Git, le mainteneur a ajouté ses clés GPG dans un blob et l&#39;a étiqueté.
 Vous pouvez voir la clé publique en exécutant :</p>
-<pre><code>$ git cat<span class="hljs-attribute">-file</span> blob junio<span class="hljs-attribute">-gpg</span><span class="hljs-attribute">-pub</span>
+<pre><code>$ git cat-file blob junio-gpg-pub
 </code></pre><p>dans le code source de Git.
 Le noyau Linux contient aussi une étiquette ne pointant pas vers un <em>commit</em> : la première étiquette créée pointe vers l&#39;arbre initial lors de l&#39;importation du code source.</p>
 <h2 id="r-f-rences-distantes">Références distantes</h2>
 <p>Le troisième type de références que l&#39;on étudiera sont les références distantes (<em>remotes</em>).
 Si l&#39;on ajoute une référence distante et que l&#39;on pousse des objets vers elle, Git stocke la valeur que vous avez poussée en dernière vers cette référence pour chaque branche dans le répertoire <code>refs/remotes</code>.
 Vous pouvez par exemple, ajouter une référence distante nommée <code>origin</code> et y pousser votre branche <code>master</code> :</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
-$ git <span class="hljs-keyword">push</span> origin master
-Counting objects: <span class="hljs-number">11</span>, done.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">5</span>/<span class="hljs-number">5</span>), done.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">7</span>/<span class="hljs-number">7</span>), <span class="hljs-number">716</span> bytes, done.
-Total <span class="hljs-number">7</span> (delta <span class="hljs-number">2</span>), reused <span class="hljs-number">4</span> (delta <span class="hljs-number">1</span>)
-To git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
-   a11bef0.<span class="hljs-preprocessor">.ca</span>82a6d  master -&gt; master
+<pre><code>$ git remote add origin git@github.com:schacon/simplegit-progit.git
+$ git push origin master
+Counting objects: 11, done.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (7/7), 716 bytes, done.
+Total 7 (delta 2), reused 4 (delta 1)
+To git@github.com:schacon/simplegit-progit.git
+   a11bef0..ca82a6d  master -&gt; master
 </code></pre><p>Ensuite, vous pouvez voir l&#39;état de la branche <code>master</code> dans la référence distante <code>origin</code> la dernière fois que vous avez communiqué avec le serveur en regardant le fichier <code>refs/remotes/origin/master</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>cat .git/refs/remotes/origin/master
+<pre><code>$ cat .git/refs/remotes/origin/master
 ca82a6dff817ec66f44342007202690a93763949
 </code></pre><p>Les références distantes diffèrent des branches (références <code>refs/heads</code>) principalement parce qu&#39;on ne peut pas les récupérer dans le répertoire de travail.
 Git les modifie comme des marque-pages du dernier état de ces branches sur le serveur.</p>
@@ -970,9 +973,9 @@ Git les modifie comme des marque-pages du dernier état de ces branches sur le s
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

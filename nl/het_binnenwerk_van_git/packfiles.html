@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.4" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.4" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,92 +847,92 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_598">
+                    <section class="normal" id="section-gitbook_670">
                     
                         <h1 id="packfiles">Packfiles</h1>
 <p>Laten we eens terug gaan naar de object-databank van je test Git repository. Op dit punt heb je 11 objecten – 4 blobs, 3 trees, 3 commits en 1 tag:</p>
-<pre><code>$ find <span class="hljs-preprocessor">.git</span>/objects -type f
-<span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">01</span>/<span class="hljs-number">55</span>eb4229851634a0f03eb265b69f5a2d56f341 <span class="hljs-preprocessor"># tree 2</span>
-<span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">1</span>a/<span class="hljs-number">410</span>efbd13591db07496601ebc7a059dd55cfe9 <span class="hljs-preprocessor"># commit 3</span>
-<span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">1</span>f/<span class="hljs-number">7</span>a7a472abf3dd9643fd615f6da379c4acb3e3a <span class="hljs-preprocessor"># test.txt v2</span>
-<span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">3</span>c/<span class="hljs-number">4e9</span>cd789d88d8d89c1073707c3585e41b0e614 <span class="hljs-preprocessor"># tree 3</span>
-<span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">83</span>/baae61804e65cc73a7201a7252750c76066a30 <span class="hljs-preprocessor"># test.txt v1</span>
-<span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">95</span>/<span class="hljs-number">85191</span>f37f7b0fb9444f35a9bf50de191beadc2 <span class="hljs-preprocessor"># tag</span>
-<span class="hljs-preprocessor">.git</span>/objects/ca/c0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-preprocessor"># commit 2</span>
-<span class="hljs-preprocessor">.git</span>/objects/d6/<span class="hljs-number">70460</span>b4b4aece5915caf5c68d12f560a9fe3e4 <span class="hljs-preprocessor"># 'test content'</span>
-<span class="hljs-preprocessor">.git</span>/objects/d8/<span class="hljs-number">329</span>fc1cc938780ffdd9f94e0d364e0ea74f579 <span class="hljs-preprocessor"># tree 1</span>
-<span class="hljs-preprocessor">.git</span>/objects/fa/<span class="hljs-number">49</span>b077972391ad58037050f2a75f74e3671e92 <span class="hljs-preprocessor"># new.txt</span>
-<span class="hljs-preprocessor">.git</span>/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-preprocessor"># commit 1</span>
+<pre><code>$ find .git/objects -type f
+.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
+.git/objects/1a/410efbd13591db07496601ebc7a059dd55cfe9 # commit 3
+.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a # test.txt v2
+.git/objects/3c/4e9cd789d88d8d89c1073707c3585e41b0e614 # tree 3
+.git/objects/83/baae61804e65cc73a7201a7252750c76066a30 # test.txt v1
+.git/objects/95/85191f37f7b0fb9444f35a9bf50de191beadc2 # tag
+.git/objects/ca/c0cab538b970a37ea1e769cbbde608743bc96d # commit 2
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4 # &#39;test content&#39;
+.git/objects/d8/329fc1cc938780ffdd9f94e0d364e0ea74f579 # tree 1
+.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
+.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 </code></pre><p>Git comprimeert de inhoud van deze bestanden met zlib en je slaat maar weinig op, dus nemen deze bestanden samen maar 925 bytes in beslag. Je zult nu wat grotere inhoud toevoegen aan het repository om een interessante eigenschap van Git te demonstreren. Voeg het repo.rb bestand toe van de Grit bibliotheek waaraan je eerder gewerkt hebt, dit is een broncode bestand van ongeveer 12K groot:</p>
-<pre><code><span class="hljs-variable">$ </span>curl <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/github.com/mojombo</span><span class="hljs-regexp">/grit/raw</span><span class="hljs-regexp">/master/lib</span><span class="hljs-regexp">/grit/repo</span>.rb &gt; repo.rb
-<span class="hljs-variable">$ </span>git add repo.rb
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'added repo.rb'</span>
-[master <span class="hljs-number">484</span>a592] added repo.rb
- <span class="hljs-number">3</span> files changed, <span class="hljs-number">459</span> insertions(+), <span class="hljs-number">2</span> deletions(-)
- delete mode <span class="hljs-number">100644</span> bak/test.txt
- create mode <span class="hljs-number">100644</span> repo.rb
- rewrite test.txt (<span class="hljs-number">100</span>%)
+<pre><code>$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb &gt; repo.rb
+$ git add repo.rb
+$ git commit -m &#39;added repo.rb&#39;
+[master 484a592] added repo.rb
+ 3 files changed, 459 insertions(+), 2 deletions(-)
+ delete mode 100644 bak/test.txt
+ create mode 100644 repo.rb
+ rewrite test.txt (100%)
 </code></pre><p>Als je naar de resulterende tree kijkt, kun je zien welke SHA-1 waarde repo.rb gekregen heeft voor het blob object:</p>
 <pre><code>$ git cat-file -p master^{tree}
-<span class="hljs-number">100644</span> blob fa49b077972391ad58037050f2a75f74e3671e92      new<span class="hljs-preprocessor">.txt</span>
-<span class="hljs-number">100644</span> blob <span class="hljs-number">9</span>bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo<span class="hljs-preprocessor">.rb</span>
-<span class="hljs-number">100644</span> blob e3f094f522629ae358806b17daf78246c27c007b      test<span class="hljs-preprocessor">.txt</span>
+100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
+100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
+100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 </code></pre><p>Dan controleer je hoe groot het object is op jouw schijf:</p>
-<pre><code>$ du -b <span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">9</span>b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
-<span class="hljs-number">4102</span>    <span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">9</span>b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
+<pre><code>$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
+4102    .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 </code></pre><p>Pas dat bestand nu eens een beetje aan, en kijk wat er gebeurt:</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'# testing'</span> &gt;&gt; repo.rb
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'modified repo a bit'</span>
+<pre><code>$ echo &#39;# testing&#39; &gt;&gt; repo.rb
+$ git commit -am &#39;modified repo a bit&#39;
 [master ab1afef] modified repo a bit
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Bekijk de tree die door de commit gemaakt is, en je zult iets interessants zien:</p>
 <pre><code>$ git cat-file -p master^{tree}
-<span class="hljs-number">100644</span> blob fa49b077972391ad58037050f2a75f74e3671e92      new<span class="hljs-preprocessor">.txt</span>
-<span class="hljs-number">100644</span> blob <span class="hljs-number">05408</span>d195263d853f09dca71d55116663690c27c      repo<span class="hljs-preprocessor">.rb</span>
-<span class="hljs-number">100644</span> blob e3f094f522629ae358806b17daf78246c27c007b      test<span class="hljs-preprocessor">.txt</span>
+100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
+100644 blob 05408d195263d853f09dca71d55116663690c27c      repo.rb
+100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 </code></pre><p>De blob is nu een andere blob, wat betekent dat, alhoewel je slechts een enkele regel aan het eind van een bestand van 400 regels toegevoegd hebt, Git die nieuwe inhoud als een compleet nieuw object opgeslagen heeft:</p>
-<pre><code>$ du -b <span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">05</span>/<span class="hljs-number">408</span>d195263d853f09dca71d55116663690c27c
-<span class="hljs-number">4109</span>    <span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">05</span>/<span class="hljs-number">408</span>d195263d853f09dca71d55116663690c27c
+<pre><code>$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
+4109    .git/objects/05/408d195263d853f09dca71d55116663690c27c
 </code></pre><p>Je hebt nu twee vrijwel identieke 12K grote objecten op je harde schijf. Zou het niet prettig zijn als Git één van de twee volledig op kon slaan, en het tweede object slechts als delta tussen die en de eerste?</p>
 <p>Dat kan dus. Het initiële formaat waarin Git objecten opslaat op de harde schijf wordt een loose (losse) object formaat genoemd. Maar, eens in de zoveel tijd pakt Git een aantal van die objecten samen in een enkel binair bestand wat een packfile genoemd wordt, om ruimte te besparen en efficiënter te zijn. Git doet dit als je teveel loose objecten rond hebt slingeren, als je het <code>git gc</code> commando handmatig uitvoert, of als je naar een remote server pusht. Om te zien wat er gebeurt, kun je Git handmatig vragen om de objecten in te pakken met het <code>git gc</code> commando:</p>
 <pre><code>$ git gc
-Counting objects: <span class="hljs-number">17</span>, <span class="hljs-keyword">done</span>.
-Delta compression using <span class="hljs-number">2</span> threads.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">13</span>/<span class="hljs-number">13</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">17</span>/<span class="hljs-number">17</span>), <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">17</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">10</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 17, done.
+Delta compression using 2 threads.
+Compressing objects: 100% (13/13), done.
+Writing objects: 100% (17/17), done.
+Total 17 (delta 1), reused 10 (delta 0)
 </code></pre><p>Als je in je objecten directory kijkt, zul je zien dat de meeste objecten verdwenen zijn, en er een aantal nieuwe bestanden verschenen zijn:</p>
-<pre><code>$ find <span class="hljs-preprocessor">.git</span>/objects -type f
-<span class="hljs-preprocessor">.git</span>/objects/<span class="hljs-number">71</span>/<span class="hljs-number">08</span>f7ecb345ee9d0084193f147cdad4d2998293
-<span class="hljs-preprocessor">.git</span>/objects/d6/<span class="hljs-number">70460</span>b4b4aece5915caf5c68d12f560a9fe3e4
-<span class="hljs-preprocessor">.git</span>/objects/info/packs
-<span class="hljs-preprocessor">.git</span>/objects/pack/pack-<span class="hljs-number">7</span>a16e4488ae40c7d2bc56ea2bd43e25212a66c45<span class="hljs-preprocessor">.idx</span>
-<span class="hljs-preprocessor">.git</span>/objects/pack/pack-<span class="hljs-number">7</span>a16e4488ae40c7d2bc56ea2bd43e25212a66c45<span class="hljs-preprocessor">.pack</span>
+<pre><code>$ find .git/objects -type f
+.git/objects/71/08f7ecb345ee9d0084193f147cdad4d2998293
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
+.git/objects/info/packs
+.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
+.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack
 </code></pre><p>De objecten die overgebleven zijn, zijn de blobs waarnaar geen enkel commit wijst - in dit geval zijn het de &quot;what is up, doc?&quot; en de &quot;test content&quot; voorbeeld-blobs die je eerder aangemaakt hebt. Omdat je ze nooit aan een commit toegevoegd hebt, worden ze beschouwd als dangling (rondslingerend) en worden niet in je nieuwe packfile ingepakt.</p>
 <p>De andere bestanden zijn het nieuwe packbestand en een index. Het packbestand is een enkel bestand dat de inhoud bevat van alle objecten die van je bestandssysteem verwijderd zijn. De index is een bestand dat offsets binnen de packfile bevat, zodat je snel naar een specifiek object kunt zoeken. Wat stoer is, is dat waar de objecten op de harde schijf voordat je <code>gc</code> aanriep samen zo&#39;n 8K groot waren, de nieuwe packfile slechts 4K groot is. Je hebt je schijfgebruik gehalveerd door je bestanden in te pakken.</p>
 <p>Hoe doet Git dit? Als Git objecten inpakt, zoekt het naar bestanden die qua naam en grootte gelijk zijn, en slaat slechts de delta&#39;s van de ene versie van het bestand naar de volgende op. Je kunt in de packfile kijken en zien wat Git gedaan heeft om ruimte te besparen. Het <code>git verify-pack</code> plumbing commando stelt je in staat om te zien wat er ingepakt is:</p>
-<pre><code>$ git verify-<span class="hljs-keyword">pack</span> -v \
-  .git/objects/<span class="hljs-keyword">pack</span>/<span class="hljs-keyword">pack</span>-<span class="hljs-number">7</span>a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
-<span class="hljs-number">0155</span>eb4229851634a0f03eb265b69f5a2d56f341 tree   <span class="hljs-number">71</span> <span class="hljs-number">76</span> <span class="hljs-number">5400</span>
-<span class="hljs-number">0540</span>8d195263d853f09dca71d55116663690c27c blob   <span class="hljs-number">12908</span> <span class="hljs-number">3478</span> <span class="hljs-number">874</span>
-09f01cea547666f58d6a8d809583841a7c6f013<span class="hljs-number">0</span> tree   <span class="hljs-number">106</span> <span class="hljs-number">107</span> <span class="hljs-number">5086</span>
-<span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9 commit <span class="hljs-number">225</span> <span class="hljs-number">151</span> <span class="hljs-number">322</span>
-<span class="hljs-number">1</span>f7a7a472abf3dd9643fd615f6da379c4acb3e3a blob   <span class="hljs-number">10</span> <span class="hljs-number">19</span> <span class="hljs-number">5381</span>
-<span class="hljs-number">3</span>c4e9cd789d88d8d89c1073707c3585e41b0e614 tree   <span class="hljs-number">101</span> <span class="hljs-number">105</span> <span class="hljs-number">5211</span>
-<span class="hljs-number">484</span>a59275031909e19aadb7c92262719cfcdf19a commit <span class="hljs-number">226</span> <span class="hljs-number">153</span> <span class="hljs-number">169</span>
-<span class="hljs-number">83</span>baae61804e65cc73a7201a7252750c76066a3<span class="hljs-number">0</span> blob   <span class="hljs-number">10</span> <span class="hljs-number">19</span> <span class="hljs-number">5362</span>
-<span class="hljs-number">9585191</span>f37f7b0fb9444f35a9bf50de191beadc2 tag    <span class="hljs-number">136</span> <span class="hljs-number">127</span> <span class="hljs-number">5476</span>
-<span class="hljs-number">9</span>bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e blob   <span class="hljs-number">7</span> <span class="hljs-number">18</span> <span class="hljs-number">5193</span> <span class="hljs-number">1</span> \
-  <span class="hljs-number">0540</span>8d195263d853f09dca71d55116663690c27c
-ab1afef80fac8e34258ff41fc1b867c702daa24b commit <span class="hljs-number">232</span> <span class="hljs-number">157</span> <span class="hljs-number">12</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d commit <span class="hljs-number">226</span> <span class="hljs-number">154</span> <span class="hljs-number">473</span>
-d8329fc1cc938780ffdd9f94e0d364e0ea74f579 tree   <span class="hljs-number">36</span> <span class="hljs-number">46</span> <span class="hljs-number">5316</span>
-e3f094f522629ae358806b17daf78246c27c007b blob   <span class="hljs-number">1486</span> <span class="hljs-number">734</span> <span class="hljs-number">4352</span>
-f8f51d7d8a1760462eca26eebafde32087499533 tree   <span class="hljs-number">106</span> <span class="hljs-number">107</span> <span class="hljs-number">749</span>
-fa49b077972391ad58037050f2a75f74e3671e92 blob   <span class="hljs-number">9</span> <span class="hljs-number">18</span> <span class="hljs-number">856</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d commit <span class="hljs-number">177</span> <span class="hljs-number">122</span> <span class="hljs-number">627</span>
-chain <span class="hljs-keyword">length</span> = <span class="hljs-number">1</span>: <span class="hljs-number">1</span> object
-<span class="hljs-keyword">pack</span>-<span class="hljs-number">7</span>a16e4488ae40c7d2bc56ea2bd43e25212a66c45.<span class="hljs-keyword">pack</span>: ok
+<pre><code>$ git verify-pack -v \
+  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
+0155eb4229851634a0f03eb265b69f5a2d56f341 tree   71 76 5400
+05408d195263d853f09dca71d55116663690c27c blob   12908 3478 874
+09f01cea547666f58d6a8d809583841a7c6f0130 tree   106 107 5086
+1a410efbd13591db07496601ebc7a059dd55cfe9 commit 225 151 322
+1f7a7a472abf3dd9643fd615f6da379c4acb3e3a blob   10 19 5381
+3c4e9cd789d88d8d89c1073707c3585e41b0e614 tree   101 105 5211
+484a59275031909e19aadb7c92262719cfcdf19a commit 226 153 169
+83baae61804e65cc73a7201a7252750c76066a30 blob   10 19 5362
+9585191f37f7b0fb9444f35a9bf50de191beadc2 tag    136 127 5476
+9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e blob   7 18 5193 1 \
+  05408d195263d853f09dca71d55116663690c27c
+ab1afef80fac8e34258ff41fc1b867c702daa24b commit 232 157 12
+cac0cab538b970a37ea1e769cbbde608743bc96d commit 226 154 473
+d8329fc1cc938780ffdd9f94e0d364e0ea74f579 tree   36 46 5316
+e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4352
+f8f51d7d8a1760462eca26eebafde32087499533 tree   106 107 749
+fa49b077972391ad58037050f2a75f74e3671e92 blob   9 18 856
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d commit 177 122 627
+chain length = 1: 1 object
+pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 </code></pre><p>Hier refereert de <code>9bc1d</code> blob wat, als je dat nog kunt herinneren, de eerste versie is van je repo.rb bestand, aan de <code>05408</code> blob, wat de tweede versie is van het bestand. De derde kolom in de uitvoer is de grootte van het object in het pakket, zodat je kunt zien dat <code>05408</code> 12K van het bestand in beslag neemt maar dat <code>9bc1d</code> slechts 7 bytes in beslag neemt. Wat ook interessant is, is dat de tweede versie van het bestand degene is die intact opgeslagen wordt, terwijl de originele versie als delta opgeslagen wordt - dit is zo gedaan omdat het aannemelijk is dat je snellere toegang nodig hebt tot de meest recente versie van het bestand.</p>
 <p>Het echt prettige van dit alles is, dat het op ieder gewenst moment opnieuw ingepakt kan worden. Git zal op gezette tijden je databank automatisch opnieuw inpakken, omdat het altijd meer ruimte wil besparen. Je kunt ook handmatig opnieuw inpakken op elk gewenst tijdstip, door <code>git gc</code> met de hand uit te voeren.</p>
 
@@ -950,9 +953,9 @@ chain <span class="hljs-keyword">length</span> = <span class="hljs-number">1</sp
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

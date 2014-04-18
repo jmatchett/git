@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="8.2" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="8.2" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_959">
+                    <section class="normal" id="section-gitbook_888">
                     
                         <h1 id="zu-git-umziehen">Zu Git umziehen</h1>
 <!--If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.-->
@@ -875,40 +878,40 @@
 <!--However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:-->
 
 <p>Trotzdem ist der Import nicht perfekt. Und weil das ziemlich lange dauern wird, kannst Du es auch gleich richtig machen. Das erste Problem sind die Informationen über die Autoren. In Subversion besitzt jede Person, die mit dem System arbeitet, einen eigenen User-Account, der in den Commit-Informationen aufgezeichnet wird. Die Beispiele in den vorherigen Abschnitten zeigten dafür manchmal <code>schacon</code> an, wie beispielsweise bei der Ausgabe von <code>blame</code> und bei <code>git svn log</code>. Wenn Du dies näher an die Autoren-Daten von Git binden willst, musst Du Mapping-Informationen für die Subversion-Benutzer und die Git-Autoren anlegen. Erstelle eine Datei mit dem Namen <code>users.txt</code>, die folgendes Mapping-Format verwendet:</p>
-<pre><code>schacon = <span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span> &lt;schacon<span class="hljs-variable">@geemail</span>.com&gt;
-selse = <span class="hljs-constant">Someo</span> <span class="hljs-constant">Nelse</span> &lt;selse<span class="hljs-variable">@geemail</span>.com&gt;
+<pre><code>schacon = Scott Chacon &lt;schacon@geemail.com&gt;
+selse = Someo Nelse &lt;selse@geemail.com&gt;
 </code></pre><!--To get a list of the author names that SVN uses, you can run this:-->
 
 <p>Um eine Liste der Namen der Autoren bekommen, die SVN benutzen, kannst Du folgendes Kommando ausführen:</p>
-<pre><code>$ svn <span class="hljs-keyword">log</span> ^<span class="hljs-subst">/</span> <span class="hljs-subst">--</span><span class="hljs-built_in">xml</span> <span class="hljs-subst">|</span> grep <span class="hljs-attribute">-P</span> <span class="hljs-string">"^&lt;author"</span> <span class="hljs-subst">|</span> sort <span class="hljs-attribute">-u</span> <span class="hljs-subst">|</span> <span class="hljs-subst">\</span>
-      perl <span class="hljs-attribute">-pe</span> <span class="hljs-string">'s/&lt;author&gt;(.*?)&lt;\/author&gt;/$1 = /'</span> <span class="hljs-subst">&gt;</span> users<span class="hljs-built_in">.</span>txt
+<pre><code>$ svn log ^/ --xml | grep -P &quot;^&lt;author&quot; | sort -u | \
+      perl -pe &#39;s/&lt;author&gt;(.*?)&lt;\/author&gt;/$1 = /&#39; &gt; users.txt
 </code></pre><!--That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.-->
 
 <p>Dies erzeugt Dir die Log-Ausgabe im XML-Format — Du suchst damit nach den Autoren, erzeugst eine Liste ohne doppelte Einträge und wirfst anschließend das überflüssige XML weg. Leite anschließend die Ausgabe in die Datei <code>users.txt</code> um, sodass Du jedem Eintrag den entsprechenden Git-Benutzer zuordnen kannst.</p>
 <!--You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `-\-no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:-->
 
 <p>Du kannst diese Datei dann <code>git svn</code> zur Verfügung stellen um das Tool dabei zu unterstützen, die Autoreninformationen besser zu mappen. Du kannst <code>git svn</code> ebenfalls mitteilen, dass es die Metadaten nicht einbeziehen soll, die Subversion normalerweise importiert, indem Du dem <code>clone</code> oder <code>init</code> Kommando die <code>--no-metadata</code>-Option mitgibst.</p>
-<pre><code>$ git svn clone http:<span class="hljs-comment">//my-project.googlecode.com/svn/ \</span>
-      <span class="hljs-subst">--</span>authors<span class="hljs-attribute">-file</span><span class="hljs-subst">=</span>users<span class="hljs-built_in">.</span>txt <span class="hljs-subst">--</span>no<span class="hljs-attribute">-metadata</span> <span class="hljs-attribute">-s</span> my_project
+<pre><code>$ git svn clone http://my-project.googlecode.com/svn/ \
+      --authors-file=users.txt --no-metadata -s my_project
 </code></pre><!--Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this-->
 
 <p>Jetzt solltest Du einen hübscheren Subversion-Import in Deinem <code>my_project</code>-Verzeichnis haben. Statt eines Commit, die so aussehen:</p>
-<pre><code>commit <span class="hljs-number">37</span>efa680e8473b615de980fa935944215428a35a
-<span class="hljs-label">Author:</span> schacon &lt;schacon<span class="hljs-localvars">@4</span>c93b258-<span class="hljs-number">373</span>f-<span class="hljs-number">11</span>de-be05-<span class="hljs-number">5</span>f7a86268029&gt;
-<span class="hljs-label">Date:</span>   Sun May <span class="hljs-number">3</span> <span class="hljs-number">00</span>:<span class="hljs-number">12</span>:<span class="hljs-number">22</span> <span class="hljs-number">2009</span> +<span class="hljs-number">0000</span>
+<pre><code>commit 37efa680e8473b615de980fa935944215428a35a
+Author: schacon &lt;schacon@4c93b258-373f-11de-be05-5f7a86268029&gt;
+Date:   Sun May 3 00:12:22 2009 +0000
 
     fixed install - go to trunk
 
-    git-svn-id: https://my-project<span class="hljs-preprocessor">.googlecode</span><span class="hljs-preprocessor">.com</span>/svn/trunk<span class="hljs-localvars">@94</span> <span class="hljs-number">4</span>c93b258-<span class="hljs-number">373</span>f-<span class="hljs-number">11</span>de-
-    be05-<span class="hljs-number">5</span>f7a86268029
+    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
+    be05-5f7a86268029
 </code></pre><!--they look like this:-->
 
 <p>sehen sie jetzt so aus:</p>
-<pre><code><span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">03</span>a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
+<pre><code>commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 Author: Scott Chacon &lt;schacon@geemail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun May <span class="hljs-number">3</span> <span class="hljs-number">00</span>:<span class="hljs-number">12</span>:<span class="hljs-number">22</span> <span class="hljs-number">2009</span> +<span class="hljs-number">0000</span>
+Date:   Sun May 3 00:12:22 2009 +0000
 
-    fixed install - <span class="hljs-keyword">go</span> <span class="hljs-keyword">to</span> trunk</span>
+    fixed install - go to trunk
 </code></pre><!--Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.-->
 
 <p>Nicht nur das Autoren-Feld sieht jetzt wesentlich besser aus. Auch die <code>git-svn-id</code> wird jetzt nicht mehr gebraucht.</p>
@@ -918,22 +921,22 @@ Author: Scott Chacon &lt;schacon@geemail.com&gt;
 <!--To move the tags to be proper Git tags, run-->
 
 <p>Um die Tags so zu verschieben, dass sie echte Git-Tags werden, führst Du folgenden Befehl aus:</p>
-<pre><code>$ git <span class="hljs-keyword">for</span>-each-ref refs/remotes/tags | cut <span class="hljs-operator">-d</span> / <span class="hljs-operator">-f</span> <span class="hljs-number">4</span>- | grep -v @ | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> tagname; <span class="hljs-keyword">do</span> git tag <span class="hljs-string">"<span class="hljs-variable">$tagname</span>"</span> <span class="hljs-string">"tags/<span class="hljs-variable">$tagname</span>"</span>; git branch -r <span class="hljs-operator">-d</span> <span class="hljs-string">"tags/<span class="hljs-variable">$tagname</span>"</span>; <span class="hljs-keyword">done</span>
+<pre><code>$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag &quot;$tagname&quot; &quot;tags/$tagname&quot;; git branch -r -d &quot;tags/$tagname&quot;; done
 </code></pre><!--This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.-->
 
 <p>Das nimmt die Referenzen, die vorher Remote-Zweige waren, die mit <code>tag/</code> begonnen haben und macht aus ihnen echte (leichtgewichtige) Tags.</p>
 <!--Next, move the rest of the references under `refs/remotes` to be local branches:-->
 
 <p>Als nächstes verschieben wir den Rest der Referenzen aus <code>refs/remotes</code> und machen lokale Zweige daraus:</p>
-<pre><code>$ git <span class="hljs-keyword">for</span>-each-ref refs/remotes | cut <span class="hljs-operator">-d</span> / <span class="hljs-operator">-f</span> <span class="hljs-number">3</span>- | grep -v @ | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> branchname; <span class="hljs-keyword">do</span> git branch <span class="hljs-string">"<span class="hljs-variable">$branchname</span>"</span> <span class="hljs-string">"refs/remotes/<span class="hljs-variable">$branchname</span>"</span>; git branch -r <span class="hljs-operator">-d</span> <span class="hljs-string">"<span class="hljs-variable">$branchname</span>"</span>; <span class="hljs-keyword">done</span>
+<pre><code>$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch &quot;$branchname&quot; &quot;refs/remotes/$branchname&quot;; git branch -r -d &quot;$branchname&quot;; done
 </code></pre><!--Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Here is an example of adding your server as a remote:-->
 
 <p>Jetzt sind alle alten Zweige richtige Git-Zweige geworden und alle alten Tags sind echte Git-Tags. Als letztes müssen wir den neuen Git-Server noch als entfernten Server einrichten und unsere Änderungen zu ihm pushen. Da wir alle Zweige und Tags einbeziehen wollen, kannst Du diesen Befehl verwenden:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote add origin git<span class="hljs-variable">@my</span>-git-<span class="hljs-symbol">server:</span>myrepository.git
+<pre><code>$ git remote add origin git@my-git-server:myrepository.git
 </code></pre><!--Because you want all your branches and tags to go up, you can now run this:-->
 
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">push</span> <span class="hljs-comment">origin</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">all</span>
-<span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">push</span> <span class="hljs-comment">origin</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">tags</span>
+<pre><code>$ git push origin --all
+$ git push origin --tags
 </code></pre><!--All your branches and tags should be on your new Git server in a nice, clean import.-->
 
 <p>All Deine Zweige und Tags sollten jetzt in Deinem neuen Git-Server in einem schicken, sauberen Import vorhanden sein.</p>
@@ -943,68 +946,68 @@ Author: Scott Chacon &lt;schacon@geemail.com&gt;
 <!--The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git. If you have a version of Git earlier than 1.7.11, then the importer is only available in the `contrib` section of the source code. In that case you must get the Git source code, which you can download from git.kernel.org:-->
 
 <p>Das nächste System, dass wir zum Importieren anschauen werden, ist Perforce. Ein Import-Werkzeug für Perforce wird ebenfalls mit Git mitgeliefert, allerdings nur im <code>contrib</code>-Bereich des Quellcodes — es ist nicht wie <code>git svn</code> standardmäßig verfügbar. Um es auszuführen, musst Du den Git-Quellcode von <code>git.kernel.org</code> herunterladen:</p>
-<pre><code>$ git clone git://git<span class="hljs-preprocessor">.kernel</span><span class="hljs-preprocessor">.org</span>/pub/scm/git/git<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 $ cd git/contrib/fast-import
 </code></pre><!--In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:-->
 
 <p>In diesem <code>fast-import</code> Verzeichnis wirst Du ein ausführbares Python-Skript mit dem Namen <code>git-p4</code> finden. Du musst Python sowie das <code>p4</code>-Werkzeug auf Deiner Maschine installiert haben, damit der Import klappt. Als Beispiel werden wir das Jam-Projekt aus dem Perforce Public Depot verwenden. Um den Client einzurichten, musst Du die P4PORT-Umgebungsvariable exportieren und sie auf das Perforce-Depot einstellen:</p>
-<pre><code>$ <span class="hljs-keyword">export</span> P4PORT=<span class="hljs-keyword">public</span>.perforce.com:<span class="hljs-number">1666</span>
+<pre><code>$ export P4PORT=public.perforce.com:1666
 </code></pre><!--Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:-->
 
 <p>Führe den <code>git-p4 clone</code>-Befehl aus, um das Jam-Projekt aus dem Perforce-Server zu importieren. Dazu gibst Du den Depot- und Projekt-Pfad sowie den Pfad an, in den Du das Projekt importieren willst:</p>
-<pre><code>$ git<span class="hljs-attribute">-p4</span> clone <span class="hljs-comment">//public/jam/src@all /opt/p4import</span>
-Importing from <span class="hljs-comment">//public/jam/src@all into /opt/p4import</span>
-Reinitialized existing Git repository <span class="hljs-keyword">in</span> /opt/p4import<span class="hljs-subst">/</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">/</span>
-<span class="hljs-keyword">Import</span> destination: refs/remotes/p4/master
-Importing revision <span class="hljs-number">4409</span> (<span class="hljs-number">100</span><span class="hljs-subst">%</span>)
+<pre><code>$ git-p4 clone //public/jam/src@all /opt/p4import
+Importing from //public/jam/src@all into /opt/p4import
+Reinitialized existing Git repository in /opt/p4import/.git/
+Import destination: refs/remotes/p4/master
+Importing revision 4409 (100%)
 </code></pre><!--If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:-->
 
 <p>Wenn Du zum <code>/opt/p4import</code>-Verzeichnis wechselst und dann <code>git log</code> ausführst, kannst Du sehen, dass Dein Import funktioniert hat:</p>
 <pre><code>$ git log -2
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">1</span>fd4ec126171790efd2db83548b85b1bbbc07dc2
+commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
 Author: Perforce staff &lt;support@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu Aug <span class="hljs-number">19</span> <span class="hljs-number">10</span>:<span class="hljs-number">18</span>:<span class="hljs-number">45</span> <span class="hljs-number">2004</span> -<span class="hljs-number">0800</span>
+Date:   Thu Aug 19 10:18:45 2004 -0800
 
-    <span class="hljs-keyword">Drop</span> <span class="hljs-string">'rc3'</span> moniker <span class="hljs-keyword">of</span> jam-<span class="hljs-number">2.5</span>.  Folded rc2 <span class="hljs-keyword">and</span> rc3 RELNOTES <span class="hljs-keyword">into</span>
-    the main part <span class="hljs-keyword">of</span> the document.  Built new tar/zip balls.
+    Drop &#39;rc3&#39; moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+    the main part of the document.  Built new tar/zip balls.
 
-    <span class="hljs-keyword">Only</span> <span class="hljs-number">16</span> months later.
+    Only 16 months later.
 
-    [git-p4: depot-paths = <span class="hljs-string">"//public/jam/src/"</span>: change = <span class="hljs-number">4409</span>]
+    [git-p4: depot-paths = &quot;//public/jam/src/&quot;: change = 4409]
 
-<span class="hljs-keyword">commit</span> ca8870db541a23ed867f38847eda65bf4363371d
+commit ca8870db541a23ed867f38847eda65bf4363371d
 Author: Richard Geiger &lt;rmg@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Apr <span class="hljs-number">22</span> <span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">34</span> <span class="hljs-number">2003</span> -<span class="hljs-number">0800</span>
+Date:   Tue Apr 22 20:51:34 2003 -0800
 
-    <span class="hljs-keyword">Update</span> derived jamgram.c
+    Update derived jamgram.c
 
-    [git-p4: depot-paths = <span class="hljs-string">"//public/jam/src/"</span>: change = <span class="hljs-number">3108</span>]</span>
+    [git-p4: depot-paths = &quot;//public/jam/src/&quot;: change = 3108]
 </code></pre><!--You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:-->
 
 <p>Du kannst die <code>git-p4</code>-ID bei jedem Commit sehen. Es ist OK, diese ID hier zu behalten, falls Du später noch mal einen Bezug zu der Perforce-Änderung herstellen musst. Falls Du die ID entfernen willst, ist jetzt Zeit dazu — bevor Du mit der Arbeit an dem neuen Repository beginnst. Du kannst <code>git filter-branch</code> benutzen um all die IDs zu entfernen:</p>
-<pre><code>$ git filter-branch --msg-filter <span class="hljs-comment">'</span>
-        sed -e <span class="hljs-string">"/^\[git-p4:/d"</span>
-<span class="hljs-comment">'</span>
-Rewrite <span class="hljs-number">1</span>fd4ec126171790efd2db83548b85b1bbbc07dc2 (<span class="hljs-number">123</span>/<span class="hljs-number">123</span>)
-Ref <span class="hljs-comment">'refs/heads/master' was rewritten</span>
+<pre><code>$ git filter-branch --msg-filter &#39;
+        sed -e &quot;/^\[git-p4:/d&quot;
+&#39;
+Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><!--If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:-->
 
 <p>Wenn Du <code>git log</code> ausführst, kannst Du alle SHA1-Prüfsummen für jene Commits sehen, die sich geändert haben, aber die <code>git-p4</code>-Zeichenketten sind nicht mehr in den Commit-Nachrichten vorhanden.</p>
 <pre><code>$ git log -2
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">10</span>a16d60cffca14d454a15c6164378f4082bc5b0
+commit 10a16d60cffca14d454a15c6164378f4082bc5b0
 Author: Perforce staff &lt;support@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Thu Aug <span class="hljs-number">19</span> <span class="hljs-number">10</span>:<span class="hljs-number">18</span>:<span class="hljs-number">45</span> <span class="hljs-number">2004</span> -<span class="hljs-number">0800</span>
+Date:   Thu Aug 19 10:18:45 2004 -0800
 
-    <span class="hljs-keyword">Drop</span> <span class="hljs-string">'rc3'</span> moniker <span class="hljs-keyword">of</span> jam-<span class="hljs-number">2.5</span>.  Folded rc2 <span class="hljs-keyword">and</span> rc3 RELNOTES <span class="hljs-keyword">into</span>
-    the main part <span class="hljs-keyword">of</span> the document.  Built new tar/zip balls.
+    Drop &#39;rc3&#39; moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+    the main part of the document.  Built new tar/zip balls.
 
-    <span class="hljs-keyword">Only</span> <span class="hljs-number">16</span> months later.
+    Only 16 months later.
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">2</span>b6c6db311dd76c34c66ec1c40a49405e6b527b2
+commit 2b6c6db311dd76c34c66ec1c40a49405e6b527b2
 Author: Richard Geiger &lt;rmg@perforce.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Apr <span class="hljs-number">22</span> <span class="hljs-number">20</span>:<span class="hljs-number">51</span>:<span class="hljs-number">34</span> <span class="hljs-number">2003</span> -<span class="hljs-number">0800</span>
+Date:   Tue Apr 22 20:51:34 2003 -0800
 
-    <span class="hljs-keyword">Update</span> derived jamgram.c</span>
+    Update derived jamgram.c
 </code></pre><!--Your import is ready to push up to your new Git server.-->
 
 <p>Dein Import ist jetzt so weit, dass Du ihn auf den neuen Git-Server pushen kannst.</p>
@@ -1017,7 +1020,7 @@ Author: Richard Geiger &lt;rmg@perforce.com&gt;
 <!--To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:-->
 
 <p>Um das kurz zu zeigen, schreiben wir einen einfachen Importer. Nehmen wir an, Du arbeitest im Verzeichnis <code>current</code> und führst ab und an ein Backup durch, indem Du dieses Verzeichnis in ein Backup-Verzeichnis kopierst und ihm einen anderen Namen mit einem Zeitstempel, z. B. <code>back_YYYY_MM_DD</code>, verpasst. Diese Struktur wollen wir jetzt in Git importieren. Dein Verzeichnis sieht also so aus:</p>
-<pre><code><span class="hljs-variable">$ </span>ls /opt/import_from
+<pre><code>$ ls /opt/import_from
 back_2009_01_02
 back_2009_01_04
 back_2009_01_14
@@ -1034,179 +1037,179 @@ current
 <p>Zu Beginn musst Du in das Zielverzeichnis wechseln und jedes Unterverzeichnis identifizieren, das ein Snapshot ist, den Du als Commit importieren willst. Du wirst in jedes dieser Unterverzeichnisse wechseln und den entsprechenden Befehl auszugeben um es zu exportieren. Deine Schleife wird etwa so aussehen:</p>
 <pre><code>last_mark = nil
 
-<span class="hljs-comment"># loop through the directories</span>
-Dir.chdir(ARGV[<span class="hljs-number">0</span>]) <span class="hljs-built_in">do</span>
-  Dir.glob(<span class="hljs-string">"*"</span>).<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |dir|
-    next <span class="hljs-keyword">if</span> File.<span class="hljs-built_in">file</span>?(dir)
+# loop through the directories
+Dir.chdir(ARGV[0]) do
+  Dir.glob(&quot;*&quot;).each do |dir|
+    next if File.file?(dir)
 
-    <span class="hljs-comment"># move into the target directory</span>
-    Dir.chdir(dir) <span class="hljs-built_in">do</span>
+    # move into the target directory
+    Dir.chdir(dir) do
       last_mark = print_export(dir, last_mark)
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+    end
+  end
+end
 </code></pre><!--You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:-->
 
 <p>Du führst <code>print_export</code> für jedes Verzeichnis aus. Das nimmt das Manifest und die Markierung des letzten Snapshots entgegen und gibt das Manifest und die Markierung des aktuellen zurück; auf diese Weise kannst Du sie passend verlinken. „Mark“ ist der <code>fast-import</code>-Begriff für eine ID, die Du einem Commit gibst. Während Du Commits anlegst, verpasst Du jedem einzelnen eine Markierung, die Du benutzen kannst, um von anderen Commits zu ihm zu linken. Daher ist das erste, was Deine <code>print_export</code>-Methode macht, eine Markierung aus dem Verzeichnisnamen zu erstellen:</p>
-<pre><code><span class="hljs-attribute">mark </span>=<span class="hljs-string"> convert_dir_to_mark(dir)</span>
+<pre><code>mark = convert_dir_to_mark(dir)
 </code></pre><!--You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:-->
 
 <p>Das erreichst Du, indem Du ein Array von Verzeichnissen anlegst und den Index-Wert als Markierung verwendest (eine Markierung muss vom Typ <code>integer</code> sein). Deine Methode sieht so aus:</p>
-<pre><code><span class="hljs-variable">$marks</span> = []
-<span class="hljs-function"><span class="hljs-keyword">def</span> </span>convert_dir_to_mark(dir)
-  <span class="hljs-keyword">if</span> !<span class="hljs-variable">$marks</span>.<span class="hljs-keyword">include</span>?(dir)
-    <span class="hljs-variable">$marks</span> &lt;&lt; dir
-  <span class="hljs-keyword">end</span>
-  (<span class="hljs-variable">$marks</span>.index(dir) + <span class="hljs-number">1</span>).to_s
-<span class="hljs-keyword">end</span>
+<pre><code>$marks = []
+def convert_dir_to_mark(dir)
+  if !$marks.include?(dir)
+    $marks &lt;&lt; dir
+  end
+  ($marks.index(dir) + 1).to_s
+end
 </code></pre><!--Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is-->
 
 <p>Jetzt hast Du eine <code>integer</code>-Repräsentation Deines Commits und brauchst nur noch ein Datum für die Commit-Metadaten. Da das Datum im Verzeichnisnamen enthalten ist, parsen wir es einfach daraus. Die nächste Zeile in Deiner <code>print_export</code>-Datei lautet</p>
-<pre><code><span class="hljs-attribute">date </span>=<span class="hljs-string"> convert_dir_to_date(dir)</span>
+<pre><code>date = convert_dir_to_date(dir)
 </code></pre><!--where `convert_dir_to_date` is defined as-->
 
 <p>wobei <code>convert_dir_to_date</code> so definiert ist:</p>
 <pre><code>def convert_dir_to_date(dir)
-  <span class="hljs-keyword">if</span> dir == <span class="hljs-string">'current'</span>
-    <span class="hljs-constant">return</span> Time.now().to_i
-  <span class="hljs-keyword">else</span>
-    dir = dir.gsub(<span class="hljs-string">'back_'</span>, <span class="hljs-string">''</span>)
-    (year, month, day) = dir.<span class="hljs-built_in">split</span>(<span class="hljs-string">'_'</span>)
-    <span class="hljs-constant">return</span> Time.<span class="hljs-built_in">local</span>(year, month, day).to_i
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  if dir == &#39;current&#39;
+    return Time.now().to_i
+  else
+    dir = dir.gsub(&#39;back_&#39;, &#39;&#39;)
+    (year, month, day) = dir.split(&#39;_&#39;)
+    return Time.local(year, month, day).to_i
+  end
+end
 </code></pre><!--That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable:-->
 
 <p>Die Funktion gibt einen Integer-Wert für das Datum eines jeden Verzeichnisses zurück. Das letzte Stück Meta-Information, das wir noch für jeden Commit brauchen, sind die Commit-Daten des Autors, die wir in eine globale Variable packen:</p>
-<pre><code><span class="hljs-variable">$author</span> = <span class="hljs-string">'Scott Chacon &lt;schacon@example.com&gt;'</span>
+<pre><code>$author = &#39;Scott Chacon &lt;schacon@example.com&gt;&#39;
 </code></pre><!--Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this:-->
 
 <p>Jetzt können wir damit beginnen, die Commit-Daten für den Importer auszugeben. Die ursprüngliche Information gibt an, dass Du ein Commit-Objekt definierst und zu welchem Branch es gehört, gefolgt von der Markierung, die Du angelegt hast, der Committer-Information und der Commit-Nachricht und schließlich der ID des vorhergehenden Commits, falls dieser existiert. Der Code sieht wie folgt aus:</p>
-<pre><code><span class="hljs-comment"># print the import information</span>
-puts <span class="hljs-string">'commit refs/heads/master'</span>
-puts <span class="hljs-string">'mark :'</span> + mark
-puts <span class="hljs-string">"committer <span class="hljs-subst">#{<span class="hljs-variable">$author</span>}</span> <span class="hljs-subst">#{date}</span> -0700"</span>
-export_data(<span class="hljs-string">'imported from '</span> + dir)
-puts <span class="hljs-string">'from :'</span> + last_mark <span class="hljs-keyword">if</span> last_mark
+<pre><code># print the import information
+puts &#39;commit refs/heads/master&#39;
+puts &#39;mark :&#39; + mark
+puts &quot;committer #{$author} #{date} -0700&quot;
+export_data(&#39;imported from &#39; + dir)
+puts &#39;from :&#39; + last_mark if last_mark
 </code></pre><p>You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset.
 The commit message must be expressed in a special format:</p>
-<pre><code><span class="hljs-typedef"><span class="hljs-keyword">data</span> <span class="hljs-container">(<span class="hljs-title">size</span>)</span>\n<span class="hljs-container">(<span class="hljs-title">contents</span>)</span></span>
+<pre><code>data (size)\n(contents)
 </code></pre><p>The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, <code>export_data</code>:</p>
-<pre><code><span class="hljs-function"><span class="hljs-keyword">def</span> </span>export_data(string)
-  print <span class="hljs-string">"data <span class="hljs-subst">#{string.size}</span>\n<span class="hljs-subst">#{string}</span>"</span>
-<span class="hljs-keyword">end</span>
+<pre><code>def export_data(string)
+  print &quot;data #{string.size}\n#{string}&quot;
+end
 </code></pre><!--All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately:-->
 
 <p>Alles, was jetzt noch übrig bleibt, ist das Feststellen des Dateiinhalts eines jeden Snapshots. Das ist einfach, weil Du jeden davon in einem Verzeichnis hast — Du kannst das <code>deleteall</code>-Kommando ausgeben, gefolgt von den Inhalten einer jeden Datei in dem Verzeichnis. Git wird dann jeden Snapshot entsprechend aufzeichnen:</p>
-<pre><code>puts <span class="hljs-string">'deleteall'</span>
-Dir.glob(<span class="hljs-string">"**/*"</span>).<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |<span class="hljs-built_in">file</span>|
-  next <span class="hljs-keyword">if</span> !File.<span class="hljs-built_in">file</span>?(<span class="hljs-built_in">file</span>)
-  inline_data(<span class="hljs-built_in">file</span>)
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+<pre><code>puts &#39;deleteall&#39;
+Dir.glob(&quot;**/*&quot;).each do |file|
+  next if !File.file?(file)
+  inline_data(file)
+end
 </code></pre><!--Note:    Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner.-->
 
 <p>Anmerkung:    Da viele Systeme ihre Revisionen als Änderungen von einem Commit zu einem anderen betrachten, kann <code>fast-import</code> auch mit jedem Commit Kommandos entgegennehmen, die angeben, welche Dateien geändert, entfernt oder verändert wurden und was der neue Inhalt ist. Wir könnten die Unterschiede zwischen den Snapshots berechnen und nur diese Daten bereitstellen, aber das zu tun ist komplizierter — Du kannst Git auch einfach alle Daten füttern und es kümmert sich dann darum. Wenn dieses Vorgehen eher zu Deinen Daten passt, schau Dir die <code>fast-import</code> man-Seite an, um Details darüber zu erfahren, wie diese Daten dafür bereitgestellt werden müssen.</p>
 <!--The format for listing the new file contents or specifying a modified file with the new contents is as follows:-->
 
 <p>Das Format, in dem die Inhalte einer neuen Datei oder in eine geänderte Datei mit ihrem neuen Inhalt angegeben werden, sieht wie folgt aus:</p>
-<pre><code>M <span class="hljs-number">644</span> <span class="hljs-keyword">inline</span> path/<span class="hljs-keyword">to</span>/<span class="hljs-keyword">file</span>
+<pre><code>M 644 inline path/to/file
 data (size)
-(<span class="hljs-keyword">file</span> contents)
+(file contents)
 </code></pre><!--Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this:-->
 
 <p>In diesem Beispiel ist 644 der Datei-Modus (wenn Du ausführbare Dateien hast, wirst Du möglicherweise 755 sehen bzw. einstellen), und inline gibt an, dass Du die Inhalte direkt im Anschluss an diese Zeile aufführen wirst. Deine <code>inline_data</code>-Methode sieht so aus:</p>
-<pre><code><span class="hljs-function"><span class="hljs-keyword">def</span> </span>inline_data(file, code = <span class="hljs-string">'M'</span>, mode = <span class="hljs-string">'644'</span>)
-  content = <span class="hljs-constant">File</span>.read(file)
-  puts <span class="hljs-string">"<span class="hljs-subst">#{code}</span> <span class="hljs-subst">#{mode}</span> inline <span class="hljs-subst">#{file}</span>"</span>
+<pre><code>def inline_data(file, code = &#39;M&#39;, mode = &#39;644&#39;)
+  content = File.read(file)
+  puts &quot;#{code} #{mode} inline #{file}&quot;
   export_data(content)
-<span class="hljs-keyword">end</span>
+end
 </code></pre><!--You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data.-->
 
 <p>Du kannst die <code>export_data</code>-Methode, die Du vorher definiert hast, wiederverwenden, da wir das auf die gleiche Weise lösen, wie wir die Daten für die Commit-Nachrichten aufbereitet haben.</p>
 <!--The last thing you need to do is to return the current mark so it can be passed to the next iteration:-->
 
 <p>Das letzte, das wir jetzt noch machen müssen, ist, die gegenwärtige Marke zurückzugeben, damit sie an den nächsten Durchlauf übergeben werden kann.</p>
-<pre><code><span class="hljs-keyword">return</span> mark
+<pre><code>return mark
 </code></pre><!--NOTE: If you are running on Windows you’ll need to make sure that you add one extra step. As mentioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:-->
 
-<pre><code><span class="hljs-variable">$stdout</span>.<span class="hljs-keyword">binmode</span>
+<pre><code>$stdout.binmode
 </code></pre><!--That’s it. If you run this script, you’ll get content that looks something like this:-->
 
 <p>Das ist alles. Wenn Du diese Skript laufen lässt, wirst Du eine Ausgabe erhalten, die etwa wie folgt aussieht:</p>
 <pre><code>$ ruby import.rb /opt/import_from
 commit refs/heads/master
-mark :<span class="hljs-number">1</span>
-committer Scott Chacon &lt;schacon@geemail.com&gt; <span class="hljs-number">1230883200</span> -<span class="hljs-number">0700</span>
-data <span class="hljs-number">29</span>
-imported <span class="hljs-built_in">from</span> back_2009_01_02deleteall
-M <span class="hljs-number">644</span> inline <span class="hljs-built_in">file</span>.rb
-data <span class="hljs-number">12</span>
-<span class="hljs-built_in">version</span> <span class="hljs-constant">two</span>
+mark :1
+committer Scott Chacon &lt;schacon@geemail.com&gt; 1230883200 -0700
+data 29
+imported from back_2009_01_02deleteall
+M 644 inline file.rb
+data 12
+version two
 commit refs/heads/master
-mark :<span class="hljs-number">2</span>
-committer Scott Chacon &lt;schacon@geemail.com&gt; <span class="hljs-number">1231056000</span> -<span class="hljs-number">0700</span>
-data <span class="hljs-number">29</span>
-imported <span class="hljs-built_in">from</span> back_2009_01_04from :<span class="hljs-number">1</span>
+mark :2
+committer Scott Chacon &lt;schacon@geemail.com&gt; 1231056000 -0700
+data 29
+imported from back_2009_01_04from :1
 deleteall
-M <span class="hljs-number">644</span> inline <span class="hljs-built_in">file</span>.rb
-data <span class="hljs-number">14</span>
-<span class="hljs-built_in">version</span> <span class="hljs-constant">three</span>
-M <span class="hljs-number">644</span> inline <span class="hljs-built_in">new</span>.rb
-data <span class="hljs-number">16</span>
-<span class="hljs-built_in">new</span> <span class="hljs-built_in">version</span> <span class="hljs-constant">one</span>
+M 644 inline file.rb
+data 14
+version three
+M 644 inline new.rb
+data 16
+new version one
 (...)
 </code></pre><!--To run the importer, pipe this output through `git fast-import` while in the Git repository you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script:-->
 
 <p>Um den Importer zu starten, leite die Ausgabe durch eine Pipe zu <code>git fast-import</code> weiter — während Du im Git Verzeichnis befindest, in das Du importieren willst. Zum Anfang kannst Du ein neues Verzeichnis anlegen, darin <code>git init</code> laufen lassen und anschließend das Skript starten:</p>
 <pre><code>$ git init
-Initialized empty Git repository in /opt/import<span class="hljs-emphasis">_to/.git/
-$ ruby import.rb /opt/import_</span>from | git fast-import
-<span class="hljs-header">git-fast-import statistics:
----------------------------------------------------------------------</span>
-Alloc'd objects:       5000
+Initialized empty Git repository in /opt/import_to/.git/
+$ ruby import.rb /opt/import_from | git fast-import
+git-fast-import statistics:
+---------------------------------------------------------------------
+Alloc&#39;d objects:       5000
 Total objects:           18 (         1 duplicates                  )
-<span class="hljs-code">      blobs  :            7 (         1 duplicates          0 deltas)</span>
-<span class="hljs-code">      trees  :            6 (         0 duplicates          1 deltas)</span>
-<span class="hljs-code">      commits:            5 (         0 duplicates          0 deltas)</span>
-<span class="hljs-code">      tags   :            0 (         0 duplicates          0 deltas)</span>
+      blobs  :            7 (         1 duplicates          0 deltas)
+      trees  :            6 (         0 duplicates          1 deltas)
+      commits:            5 (         0 duplicates          0 deltas)
+      tags   :            0 (         0 duplicates          0 deltas)
 Total branches:           1 (         1 loads     )
-<span class="hljs-code">      marks:           1024 (         5 unique    )</span>
-<span class="hljs-code">      atoms:              3</span>
+      marks:           1024 (         5 unique    )
+      atoms:              3
 Memory total:          2255 KiB
-<span class="hljs-code">       pools:          2098 KiB</span>
-<span class="hljs-header">     objects:           156 KiB
----------------------------------------------------------------------</span>
-pack<span class="hljs-emphasis">_report: getpagesize()            =       4096
-pack_</span>report: core.packedGitWindowSize =   33554432
-pack<span class="hljs-emphasis">_report: core.packedGitLimit      =  268435456
-pack_</span>report: pack<span class="hljs-emphasis">_used_</span>ctr            =          9
-pack<span class="hljs-emphasis">_report: pack_</span>mmap<span class="hljs-emphasis">_calls          =          5
-pack_</span>report: pack<span class="hljs-emphasis">_open_</span>windows        =          1 /          1
-<span class="hljs-header">pack_report: pack_mapped              =       1356 /       1356
----------------------------------------------------------------------</span>
+       pools:          2098 KiB
+     objects:           156 KiB
+---------------------------------------------------------------------
+pack_report: getpagesize()            =       4096
+pack_report: core.packedGitWindowSize =   33554432
+pack_report: core.packedGitLimit      =  268435456
+pack_report: pack_used_ctr            =          9
+pack_report: pack_mmap_calls          =          5
+pack_report: pack_open_windows        =          1 /          1
+pack_report: pack_mapped              =       1356 /       1356
+---------------------------------------------------------------------
 </code></pre><!--As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history:-->
 
 <p>Wie Du sehen kannst, werden Dir eine Menge Statistiken über den erreichten Erfolg angezeigt. In diesem Beispiel haben wir insgesamt 18 Objekte für 5 Commits in einen Zweig importiert. Jetzt kannst Du <code>git log</code> ausführen, um die neue History einzusehen:</p>
 <pre><code>$ git log -2
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">10</span>bfe7d22ce15ee25b60a824c8982157ca593d41
+commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
 Author: Scott Chacon &lt;schacon@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun May <span class="hljs-number">3</span> <span class="hljs-number">12</span>:<span class="hljs-number">57</span>:<span class="hljs-number">39</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Sun May 3 12:57:39 2009 -0700
 
-    imported <span class="hljs-keyword">from</span> <span class="hljs-keyword">current</span>
+    imported from current
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">7e519590</span>de754d079dd73b44d695a42c9d2df452
+commit 7e519590de754d079dd73b44d695a42c9d2df452
 Author: Scott Chacon &lt;schacon@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Feb <span class="hljs-number">3</span> <span class="hljs-number">01</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Date:   Tue Feb 3 01:00:00 2009 -0700
 
-    imported <span class="hljs-keyword">from</span> back_2009_02_03</span>
+    imported from back_2009_02_03
 </code></pre><!--There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now:-->
 
 <p>Na also — jetzt haben wir ein schickes, sauberes Git-Repository. Dabei ist es wichtig, dass noch nichts ausgecheckt ist — zu Beginn hast Du keinerlei Dateien in Deinem Arbeitsverzeichnis. Um an sie heran zu kommen, musst Du Deinen Zweig dahin zurücksetzen, wo sich <code>master</code> gerade befindet:</p>
 <pre><code>$ ls
-$ git reset <span class="hljs-comment">--hard master</span>
-HEAD <span class="hljs-keyword">is</span> now <span class="hljs-keyword">at</span> <span class="hljs-number">10</span>bfe7d imported <span class="hljs-keyword">from</span> current
+$ git reset --hard master
+HEAD is now at 10bfe7d imported from current
 $ ls
-<span class="hljs-type">file</span>.rb  lib
+file.rb  lib
 </code></pre><!--You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered.-->
 
 <p>Du kannst noch eine ganze Menge mehr mit dem <code>fast-import</code>-Tool anstellen — es kann verschiedene Modi behandeln, Binärdaten, mehrere Zweige sowie Merges, Tags, Fortschrittsbalken und mehr. Eine Reihe von Beispielen komplexerer Szenarios werden im <code>contrib/fast-import</code>-Verzeichnis des Git-Quellcodes bereitgestellt; eines der besseren ist das <code>git-p4</code> -Skript, das ich gerade behandelt habe.</p>
@@ -1228,9 +1231,9 @@ $ ls
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

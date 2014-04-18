@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397503664232">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397847843645">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -286,36 +289,36 @@
 <h2 id="asennus-suoraan-l-hdekoodista">Asennus suoraan lähdekoodista</h2>
 <p>Jos voit, on yleensä hyödyllistä asentaa Git suoraan lähdekoodista, koska näin saat kaikkein viimeisimmän version. Jokainen Gitin versio tapaa sisältää hyödyllisiä käyttöliittymäparannuksia, joten uusimman version hakeminen on yleensä paras reitti, jos tunnet olosi turvalliseksi kääntäessäsi ohjelmistoa sen lähdekoodista. On yleinen tilanne, että moni Linux-jakelu sisältää erittäin vanhoja paketteja; joten, jollet käytä erittäin päivitettyä jakelua tai backportteja, lähdekoodista asennus voi olla paras ratkaisu.</p>
 <p>Asentaaksesi Gitin, tarvitset seuraavat kirjastot joista Git on riippuvainen: curl, zlib, openssl, expat, ja libiconv. Esimerkiksi, jos olet järjestelmässä, jossa on yum (kuten Fedora) tai apt-get (kuten Debian-pohjaiset järjestelmät), voit käyttää yhtä näistä komennoista asentaaksesi kaikki riippuvaisuudet:</p>
-<pre><code>$ yum install curl<span class="hljs-attribute">-devel</span> expat<span class="hljs-attribute">-devel</span> gettext<span class="hljs-attribute">-devel</span> <span class="hljs-subst">\</span>
-  openssl<span class="hljs-attribute">-devel</span> zlib<span class="hljs-attribute">-devel</span>
+<pre><code>$ yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
 
-$ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-attribute">-gnutls</span><span class="hljs-attribute">-dev</span> libexpat1<span class="hljs-attribute">-dev</span> gettext <span class="hljs-subst">\</span>
-  libz<span class="hljs-attribute">-dev</span> libssl<span class="hljs-attribute">-dev</span>
+$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+  libz-dev libssl-dev
 </code></pre><p>Kun sinulla on kaikki tarvittavat riippuvuudet, voit mennä eteenpäin ja kiskaista uusimman tilannekuvan Gitin verkkosivuilta:</p>
-<pre><code><span class="hljs-label">http:</span>//git-scm<span class="hljs-preprocessor">.com</span>/download
+<pre><code>http://git-scm.com/download
 </code></pre><p>Tämän jälkeen käännä ja asenna:</p>
-<pre><code><span class="hljs-variable">$ </span>tar -zxf git-<span class="hljs-number">1.7</span>.<span class="hljs-number">2.2</span>.tar.gz
-<span class="hljs-variable">$ </span>cd git-<span class="hljs-number">1.7</span>.<span class="hljs-number">2.2</span>
-<span class="hljs-variable">$ </span>make prefix=<span class="hljs-regexp">/usr/local</span> all
-<span class="hljs-variable">$ </span>sudo make prefix=<span class="hljs-regexp">/usr/local</span> install
+<pre><code>$ tar -zxf git-1.7.2.2.tar.gz
+$ cd git-1.7.2.2
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install
 </code></pre><p>Kun tämä on tehty, voit myös ottaa Gitin päivitykset Gitin itsensä kautta:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/git.kernel.org/pub</span><span class="hljs-regexp">/scm/git</span><span class="hljs-regexp">/git.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 </code></pre><h2 id="asennus-linuxissa">Asennus Linuxissa</h2>
 <p>Jos haluat asentaa Gitin Linuxissa binääriasennusohjelman kautta, voit yleensä tehdä näin yksinkertaisella paketinhallintaohjelmalla, joka tulee julkaisusi mukana. Jos olet Fedorassa, voit käyttää yumia:</p>
-<pre><code><span class="hljs-variable">$ </span>yum install git-core
+<pre><code>$ yum install git-core
 </code></pre><p>Tai jos olet Debian-pohjaisessa julkaisussa kuten Ubuntussa, kokeile apt-getiä:</p>
-<pre><code>$ apt-<span class="hljs-keyword">get</span> install git
+<pre><code>$ apt-get install git
 </code></pre><h2 id="asennus-maciss-">Asennus Macissä</h2>
 <p>On olemassa kaksi helppoa tapaa asentaa Git Macissä. Helpoin on käyttää graafista Git-asennusohjelmaa, jonka voit ladata Googlen Code -verkkosivuilta (katso Kuva 1-7):</p>
-<pre><code><span class="hljs-label">http:</span>//code<span class="hljs-preprocessor">.google</span><span class="hljs-preprocessor">.com</span>/p/git-osx-installer
+<pre><code>http://code.google.com/p/git-osx-installer
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0107-tn.png" alt=""></p>
 <p>Kuva 1-7. Git OS X -asennusohjelma.</p>
 <p>Toinen pääasiallinen tapa on asentaa Git MacPortsin kautta (<code>http://www.macports.org</code>). Jos sinulla on MacPorts asennettuna, asenna Git näin:</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> port install git-core +svn +doc +bash_completion +gitweb
+<pre><code>$ sudo port install git-core +svn +doc +bash_completion +gitweb
 </code></pre><p>Sinun ei tarvitse asentaa kaikkia ekstroista, mutta varmaankin haluat sisältää +svn-ekstran tapauksessa, jossa sinun täytyy joskus käyttää Gitiä Subversion-tietolähteiden kanssa (katso Luku 8).</p>
 <h2 id="asennus-windowsissa">Asennus Windowsissa</h2>
 <p>Gitin asennus Windowsissa on erittäin helppoa. MsysGit-projektilla on yksi helpoimmista asennusmenetelmistä. Yksinkertaisesti lataa asennus-exe-tiedosto GitHub-verkkosivulta ja suorita se:</p>
-<pre><code><span class="hljs-label">http:</span>//msysgit<span class="hljs-preprocessor">.github</span><span class="hljs-preprocessor">.com</span>/
+<pre><code>http://msysgit.github.com/
 </code></pre><p>Asennuksen jälkeen sinulla on sekä komentoriviversio (sisältäen SSH-asiakasohjelman, joka osoittautuu hyödylliseksi myöhemmin) että standardi graafinen käyttöliittymä.</p>
 <p>Huomioitavaa Windowsin käytössä: sinun tulisi käyttää Gitiä tarjotulla msysGitin komentorivillä (Unix-tyylinen). Se sallii käytettävän tässä kirjassa annettuja monirivisiä komentoja. Jos sinun täytyy jostakin syystä käyttää natiivia Windows-komentoriviä tai konsolia, sinun täytyy käyttää lainausmerkkejä heittomerkkien sijaan (parametreille, joissa on välejä) ja ympäröidä lainausmerkeillä sirkumfleksiaksenttiin (^) päättyvät parametrit, jos ne ovat rivillä viimeisinä, koska se on jatkumissymboli Windowsissa.</p>
 
@@ -336,9 +339,9 @@ $ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

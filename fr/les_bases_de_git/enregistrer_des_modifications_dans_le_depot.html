@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.2" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_634">
+                    <section class="normal" id="section-gitbook_847">
                     
                         <h1 id="enregistrer-des-modifications-dans-le-d-p-t">Enregistrer des modifications dans le dépôt</h1>
 <p>Vous avez à présent un dépôt Git valide et une extraction ou copie de travail du projet.
@@ -862,8 +865,8 @@ Ce cycle de vie est illustré par la figure 2-1.</p>
 <p>L&#39;outil principal pour déterminer quels fichiers sont dans quel état est la commande <code>git status</code>.
 Si vous lancez cette commande juste après un clonage, vous devriez voir ce qui suit :</p>
 <pre><code>$ git status
-<span class="hljs-comment"># On branch master</span>
-nothing <span class="hljs-built_in">to</span> commit (working <span class="hljs-built_in">directory</span> clean)
+# On branch master
+nothing to commit (working directory clean)
 </code></pre><p>Ce message signifie que votre copie de travail est propre, en d&#39;autres mots, aucun fichier suivi n&#39;a été modifié.
 Git ne voit pas non plus de fichiers non-suivis, sinon ils seraient listés ici.
 Enfin, la commande vous indique sur quelle branche vous êtes.
@@ -873,12 +876,12 @@ Dans le chapitre suivant, nous parlerons plus en détail des branches et des ré
 Si ce fichier n&#39;existait pas auparavant, et que vous lancez la commande <code>git status</code>, vous verrez votre fichier non suivi comme ceci :</p>
 <pre><code>$ vim LISEZMOI
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Untracked files:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to include in what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    LISEZMOI</span>
-nothing added to commit but untracked files present (use <span class="hljs-string">"git add"</span> to track)
+# On branch master
+# Untracked files:
+#   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+#
+#    LISEZMOI
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
 </code></pre><p>Vous pouvez constater que votre nouveau fichier <code>LISEZMOI</code> n&#39;est pas en suivi de version, car il apparaît dans la section « Untracked files » de l&#39;état de la copie de travail.
 « Untracked » signifie simplement que Git détecte un fichier qui n&#39;était pas présent dans le dernier instantané ; Git ne le placera sous suivi de version que quand vous lui indiquerez de le faire.
 Ce comportement permet de ne pas placer accidentellement sous suivi de version des fichiers binaires générés ou d&#39;autres fichiers que vous ne voulez pas inclure.
@@ -886,15 +889,15 @@ Mais vous voulez inclure le fichier <code>LISEZMOI</code> dans l&#39;instantané
 <h2 id="placer-de-nouveaux-fichiers-sous-suivi-de-version">Placer de nouveaux fichiers sous suivi de version</h2>
 <p>Pour commencer à suivre un nouveau fichier, vous utilisez la commande <code>git add</code>.
 Pour commencer à suivre le fichier <code>LISEZMOI</code>, vous pouvez entrer ceci :</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">LISEZMOI</span>
+<pre><code>$ git add LISEZMOI
 </code></pre><p>Si vous lancez à nouveau la commande <code>git status</code>, vous pouvez constater que votre fichier <code>LISEZMOI</code> est maintenant suivi et indexé :</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   LISEZMOI</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   LISEZMOI
+#
 </code></pre><p>Vous pouvez affirmer qu&#39;il est indexé car il apparaît dans la section « Changes to be committed » (Modifications à valider).
 Si vous enregistrez à ce moment, la version du fichier à l&#39;instant où vous lancez <code>git add</code> est celle qui appartiendra à l&#39;instantané.
 Vous pouvez vous souvenir que lorsque vous avez précédemment lancé <code>git init</code>, vous avez ensuite lancé <code>git add (fichiers)</code> — c&#39;était bien sûr pour commencer à placer sous suivi de version les fichiers de votre répertoire de travail.
@@ -903,66 +906,66 @@ La commande <code>git add</code> accepte en paramètre un chemin qui correspond 
 <p>Maintenant, modifions un fichier qui est déjà sous suivi de version.
 Si vous modifiez le fichier sous suivi de version appelé <code>benchmarks.rb</code> et que vous lancez à nouveau votre commande <code>git status</code>, vous verrez ceci :</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   LISEZMOI</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   LISEZMOI
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Le fichier <code>benchmarks.rb</code> apparaît sous la section nommée « Changes not staged for commit » ce qui signifie que le fichier sous suivi de version a été modifié dans la copie de travail mais n&#39;est pas encore indexé.
 Pour l&#39;indexer, il faut lancer la commande <code>git add</code> (qui est une commande multi-usage — elle peut être utilisée pour placer un fichier sous suivi de version, pour indexer un fichier ou pour d&#39;autres actions telles que marquer comme résolus des conflits de fusion de fichiers).
 Lançons maintenant <code>git add</code> pour indexer le fichier <code>benchmarks.rb</code>, et relançons la commande <code>git status</code> :</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   LISEZMOI</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   LISEZMOI
+#    modified:   benchmarks.rb
+#
 </code></pre><p>À présent, les deux fichiers sont indexés et feront partie de la prochaine validation.
 Mais supposons que vous souhaitiez apporter encore une petite modification au fichier <code>benchmarks.rb</code> avant de réellement valider la nouvelle version.
 Vous l&#39;ouvrez à nouveau, réalisez la petite modification et vous voilà prêt à valider.
 Néanmoins, vous lancez <code>git status</code> une dernière fois :</p>
 <pre><code>$ vim benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   LISEZMOI</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   LISEZMOI
+#    modified:   benchmarks.rb
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Que s&#39;est-il donc passé ? À présent, <code>benchmarks.rb</code> apparaît à la fois comme indexé et non indexé.
 En fait, Git indexe un fichier dans son état au moment où la commande <code>git add</code> est lancée.
 Si on valide les modifications maintenant, la version de <code>benchmarks.rb</code> qui fera partie de l&#39;instantané est celle correspondant au moment où la commande <code>git add benchmarks.rb</code> a été lancée, et non la version actuellement présente dans la copie de travail au moment où la commande <code>git commit</code> est lancée.
 Si le fichier est modifié après un <code>git add</code>, il faut relancer <code>git add</code> pour prendre en compte l&#39;état actuel de la copie de travail :</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   LISEZMOI</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   LISEZMOI
+#    modified:   benchmarks.rb
+#
 </code></pre><h2 id="ignorer-des-fichiers">Ignorer des fichiers</h2>
 <p>Il apparaît souvent qu&#39;un type de fichiers présent dans la copie de travail ne doit pas être ajouté automatiquement ou même ne doit pas apparaître comme fichier potentiel pour le suivi de version.
 Ce sont par exemple des fichiers générés automatiquement tels que les fichiers de journaux ou de sauvegardes produits par l&#39;outil que vous utilisez.
 Dans un tel cas, on peut énumérer les patrons de noms de fichiers à ignorer dans un fichier <code>.gitignore</code>.
 Voici ci-dessous un exemple de fichier <code>.gitignore</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>cat .gitignore
+<pre><code>$ cat .gitignore
 *.[oa]
 *~
 </code></pre><p>La première ligne ordonne à Git d&#39;ignorer tout fichier se terminant en <code>.o</code> ou <code>.a</code> — des fichiers objet ou archive qui sont généralement produits par la compilation d&#39;un programme.
@@ -979,19 +982,19 @@ Renseigner un fichier <code>.gitignore</code> avant de commencer à travailler e
 <p>Les patrons standards de fichiers sont des expressions régulières simplifiées utilisées par les shells.
 Un astérisque (<code>*</code>) correspond à un ou plusieurs caractères ; <code>[abc]</code> correspond à un des trois caractères listés dans les crochets, donc a ou b ou c ; un point d&#39;interrogation (<code>?</code>) correspond à un unique caractère ; des crochets entourant des caractères séparés par un signe moins (<code>[0-9]</code>) correspond à un caractère dans l&#39;intervalle des deux caractères indiqués, donc ici de 0 à 9.</p>
 <p>Voici un autre exemple de fichier <code>.gitignore</code> :</p>
-<pre><code><span class="hljs-preprocessor"># un commentaire, cette ligne est ignorée</span>
-<span class="hljs-preprocessor"># pas de fichier .a</span>
+<pre><code># un commentaire, cette ligne est ignorée
+# pas de fichier .a
 *.a
-<span class="hljs-preprocessor"># mais suivre lib.a malgré la règle précédente</span>
+# mais suivre lib.a malgré la règle précédente
 !lib.a
-<span class="hljs-preprocessor"># ignorer uniquement le fichier TODO à la racine du projet</span>
+# ignorer uniquement le fichier TODO à la racine du projet
 /TODO
-<span class="hljs-preprocessor"># ignorer tous les fichiers dans le répertoire build</span>
+# ignorer tous les fichiers dans le répertoire build
 build/
-<span class="hljs-preprocessor"># ignorer doc/notes.txt, mais pas doc/server/arch.txt</span>
-doc<span class="hljs-comment">/*.txt
+# ignorer doc/notes.txt, mais pas doc/server/arch.txt
+doc/*.txt
 # ignorer tous les fichiers .txt sous le répertoire doc/
-doc/**/</span>*.txt
+doc/**/*.txt
 </code></pre><p>Le patron <code>**/</code> est disponible dans Git depuis la version 1.8.2.</p>
 <h2 id="inspecter-les-modifications-index-es-et-non-index-es">Inspecter les modifications indexées et non indexées</h2>
 <p>Si le résultat de la commande <code>git status</code> est encore trop vague — lorsqu&#39;on désire savoir non seulement quels fichiers ont changé mais aussi ce qui a changé dans ces fichiers — on peut utiliser la commande <code>git diff</code>.
@@ -999,34 +1002,34 @@ Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblable
 <p>Supposons que vous éditez et indexez le fichier <code>LISEZMOI</code> et que vous éditez le fichier <code>benchmarks.rb</code> sans l&#39;indexer.
 Si vous lancez la commande <code>git status</code>, vous verrez ceci :</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   LISEZMOI</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   LISEZMOI
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Pour visualiser ce qui a été modifié mais pas encore indexé, tapez <code>git diff</code> sans autre argument :</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..da65585 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..da65585 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-           @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-         <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+           @commit.parents[0].parents[0].parents[0]
+         end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-         run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-           <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-           <span class="hljs-built_in">log</span>.size
+         run_code(x, &#39;commits 2&#39;) do
+           log = git.commits(&#39;master&#39;, 15)
+           log.size
 </code></pre><p>Cette commande compare le contenu du répertoire de travail avec la zone d&#39;index.
 Le résultat vous indique les modifications réalisées mais non indexées.</p>
 <p>Si vous souhaitez visualiser les modifications indexées qui feront partie de la prochaine validation, vous pouvez utiliser <code>git diff --cached</code> (avec les versions 1.6.1 et supérieures de Git, vous pouvez aussi utiliser <code>git diff --staged</code>, qui est plus mnémotechnique).
@@ -1035,88 +1038,88 @@ Cette commande compare les fichiers indexés et le dernier instantané :</p>
 diff --git a/LISEZMOI b/LISEZMOI
 new file mode 100644
 index 0000000..03902a1
-<span class="hljs-header">--- /dev/null</span>
-<span class="hljs-header">+++ b/LISEZMOI2</span>
-<span class="hljs-chunk">@@ -0,0 +1,5 @@</span>
-<span class="hljs-addition">+grit</span>
-<span class="hljs-addition">+ by Tom Preston-Werner, Chris Wanstrath</span>
-<span class="hljs-addition">+ http://github.com/mojombo/grit</span>
-<span class="hljs-addition">+</span>
-<span class="hljs-addition">+Grit is a Ruby library for extracting information from a Git repository</span>
+--- /dev/null
++++ b/LISEZMOI2
+@@ -0,0 +1,5 @@
++grit
++ by Tom Preston-Werner, Chris Wanstrath
++ http://github.com/mojombo/grit
++
++Grit is a Ruby library for extracting information from a Git repository
 </code></pre><p>Il est important de noter que <code>git diff</code> ne montre pas les modifications réalisées depuis la dernière validation — seulement les modifications qui sont non indexées.
 Cela peut introduire une confusion car si tous les fichiers modifiés ont été indexés, <code>git diff</code> n&#39;indiquera aucun changement.</p>
 <p>Par exemple, si vous indexez le fichier <code>benchmarks.rb</code> et l&#39;éditez ensuite, vous pouvez utiliser <code>git diff</code> pour visualiser les modifications indexées et non indexées de ce fichier :</p>
 <pre><code>$ git add benchmarks.rb
-$ echo <span class="hljs-string">'# test line'</span> &gt;&gt; benchmarks.rb
+$ echo &#39;# test line&#39; &gt;&gt; benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes to be committed:
+#
+#    modified:   benchmarks.rb
+#
+# Changes not staged for commit:
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>À présent, vous pouvez utiliser <code>git diff</code> pour visualiser les modifications non indexées :</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index e445e28.<span class="hljs-number">.86</span>b2f7c <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index e445e28..86b2f7c 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">127</span>,<span class="hljs-number">3</span> +<span class="hljs-number">127</span>,<span class="hljs-number">4</span> @@ <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -127,3 +127,4 @@ end
  main()
 
- <span class="hljs-comment">##pp Grit::GitRuby.cache_client.stats</span>
-+<span class="hljs-comment"># test line</span>
+ ##pp Grit::GitRuby.cache_client.stats
++# test line
 </code></pre><p>et <code>git diff --cached</code> pour visualiser ce qui a été indexé jusqu&#39;à maintenant :</p>
-<pre><code>$ git diff <span class="hljs-comment">--cached</span>
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..e445e28 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+<pre><code>$ git diff --cached
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..e445e28 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-          @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+          @commit.parents[0].parents[0].parents[0]
+        end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-        run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-          <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-          <span class="hljs-built_in">log</span>.size
+        run_code(x, &#39;commits 2&#39;) do
+          log = git.commits(&#39;master&#39;, 15)
+          log.size
 </code></pre><h2 id="valider-vos-modifications">Valider vos modifications</h2>
 <p>Maintenant que votre zone d&#39;index est dans l&#39;état désiré, vous pouvez valider vos modifications.
 Souvenez-vous que tout ce qui est encore non indexé — tous les fichiers qui ont été créés ou modifiés mais n&#39;ont pas subi de <code>git add</code> depuis que vous les avez modifiés — ne feront pas partie de la prochaine validation.
 Ils resteront en tant que fichiers modifiés sur votre disque.</p>
 <p>Dans notre cas, la dernière fois que vous avez lancé <code>git status</code>, vous avez vérifié que tout était indexé, et vous êtes donc prêt à valider vos modifications.
 La manière la plus simple de valider est de taper <code>git commit</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git commit
+<pre><code>$ git commit
 </code></pre><p>Cette action lance votre éditeur par défaut (qui est paramétré par la variable d&#39;environnement <code>$EDITOR</code> de votre shell — habituellement vim ou Emacs, mais vous pouvez le paramétrer spécifiquement pour Git en utilisant la commande <code>git config --global core.editor</code> comme nous l&#39;avons vu au chapitre 1).</p>
 <p>L&#39;éditeur affiche le texte suivant :</p>
-<pre><code><span class="hljs-preprocessor"># Please enter the commit message for your changes. Lines starting</span>
-<span class="hljs-preprocessor"># with '#' will be ignored, and an empty message aborts the commit.</span>
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       new file:   LISEZMOI</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
+<pre><code># Please enter the commit message for your changes. Lines starting
+# with &#39;#&#39; will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       new file:   LISEZMOI
+#       modified:   benchmarks.rb
 ~
 ~
 ~
-<span class="hljs-string">".git/COMMIT_EDITMSG"</span> <span class="hljs-number">10</span>L, <span class="hljs-number">283</span>C
+&quot;.git/COMMIT_EDITMSG&quot; 10L, 283C
 </code></pre><p>Vous constatez que le message de validation par défaut contient une ligne vide suivie en commentaire par le résultat de la commande <code>git status</code>.
 Vous pouvez effacer ces lignes de commentaire et saisir votre propre message de validation, ou vous pouvez les laisser en place pour vous aider à vous rappeler de ce que vous êtes en train de valider (pour un rappel plus explicite de ce que vous avez modifié, vous pouvez aussi passer l&#39;option <code>-v</code> à la commande <code>git commit</code>.
 Cette option place le résultat du diff en commentaire dans l&#39;éditeur pour vous permettre de visualiser exactement ce que vous avez modifié.
 Quand vous quittez l&#39;éditeur (après avoir sauvegardé le message), Git crée votre <em>commit</em> avec ce message de validation (après avoir retiré les commentaires et le diff).</p>
 <p>D&#39;une autre manière, vous pouvez spécifier votre message de validation en ligne avec la commande <code>git commit</code> en le saisissant après l&#39;option <code>-m</code>, comme ceci :</p>
-<pre><code>$ git commit -m "Story 182: Fix benchmarks for speed"
-[<span class="hljs-link_reference">master</span>]:<span class="hljs-link_url"> created 463dc4f: "Fix benchmarks for speed"</span><span class="hljs-link_url">
- 2 files changed, 3 insertions(+), 0 deletions(-)</span><span class="hljs-link_url">
- create mode 100644 LISEZMOI</span>
+<pre><code>$ git commit -m &quot;Story 182: Fix benchmarks for speed&quot;
+[master]: created 463dc4f: &quot;Fix benchmarks for speed&quot;
+ 2 files changed, 3 insertions(+), 0 deletions(-)
+ create mode 100644 LISEZMOI
 </code></pre><p>À présent, vous avez créé votre premier <em>commit</em> ! Vous pouvez constater que le <em>commit</em> vous fournit quelques informations sur lui-même : sur quelle branche vous avez validé (<code>master</code>), quelle est sa somme de contrôle SHA-1 (<code>463dc4f</code>), combien de fichiers ont été modifiés, et quelques statistiques sur les lignes ajoutées et effacées dans ce <em>commit</em>.</p>
 <p>Souvenez-vous que la validation enregistre l&#39;instantané que vous avez préparé dans la zone d&#39;index.
 Tout ce que vous n&#39;avez pas indexé est toujours en état modifié ; vous pouvez réaliser une nouvelle validation pour l&#39;ajouter à l&#39;historique.
@@ -1126,15 +1129,15 @@ Tout ce que vous n&#39;avez pas indexé est toujours en état modifié ; vous po
 Si vous souhaitez éviter la phase de placement des fichiers dans la zone d&#39;index, Git fournit un raccourci très simple.
 L&#39;ajout de l&#39;option <code>-a</code> à la commande <code>git commit</code> ordonne à Git de placer automatiquement tout fichier déjà en suivi de version dans la zone d&#39;index avant de réaliser la validation, évitant ainsi d&#39;avoir à taper les commandes <code>git add</code> :</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-$ git commit -a -m <span class="hljs-string">'added new benchmarks'</span>
-[master <span class="hljs-number">83e38</span>c7] added <span class="hljs-keyword">new</span> benchmarks
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">5</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+# On branch master
+#
+# Changes not staged for commit:
+#
+#    modified:   benchmarks.rb
+#
+$ git commit -a -m &#39;added new benchmarks&#39;
+[master 83e38c7] added new benchmarks
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 </code></pre><p>Notez bien que vous n&#39;avez pas eu à lancer <code>git add</code> sur le fichier <code>benchmarks.rb</code> avant de valider.</p>
 <h2 id="effacer-des-fichiers">Effacer des fichiers</h2>
 <p>Pour effacer un fichier de Git, vous devez l&#39;éliminer des fichiers en suivi de version (plus précisément, l&#39;effacer dans la zone d&#39;index) puis valider.
@@ -1142,39 +1145,39 @@ La commande <code>git rm</code> réalise cette action mais efface aussi ce fichi
 <p>Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section « Changes not staged for commit » (c&#39;est-à-dire, <em>non indexé</em>) dans le résultat de <code>git status</code> :</p>
 <pre><code>$ rm grit.gemspec
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add/rm &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       deleted:    grit.gemspec</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes not staged for commit:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+#
+#       deleted:    grit.gemspec
+#
 </code></pre><p>Ensuite, si vous lancez <code>git rm</code>, l&#39;effacement du fichier est indexé :</p>
 <pre><code>$ git rm grit.gemspec
-rm <span class="hljs-string">'grit.gemspec'</span>
+rm &#39;grit.gemspec&#39;
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       deleted:    grit.gemspec</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       deleted:    grit.gemspec
+#
 </code></pre><p>Lors de la prochaine validation, le fichier sera absent et non-suivi en version.
 Si vous avez auparavant modifié et indexé le fichier, son élimination doit être forcée avec l&#39;option <code>-f</code>.
 C&#39;est une mesure de sécurité pour empêcher un effacement accidentel de données qui n&#39;ont pas encore été enregistrées dans un instantané et qui seraient définitivement perdues.</p>
 <p>Un autre scénario serait de vouloir abandonner le suivi de version d&#39;un fichier tout en le conservant dans la copie de travail.
 Ceci est particulièrement utile lorsqu&#39;on a oublié de spécifier un patron dans le fichier <code>.gitignore</code> et on a accidentellement indexé un fichier, tel qu&#39;un gros fichier de journal ou une série d&#39;archives de compilation <code>.a</code>.
 Pour réaliser ce scénario, utilisez l&#39;option <code>--cached</code> :</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">rm</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">cached</span> <span class="hljs-comment">readme</span><span class="hljs-string">.</span><span class="hljs-comment">txt</span>
+<pre><code>$ git rm --cached readme.txt
 </code></pre><p>Vous pouvez spécifier des noms de fichiers ou de répertoires, ou des patrons de fichiers à la commande <code>git rm</code>.
 Cela signifie que vous pouvez lancer des commandes telles que :</p>
-<pre><code>$ git rm <span class="hljs-keyword">log</span>/\*.<span class="hljs-keyword">log</span>
+<pre><code>$ git rm log/\*.log
 </code></pre><p>Notez bien la barre oblique inverse (<code>\</code>) devant <code>*</code>.
 Il est nécessaire d&#39;échapper le caractère <code>*</code> car Git utilise sa propre expansion de nom de fichier en addition de l&#39;expansion du shell. Ce caractère d&#39;échappement doit être omis sous Windows si vous utilisez le terminal système.
 Cette commande efface tous les fichiers avec l&#39;extension <code>.log</code> présents dans le répertoire <code>log/</code>.
 Vous pouvez aussi lancer une commande telle que :</p>
-<pre><code><span class="hljs-variable">$ </span>git rm \*~
+<pre><code>$ git rm \*~
 </code></pre><p>Cette commande élimine tous les fichiers se terminant par <code>~</code>.</p>
 <h2 id="d-placer-des-fichiers">Déplacer des fichiers</h2>
 <p>À la différence des autres VCS, Git ne suit pas explicitement les mouvements des fichiers.
@@ -1182,23 +1185,23 @@ Si vous renommez un fichier suivi par Git, aucune méta-donnée indiquant le ren
 Néanmoins, Git est assez malin pour s&#39;en apercevoir après coup — la détection de mouvement de fichier sera traitée plus loin.</p>
 <p>De ce fait, que Git ait une commande <code>mv</code> peut paraître trompeur.
 Si vous souhaitez renommer un fichier dans Git, vous pouvez lancer quelque chose comme :</p>
-<pre><code><span class="hljs-variable">$ </span>git mv nom_origine nom_cible
+<pre><code>$ git mv nom_origine nom_cible
 </code></pre><p>et cela fonctionne.
 En fait, si vous lancez quelque chose comme ceci et inspectez le résultat d&#39;une commande <code>git status</code>, vous constaterez que Git gère le renommage de fichier :</p>
 <pre><code>$ git mv LISEZMOI.txt LISEZMOI
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Your branch is ahead of 'origin/master' by 1 commit.</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       renamed:    LISEZMOI.txt -&gt; LISEZMOI</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Your branch is ahead of &#39;origin/master&#39; by 1 commit.
+#
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       renamed:    LISEZMOI.txt -&gt; LISEZMOI
+#
 </code></pre><p>Néanmoins, cela revient à lancer les commandes suivantes :</p>
-<pre><code><span class="hljs-variable">$ </span>mv <span class="hljs-constant">LISEZMOI</span>.txt <span class="hljs-constant">LISEZMOI</span>
-<span class="hljs-variable">$ </span>git rm <span class="hljs-constant">LISEZMOI</span>.txt
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">LISEZMOI</span>
+<pre><code>$ mv LISEZMOI.txt LISEZMOI
+$ git rm LISEZMOI.txt
+$ git add LISEZMOI
 </code></pre><p>Git trouve implicitement que c&#39;est un renommage, donc cela importe peu si vous renommez un fichier de cette manière ou avec la commande <code>mv</code>.
 La seule différence réelle est que <code>mv</code> ne fait qu&#39;une commande à taper au lieu de trois — c&#39;est une commande de convenance.
 Le point principal est que vous pouvez utiliser n&#39;importe quel outil pour renommer un fichier, et traiter les commandes <code>add</code>/<code>rm</code> plus tard, avant de valider la modification.</p>
@@ -1220,9 +1223,9 @@ Le point principal est que vous pouvez utiliser n&#39;importe quel outil pour re
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397503670764">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,7 +367,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_216">
+                    <section class="normal" id="section-gitbook_242">
                     
                         <h1 id="i-lk-ayarlamalar">İlk Ayarlamalar</h1>
 <p>Artık Git sisteminizde kurulu olduğuna göre, onu ihtiyacınıza göre uyarlamak için bazı düzenlemeler yapabilirsiniz. Bunları yalnızca bir kere yapmanız yeterli olacaktır: güncellemelerden etkilenmeyeceklerdir. Ayrıca istediğiniz zaman komutları yeniden çalıştırarak ayarları değiştirebilirsiniz.</p>
@@ -377,15 +380,15 @@
 <p>Git, Windows sistemlerde <code>$HOME</code> klasöründeki (çoğu kullanıcı için <code>C:\Documents and Settings\$USER</code> klasörüdür) <code>.gitconfig</code> dosyasına bakar (Ç.N.: Windows kullanıcı klasörüne %HOMEPATH% çevresel değişkenini kullanarak ulaşabilirsiniz). Git, Windows sistemlerde de /etc/gitconfig dosyasını arar fakat bu konum, Git kurulumu sırasında seçtiğiniz MSys kök dizinine göredir.</p>
 <h2 id="kimli-iniz">Kimliğiniz</h2>
 <p>Git&#39;i kurduğunuzda yapmanız gereken ilk şey adınızı ve e-posta adresinizi ayarlamaktır. Bunun önemli olmasının nedeni her bir Git kaydının bu bilgiyi kullanıyor olması ve bu bilgilerin dolaşıma soktuğunuz kayıtlara değişmez biçimde işlenmesidir.</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>Yinelemek gerekirse, <code>--global</code> seçeneğini kullandığınızda bunu bir kez yapmanız yeterli olacaktır, çünkü Git, o sistemde yapacağınız her işlem için bu bilgileri kullanacaktır. İsmi ya da e-posta adresini projeden projeye değiştirmek isterseniz, komutu değişiklik yapmak istediğiniz proje klasörünün içinde <code>--global</code> seçeneği olmadan çalıştırabilirsiniz.</p>
 <h2 id="edit-r-n-z">Editörünüz</h2>
 <p>Kimlik ayarlarınızı yaptığınıza göre, Git sizden bir mesaj yazmanızı istediğinde kullanacağınız editörle ilgili düzenlemeyi yapabilirsiniz. Aksi belirtilmedikçe Git sisteminizdeki öntanımlı (<em>default</em>) editörü kullanır, bu da genellikle Vi ya da Vim&#39;dir. Emacs gibi başka bir metin editörü kullanmak isterseniz, şu komutu kullanabilirsiniz:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><h2 id="dosya-kar-la-t-rma-arac-n-z">Dosya Karşılaştırma Aracınız</h2>
 <p>Düzenlemek isteyeceğiniz bir diğer yararlı ayar da birleştirme (<em>merge</em>) uyuşmazlıklarını gidermek için kullanacağınız araçla ilgilidir. vimdiff aracını seçmek için şu komutu kullanabilirsiniz:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>Git kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge ve opendiff araçlarını kabul eder. Dilerseniz özel bir araç için de ayarlamalar yapabilirsiniz (bununla ilgili daha fazla bilgi için bkz. 7. Bölüm).</p>
 <h2 id="ayarlar-n-z-g-zden-ge-irmek">Ayarlarınızı Gözden Geçirmek</h2>
 <p>Ayarlarınızı gözden geçirmek isterseniz, Git&#39;in bulabildiği bütün ayarları listelemek için <code>git config --list</code> komutunu kullanabilirsiniz.</p>
@@ -396,11 +399,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>Bir ayarı birden çok kez görebilirsiniz; bunun nedeni Git&#39;in aynı ayarı değişik dosyalardan (örneğin <code>etc/gitconfig</code> ve <code>~/.gitconfig</code>&#39;den) okumuş olmasıdır. Bu durumda Git gördüğü her bir tekil ayar için en son bulduğu değeri kullanır.</p>
 <p><code>git config {ayar}</code> komutunu kullanarak Git&#39;ten bir ayarın değerini görüntülemesini de isteyebilirsiniz:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -419,9 +422,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

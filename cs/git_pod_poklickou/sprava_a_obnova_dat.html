@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.7" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.7" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,160 +857,160 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_894">
+                    <section class="normal" id="section-gitbook_967">
                     
                         <h1 id="spr-va-a-obnova-dat">Správa a obnova dat</h1>
 <p>Občas budete patrně nuceni přistoupit k menšímu úklidu – uvést repozitář do kompaktnější podoby, vyčistit importovaný repozitář nebo obnovit ztracenou práci. Tato část se na některé z těchto scénářů zaměří.</p>
 <h2 id="spr-va">Správa</h2>
 <p>Git čas od času automaticky spustí příkaz „auto gc“. Ve většině případů neprovede tento příkaz vůbec nic. Pokud však identifikuje příliš mnoho volných objektů (objektů nezabalených do balíčkového souboru) nebo balíčkových souborů, spustí Git plnou verzi příkazu <code>git gc</code>. Písmena <code>gc</code> jsou zkratkou anglického výrazu „garbage collect“ (sběr odpadků). Příkaz provádí hned několik věcí: sbírá všechny volné objekty a umisťuje je do balíčkových souborů, spojuje balíčkové soubory do jednoho velkého a odstraňuje objekty, jež nejsou dostupné z žádné revize a jsou starší několika měsíců.</p>
 <p>Příkaz auto gc můžete spustit také ručně:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">gc</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">auto</span>
+<pre><code>$ git gc --auto
 </code></pre><p>I tentokrát platí, že příkaz většinou neprovede nic. Aby Git spustil skutečný příkaz gc, musíte mít kolem 7000 volných objektů nebo více než 50 balíčkových souborů. Tyto hodnoty můžete změnit podle svých potřeb v konfiguračním nastavení <code>gc.auto</code> a <code>gc.autopacklimit</code>.</p>
 <p>Další operací, kterou <code>gc</code> provede, je zabalení referencí do jediného souboru. Řekněme, že váš repozitář obsahuje tyto větve a značky:</p>
-<pre><code>$ find <span class="hljs-preprocessor">.git</span>/refs -type f
-<span class="hljs-preprocessor">.git</span>/refs/heads/experiment
-<span class="hljs-preprocessor">.git</span>/refs/heads/master
-<span class="hljs-preprocessor">.git</span>/refs/tags/v1<span class="hljs-number">.0</span>
-<span class="hljs-preprocessor">.git</span>/refs/tags/v1<span class="hljs-number">.1</span>
+<pre><code>$ find .git/refs -type f
+.git/refs/heads/experiment
+.git/refs/heads/master
+.git/refs/tags/v1.0
+.git/refs/tags/v1.1
 </code></pre><p>Spustíte-li příkaz <code>git gc</code>, tyto soubory z adresáře <code>refs</code> zmizí. Git je pro zvýšení účinnosti přesune do souboru <code>.git/packed-refs</code>, jenž má následující podobu:</p>
-<pre><code><span class="hljs-variable">$ </span>cat .git/packed-refs
-<span class="hljs-comment"># pack-refs with: peeled</span>
+<pre><code>$ cat .git/packed-refs
+# pack-refs with: peeled
 cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
-cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.<span class="hljs-number">0</span>
-<span class="hljs-number">9585191</span>f37f7b0fb9444f35a9bf50de191beadc2 refs/tags/v1.<span class="hljs-number">1</span>
-^<span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
+cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
+9585191f37f7b0fb9444f35a9bf50de191beadc2 refs/tags/v1.1
+^1a410efbd13591db07496601ebc7a059dd55cfe9
 </code></pre><p>Pokud některou referenci aktualizujete, Git nebude tento soubor upravovat, ale zapíše nový soubor do adresáře <code>refs/heads</code>. Je-li třeba získat hodnotu SHA pro konkrétní referenci, Git se tuto referenci pokusí vyhledat nejprve v adresáři <code>refs</code> a poté, jako záložní možnost, v souboru <code>packed-refs</code>. Pokud však nemůžete najít některou z referencí v adresáři <code>refs</code>, bude patrně v souboru <code>packed-refs</code>.</p>
 <p>Všimněte si také posledního řádku souboru, který začíná znakem <code>^</code>. Tento řádek znamená, že značka bezprostředně nad ním je anotovaná a tento řádek je revize, na niž tato anotovaná značka ukazuje.</p>
 <h2 id="obnova-dat">Obnova dat</h2>
 <p>Někdy se může stát, že nedopatřením přijdete o revizi Git. Většinou k tomu dochází tak, že násilím smažete větev, která uchovávala část vaší práce, a vy po čase zjistíte, že byste tuto větev přece jen potřebovali. Stejně tak jste mohli provést tvrdý reset větve a tím zavrhnout revize, z nichž nyní něco potřebujete. Pokud se už něco takového stane, jak dostanete své revize zpět?</p>
 <p>Uvedeme příklad, při němž resetujeme hlavní větev v testovacím repozitáři na jednu ze starších revizí a poté ztracené revize obnovíme. Nejprve se podíváme, kde se váš repozitář v současnosti nachází:</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=oneline</span>
+<pre><code>$ git log --pretty=oneline
 ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
 484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
-1a410efbd13591db07496601ebc7a059dd55cfe9 third <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> <span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>Nyní vrátíme větev <code>master</code> zpět na prostřední revizi:</p>
-<pre><code>$ git reset <span class="hljs-comment">--hard 1a410efbd13591db07496601ebc7a059dd55cfe9</span>
-HEAD <span class="hljs-keyword">is</span> now <span class="hljs-keyword">at</span> <span class="hljs-number">1</span>a410ef <span class="hljs-keyword">third</span> commit
-$ git <span class="hljs-command">log</span> <span class="hljs-comment">--pretty=oneline</span>
-<span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9 <span class="hljs-keyword">third</span> commit
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> commit
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> commit
+<pre><code>$ git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
+HEAD is now at 1a410ef third commit
+$ git log --pretty=oneline
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>Účinně jsme se zbavili horních dvou revizí. Neexistuje žádná větev, z níž by byly tyto revize dostupné. Budete muset najít hodnotu SHA nejnovější revize a přidat větev, která na ni bude ukazovat. Problém tedy spočívá v určení hodnoty SHA nejnovější revize, protože nepředpokládáme, že si ji pamatujete.</p>
 <p>Nejrychlejší cestou často bývá použít nástroj <code>git reflog</code>. Git během vaší práce v tichosti zaznamenává, kde se nachází ukazatel HEAD (pokaždé, když se změní jeho pozice). Vždy když zapíšete revizi nebo změníte větve, je reflog aktualizován. Reflog se také aktualizuje s každým spuštěním příkazu <code>git update-ref</code> – o důvod víc používat tento příkaz a nezapisovat hodnotu SHA přímo do souborů referencí, jak už jsme uváděli v části „Reference Git“ v této kapitole. Spuštěním příkazu <code>git reflog</code> zjistíte, kde jste se nacházeli v libovolném okamžiku:</p>
-<pre><code>$ <span class="hljs-tag">git</span> <span class="hljs-tag">reflog</span>
-1<span class="hljs-tag">a410ef</span> <span class="hljs-tag">HEAD</span><span class="hljs-at_rule">@<span class="hljs-keyword">{0}:</span> <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD
-ab1afef HEAD@</span>{1}: <span class="hljs-tag">ab1afef80fac8e34258ff41fc1b867c702daa24b</span>: <span class="hljs-tag">updating</span> <span class="hljs-tag">HEAD</span>
+<pre><code>$ git reflog
+1a410ef HEAD@{0}: 1a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD
+ab1afef HEAD@{1}: ab1afef80fac8e34258ff41fc1b867c702daa24b: updating HEAD
 </code></pre><p>Vidíme tu obě revize, jichž jsme se zbavili, ale není tu k nim mnoho informací. Chcete-li zobrazit stejné informace v užitečnějším formátu, můžete spustit příkaz <code>git log -g</code>, jímž získáte normální výstup příkazu log pro reflog.</p>
 <pre><code>$ git log -g
-commit <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
-<span class="hljs-label">Reflog:</span> HEAD@{<span class="hljs-number">0</span>} (Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;)
+commit 1a410efbd13591db07496601ebc7a059dd55cfe9
+Reflog: HEAD@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
 Reflog message: updating HEAD
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri May <span class="hljs-number">22</span> <span class="hljs-number">18</span>:<span class="hljs-number">22</span>:<span class="hljs-number">37</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri May 22 18:22:37 2009 -0700
 
     third commit
 
 commit ab1afef80fac8e34258ff41fc1b867c702daa24b
-<span class="hljs-label">Reflog:</span> HEAD@{<span class="hljs-number">1</span>} (Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;)
+Reflog: HEAD@{1} (Scott Chacon &lt;schacon@gmail.com&gt;)
 Reflog message: updating HEAD
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gmail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Fri May <span class="hljs-number">22</span> <span class="hljs-number">18</span>:<span class="hljs-number">15</span>:<span class="hljs-number">24</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri May 22 18:15:24 2009 -0700
 
      modified repo a bit
 </code></pre><p>Zdá se, že revize úplně dole je hledanou ztracenou revizí. Můžete ji obnovit tak, že na ní vytvoříte novou větev. Na revizi můžete vytvořit například větev <code>recover-branch</code> (ab1afef):</p>
 <pre><code>$ git branch recover-branch ab1afef
-$ git log <span class="hljs-comment">--pretty=oneline recover-branch</span>
+$ git log --pretty=oneline recover-branch
 ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
 484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
-1a410efbd13591db07496601ebc7a059dd55cfe9 third <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> <span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><p>Výborně, nyní máte větev s názvem <code>recover-branch</code>, která se nachází na bývalé pozici větve <code>master</code>. První dvě revize jsou opět dostupné.
 Můžeme ale také uvažovat situaci, že ztracené revize nebyly ve výpisu reflog k nalezení. Tento stav můžeme simulovat tak, že odstraníme větev <code>recover-branch</code> a smažeme reflog. První dvě revize tak nejsou odnikud dostupné:</p>
-<pre><code>$ git branch <span class="hljs-attribute">-D</span> recover<span class="hljs-attribute">-branch</span>
-$ rm <span class="hljs-attribute">-Rf</span> <span class="hljs-built_in">.</span>git/logs<span class="hljs-subst">/</span>
+<pre><code>$ git branch -D recover-branch
+$ rm -Rf .git/logs/
 </code></pre><p>Protože se data pro reflog uchovávají v adresáři <code>.git/logs/</code>, nemáte evidentně žádný reflog. Jak lze tedy v tuto chvíli ztracenou revizi obnovit? Jednou z možností je použít nástroj <code>git fsck</code>, který zkontroluje integritu vaší databáze. Pokud příkaz spustíte s parametrem <code>--full</code>, zobrazí vám všechny objekty, na něž neukazuje žádný jiný objekt:</p>
-<pre><code>$ git fsck <span class="hljs-comment">--full</span>
+<pre><code>$ git fsck --full
 dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
-dangling <span class="hljs-operator"><span class="hljs-keyword">commit</span> ab1afef80fac8e34258ff41fc1b867c702daa24b
+dangling commit ab1afef80fac8e34258ff41fc1b867c702daa24b
 dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
-dangling blob <span class="hljs-number">7108</span>f7ecb345ee9d0084193f147cdad4d2998293</span>
+dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
 </code></pre><p>V tomto případě je vaše ztracená revize uvedena výrazem „dangling commit“. Nyní ji můžete obnovit stejným způsobem: přidejte novou větev, která bude ukazovat na její SHA.</p>
 <h2 id="odstra-ov-n-objekt-">Odstraňování objektů</h2>
 <p>Systém Git nabízí velké množství úžasných funkcí a možností. Je však jedna věc, která vám může způsobovat problém. Je jí fakt, že příkaz <code>git clone</code> stáhne vždy celou historii projektu, všechny verze všech souborů.</p>
 <p>To je v pořádku, je-li projektem zdrojový kód, neboť Git je vysoce optimalizován ke kompresi těchto dat. Pokud však někdo v kterémkoli místě historie projektu přidal jeden obrovský soubor, bude se stahovat při každém dalším klonování repozitáře. Nic na tom nezmění, ani pokud tento velký soubor hned v příští revizi z projektu odstraníte. Protože se nachází v historii, stále bude součástí všech klonů. To může způsobovat velké problémy, pokud konvertujete repozitáře Subversion nebo Perforce do systému Git. Protože v těchto systémech nestahujete celou historii, nebývá s vkládáním velkých souborů problém. Pokud provedete import do systému Git z jiného systému nebo jiným způsobem, zjistíte, že je váš repozitář výrazně větší, než by měl být. Nabízím návod, jak vyhledat a odstranit velké objekty.</p>
 <p>Dejte však pozor, tento postup může být pro vaši historii revizí katastrofický. Přepíše všechny objekty revizí směrem dolů od nejstaršího stromu, který musíte pro odstranění reference na velký soubor upravit. Pokud po této metodě sáhnete hned po importu, než mohl kdokoli založit na revizi svou práci, nemusíte se ničeho obávat. V opačném případě budete muset upozornit všechny přispěvatele, že musí přeskládat svou práci na vaše nové revize.</p>
 <p>Vyzkoušíme to na situaci, kdy do svého testovacího repozitáře vložíte velký soubor, v následující revizi ho odstraníte, vyhledáte ho a trvale ho z repozitáře odstraníte. Nejprve do historie přidejte velký objekt:</p>
-<pre><code><span class="hljs-variable">$ </span>curl <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/kernel.org/pub</span><span class="hljs-regexp">/software/scm</span><span class="hljs-regexp">/git/git</span>-<span class="hljs-number">1.6</span>.<span class="hljs-number">3.1</span>.tar.bz2 &gt; git.tbz2
-<span class="hljs-variable">$ </span>git add git.tbz2
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'added git tarball'</span>
-[master <span class="hljs-number">6</span>df764<span class="hljs-number">0</span>] added git tarball
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
- create mode <span class="hljs-number">100644</span> git.tbz2
+<pre><code>$ curl http://kernel.org/pub/software/scm/git/git-1.6.3.1.tar.bz2 &gt; git.tbz2
+$ git add git.tbz2
+$ git commit -am &#39;added git tarball&#39;
+[master 6df7640] added git tarball
+ 1 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 git.tbz2
 </code></pre><p>Ale ne! Vlastně jste nechtěli do projektu vložit tak velký tarball. Raději se ho zbavme:</p>
-<pre><code><span class="hljs-variable">$ </span>git rm git.tbz2
-rm <span class="hljs-string">'git.tbz2'</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'oops - removed large tarball'</span>
+<pre><code>$ git rm git.tbz2
+rm &#39;git.tbz2&#39;
+$ git commit -m &#39;oops - removed large tarball&#39;
 [master da3f30d] oops - removed large tarball
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
- delete mode <span class="hljs-number">100644</span> git.tbz2
+ 1 files changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 git.tbz2
 </code></pre><p>Teď provedete <code>gc</code> své databáze, protože chcete zjistit, kolik místa je obsazeno:</p>
 <pre><code>$ git gc
-Counting objects: <span class="hljs-number">21</span>, <span class="hljs-keyword">done</span>.
-Delta compression using <span class="hljs-number">2</span> threads.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">16</span>/<span class="hljs-number">16</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">21</span>/<span class="hljs-number">21</span>), <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">21</span> (delta <span class="hljs-number">3</span>), reused <span class="hljs-number">15</span> (delta <span class="hljs-number">1</span>)
+Counting objects: 21, done.
+Delta compression using 2 threads.
+Compressing objects: 100% (16/16), done.
+Writing objects: 100% (21/21), done.
+Total 21 (delta 3), reused 15 (delta 1)
 </code></pre><p>Chcete-li rychle zjistit, kolik místa je obsazeno, můžete použít příkaz <code>count-objects</code>:</p>
-<pre><code>$ git count<span class="hljs-attribute">-objects</span> <span class="hljs-attribute">-v</span>
-count: <span class="hljs-number">4</span>
-size: <span class="hljs-number">16</span>
-<span class="hljs-keyword">in</span><span class="hljs-attribute">-pack</span>: <span class="hljs-number">21</span>
-packs: <span class="hljs-number">1</span>
-size<span class="hljs-attribute">-pack</span>: <span class="hljs-number">2016</span>
-prune<span class="hljs-attribute">-packable</span>: <span class="hljs-number">0</span>
-garbage: <span class="hljs-number">0</span>
+<pre><code>$ git count-objects -v
+count: 4
+size: 16
+in-pack: 21
+packs: 1
+size-pack: 2016
+prune-packable: 0
+garbage: 0
 </code></pre><p>Řádek <code>size-pack</code> uvádí velikost vašich balíčkových souborů v kilobytech, využity jsou tedy 2 MB. Před zapsáním poslední revize jste využívali přibližně 2 kB. Je tedy jasné, že odstranění souboru z předchozí revize ho neodstranilo z historie. Pokaždé, když bude někdo tento repozitář klonovat, bude muset pro získání malinkého projektu naklonovat celé 2 MB jen proto, že jste jednou omylem přidali velký soubor. Proto ho raději odstraníme.</p>
 <p>Nejprve ho budete muset najít. V tomto případě víte, o jaký soubor se jedná. Můžeme ale předpokládat, že to nevíte. Jak se dá zjistit, který soubor nebo soubory zabírají tolik místa? Spustíte-li příkaz <code>git gc</code>, všechny objekty jsou v balíčkovém souboru. Velké objekty lze identifikovat spuštěním jiného nízkoúrovňového příkazu, <code>git verify-pack</code>, a seřazením podle třetího pole ve výpisu, v němž je uvedena velikost souboru. Na výpis můžete rovněž použít příkaz <code>tail</code>, neboť vás beztak zajímá pouze několik posledních (největších) souborů:</p>
-<pre><code>$ git verify<span class="hljs-attribute">-pack</span> <span class="hljs-attribute">-v</span> <span class="hljs-built_in">.</span>git/objects/pack/pack<span class="hljs-subst">-</span><span class="hljs-number">3</span>f8c0<span class="hljs-attribute">...</span>bb<span class="hljs-built_in">.</span>idx <span class="hljs-subst">|</span> sort <span class="hljs-attribute">-k</span> <span class="hljs-number">3</span> <span class="hljs-attribute">-n</span> <span class="hljs-subst">|</span> tail <span class="hljs-subst">-</span><span class="hljs-number">3</span>
-e3f094f522629ae358806b17daf78246c27c007b blob   <span class="hljs-number">1486</span> <span class="hljs-number">734</span> <span class="hljs-number">4667</span>
-<span class="hljs-number">05408</span>d195263d853f09dca71d55116663690c27c blob   <span class="hljs-number">12908</span> <span class="hljs-number">3478</span> <span class="hljs-number">1189</span>
-<span class="hljs-number">7</span>a9eb2fba2b1811321254ac360970fc169ba2330 blob   <span class="hljs-number">2056716</span> <span class="hljs-number">2056872</span> <span class="hljs-number">5401</span>
+<pre><code>$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
+e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
+05408d195263d853f09dca71d55116663690c27c blob   12908 3478 1189
+7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
 </code></pre><p>Hledaný velký objekt se nachází úplně dole: 2 MB. Chcete-li zjistit, o jaký soubor se jedná, můžete použít příkaz <code>rev-list</code>, který jsme používali už v kapitole 7. Zadáte-li k příkazu <code>rev-list</code> parametr <code>--objects</code>, výpis bude obsahovat všechny hodnoty SHA revizí a blobů s cestami k souborům, které jsou s nimi asociovány. Tuto kombinaci můžete použít k nalezení názvu hledaného blobu:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">rev</span><span class="hljs-literal">-</span><span class="hljs-comment">list</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">objects</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">all</span> <span class="hljs-comment">|</span> <span class="hljs-comment">grep</span> <span class="hljs-comment">7a9eb2fb</span>
-<span class="hljs-comment">7a9eb2fba2b1811321254ac360970fc169ba2330</span> <span class="hljs-comment">git</span><span class="hljs-string">.</span><span class="hljs-comment">tbz2</span>
+<pre><code>$ git rev-list --objects --all | grep 7a9eb2fb
+7a9eb2fba2b1811321254ac360970fc169ba2330 git.tbz2
 </code></pre><p>Nyní potřebujete odstranit tento soubor ze všech minulých stromů. Pomocí snadného příkazu lze zjistit, jaké revize tento soubor změnil:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">log</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">pretty=oneline</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">branches</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span> <span class="hljs-comment">git</span><span class="hljs-string">.</span><span class="hljs-comment">tbz2</span>
-<span class="hljs-comment">da3f30d019005479c99eb4c3406225613985a1db</span> <span class="hljs-comment">oops</span> <span class="hljs-literal">-</span> <span class="hljs-comment">removed</span> <span class="hljs-comment">large</span> <span class="hljs-comment">tarball</span>
-<span class="hljs-comment">6df764092f3e7c8f5f94cbe08ee5cf42e92a0289</span> <span class="hljs-comment">added</span> <span class="hljs-comment">git</span> <span class="hljs-comment">tarball</span>
+<pre><code>$ git log --pretty=oneline --branches -- git.tbz2
+da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
+6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 </code></pre><p>Chcete-li tento soubor kompletně odstranit z historie Git, budete muset přepsat všechny revize od <code>6df76</code> směrem dolů. Použijte k tomu příkaz <code>filter-branch</code>, s nímž jsme se seznámili v kapitole 6:</p>
-<pre><code>$ git <span class="hljs-built_in">filter</span>-branch <span class="hljs-comment">--index-filter \</span>
-   <span class="hljs-string">'git rm --cached --ignore-unmatch git.tbz2'</span> <span class="hljs-comment">-- 6df7640^..</span>
-Rewrite <span class="hljs-number">6</span>df764092f3e7c8f5f94cbe08ee5cf42e92a0289 (<span class="hljs-number">1</span>/<span class="hljs-number">2</span>)rm <span class="hljs-string">'git.tbz2'</span>
-Rewrite da3f30d019005479c99eb4c3406225613985a1db (<span class="hljs-number">2</span>/<span class="hljs-number">2</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --index-filter \
+   &#39;git rm --cached --ignore-unmatch git.tbz2&#39; -- 6df7640^..
+Rewrite 6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 (1/2)rm &#39;git.tbz2&#39;
+Rewrite da3f30d019005479c99eb4c3406225613985a1db (2/2)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><p>Parametr <code>--index-filter</code> je podobný parametru <code>--tree-filter</code>, který jsme používali v kapitole 6, jen s tím rozdílem, že příkazem nezměníte soubory načtené na disku, ale oblast připravených změn nebo-li index. Nepomůže odstranit konkrétní soubor příkazem <code>rm file</code> nebo podobným. Odstraňte ho raději příkazem <code>git rm --cached</code> – soubor musíte odstranit z indexu, ne z disku. Důvodem je rychlost. Git nemusí před spuštěním filtru provádět checkout každé jednotlivé revize na disk a celý proces je tak mnohem, mnohem rychlejší. Pokud chcete, můžete provést stejný úkon i pomocí parametru <code>--tree-filter</code>. Zadáte-li k příkazu <code>git rm</code> parametr <code>--ignore-unmatch</code>, nařídíte systému Git, aby nepovažoval za chybu, jestliže nenajde vzor, který se snažíte odstranit. A konečně požádáte příkaz <code>filter-branch</code>, aby přepsal historii až od revize <code>6df7640</code> dále, neboť víte, že tady problém začíná. Bez této konkretizace začne proces od začátku a bude trvat zbytečně dlouho.</p>
 <p>Vaše historie už neobsahuje referenci na problémový soubor. Obsahuje ho však stále ještě reflog a v adresáři <code>.git/refs/original</code> také nová sada referencí, které Git přidal při spuštění příkazu <code>filter-branch</code>. Budete je proto muset odstranit a databázi znovu zabalit. Před novým zabalením je třeba odstranit vše, co na tyto staré revize ukazuje:</p>
-<pre><code><span class="hljs-variable">$ </span>rm -<span class="hljs-constant">Rf</span> .git/refs/original
-<span class="hljs-variable">$ </span>rm -<span class="hljs-constant">Rf</span> .git/logs/
-<span class="hljs-variable">$ </span>git gc
-<span class="hljs-constant">Counting</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">19</span>, done.
-<span class="hljs-constant">Delta</span> compression using <span class="hljs-number">2</span> threads.
-<span class="hljs-constant">Compressing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), done.
-<span class="hljs-constant">Writing</span> <span class="hljs-symbol">objects:</span> <span class="hljs-number">100</span>% (<span class="hljs-number">19</span>/<span class="hljs-number">19</span>), done.
-<span class="hljs-constant">Total</span> <span class="hljs-number">19</span> (delta <span class="hljs-number">3</span>), reused <span class="hljs-number">16</span> (delta <span class="hljs-number">1</span>)
+<pre><code>$ rm -Rf .git/refs/original
+$ rm -Rf .git/logs/
+$ git gc
+Counting objects: 19, done.
+Delta compression using 2 threads.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (19/19), done.
+Total 19 (delta 3), reused 16 (delta 1)
 </code></pre><p>Podívejme se, kolik místa jste ušetřili.</p>
-<pre><code>$ git count<span class="hljs-attribute">-objects</span> <span class="hljs-attribute">-v</span>
-count: <span class="hljs-number">8</span>
-size: <span class="hljs-number">2040</span>
-<span class="hljs-keyword">in</span><span class="hljs-attribute">-pack</span>: <span class="hljs-number">19</span>
-packs: <span class="hljs-number">1</span>
-size<span class="hljs-attribute">-pack</span>: <span class="hljs-number">7</span>
-prune<span class="hljs-attribute">-packable</span>: <span class="hljs-number">0</span>
-garbage: <span class="hljs-number">0</span>
+<pre><code>$ git count-objects -v
+count: 8
+size: 2040
+in-pack: 19
+packs: 1
+size-pack: 7
+prune-packable: 0
+garbage: 0
 </code></pre><p>Velikost zabaleného repozitáře byla zredukována na 7 kB, což je jistě lepší než 2 MB. Podle hodnoty velikosti je vidět, že se velký objekt stále ještě nachází mezi volnými objekty, a nebyl tedy odstraněn. Nebude ale součástí přenášených dat při odesílání nebo následném klonování, což je pro nás rozhodující. Pokud jste chtěli, mohli jste objekt zcela odstranit příkazem <code>git prune --expire</code>.</p>
 
                     
@@ -1027,9 +1030,9 @@ garbage: <span class="hljs-number">0</span>
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

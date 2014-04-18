@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_804">
+                    <section class="normal" id="section-gitbook_803">
                     
                         <h1 id="-">Удалённые ветки</h1>
 <p>Удалённые ветки — это ссылки на состояние веток в ваших удалённых репозиториях. Это локальные ветки, которые нельзя перемещать; они двигаются автоматически всякий раз, когда вы осуществляете связь по сети. Удалённые ветки действуют как закладки для напоминания о том, где ветки в удалённых репозиториях находились во время последнего подключения к ним.</p>
@@ -868,42 +871,42 @@
 <p>Когда вы хотите поделиться веткой с окружающими, вам необходимо отправить (push) её на удалённый сервер, на котором у вас есть права на запись. Ваши локальные ветки автоматически не синхронизируются с удалёнными серверами — вам нужно явно отправить те ветки, которыми вы хотите поделиться. Таким образом, вы можете использовать свои личные ветки для работы, которую вы не хотите показывать, и отправлять только те тематические ветки, над которыми вы хотите работать с кем-то совместно.</p>
 <p>Если у вас есть ветка <code>serverfix</code>, над которой вы хотите работать с кем-то ещё, вы можете отправить её точно так же, как вы отправляли вашу первую ветку. Выполните <code>git push (удал. сервер) (ветка)</code>:</p>
 <pre><code>$ git push origin serverfix
-Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-number">1.74</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 20, done.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 1.74 KiB, done.
+Total 15 (delta 5), reused 0 (delta 0)
 To git@github.com:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> branch]      serverfix -&gt; serverfix
+ * [new branch]      serverfix -&gt; serverfix
 </code></pre><p>Это в некотором роде сокращение. Git автоматически разворачивает имя ветки <code>serverfix</code> до <code>refs/heads/serverfix:refs/heads/serverfix</code>, что означает “возьми мою локальную ветку serverfix и обнови из неё удалённую ветку serverfix”. Мы подробно обсудим часть с <code>refs/heads/</code> в главе 9, но обычно её можно опустить. Вы также можете выполнить <code>git push origin serverfix:serverfix</code> — произойдёт то же самое — здесь говорится “возьми мой serverfix и сделай его удалённым serverfix”. Можно использовать этот формат для отправки локальной ветки в удалённую ветку с другим именем. Если вы не хотите, чтобы ветка называлась <code>serverfix</code> на удалённом сервере, то вместо предыдущей команды выполните <code>git push origin serverfix:awesomebranch</code>. Так ваша локальная ветка <code>serverfix</code> отправится в ветку <code>awesomebranch</code> удалённого проекта.</p>
 <p>В следующий раз, когда один из ваших соавторов будет получать обновления с сервера, он получит ссылку на то, на что указывает <code>serverfix</code> на сервере, как удалённую ветку <code>origin/serverfix</code>:</p>
 <pre><code>$ git fetch origin
-remote: Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (15/15), done.
 From git@github.com:schacon/simplegit
- * [<span class="hljs-keyword">new</span> branch]      serverfix    -&gt; origin/serverfix
+ * [new branch]      serverfix    -&gt; origin/serverfix
 </code></pre><p>Важно отметить, что когда при получении данных у вас появляются новые удалённые ветки, вы не получаете автоматически для них локальных редактируемых копий. Другими словами, в нашем случае вы не получите новую ветку <code>serverfix</code> — только указатель <code>origin/serverfix</code>, который вы не можете менять.</p>
 <p>Чтобы слить эти наработки в свою текущую рабочую ветку, выполните <code>git merge origin/serverfix</code>. Если вам нужна своя собственная ветка <code>serverfix</code>, над которой вы сможете работать, то вы можете создать её на основе удалённой ветки:</p>
 <pre><code>$ git checkout -b serverfix origin/serverfix
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Это даст вам локальную ветку, на которой можно работать. Она будет начинаться там, где и <code>origin/serverfix</code>.</p>
 <h2 id="-">Отслеживание веток</h2>
 <p>Получение локальной ветки с помощью <code>git checkout</code> из удалённой ветки автоматически создаёт то, что называется <em>отслеживаемой веткой</em>. Отслеживаемые ветки — это локальные ветки, которые напрямую связаны с удалённой веткой. Если, находясь на отслеживаемой ветке, вы наберёте <code>git push</code>, Git уже будет знать, на какой сервер и в какую ветку отправлять изменения. Аналогично выполнение <code>git pull</code> на одной из таких веток сначала получает все удалённые ссылки, а затем автоматически делает слияние с соответствующей удалённой веткой.</p>
 <p>При клонировании репозитория, как правило, автоматически создаётся ветка <code>master</code>, которая отслеживает <code>origin/master</code>, поэтому <code>git push</code> и <code>git pull</code> работают для этой ветки &quot;из коробки&quot; и не требуют дополнительных аргументов. Однако, вы можете настроить отслеживание и других веток удалённого репозитория. Простой пример, как это сделать, вы увидели только что — <code>git checkout -b [ветка] [удал. сервер]/[ветка]</code>. Если вы используете Git версии 1.6.2 или более позднюю, можете также воспользоваться сокращением <code>--track</code>:</p>
-<pre><code>$ git checkout <span class="hljs-comment">--track origin/serverfix</span>
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"serverfix"</span>
+<pre><code>$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;serverfix&quot;
 </code></pre><p>Чтобы настроить локальную ветку с именем, отличным от имени удалённой ветки, вы можете легко использовать первую версию с другим именем локальной ветки:</p>
 <pre><code>$ git checkout -b sf origin/serverfix
-Branch sf <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/serverfix.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"sf"</span>
+Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch &quot;sf&quot;
 </code></pre><p>Теперь ваша локальная ветка sf будет автоматически отправлять (push) и получать (pull) изменения из origin/serverfix.</p>
 <h2 id="-">Удаление веток на удалённом сервере</h2>
 <p>Скажем, вы и ваши соавторы закончили с нововведением и слили его в ветку <code>master</code> на удалённом сервере (или в какую-то другую ветку, где хранится стабильный код). Вы можете удалить ветку на удалённом сервере, используя несколько бестолковый синтаксис <code>git push [удал. сервер] :[ветка]</code>. Чтобы удалить ветку <code>serverfix</code> на сервере, выполните следующее:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:serverfix</span>
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit.git
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
  - [deleted]         serverfix
 </code></pre><p>Хлоп. Нет больше ветки на вашем сервере. Вам может захотеться сделать закладку на текущей странице, так как эта команда вам понадобится, а синтаксис вы, скорее всего, забудете. Можно запомнить эту команду вернувшись к синтаксису <code>git push [удал. сервер] [лок. ветка]:[удал. ветка]</code>, который мы рассматривали немного раньше. Опуская часть <code>[лок. ветка]</code>, вы, по сути, говорите “возьми ничто в моём репозитории и сделай так, чтобы в <code>[удал. ветка]</code> было то же самое”.</p>
 
@@ -924,9 +927,9 @@ Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</sp
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

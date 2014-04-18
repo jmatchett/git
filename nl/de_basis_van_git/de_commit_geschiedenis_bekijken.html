@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.3" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.3" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,130 +847,130 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_553">
+                    <section class="normal" id="section-gitbook_624">
                     
                         <h1 id="de-commit-geschiedenis-bekijken">De commit geschiedenis bekijken</h1>
 <p>Nadat je een aantal commits gemaakt hebt, of als je een repository met een bestaande commit-geschiedenis gecloned hebt, zul je waarschijnlijk terug willen zien wat er gebeurd is. Het meest basale en krachtige tool om dit te doen is het <code>git log</code> commando.</p>
 <p>Deze voorbeelden maken gebruik van een eenvoudig project genaamd simplegit dat ik vaak voor demonstraties gebruikt. Om het project op te halen, voer dit uit</p>
-<pre><code>git <span class="hljs-keyword">clone</span> git:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
+<pre><code>git clone git://github.com/schacon/simplegit-progit.git
 </code></pre><p>Als je <code>git log</code> in dit project uitvoert, zou je output moeten krijgen die er ongeveer zo uitziet:</p>
 <pre><code>$ git log
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> ca82a6dff817ec66f44342007202690a93763949
+commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed the version <span class="hljs-keyword">number</span>
+    changed the version number
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
-<span class="hljs-keyword">commit</span> a11bef06a3f659402fe7563abf99ad00de2209e6
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
-    <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+    first commit
 </code></pre><p>Zonder argumenten toont <code>git log</code> standaard de commits die gedaan zijn in die repository, in omgekeerde chronologische volgorde. Dat wil zeggen: de meest recente commits worden als eerste getoond. Zoals je kunt zien, toont dit commando iedere commit met zijn SHA-1 checksum, de naam van de auteur en zijn e-mail, de datum van opslaan, en de commit boodschap.</p>
 <p>Een gigantisch aantal en variëteit aan opties zijn beschikbaar voor het <code>git log</code> commando om je precies te laten zien waar je naar op zoek bent. Hier laten we je de meest gebruikte opties zien.</p>
 <p>Een van de meest behulpzame opties is <code>-p</code>, wat de diff laat zien van de dingen die in iedere commit geïntroduceerd zijn. Je kunt ook <code>-2</code> gebruiken, om alleen de laatste twee items te laten zien:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> –p -<span class="hljs-number">2</span>
+<pre><code>$ git log –p -2
 commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+    changed the version number
 
-diff <span class="hljs-comment">--git a/Rakefile b/Rakefile</span>
-index a874b73.<span class="hljs-number">.8</span>f94139 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/Rakefile</span>
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
 +++ b/Rakefile
-@@ -<span class="hljs-number">5</span>,<span class="hljs-number">7</span> +<span class="hljs-number">5</span>,<span class="hljs-number">7</span> @@ <span class="hljs-built_in">require</span> <span class="hljs-string">'rake/gempackagetask'</span>
- spec = Gem::Specification.<span class="hljs-built_in">new</span> <span class="hljs-built_in">do</span> |s|
--    s.<span class="hljs-built_in">version</span>   =   <span class="hljs-string">"0.1.0"</span>
-+    s.<span class="hljs-built_in">version</span>   =   <span class="hljs-string">"0.1.1"</span>
-     s.author    =   <span class="hljs-string">"Scott Chacon"</span>
+@@ -5,7 +5,7 @@ require &#39;rake/gempackagetask&#39;
+ spec = Gem::Specification.new do |s|
+-    s.version   =   &quot;0.1.0&quot;
++    s.version   =   &quot;0.1.1&quot;
+     s.author    =   &quot;Scott Chacon&quot;
 
-commit <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
-diff <span class="hljs-comment">--git a/lib/simplegit.rb b/lib/simplegit.rb</span>
-index a0a60ae.<span class="hljs-number">.47</span>c6340 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/lib/simplegit.rb</span>
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index a0a60ae..47c6340 100644
+--- a/lib/simplegit.rb
 +++ b/lib/simplegit.rb
-@@ -<span class="hljs-number">18</span>,<span class="hljs-number">8</span> +<span class="hljs-number">18</span>,<span class="hljs-number">3</span> @@ class SimpleGit
-     <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -18,8 +18,3 @@ class SimpleGit
+     end
 
- <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+ end
 -
--<span class="hljs-keyword">if</span> $<span class="hljs-number">0</span> == __FILE__
--  git = SimpleGit.<span class="hljs-built_in">new</span>
+-if $0 == __FILE__
+-  git = SimpleGit.new
 -  puts git.show
--<span class="hljs-function"><span class="hljs-keyword">end</span></span>
-\ No newline <span class="hljs-keyword">at</span> <span class="hljs-function"><span class="hljs-keyword">end</span> <span class="hljs-title">of</span> <span class="hljs-title">file</span></span>
+-end
+\ No newline at end of file
 </code></pre><p>Deze optie toont dezelfde informatie, maar dan met een diff volgend op ieder item. Dit is erg handig voor een code review, of om snel te zien wat er tijdens een reeks commits gebeurd is die een medewerker toegevoegd heeft.</p>
 <p>Soms is het handiger om wijzigingen na te kijken op woordniveau in plaats van op regelniveau. Er is een <code>--word-diff</code> optie beschikbaar in Git, die je aan het <code>git log -p</code> commando kan toevoegen om een woord diff te krijgen inplaats van de reguliere regel voor regel diff. Woord diff formaat is nogal nutteloos als het wordt toegepast op broncode, maar is erg handig als het wordt toegepast op grote tekstbestanden, zoals boeken of een dissertatie. Hier is een voorbeeld.</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> -U1 <span class="hljs-comment">--word-diff</span>
+<pre><code>$ git log -U1 --word-diff
 commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+    changed the version number
 
-diff <span class="hljs-comment">--git a/Rakefile b/Rakefile</span>
-index a874b73.<span class="hljs-number">.8</span>f94139 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/Rakefile</span>
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
 +++ b/Rakefile
-@@ -<span class="hljs-number">7</span>,<span class="hljs-number">3</span> +<span class="hljs-number">7</span>,<span class="hljs-number">3</span> @@ spec = Gem::Specification.<span class="hljs-built_in">new</span> <span class="hljs-built_in">do</span> |s|
-    s.name      =   <span class="hljs-string">"simplegit"</span>
-    s.<span class="hljs-built_in">version</span>   =   [-<span class="hljs-string">"0.1.0"</span>-]{+<span class="hljs-string">"0.1.1"</span>+}
-    s.author    =   <span class="hljs-string">"Scott Chacon"</span>
+@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+    s.name      =   &quot;simplegit&quot;
+    s.version   =   [-&quot;0.1.0&quot;-]{+&quot;0.1.1&quot;+}
+    s.author    =   &quot;Scott Chacon&quot;
 </code></pre><p>Zoals je kunt zien zijn er geen toegevoegde of verwijderde regels in deze uitvoer zoals in een normale diff. Wijzigingen worden daarentegen binnen de regel getoond. Je kunt het toegevoegde woord zien binnen een <code>{+ +}</code> en verwijderde binnen een <code>[- -]</code>. Je kunt ook kiezen om de gebruikelijke 3 regels context in de diff uitvoer tot één regel te verminderen, omdat de context nu woorden is, en geen regels. Je kunt dit doen met <code>-U1</code> zoals hierboven in het voorbeeld.</p>
 <p>Je kunt ook een serie samenvattende opties met <code>git log</code> gebruiken. Bijvoorbeeld, als je wat verkorte statistieken bij iedere commit wilt zien, kun je de <code>--stat</code> optie gebruiken:</p>
 <pre><code>$ git log --stat
 commit ca82a6dff817ec66f44342007202690a93763949
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
     changed the version number
 
- Rakefile |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> file changed, <span class="hljs-number">1</span> insertion(+), <span class="hljs-number">1</span> deletion(-)
+ Rakefile |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |    <span class="hljs-number">5</span> -----
- <span class="hljs-number">1</span> file changed, <span class="hljs-number">5</span> deletions(-)
+ lib/simplegit.rb |    5 -----
+ 1 file changed, 5 deletions(-)
 
 commit a11bef06a3f659402fe7563abf99ad00de2209e6
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
     first commit
 
- README           |    <span class="hljs-number">6</span> ++++++
- Rakefile         |   <span class="hljs-number">23</span> +++++++++++++++++++++++
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |   <span class="hljs-number">25</span> +++++++++++++++++++++++++
- <span class="hljs-number">3</span> files changed, <span class="hljs-number">54</span> insertions(+)
+ README           |    6 ++++++
+ Rakefile         |   23 +++++++++++++++++++++++
+ lib/simplegit.rb |   25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)
 </code></pre><p>Zoals je ziet, drukt de <code>--stat</code> optie onder iedere commit een lijst gewijzigde bestanden af, hoeveel bestanden gewijzigd zijn, en hoeveel regels in die bestanden zijn toegevoegd en verwijderd. Het toont ook een samenvatting van de informatie aan het einde.
 Een andere handige optie is <code>--pretty</code>. Deze optie verandert de log output naar een ander formaat dan de standaard. Er zijn al een paar voorgebouwde opties voor je beschikbaar. De <code>oneline</code> optie drukt iedere commit op een eigen regel af, wat handig is als je naar een hoop commits kijkt. Daarnaast tonen de <code>short</code>, <code>full</code> en <code>fuller</code> opties de output in grofweg hetzelfde formaat, maar met minder of meer informatie, respectievelijk:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=oneline</span>
-ca82a6dff817ec66f44342007202690a93763949 changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
-<span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
-a11bef06a3f659402fe7563abf99ad00de2209e6 <span class="hljs-keyword">first</span> commit
+<pre><code>$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 changed the version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
+a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 </code></pre><p>De meest interessante optie is <code>format</code>, waarmee je je eigen log-uitvoer-formaat kunt specificeren. Dit is in het bijzonder handig als je output aan het genereren bent voor automatische verwerking; omdat je expliciet het formaat kan specificeren, weet je dat het niet zal veranderen bij volgende versies van Git:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%an</span>, <span class="hljs-variable">%ar</span> : <span class="hljs-variable">%s</span>"</span>
-ca82a6d - Scott Chacon, <span class="hljs-number">11</span> months ago : changed the version number
-085bb3b - Scott Chacon, <span class="hljs-number">11</span> months ago : removed unnecessary test code
-a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-number">11</span> months ago : first commit
+<pre><code>$ git log --pretty=format:&quot;%h - %an, %ar : %s&quot;
+ca82a6d - Scott Chacon, 11 months ago : changed the version number
+085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
+a11bef0 - Scott Chacon, 11 months ago : first commit
 </code></pre><p>Tabel 2-1 toont een aantal handige opties die aan format gegeven kunnen worden.</p>
 <table>
 <thead>
@@ -1041,17 +1044,17 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 </table>
 <p>Je zult je misschien afvragen wat het verschil is tussen <em>author</em> en <em>committer</em>. De <em>author</em> is de persoon die de patch oorspronkelijk geschreven heeft, en de <em>committer</em> is de persoon die de patch als laatste heeft toegepast. Dus als je een patch naar een project stuurt en een van de kernleden past de patch toe, dan krijgen jullie beiden de eer, jij als de auteur en het kernlid als de committer. We gaan hier wat verder op in in <em>Hoofdstuk 5</em>.</p>
 <p>De <code>oneline</code> en <code>format</code> opties zijn erg handig in combinatie met een andere <code>log</code> optie genaamd <code>--graph</code>. Deze optie maakt een mooie ASCII grafiek waarin je branch- en merge-geschiedenis getoond worden, die we kunnen zien in onze kopie van het Grit project repository:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=format:"%h %s" --graph</span>
-* <span class="hljs-number">2</span>d3acf9 ignore errors <span class="hljs-built_in">from</span> SIGCHLD <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">trap</span></span>
-*  <span class="hljs-number">5e3</span>ee11 Merge branch <span class="hljs-string">'master'</span> <span class="hljs-operator">of</span> git://github.com/dustin/grit
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; --graph
+* 2d3acf9 ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch &#39;master&#39; of git://github.com/dustin/grit
 |\
-| * <span class="hljs-number">420</span>eac9 Added <span class="hljs-operator">a</span> method <span class="hljs-keyword">for</span> getting <span class="hljs-operator">the</span> current branch.
-* | <span class="hljs-number">30e367</span>c timeout code <span class="hljs-operator">and</span> tests
-* | <span class="hljs-number">5</span>a09431 <span class="hljs-built_in">add</span> timeout protection <span class="hljs-built_in">to</span> grit
-* | e1193f8 support <span class="hljs-keyword">for</span> heads <span class="hljs-operator">with</span> slashes <span class="hljs-operator">in</span> them
+| * 420eac9 Added a method for getting the current branch.
+* | 30e367c timeout code and tests
+* | 5a09431 add timeout protection to grit
+* | e1193f8 support for heads with slashes in them
 |/
-* d6016bc <span class="hljs-built_in">require</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">for</span> xmlschema
-*  <span class="hljs-number">11</span>d191e Merge branch <span class="hljs-string">'defunkt'</span> <span class="hljs-keyword">into</span> <span class="hljs-built_in">local</span>
+* d6016bc require time for xmlschema
+*  11d191e Merge branch &#39;defunkt&#39; into local
 </code></pre><p>Dat zijn slechts een paar simpele output formaat opties voor <code>git log</code>; er zijn er nog veel meer. Tabel 2-2 toont de opties waarover we het tot nog toe gehad hebben, en wat veel voorkomende formaat-opties die je misschien handig vindt, samen met hoe ze de output van het <code>log</code> commando veranderen.</p>
 <table>
 <thead>
@@ -1111,7 +1114,7 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 <h2 id="log-output-limiteren">Log output limiteren</h2>
 <p>Naast het formatteren van de output, heeft <code>git log</code> nog een aantal bruikbare limiterende opties; dat wil zeggen, opties die je een subset van de commits tonen. Je hebt zo&#39;n optie al gezien: de <code>-2</code> optie, die slechts de laatste twee commits laat zien. Sterker nog: je kunt <code>-&lt;n&gt;</code> doen, waarbij <code>n</code> een heel getal is om de laatste <code>n</code> commits te laten zien. In feite zul je deze vorm weinig gebruiken, omdat Git standaard alle output door een pager (pagineer applicatie) stuurt zodat je de log-uitvoer pagina voor pagina ziet.</p>
 <p>Dat gezegd hebbende, zijn de tijd-limiterende opties zoals <code>--since</code> en <code>--until</code> erg handig. Dit commando bijvoorbeeld, geeft een lijst met commits die gedaan zijn gedurende de laatste twee weken:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--since=2.weeks</span>
+<pre><code>$ git log --since=2.weeks
 </code></pre><p>Dit commando werkt met veel formaten: je kunt een specifieke datum kiezen (&quot;2008-01-15”) of een relatieve datum zoals &quot;2 jaar 1 dag en 3 minuten geleden&quot;.</p>
 <p>Je kunt ook de lijst met commits filteren op bepaalde criteria. De <code>--author</code> optie laat je filteren op een specifieke auteur, en de <code>--grep</code> optie laat je op bepaalde zoekwoorden filteren in de commit boodschappen. (Let op dat als je zowel auteur als grep opties wilt specificeren, je <code>--all-match</code> moet toevoegen of anders zal het commando ook commits met één van de twee criteria selecteren.)</p>
 <p>De laatste echt handige optie om aan <code>git log</code> als filter mee te geven is een pad. Als je een directory of bestandsnaam opgeeft, kun je de log output limiteren tot commits die een verandering introduceren op die bestanden. Dit is altijd de laatste optie en wordt over het algemeen vooraf gegaan door dubbele streepjes (<code>--</code>) om de paden van de opties te scheiden.</p>
@@ -1147,14 +1150,14 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 </tbody>
 </table>
 <p>Bijvoorbeeld, als je wilt zien welke commits test bestanden in de Git broncode geschiedenis aanpasten waarvan de committer Junio Hamano is en die in de maand oktober van 2008 gemerged zijn, kun je zoiets als dit uitvoeren:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%s</span>"</span> --author=gitster --since=<span class="hljs-string">"2008-10-01"</span> \
-   --before=<span class="hljs-string">"2008-11-01"</span> --<span class="hljs-keyword">no</span>-merges -- t/
-<span class="hljs-number">5610</span>e3b - Fix testcase failure <span class="hljs-keyword">when</span> extended attribute
-acd3b9e - Enhance hold_lock_file_for<span class="hljs-number">_</span>{update,append}()
+<pre><code>$ git log --pretty=&quot;%h - %s&quot; --author=gitster --since=&quot;2008-10-01&quot; \
+   --before=&quot;2008-11-01&quot; --no-merges -- t/
+5610e3b - Fix testcase failure when extended attribute
+acd3b9e - Enhance hold_lock_file_for_{update,append}()
 f563754 - demonstrate breakage of detached checkout wi
-d1a43f2 - <span class="hljs-keyword">reset</span> --hard/<span class="hljs-keyword">read</span>-tree --<span class="hljs-keyword">reset</span> -u: remove un
-<span class="hljs-number">51</span>a94af - Fix <span class="hljs-string">"checkout --track -b newbranch"</span> on detac
-b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hljs-variable">$something</span>:<span class="hljs-variable">$cur</span></span>
+d1a43f2 - reset --hard/read-tree --reset -u: remove un
+51a94af - Fix &quot;checkout --track -b newbranch&quot; on detac
+b0ad11e - pull: allow &quot;git pull origin $something:$cur
 </code></pre><p>Van de bijna 20.000 commits in de Git broncode historie, laat dit commando de 6 zien die bij die criteria passen.</p>
 <h2 id="een-grafische-interface-gebruiken-om-de-historie-te-visualiseren">Een grafische interface gebruiken om de historie te visualiseren</h2>
 <p>Als je een meer grafische applicatie wilt gebruiken om je commit historie te visualiseren, wil je misschien een kijkje nemen naar het Tcl/Tk programma genaamd <code>gitk</code> dat met Git meegeleverd wordt. Gitk is eigenlijk een visuele <code>git log</code> tool, en het accepteert bijna alle filter opties die <code>git log</code> ook accepteert. Als je <code>gitk</code> in op de commandoregel in je project typt, zou je zoiets als in Figuur 2-2 moeten zien.</p>
@@ -1179,9 +1182,9 @@ b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hl
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397503683046">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.5" data-basepath=".." data-revision="1397847849763">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="시작하기" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="../__git_.html" title="짧게 보는 Git의 역사" class="chapter done " data-progress="1.2" style="left: 2.7777777777777777%;"></a>
     
@@ -776,58 +779,58 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_320">
+                    <section class="normal" id="section-gitbook_321">
                     
                         <h1 id="refspec">Refspec</h1>
 <p>이 책에서 리모트 브랜치가 어떻게 로컬 레퍼런스로 연결하는 것인지 간단하게 배웠지만 실제로는 좀 더 복잡하다. 아래처럼 리모트 저장소를 추가해보자:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add origin git@github.com:schacon/simplegit-progit.git
 </code></pre><p>이 명령은 <code>origin</code> 이라는 저장소 이름, 그 URL, Fetch할 Refspec를 <code>.git/config</code> 파일에 추가한다:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
 </code></pre><p>Refspec 형식은 <code>+</code>와 <code>&lt;src&gt;:&lt;dest&gt;</code>로 돼 있다. <code>+</code>는 생략 가능하고, <code>&lt;src&gt;</code>은 리모트 저장소의 레퍼런스고 <code>&lt;dst&gt;</code>는 매핑되는 로컬 저장소의 레퍼런스이다. <code>+</code>가 없으면 Fast-forward가 아니라도 업데이트된다.</p>
 <p><code>git remote add</code> 명령은 알아서 생성한 설정대로 서버의 <code>refs/heads/</code>에 있는 레퍼런스를 가져다 로컬의 <code>refs/remotes/origin/</code>에 만든다. 로컬에서 서버에 있는 <code>master</code> 브랜치에 접근할 때는 아래와 같이 한다:</p>
-<pre><code><span class="hljs-variable">$ </span>git log origin/master
-<span class="hljs-variable">$ </span>git log remotes/origin/master
-<span class="hljs-variable">$ </span>git log refs/remotes/origin/master
+<pre><code>$ git log origin/master
+$ git log remotes/origin/master
+$ git log refs/remotes/origin/master
 </code></pre><p>이 세 개를 모두 같다. Git은 모두 <code>refs/remotes/origin/master</code>라고 해석한다.</p>
 <p><code>master</code> 브랜치만 가져올 수 있게 하려면 <code>fetch</code> 부분을 아래와 같이 바꿔준다. 그러면 다른 브랜치는 가져올 수 없다:</p>
-<pre><code><span class="hljs-attribute">fetch </span>=<span class="hljs-string"> +refs/heads/master:refs/remotes/origin/master</span>
+<pre><code>fetch = +refs/heads/master:refs/remotes/origin/master
 </code></pre><p>이것은 해당 리모트 저장소에서 <code>git fetch</code> 명령을 실행할 때 자동으로 사용되는 Refspec이다. 다른 Refspec이 필요하면 그냥 아규먼트로 넘긴다. 리모트 브랜치 <code>master</code>를 로컬 브랜치 <code>origin/mymaster</code>로 가져오려면 아래와 같이 실행한다.</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch origin <span class="hljs-symbol">master:</span>refs/remotes/origin/mymaster
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster
 </code></pre><p>Refspec을 여러개 넘겨도 된다. 한꺼번에 브랜치를 여러개 가져온다:</p>
-<pre><code>$ git fetch origin <span class="hljs-attribute">master</span>:refs/remotes/origin/mymaster \
-   <span class="hljs-attribute">topic</span>:refs/remotes/origin/topic
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit
- ! [rejected]        master<span class="hljs-function">     -&gt;</span> origin/mymaster  (non fast forward)
- * [<span class="hljs-keyword">new</span> branch]      topic<span class="hljs-function">      -&gt;</span> origin/topic
+<pre><code>$ git fetch origin master:refs/remotes/origin/mymaster \
+   topic:refs/remotes/origin/topic
+From git@github.com:schacon/simplegit
+ ! [rejected]        master     -&gt; origin/mymaster  (non fast forward)
+ * [new branch]      topic      -&gt; origin/topic
 </code></pre><p>여기서 <code>master</code> 브랜치는 Fast-forward가 아니라서 거절된다. 하지만, Refspec 앞에 <code>+</code>를 추가하면 강제로 덮어쓴다.</p>
 <p>설정 파일에도 Refspec을 여러 개 적을 수 있다. <code>master</code>와 <code>experiment</code> 브랜치를 둘다 적으면 항상 함께 가져온다:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git@<span class="hljs-filename">github.com</span>:schacon/simplegit-<span class="hljs-filename">progit.git
-       fetch = +refs/heads/master</span>:refs/remotes/origin/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
        fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 </code></pre><p>하지만, Glob 패턴은 사용할 수 없다:</p>
-<pre><code>fetch = +refs/heads/qa*<span class="hljs-symbol">:refs/remotes/origin/qa*</span>
+<pre><code>fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 </code></pre><p>그 대신 네임스페이스 형식으로는 사용할 수 있다. 만약 QA 팀이 Push하는 브랜치가 있고 이 브랜치를 가져오고 싶으면 아래와 같이 설정한다. 다음은 <code>master</code> 브랜치와 QA 팀의 브랜치만 가져오는 설정이다:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/<span class="hljs-symbol">master:</span>refs/remotes/origin/master
-       fetch = +refs/heads/qa/*<span class="hljs-symbol">:refs/remotes/origin/qa/*</span>
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
+       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 </code></pre><p>좀 더 복잡한 것도 가능하다. QA 팀뿐만 아니라, 일반 개발자, 통합 팀 등이 사용하는 브랜치를 네임스페이스 별로 구분해 놓으면 좀 더 Git을 편리하게 사용할 수 있다.</p>
 <h2 id="refspec-push-">Refspec Push하기</h2>
 <p>네임스페이스 별로 가져오는 방법은 매우 편리하다. 하지만 Push할 땐 어떨까? QA 팀이 <code>qa/</code> 네임스페이스에 자신의 브랜치를 Push할 때도 Refspec을 사용할 수 있을까?</p>
 <p>QA 팀은 <code>master</code> 브랜치를 리모트 저장소에 <code>qa/master</code>로 Push할 수 있다:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>$ git push origin master:refs/heads/qa/master
 </code></pre><p><code>git push origin</code>을 실행할 때마다 Git이 자동으로 Push하게 하려면 아래와 같이 설정 파일에 <code>push</code> 항목을 추가한다:</p>
-<pre><code>[remote <span class="hljs-string">"origin"</span>]
-       url = git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit-progit.git
-       fetch = +refs/heads/*<span class="hljs-symbol">:refs/remotes/origin/*</span>
-       push = refs/heads/<span class="hljs-symbol">master:</span>refs/heads/qa/master
+<pre><code>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
+       push = refs/heads/master:refs/heads/qa/master
 </code></pre><p>다시 말하지만 <code>git push origin</code>을 실행하면 로컬 브랜치 <code>master</code>를 리모트 브랜치 <code>qa/master</code>로 Push한다.</p>
 <h2 id="-">레퍼런스 삭제하기</h2>
 <p>Refspec으로 서버에 있는 레퍼런스를 삭제할 수 있다:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:topic</span>
+<pre><code>$ git push origin :topic
 </code></pre><p>Refspec의 형식은 <code>&lt;src&gt;:&lt;dst&gt;</code>이니까 <code>&lt;src&gt;</code>를 비우고 실행하면 <code>&lt;dst&gt;</code>를 비우라는 명령이 된다. 그래서 <code>&lt;dst&gt;</code>는 삭제된다.</p>
 
                     
@@ -847,9 +850,9 @@ From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

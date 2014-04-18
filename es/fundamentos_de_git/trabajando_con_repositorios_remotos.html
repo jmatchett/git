@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.5" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.5" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -841,62 +844,62 @@
 <p>Gestionar repositorios remotos implica conocer cómo añadir repositorios nuevos, eliminar aquellos que ya no son válidos, gestionar ramas remotas e indicar si están bajo seguimiento o no, y más cosas. En esta sección veremos todos estos conceptos.</p>
 <h2 id="mostrando-tus-repositorios-remotos">Mostrando tus repositorios remotos</h2>
 <p>Para ver qué repositorios remotos tienes configurados, puedes ejecutar el comando <code>git remote</code>. Mostrará una lista con los nombres de los remotos que hayas especificado. Si has clonado tu repositorio, deberías ver por lo menos &quot;origin&quot; —es el nombre predeterminado que le da Git al servidor del que clonaste—:</p>
-<pre><code>$ git clone git:<span class="hljs-comment">//github.com/schacon/ticgit.git</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /<span class="hljs-keyword">private</span>/tmp/ticgit/.git/
-remote: Counting objects: <span class="hljs-number">595</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">269</span>/<span class="hljs-number">269</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">595</span> (delta <span class="hljs-number">255</span>), reused <span class="hljs-number">589</span> (delta <span class="hljs-number">253</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">595</span>/<span class="hljs-number">595</span>), <span class="hljs-number">73.31</span> KiB | <span class="hljs-number">1</span> KiB/s, <span class="hljs-keyword">done</span>.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">255</span>/<span class="hljs-number">255</span>), <span class="hljs-keyword">done</span>.
+<pre><code>$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
 $ cd ticgit
 $ git remote
 origin
 </code></pre><p>También puedes añadir la opción <code>-v</code>, que muestra la URL asociada a cada repositorio remoto:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote -v
-origin    <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/ticgit.git</span>
+<pre><code>$ git remote -v
+origin    git://github.com/schacon/ticgit.git
 </code></pre><p>Si tienes más de un remoto, este comando los lista todos. Por ejemplo, mi repositorio Grit tiene esta pinta:</p>
 <pre><code>$ cd grit
 $ git remote -v
-bakkdoor  git://github<span class="hljs-preprocessor">.com</span>/bakkdoor/grit<span class="hljs-preprocessor">.git</span>
-cho45     git://github<span class="hljs-preprocessor">.com</span>/cho45/grit<span class="hljs-preprocessor">.git</span>
-defunkt   git://github<span class="hljs-preprocessor">.com</span>/defunkt/grit<span class="hljs-preprocessor">.git</span>
-koke      git://github<span class="hljs-preprocessor">.com</span>/koke/grit<span class="hljs-preprocessor">.git</span>
-origin    git@github<span class="hljs-preprocessor">.com</span>:mojombo/grit<span class="hljs-preprocessor">.git</span>
+bakkdoor  git://github.com/bakkdoor/grit.git
+cho45     git://github.com/cho45/grit.git
+defunkt   git://github.com/defunkt/grit.git
+koke      git://github.com/koke/grit.git
+origin    git@github.com:mojombo/grit.git
 </code></pre><p>Esto significa que podemos recibir contribuciones de cualquiera de estos usuarios de manera bastante fácil. Pero fíjate en que sólo el remoto origen tiene una URL SSH, por lo que es el único al que podemos enviar (veremos el por qué en el Capítulo 4).</p>
 <h2 id="a-adiendo-repositorios-remotos">Añadiendo repositorios remotos</h2>
 <p>Ya he mencionado y he dado ejemplos de repositorios remotos en secciones anteriores, pero a continuación veremos cómo añadirlos explícitamente. Para añadir un nuevo repositorio Git remoto, asignándole un nombre con el que referenciarlo fácilmente, ejecuta <code>git remote add [nombre] [url]</code>:</p>
 <pre><code>$ git remote
 origin
-$ git remote <span class="hljs-keyword">add</span> pb git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+$ git remote add pb git://github.com/paulboone/ticgit.git
 $ git remote -v
-origin    git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span>
-pb    git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+origin    git://github.com/schacon/ticgit.git
+pb    git://github.com/paulboone/ticgit.git
 </code></pre><p>Ahora puedes usar la cadena &quot;pb&quot; en la línea de comandos, en lugar de toda la URL. Por ejemplo, si quieres recuperar toda la información de Paul que todavía no tienes en tu repositorio, puedes ejecutar <code>git fetch pb</code>:</p>
 <pre><code>$ git fetch pb
-remote: Counting objects: <span class="hljs-number">58</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">41</span>/<span class="hljs-number">41</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">44</span> (delta <span class="hljs-number">24</span>), reused <span class="hljs-number">1</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-keyword">done</span>.
-From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
- * [<span class="hljs-keyword">new</span> branch]      master     -&gt; pb/master
- * [<span class="hljs-keyword">new</span> branch]      ticgit     -&gt; pb/ticgit
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit
 </code></pre><p>La rama maestra de Paul es accesible localmente como <code>pb/master</code> —puedes unirla a una de tus ramas, o copiarla localmente para inspeccionarla—.</p>
 <h2 id="recibiendo-de-tus-repositorios-remotos">Recibiendo de tus repositorios remotos</h2>
 <p>Como acabas de ver, para recuperar datos de tus repositorios remotos puedes ejecutar:</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch [remote-name]
+<pre><code>$ git fetch [remote-name]
 </code></pre><p>Este comando recupera todos los datos del proyecto remoto que no tengas todavía. Después de hacer esto, deberías tener referencias a todas las ramas del repositorio remoto, que puedes unir o inspeccionar en cualquier momento. (Veremos qué son las ramas y cómo utilizarlas en más detalle en el Capítulo 3.)</p>
 <p>Si clonas un repositorio, el comando añade automáticamente ese repositorio remoto con el nombre de &quot;origin&quot;. Por tanto, <code>git fetch origin</code> recupera toda la información enviada a ese servidor desde que lo clonaste (o desde la última vez que ejecutaste <code>fetch</code>). Es importante tener en cuenta que el comando <code>fetch</code> sólo recupera la información y la pone en tu repositorio local —no la une automáticamente con tu trabajo ni modifica aquello en lo que estás trabajando. Tendrás que unir ambos manualmente a posteriori—.</p>
 <p>Si has configurado una rama para seguir otra rama remota (véase la siguiente sección y el Capítulo 3 para más información), puedes usar el comando <code>git pull</code> para recuperar y unir automáticamente la rama remota con tu rama actual. Éste puede resultarte un flujo de trabajo más sencillo y más cómodo; y por defecto, el comando <code>git clone</code> automáticamente configura tu rama local maestra para que siga la rama remota maestra del servidor del cual clonaste (asumiendo que el repositorio remoto tiene una rama maestra). Al ejecutar <code>git pull</code>, por lo general se recupera la información del servidor del que clonaste, y automáticamente se intenta unir con el código con el que estás trabajando actualmente.</p>
 <h2 id="enviando-a-tus-repositorios-remotos">Enviando a tus repositorios remotos</h2>
 <p>Cuando tu proyecto se encuentra en un estado que quieres compartir, tienes que enviarlo a un repositorio remoto. El comando que te permite hacer esto es sencillo: <code>git push [nombre-remoto][nombre-rama]</code>. Si quieres enviar tu rama maestra (<code>master</code>) a tu servidor origen (<code>origin</code>), ejecutarías esto para enviar tu trabajo al servidor:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git push origin master
 </code></pre><p>Este comando funciona únicamente si has clonado de un servidor en el que tienes permiso de escritura, y nadie ha enviado información mientras tanto. Si tú y otra persona clonais a la vez, y él envía su información y luego envías tú la tuya, tu envío será rechazado. Tendrás que bajarte primero su trabajo e incorporarlo en el tuyo para que se te permita hacer un envío. Véase el Capítulo 3 para ver en detalle cómo enviar a servidores remotos.</p>
 <h2 id="inspeccionando-un-repositorio-remoto">Inspeccionando un repositorio remoto</h2>
 <p>Si quieres ver más información acerca de un repositorio remoto en particular, puedes usar el comando <code>git remote show [nombre]</code>. Si ejecutas este comando pasándole el nombre de un repositorio, como <code>origin</code>, obtienes algo así:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git://github.com/schacon/ticgit.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  URL: git://github.com/schacon/ticgit.git
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
   Tracked remote branches
     master
@@ -905,14 +908,14 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
 <p>El anterior es un sencillo ejemplo que te encontrarás con frecuencia. Sin embargo, cuando uses Git de forma más avanzada, puede que <code>git remote show</code> muestre mucha más información:</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git@github.com:defunkt/github.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">issues</span></span>
+  URL: git@github.com:defunkt/github.git
+  Remote branch merged with &#39;git pull&#39; while on branch issues
     issues
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
-  New remote branches (next fetch will store <span class="hljs-operator">in</span> remotes/origin)
+  New remote branches (next fetch will store in remotes/origin)
     caching
-  Stale tracking branches (use <span class="hljs-string">'git remote prune'</span>)
+  Stale tracking branches (use &#39;git remote prune&#39;)
     libwalker
     walker2
   Tracked remote branches
@@ -922,19 +925,19 @@ From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
     issues
     master
     postgres
-  Local branch pushed <span class="hljs-operator">with</span> <span class="hljs-string">'git push'</span>
+  Local branch pushed with &#39;git push&#39;
     master:master
 </code></pre><p>Este comando muestra qué rama se envía automáticamente cuando ejecutas <code>git push</code> en determinadas ramas. También te muestra qué ramas remotas no tienes todavía, qué ramas remotas tienes y han sido eliminadas del servidor, y múltiples ramas que serán unidas automáticamente cuando ejecutes <code>git pull</code>.</p>
 <h2 id="eliminando-y-renombrando-repositorios-remotos">Eliminando y renombrando repositorios remotos</h2>
 <p>Si quieres renombrar una referencia a un repositorio remoto, en versiones recientes de Git puedes ejecutar <code>git remote rename</code>. Por ejemplo, si quieres renombrar <code>pb</code> a <code>paul</code>, puedes hacerlo de la siguiente manera:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rename pb paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rename pb paul
+$ git remote
 origin
 paul
 </code></pre><p>Conviene mencionar que esto también cambia el nombre de tus ramas remotas. Lo que antes era referenciado en <code>pb/master</code> ahora está en <code>paul/master</code>.</p>
 <p>Si por algún motivo quieres eliminar una referencia —has movido el servidor o ya no estás usando un determinado mirror, o quizás un contribuidor ha dejado de contribuir— puedes usar el comando <code>git remote rm</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rm paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rm paul
+$ git remote
 origin
 </code></pre>
                     
@@ -954,9 +957,9 @@ origin
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

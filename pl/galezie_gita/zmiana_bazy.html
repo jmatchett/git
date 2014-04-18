@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397503694381">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397847855018">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -824,7 +827,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_416">
+                    <section class="normal" id="section-gitbook_415">
                     
                         <h1 id="zmiana-bazy">Zmiana bazy</h1>
 <p>W Git istnieją dwa podstawowe sposoby integrowania zmian z jednej gałęzi do drugiej: scalanie (polecenie <code>merge</code>) oraz zmiana bazy (polecenie <code>rebase</code>). W tym rozdziale dowiesz się, czym jest zmiana bazy, jak ją przeprowadzić, dlaczego jest to świetne narzędzie i w jakich przypadkach lepiej się powstrzymać od jego wykorzystania.</p>
@@ -839,8 +842,8 @@
 <p>W tym wypadku, mógłbyś uruchomić następujące polecenie:</p>
 <pre><code>$ git checkout experiment
 $ git rebase master
-First, rewinding head <span class="hljs-built_in">to</span> replay your work <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">top</span> <span class="hljs-title">of</span> <span class="hljs-title">it</span>...</span>
-Applying: added staged <span class="hljs-command"><span class="hljs-keyword">command</span></span>
+First, rewinding head to replay your work on top of it...
+Applying: added staged command
 </code></pre><p>Polecenie to działa przesuwając się do ostatniego wspólnego przodka obu gałęzi (tej w której się znajdujesz oraz tej <em>do</em> której robisz zmianę bazy), pobierając różnice opisujące kolejne zmiany (ang. diffs) wprowadzane przez kolejne rewizje w gałęzi w której się znajdujesz, zapisując je w tymczasowych plikach, następnie resetuje bieżącą gałąź do tej samej rewizji <em>do</em> której wykonujesz operację zmiany bazy, po czym aplikuje po kolei zapisane zmiany. Ilustruje to rysunek 3-29.</p>
 <p><img src="http://git-scm.com/figures/18333fig0329-tn.png" alt=""></p>
 <p>Figure 3-29. Zmiana bazy dla zmian wprowadzonych w C3 do C4.</p>
@@ -855,26 +858,26 @@ Applying: added staged <span class="hljs-command"><span class="hljs-keyword">com
 <p><img src="http://git-scm.com/figures/18333fig0331-tn.png" alt=""></p>
 <p>Figure 3-31. Historia z gałęzią tematyczną utworzoną na podstawie innej gałęzi tematycznej.</p>
 <p>Załóżmy, że zdecydowałeś się scalić zmiany w kliencie do kodu głównego, ale chcesz się jeszcze wstrzymać ze zmianami po stronie serwera, dopóki nie zostaną one dokładniej przetestowane. Możesz wziąć zmiany w kodzie klienta, których nie ma w kodzie serwera (C8 i C9) i zastosować je na gałęzi głównej używając opcji <code>--onto</code> polecenia <code>git rebase</code>:</p>
-<pre><code>$ git rebase --onto master <span class="hljs-keyword">server</span> <span class="hljs-keyword">client</span>
+<pre><code>$ git rebase --onto master server client
 </code></pre><p>Oznacza to mniej więcej &quot;Przełącz się do gałęzi klienta, określ zmiany wprowadzone od wspólnego przodka gałęzi <code>client</code> i <code>server</code>, a następnie nanieś te zmiany na gałąź główną <code>master</code>. Jest to nieco skomplikowane, ale wynik (pokazany na rysunku 3-32) całkiem niezły.</p>
 <p><img src="http://git-scm.com/figures/18333fig0332-tn.png" alt=""></p>
 <p>Figure 3-32. Zmiana bazy gałęzi tematycznej odbitej z innej gałęzi tematycznej.</p>
 <p>Teraz możesz zwyczajnie przesunąć wskaźnik gałęzi głównej do przodu (rysunek 3-33):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge client
+<pre><code>$ git checkout master
+$ git merge client
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0333-tn.png" alt=""></p>
 <p>Figure 3-33. Przesunięcie do przodu gałęzi master w celu uwzględnienia zmian z gałęzi klienta.</p>
 <p>Powiedzmy, że zdecydujesz się pobrać i scalić zmiany z gałęzi <code>server</code>. Możesz zmienić bazę gałęzi <code>server</code> na wskazywaną przez <code>master</code> bez konieczności przełączania się do gałęzi <code>server</code> używając <code>git rebase [gałąź bazowa] [gałąź tematyczna]</code> - w ten sposób zmiany z gałęzi <code>server</code> zostaną zaaplikowane do gałęzi bazowej <code>master</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git rebase master server
+<pre><code>$ git rebase master server
 </code></pre><p>Polecenie odtwarza zmiany z gałęzi <code>server</code> na gałęzi <code>master</code> tak, jak pokazuje to rysunek 3-34.</p>
 <p><img src="http://git-scm.com/figures/18333fig0334-tn.png" alt=""></p>
 <p>Figure 3-34. Zmiana bazy gałęzi <code>serwer</code> na koniec gałęzi głównej.</p>
 <p>Następnie możesz przesunąć gałąź bazową (<code>master</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge server
+<pre><code>$ git checkout master
+$ git merge server
 </code></pre><p>Możesz teraz usunąć gałęzie <code>client</code> i <code>server</code>, ponieważ cała praca jest już zintegrowana i więcej ich nie potrzebujesz pozostawiając historię w stanie takim, jaki obrazuje rysunek 3-35:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> client
-$ git branch <span class="hljs-operator">-d</span> server
+<pre><code>$ git branch -d client
+$ git branch -d server
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0335-tn.png" alt=""></p>
 <p>Figure 3-35. Ostateczna historia rewizji.</p>
 <h2 id="zagro-enia-operacji-zmiany-bazy">Zagrożenia operacji zmiany bazy</h2>
@@ -914,9 +917,9 @@ $ git branch <span class="hljs-operator">-d</span> server
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

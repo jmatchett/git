@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.2" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,9 +857,9 @@
 <h3 id="-">Определение бинарных файлов</h3>
 <p>Некоторые файлы выглядят как текстовые, но по существу должны рассматриваться как бинарные данные. Например, проекты Xcode на Mac&#39;ах содержат файл, оканчивающийся на <code>.pbxproj</code>, который, по сути, является набором JSON-данных (текстовый формат данных для javascript), записываемым IDE, в котором сохраняются ваши настройки сборки и прочее. Хоть технически это и текстовый файл, потому что содержит только ASCII-символы, но нет смысла рассматривать его как таковой, потому что на самом деле это легковесная база данных — вы не сможете слить её содержимое, если два человека внесут в неё изменение, получение дельт тоже, как правило, ничем вам не поможет. Этот файл предназначается для обработки программой. По сути, лучше рассматривать этот файл как бинарный.</p>
 <p>Чтобы заставить Git обращаться со всеми <code>pbxproj</code>-файлами как с бинарными, добавьте следующую строку в файл <code>.gitattributes</code>:</p>
-<pre><code><span class="hljs-subst">*</span><span class="hljs-built_in">.</span>pbxproj <span class="hljs-attribute">-crlf</span> <span class="hljs-attribute">-diff</span>
+<pre><code>*.pbxproj -crlf -diff
 </code></pre><p>Теперь Git не будет пытаться конвертировать CRLF-концы строк или исправлять проблемы с ними. Также он не будет пытаться получить дельту для изменений в этом файле при запуске <code>git show</code> или <code>git diff</code> в вашем проекте. В Git&#39;е есть предустановленный макрос <code>binary</code>, который означает то же, что и <code>-crlf -diff</code>:</p>
-<pre><code>*.pbxproj <span class="hljs-keyword">binary</span>
+<pre><code>*.pbxproj binary
 </code></pre><h3 id="-">Получение дельты для бинарных файлов</h3>
 <p>Функциональность атрибутов Git&#39;а может быть использована для эффективного получения дельт бинарных файлов. Сделать это можно, объяснив Git&#39;у, как сконвертировать ваши бинарные данные в текстовый формат, для которого можно выполнить сравнение с помощью обычного diff. Осталось только понять, как получить текстовое представление для <em>бинарных</em> данных. Идеальный вариант — найти подходящую утилиту для конвертирования нужного формата в текстовый вид. Но, к сожалению, получить хорошее текстовое представление можно только для весьма ограниченного набора бинарных форматов. Для большинства же бинарных форматов, например, для графических или аудио данных, получить читаемый текстовый вид не представляется возможным. Но если мы не можем получить текстовое представление содержимого, мы зачастую можем получить читаемое описание содержимого или метаданные. Метаданные не дают полное представление о содержимом файле, но, во всяком случае, это лучше чем ничего.</p>
 <p>Далее мы рассмотрим оба подхода на примерах популярных бинарных форматов.</p>
@@ -864,104 +867,104 @@
 <h4 id="-ms-word">Документы MS Word</h4>
 <p>Для начала мы используем описанный подход, чтобы решить одну из самых раздражающих проблем, известных человечеству: версионный контроль документов Word. Всем известно, что Word — это самый ужасающий из всех существующих редакторов, но, как ни странно, все им пользуются. Если вы хотите поместить документы Word под версионный контроль, вы можете запихнуть их в Git-репозиторий и время от времени делать коммиты. Но что в этом хорошего? Если вы запустите <code>git diff</code> как обычно, то увидите только что-то наподобие этого:</p>
 <pre><code>$ git diff 
-diff --git a/chapter1<span class="hljs-preprocessor">.doc</span> b/chapter1<span class="hljs-preprocessor">.doc</span>
-index <span class="hljs-number">88839</span>c4.<span class="hljs-number">.4</span>afcb7c <span class="hljs-number">100644</span>
-Binary files a/chapter1<span class="hljs-preprocessor">.doc</span> <span class="hljs-keyword">and</span> b/chapter1<span class="hljs-preprocessor">.doc</span> differ
+diff --git a/chapter1.doc b/chapter1.doc
+index 88839c4..4afcb7c 100644
+Binary files a/chapter1.doc and b/chapter1.doc differ
 </code></pre><p>У вас не получится сравнить две версии между собой, только если вы не выгрузите их обе и просмотрите их вручную, так? Оказывается, можно сделать это достаточно успешно, используя атрибуты Git&#39;а. Поместите следующую строку в свой файл <code>.gitattributes</code>:</p>
-<pre><code><span class="hljs-attribute">*.doc diff</span>=<span class="hljs-string">word</span>
+<pre><code>*.doc diff=word
 </code></pre><p>Она говорит Git&#39;у, что все файлы, соответствующие указанному шаблону (.doc) должны использовать фильтр &quot;word&quot; при попытке посмотреть дельту с изменениями. Что такое фильтр &quot;word&quot;? Нам нужно его изготовить. Сейчас мы настроим Git на использование программы <code>catdoc</code>, специально написанной для того, чтобы вытаскивать текстовую информацию из бинарных документов MS Word (скачать её можно по адресу <code>http://www.45.free.net/~vitus/software/catdoc/</code>), для конвертирования документов Word в читаемые текстовые файлы, которые Git затем правильно сравнит:</p>
-<pre><code>$ git config diff<span class="hljs-preprocessor">.word</span><span class="hljs-preprocessor">.textconv</span> catdoc
+<pre><code>$ git config diff.word.textconv catdoc
 </code></pre><p>Этой командой в свой <code>.git/config</code> вы добавите следующую секцию:</p>
-<pre><code>[diff <span class="hljs-string">"word"</span>]
+<pre><code>[diff &quot;word&quot;]
     textconv = catdoc
 </code></pre><p>Теперь Git знает, что если ему надо найти дельту между двумя снимками состояния, и какие-то их файлы заканчиваются на <code>.doc</code>, он должен прогнать эти файлы через фильтр &quot;word&quot;, который определён как программа <code>catdoc</code>. Так вы фактически сделаете текстовые версии своих Word-файлов перед тем, как получить для них дельту.</p>
 <p>Рассмотрим пример. Я поместил главу 1 настоящей книги в Git, добавил немного текста в один параграф и сохранил документ. Затем я выполнил <code>git diff</code>, чтобы увидеть, что изменилось:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/chapter1.doc b/chapter1.doc</span>
-index c1c8a0a..b93c9e4 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/chapter1.doc</span>
+diff --git a/chapter1.doc b/chapter1.doc
+index c1c8a0a..b93c9e4 100644
+--- a/chapter1.doc
 +++ b/chapter1.doc
-@@ -<span class="hljs-number">128</span>,<span class="hljs-number">7</span> +<span class="hljs-number">128</span>,<span class="hljs-number">7</span> @@ <span class="hljs-operator">and</span> data size)
- Since its birth <span class="hljs-operator">in</span> <span class="hljs-number">2005</span>, Git has evolved <span class="hljs-operator">and</span> matured <span class="hljs-built_in">to</span> be easy <span class="hljs-built_in">to</span> use
- <span class="hljs-operator">and</span> yet retain these initial qualities. It’s incredibly fast, <span class="hljs-keyword">it</span>’s
- very efficient <span class="hljs-operator">with</span> large projects, <span class="hljs-operator">and</span> <span class="hljs-keyword">it</span> has <span class="hljs-operator">an</span> incredible branching
--<span class="hljs-keyword">system</span> <span class="hljs-keyword">for</span> non-linear development.
-+<span class="hljs-keyword">system</span> <span class="hljs-keyword">for</span> non-linear development (See Chapter <span class="hljs-number">3</span>).
+@@ -128,7 +128,7 @@ and data size)
+ Since its birth in 2005, Git has evolved and matured to be easy to use
+ and yet retain these initial qualities. It’s incredibly fast, it’s
+ very efficient with large projects, and it has an incredible branching
+-system for non-linear development.
++system for non-linear development (See Chapter 3).
 </code></pre><p>Git коротко и ясно дал мне знать, что я добавил строку &quot;(See Chapter 3)&quot;, так оно и есть. Работает идеально.</p>
 <h4 id="-opendocument">Текстовые файлы в формате OpenDocument</h4>
 <p>Тот же подход, который мы использовали для файлов MS Word (<code>*.doc</code>), может быть использован и для текстовых файлов в формате OpenDocument, созданных в OpenOffice.org.</p>
 <p>Добавим следующую строку в файл <code>.gitattributes</code>:</p>
-<pre><code><span class="hljs-attribute">*.odt diff</span>=<span class="hljs-string">odt</span>
+<pre><code>*.odt diff=odt
 </code></pre><p>Теперь настроим фильтр <code>odt</code> в <code>.git/config</code>:</p>
-<pre><code>[diff <span class="hljs-string">"odt"</span>]
-    binary = <span class="hljs-keyword">true</span>
-    textconv = <span class="hljs-regexp">/usr/local</span><span class="hljs-regexp">/bin/odt</span>-to-txt
+<pre><code>[diff &quot;odt&quot;]
+    binary = true
+    textconv = /usr/local/bin/odt-to-txt
 </code></pre><p>Файлы в формате OpenDocument на самом деле являются запакованными zip&#39;ом каталогами с множеством файлов (содержимое в XML-формате, таблицы стилей, изображения и т.д.). Мы напишем свой сценарий для извлечения содержимого и вывода его в виде обычного текста. Создайте файл <code>/usr/local/bin/odt-to-txt</code> (можете создать его в любом другом каталоге) со следующим содержимым:</p>
-<pre><code><span class="hljs-comment">#! /usr/bin/env perl</span>
-<span class="hljs-comment"># Сценарий для конвертации OpenDocument Text (.odt) в обычный текст.</span>
-<span class="hljs-comment"># Автор: Philipp Kempgen</span>
+<pre><code>#! /usr/bin/env perl
+# Сценарий для конвертации OpenDocument Text (.odt) в обычный текст.
+# Автор: Philipp Kempgen
 
-<span class="hljs-keyword">if</span> (! <span class="hljs-keyword">defined</span>(<span class="hljs-variable">$ARGV</span>[<span class="hljs-number">0</span>])) {
-    <span class="hljs-keyword">print</span> STDERR <span class="hljs-string">"Не задано имя файла!\n"</span>;
-    <span class="hljs-keyword">print</span> STDERR <span class="hljs-string">"Использование: <span class="hljs-variable">$0</span> имя файла\n"</span>;
-    <span class="hljs-keyword">exit</span> <span class="hljs-number">1</span>;
+if (! defined($ARGV[0])) {
+    print STDERR &quot;Не задано имя файла!\n&quot;;
+    print STDERR &quot;Использование: $0 имя файла\n&quot;;
+    exit 1;
 }
 
-<span class="hljs-keyword">my</span> <span class="hljs-variable">$content</span> = <span class="hljs-string">''</span>;
-<span class="hljs-keyword">open</span> <span class="hljs-keyword">my</span> <span class="hljs-variable">$fh</span>, <span class="hljs-string">'-|'</span>, <span class="hljs-string">'unzip'</span>, <span class="hljs-string">'-qq'</span>, <span class="hljs-string">'-p'</span>, <span class="hljs-variable">$ARGV</span>[<span class="hljs-number">0</span>], <span class="hljs-string">'content.xml'</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span> <span class="hljs-variable">$!</span>;
+my $content = &#39;&#39;;
+open my $fh, &#39;-|&#39;, &#39;unzip&#39;, &#39;-qq&#39;, &#39;-p&#39;, $ARGV[0], &#39;content.xml&#39; or die $!;
 {
-    <span class="hljs-keyword">local</span> <span class="hljs-variable">$/</span> = <span class="hljs-keyword">undef</span>;  <span class="hljs-comment"># считываем файл целиком</span>
-    <span class="hljs-variable">$content</span> = &lt;<span class="hljs-variable">$fh</span>&gt;;
+    local $/ = undef;  # считываем файл целиком
+    $content = &lt;$fh&gt;;
 }
-<span class="hljs-keyword">close</span> <span class="hljs-variable">$fh</span>;
-<span class="hljs-variable">$_</span> = <span class="hljs-variable">$content</span>;
-<span class="hljs-regexp">s/&lt;text:span\b[^&gt;]*&gt;//g</span>;           <span class="hljs-comment"># удаляем span'ы</span>
-<span class="hljs-keyword">s</span>/&lt;text:h\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n\n<span class="hljs-variable">**</span><span class="hljs-variable">**</span>*  <span class="hljs-regexp">/g;   # заголовки
-s/</span>&lt;text:list-item\b[^&gt;]<span class="hljs-variable">*&gt;</span>\<span class="hljs-keyword">s</span><span class="hljs-variable">*&lt;</span>text:p\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n    --  <span class="hljs-regexp">/g;  # элементы списков
-s/</span>&lt;text:list\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n\n/g;       <span class="hljs-comment"># списки</span>
-<span class="hljs-keyword">s</span>/&lt;text:p\b[^&gt;]<span class="hljs-variable">*&gt;</span>/\n  /g;          <span class="hljs-comment"># параграфы</span>
-<span class="hljs-keyword">s</span>/&lt;[^&gt;]+&gt;<span class="hljs-regexp">//g</span>;                      <span class="hljs-comment"># удаляем все XML-теги</span>
-<span class="hljs-keyword">s</span>/\n{<span class="hljs-number">2</span>,}/\n\n/g;                   <span class="hljs-comment"># удаляем подряд идущие пустые строки</span>
-<span class="hljs-keyword">s</span>/\A\n+<span class="hljs-regexp">//</span>;                         <span class="hljs-comment"># удаляем пустые строки в начале</span>
-<span class="hljs-keyword">print</span> <span class="hljs-string">"\n"</span>, <span class="hljs-variable">$_</span>, <span class="hljs-string">"\n\n"</span>;
+close $fh;
+$_ = $content;
+s/&lt;text:span\b[^&gt;]*&gt;//g;           # удаляем span&#39;ы
+s/&lt;text:h\b[^&gt;]*&gt;/\n\n*****  /g;   # заголовки
+s/&lt;text:list-item\b[^&gt;]*&gt;\s*&lt;text:p\b[^&gt;]*&gt;/\n    --  /g;  # элементы списков
+s/&lt;text:list\b[^&gt;]*&gt;/\n\n/g;       # списки
+s/&lt;text:p\b[^&gt;]*&gt;/\n  /g;          # параграфы
+s/&lt;[^&gt;]+&gt;//g;                      # удаляем все XML-теги
+s/\n{2,}/\n\n/g;                   # удаляем подряд идущие пустые строки
+s/\A\n+//;                         # удаляем пустые строки в начале
+print &quot;\n&quot;, $_, &quot;\n\n&quot;;
 </code></pre><p>Сделайте его исполняемым</p>
-<pre><code>chmod <span class="hljs-subst">+</span>x /usr/<span class="hljs-built_in">local</span>/bin/odt<span class="hljs-attribute">-to</span><span class="hljs-attribute">-txt</span>
+<pre><code>chmod +x /usr/local/bin/odt-to-txt
 </code></pre><p>Теперь <code>git diff</code> сможет сказать вам, что изменилось в <code>.odt</code> файлах.</p>
 <h4 id="-">Изображения</h4>
 <p>Ещё одна интересная проблема, которую можно решить таким способом, это сравнение файлов изображений. Один из способов сделать это — прогнать PNG-файлы через фильтр, извлекающий их EXIF-информацию — метаданные, которые дописываются в большинство форматов изображений. Если скачаете и установите программу <code>exiftool</code>, то сможете воспользоваться ею, чтобы извлечь из изображений текстовую информацию о метаданных, так чтобы diff хоть как-то показал вам текстовое представление произошедших изменений:</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'*.png diff=exif'</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>git config diff.exif.textconv exiftool
+<pre><code>$ echo &#39;*.png diff=exif&#39; &gt;&gt; .gitattributes
+$ git config diff.exif.textconv exiftool
 </code></pre><p>Если вы замените в проекте изображение и запустите <code>git diff</code>, то получите что-то вроде такого:</p>
 <pre><code>diff --git a/image.png b/image.png
 index 88839c4..4afcb7c 100644
-<span class="hljs-header">--- a/image.png</span>
-<span class="hljs-header">+++ b/image.png</span>
-<span class="hljs-chunk">@@ -1,12 +1,12 @@</span>
+--- a/image.png
++++ b/image.png
+@@ -1,12 +1,12 @@
  ExifTool Version Number         : 7.74
-<span class="hljs-deletion">-File Size                       : 70 kB</span>
-<span class="hljs-deletion">-File Modification Date/Time     : 2009:04:17 10:12:35-07:00</span>
-<span class="hljs-addition">+File Size                       : 94 kB</span>
-<span class="hljs-addition">+File Modification Date/Time     : 2009:04:21 07:02:43-07:00</span>
+-File Size                       : 70 kB
+-File Modification Date/Time     : 2009:04:17 10:12:35-07:00
++File Size                       : 94 kB
++File Modification Date/Time     : 2009:04:21 07:02:43-07:00
  File Type                       : PNG
  MIME Type                       : image/png
-<span class="hljs-deletion">-Image Width                     : 1058</span>
-<span class="hljs-deletion">-Image Height                    : 889</span>
-<span class="hljs-addition">+Image Width                     : 1056</span>
-<span class="hljs-addition">+Image Height                    : 827</span>
+-Image Width                     : 1058
+-Image Height                    : 889
++Image Width                     : 1056
++Image Height                    : 827
  Bit Depth                       : 8
  Color Type                      : RGB with Alpha
 </code></pre><p>Легко можно заметить, что размер файла, а также высота и ширина изображения поменялись.</p>
 <h2 id="-">Развёртывание ключа</h2>
 <p>Разработчики, привыкшие к SVN или CVS, часто хотят получить в Git&#39;е возможность развёртывания ключа в стиле этих систем. Основная проблема с реализацией этой функциональности в Git&#39;е это то, что нельзя записать в файл информацию о коммите после того, как коммит был сделан, так как Git сначала считает контрольную сумму для файла. Несмотря на это, вы можете вставлять текст в файл во время его выгрузки и удалять его перед добавлением в коммит. Атрибуты Git&#39;а предлагают два варианта сделать это.</p>
 <p>Во-первых, вы можете внедрять SHA-1-сумму блоба в поле <code>$Id$</code> в файл автоматически. Если установить соответствующий атрибут для одного или нескольких файлов, то в следующий раз, когда вы будете выгружать данные из этой ветки, Git будет заменять это поле SHA-суммой блоба. Обратите внимание, что это SHA-1 не коммита, а самого блоба.</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'*.txt ident'</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>echo <span class="hljs-string">'$Id$'</span> &gt; test.txt
-<span class="hljs-variable">$ </span>git add test.txt
+<pre><code>$ echo &#39;*.txt ident&#39; &gt;&gt; .gitattributes
+$ echo &#39;$Id$&#39; &gt; test.txt
+$ git add test.txt
 </code></pre><p>В следующий раз, когда вы будете выгружать этот файл, Git автоматически вставит в него SHA его блоба:</p>
-<pre><code><span class="hljs-variable">$ </span>rm test.txt
-<span class="hljs-variable">$ </span>git checkout -- test.txt
-<span class="hljs-variable">$ </span>cat test.txt 
-<span class="hljs-variable">$Id</span><span class="hljs-symbol">:</span> <span class="hljs-number">42812</span>b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+<pre><code>$ rm test.txt
+$ git checkout -- test.txt
+$ cat test.txt 
+$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 </code></pre><p>Однако, такой результат мало применим. Если вы раньше пользовались развёртыванием ключа в CVS или Subversion, можете добавлять метку даты — SHA не особенно полезен, так как он довольно случаен, и к тому же, глядя на две SHA-суммы, никак не определить какая из них новее.</p>
 <p>Как оказывается, можно написать свои собственные фильтры, которые будут делать подстановки в файлах при коммитах и выгрузке файлов. Для этого надо задать фильтры &quot;clean&quot; и &quot;smudge&quot;. В файле <code>.gitattributes</code> можно задать фильтр для определённых путей и затем установить сценарии, которые будут обрабатывать файлы непосредственно перед выгрузкой (&quot;smudge&quot;, см. рис. 7-2) и прямо перед коммитом (&quot;clean&quot;, см. рис. 7-3). Эти фильтры можно настроить на совершение абсолютно любых действий.</p>
 <p><img src="http://git-scm.com/figures/18333fig0702-tn.png" alt=""></p>
@@ -969,54 +972,54 @@ index 88839c4..4afcb7c 100644
 <p><img src="http://git-scm.com/figures/18333fig0703-tn.png" alt=""></p>
 <p>Рисунок 7-3. Фильтр “clean” выполняется при помещении файлов в индекс.</p>
 <p>В сообщении первоначального коммита, добавляющего эту функциональность, дан простой пример того, как можно пропустить весь свой исходный код на C через программу <code>indent</code> перед коммитом. Сделать это можно, задав атрибут filter в файле <code>.gitattributes</code> так, чтобы он пропускал файлы <code>*.c</code> через фильтр &quot;indent&quot;:</p>
-<pre><code><span class="hljs-attribute">*.c     filter</span>=<span class="hljs-string">indent</span>
+<pre><code>*.c     filter=indent
 </code></pre><p>Затем укажите Git&#39;у, что должен делать фильтр &quot;indent&quot; при smudge и clean:</p>
-<pre><code>$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.clean</span> indent
-$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.smudge</span> cat
+<pre><code>$ git config --global filter.indent.clean indent
+$ git config --global filter.indent.smudge cat
 </code></pre><p>В нашем случае, когда вы будете делать коммит, содержащий файлы, соответствующие шаблону <code>*.c</code>, Git прогонит их через программу <code>indent</code> перед коммитом, а потом через программу <code>cat</code> перед тем как выгрузить их на диск. Программа <code>cat</code>, по сути, является холостой — она выдаёт те же данные, которые получила. Фактически эта комбинация профильтровывает все файлы с исходным кодом на C через <code>indent</code> перед тем, как сделать коммит.</p>
 <p>Ещё один интересный пример — это развёртывание ключа <code>$Date$</code> в стиле RCS. Чтобы сделать его правильно, нам понадобится небольшой сценарий, который принимает на вход имя файла, определяет дату последнего коммита в проекте и вставляет эту дату в наш файл. Вот небольшой сценарий на Ruby, который делает именно это:</p>
-<pre><code><span class="hljs-preprocessor">#! /usr/bin/env ruby</span>
-<span class="hljs-typedef"><span class="hljs-keyword">data</span> = <span class="hljs-type">STDIN</span>.read</span>
-<span class="hljs-title">last_date</span> = `git log <span class="hljs-comment">--pretty=format:"%ad" -1`</span>
-<span class="hljs-title">puts</span> <span class="hljs-typedef"><span class="hljs-keyword">data</span>.gsub<span class="hljs-container">('$<span class="hljs-type">Date</span>$', '$<span class="hljs-type">Date</span>: ' + <span class="hljs-title">last_date</span>.<span class="hljs-title">to_s</span> + '$')</span></span>
+<pre><code>#! /usr/bin/env ruby
+data = STDIN.read
+last_date = `git log --pretty=format:&quot;%ad&quot; -1`
+puts data.gsub(&#39;$Date$&#39;, &#39;$Date: &#39; + last_date.to_s + &#39;$&#39;)
 </code></pre><p>Всё, что делает этот сценарий, это получает дату последнего коммита с помощью команды <code>git log</code>, засовывает её во все строки <code>$Date$</code>, которые видит в stdin, и выводит результат — такое должно быть несложно реализовать на любом удобном вам языке. Давайте назовём этот файл <code>expand_date</code> и поместим в путь. Теперь в Git&#39;е необходимо настроить фильтр (назовём его <code>dater</code>) и указать, что надо использовать фильтр <code>expand_date</code> при выполнении smudge во время выгрузки файлов. Воспользуемся регулярным выражением Perl, чтобы убрать изменения при коммите:</p>
-<pre><code><span class="hljs-formula">$ git config filter.dater.smudge expand_date
-$</span> git config filter.dater.clean 'perl -pe "s/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-special">[</span>^<span class="hljs-command">\\</span><span class="hljs-command">\$</span><span class="hljs-special">]</span>*<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/"'
+<pre><code>$ git config filter.dater.smudge expand_date
+$ git config filter.dater.clean &#39;perl -pe &quot;s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/&quot;&#39;
 </code></pre><p>Этот фрагмент кода на Perl&#39;е вырезает всё, что находит в строке <code>$Date$</code> так, чтобы вернуть всё в начальное состояние. Теперь, когда наш фильтр готов, можете протестировать его, создав файл с ключом <code>$Date$</code> и установив для этого файла Git-атрибут, который задействует для него новый фильтр:</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'# $Date$'</span> &gt; date_test.txt
-$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'date*.txt filter=dater'</span> &gt;&gt; .gitattributes
+<pre><code>$ echo &#39;# $Date$&#39; &gt; date_test.txt
+$ echo &#39;date*.txt filter=dater&#39; &gt;&gt; .gitattributes
 </code></pre><p>Если мы сейчас добавим эти изменения в коммит и снова выгрузим файл, то мы увидим, что ключевое слово было заменено правильно:</p>
-<pre><code>$ git <span class="hljs-keyword">add</span> date_test<span class="hljs-preprocessor">.txt</span> <span class="hljs-preprocessor">.gitattributes</span>
-$ git commit -m <span class="hljs-string">"Testing date expansion in Git"</span>
-$ rm date_test<span class="hljs-preprocessor">.txt</span>
-$ git checkout date_test<span class="hljs-preprocessor">.txt</span>
-$ cat date_test<span class="hljs-preprocessor">.txt</span>
-<span class="hljs-preprocessor"># $Date: Tue Apr 21 07:26:52 2009 -0700$</span>
+<pre><code>$ git add date_test.txt .gitattributes
+$ git commit -m &quot;Testing date expansion in Git&quot;
+$ rm date_test.txt
+$ git checkout date_test.txt
+$ cat date_test.txt
+# $Date: Tue Apr 21 07:26:52 2009 -0700$
 </code></pre><p>Как видите, такая техника может быть весьма мощной для настройки проекта под свои нужды. Но вы должны быть осторожны, ибо файл <code>.gitattributes</code> вы добавите в коммит и будете его распространять вместе с проектом, а драйвер (в нашем случае <code>dater</code>) — нет. Так что не везде оно будет работать. Когда будете проектировать свои фильтры, постарайтесь сделать так, чтобы при возникновении в них ошибки проект не переставал работать правильно.</p>
 <h2 id="-">Экспорт репозитория</h2>
 <p>Ещё атрибуты в Git&#39;е позволяют делать некоторые интересные вещи при экспортировании архива с проектом.</p>
 <h3 id="export-ignore">export-ignore</h3>
 <p>Вы можете попросить Git не экспортировать определённые файлы и каталоги при создании архива. Если у вас есть подкаталог или файл, который вы не желаете включать в архив, но хотите, чтобы в проекте он был, можете установить для такого файла атрибут <code>export-ignore</code>.</p>
 <p>Например, скажем, у вас в подкаталоге <code>test/</code> имеются некоторые тестовые файлы, и нет никакого смысла добавлять их в тарбол при экспорте проекта. Тогда добавим следующую строку в файл с Git-атрибутами:</p>
-<pre><code>test/ <span class="hljs-keyword">export</span>-ignore
+<pre><code>test/ export-ignore
 </code></pre><p>Теперь, если вы запустите <code>git archive</code>, чтобы создать тарбол с проектом, этот каталог в архив включён не будет.</p>
 <h3 id="export-subst">export-subst</h3>
 <p>Ещё одна вещь, которую можно сделать с архивами, — это сделать какую-нибудь простую подстановку ключевых слов. Git позволяет добавить в любой файл строку вида <code>$Format:$</code> с любыми кодами форматирования, доступными в <code>--pretty=format</code> (многие из этих кодов мы рассматривали в главе 2). Например, если вам захотелось добавить в проект файл с именем <code>LAST_COMMIT</code>, в который при запуске <code>git archive</code> будет автоматически помещаться дата последнего коммита, то такой файл вы можете сделать следующим образом:</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'Last commit date: $Format:%cd$'</span> &gt; <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-variable">$ </span>echo <span class="hljs-string">"LAST_COMMIT export-subst"</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">LAST_COMMIT</span> .gitattributes
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'adding LAST_COMMIT file for archives'</span>
+<pre><code>$ echo &#39;Last commit date: $Format:%cd$&#39; &gt; LAST_COMMIT
+$ echo &quot;LAST_COMMIT export-subst&quot; &gt;&gt; .gitattributes
+$ git add LAST_COMMIT .gitattributes
+$ git commit -am &#39;adding LAST_COMMIT file for archives&#39;
 </code></pre><p>После запуска <code>git archive</code> этот файл у вас в архиве будет иметь содержимое следующего вида:</p>
-<pre><code><span class="hljs-variable">$ </span>cat <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-constant">Last</span> commit <span class="hljs-symbol">date:</span> <span class="hljs-variable">$Format</span><span class="hljs-symbol">:Tue</span> <span class="hljs-constant">Apr</span> <span class="hljs-number">21</span> 08<span class="hljs-symbol">:</span><span class="hljs-number">38</span><span class="hljs-symbol">:</span><span class="hljs-number">48</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>$
+<pre><code>$ cat LAST_COMMIT
+Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 </code></pre><h2 id="-">Стратегии слияния</h2>
 <p>Атрибуты Git&#39;а могут также быть использованы для того, чтобы попросить Git использовать другие стратегии слияния для определённых файлов в проекте. Одна очень полезная возможность — это сказать Git&#39;у, чтобы он не пытался слить некоторые файлы, если для них есть конфликт, а просто выбрал ваш вариант, предпочтя его чужому.</p>
 <p>Это полезно в том случае, если ветка в вашем проекте разошлась с исходной, но вам всё же хотелось бы иметь возможность слить изменения из неё обратно, проигнорировав некоторые файлы. Скажем, у вас есть файл с настройками базы данных, который называется database.xml, и в двух ветках он разный, и вы хотите влить другую свою ветку, не трогая файл с настройками базы данных. Задайте атрибут следующим образом:</p>
-<pre><code><span class="hljs-attribute">database.xml merge</span>=<span class="hljs-string">ours</span>
+<pre><code>database.xml merge=ours
 </code></pre><p>При вливании другой ветки, вместо конфликтов слияния для файла database.xml, вы увидите следующее:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> topic
-Auto-merging <span class="hljs-keyword">database</span>.xml
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.</span>
+<pre><code>$ git merge topic
+Auto-merging database.xml
+Merge made by recursive.
 </code></pre><p>В данном случае database.xml остался в том варианте, в каком и был изначально.</p>
 
                     
@@ -1036,9 +1039,9 @@ Auto-merging <span class="hljs-keyword">database</span>.xml
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

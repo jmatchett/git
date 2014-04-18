@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.4" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.4" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -852,137 +855,137 @@
 <h2 id="-">Изменение последнего коммита</h2>
 <p>Изменение последнего коммита — это, вероятно, наиболее типичный случай переписывания истории, который вы будете делать. Как правило, вам от вашего последнего коммита понадобятся две основные вещи: изменить сообщение коммита или изменить только что записанный снимок состояния, добавив, изменив или удалив из него файлы.</p>
 <p>Если вы всего лишь хотите изменить сообщение последнего коммита — это очень просто:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><p>Выполнив это, вы попадёте в свой текстовый редактор, в котором будет находиться сообщение последнего коммита, готовое к тому, чтобы его отредактировали. Когда вы сохраните текст и закроете редактор, Git создаст новый коммит с вашим сообщением и сделает его новым последним коммитом.</p>
 <p>Если вы сделали коммит и затем хотите изменить снимок состояния в коммите, добавив или изменив файлы, допустим, потому что вы забыли добавить только что созданный файл, когда делали коммит, то процесс выглядит в основном так же. Вы добавляете в индекс изменения, которые хотите, редактируя файл и выполняя для него <code>git add</code> или выполняя <code>git rm</code> для отслеживаемого файла, и затем <code>git commit --amend</code> возьмёт текущий индекс и сделает его снимком состояния нового коммита.</p>
 <p>Будьте осторожны, используя этот приём, потому что <code>git commit --amend</code> меняет SHA-1 коммита. Тут как с маленьким перемещением (rebase) — не правьте последний коммит, если вы его уже куда-то отправили.</p>
 <h2 id="-">Изменение сообщений нескольких коммитов</h2>
 <p>Чтобы изменить коммит, находящийся глубоко в истории, вам придётся перейти к использованию более сложных инструментов. В Git&#39;е нет специального инструмента для редактирования истории, но вы можете использовать <code>rebase</code> для перемещения ряда коммитов на то же самое место, где они были изначально, а не куда-то в другое место. Используя инструмент для интерактивного перемещения, вы можете останавливаться на каждом коммите, который хотите изменить, и редактировать сообщение, добавлять файлы или делать что-то ещё. Интерактивное перемещение можно запустить, добавив опцию <code>-i</code> к <code>git rebase</code>. Необходимо указать, насколько далёкие в истории коммиты вы хотите переписать, сообщив команде, на какой коммит выполняется перемещение.</p>
 <p>Например, если вы хотите изменить сообщения последних трёх коммитов или сообщения для только некоторых коммитов в этой группе, вам надо передать в <code>git rebase -i</code> в качестве аргумента родителя последнего коммита, который вы хотите изменить, то есть <code>HEAD~2^</code> или <code>HEAD~3</code>. Наверное, проще запомнить <code>~3</code>, потому что вы пытаетесь отредактировать три последних коммита, но имейте в виду, что на самом деле вы обозначили четвёртый сверху коммит — родительский коммит для того, который хотите отредактировать:</p>
-<pre><code><span class="hljs-variable">$ </span>git rebase -i <span class="hljs-constant">HEAD</span>~<span class="hljs-number">3</span>
+<pre><code>$ git rebase -i HEAD~3
 </code></pre><p>Снова напомним, что это команда для перемещения, то есть все коммиты в диапазоне <code>HEAD~3..HEAD</code> будут переписаны вне зависимости от того, меняли ли вы в них сообщение или нет. Не трогайте те коммиты, которые вы уже отправили на центральный сервер — сделав так, вы запутаете других разработчиков, дав им разные версии одних и тех же изменений.</p>
 <p>Запуск этой команды выдаст вам в текстовом редакторе список коммитов, который будет выглядеть следующим образом:</p>
 <pre><code>pick f7f3f6d changed my name a bit
-pick <span class="hljs-number">310154</span>e updated<span class="hljs-constant"> README </span>formatting and added blame
+pick 310154e updated README formatting and added blame
 pick a5f4a0d added cat-file
 
-<span class="hljs-preprocessor"># Rebase 710f0f8..a5f4a0d onto 710f0f8</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Commands:</span>
-<span class="hljs-preprocessor">#  p, pick = use commit</span>
-<span class="hljs-preprocessor">#  e, edit = use commit, but stop for amending</span>
-<span class="hljs-preprocessor">#  s, squash = use commit, but meld into previous commit</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
-<span class="hljs-preprocessor"># However, if you remove everything, the rebase will be aborted.</span>
-<span class="hljs-preprocessor">#</span>
+# Rebase 710f0f8..a5f4a0d onto 710f0f8
+#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+#
 </code></pre><p>Важно отметить, что эти коммиты выведены в обратном порядке по сравнению с тем, как вы их обычно видите, используя команду <code>log</code>. Запустив <code>log</code>, вы получите что-то вроде этого:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> <span class="hljs-variable">%s</span>"</span> HEAD~<span class="hljs-number">3</span>..HEAD
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; HEAD~3..HEAD
 a5f4a0d added cat-file
-<span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-f7f3f6d changed <span class="hljs-keyword">my</span> name a bit
+310154e updated README formatting and added blame
+f7f3f6d changed my name a bit
 </code></pre><p>Обратите внимание на обратный порядок. Интерактивное перемещение выдаёт сценарий, который будет выполнен. Он начнётся с коммита, который вы указали в командной строке (<code>HEAD~3</code>), и воспроизведёт изменения, сделанные каждым из этих коммитов, сверху вниз. Наверху указан самый старый коммит, а не самый новый, потому что он будет воспроизведён первым.</p>
 <p>Вам надо отредактировать сценарий так, чтобы он останавливался на коммитах, которые вы хотите отредактировать. Чтобы сделать это, замените слово pick на слово edit для каждого коммита, на котором сценарий должен остановиться. Например, чтобы изменить сообщение только для третьего коммита, отредактируйте файл так, чтобы он выглядел следующим образом:</p>
-<pre><code>edit f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>edit f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><p>Когда вы сохраните и выйдете из редактора, Git откатит вас назад к последнему коммиту в списке и выкинет вас в командную строку, выдав следующее сообщение:</p>
-<pre><code>$ git rebase -i HEAD~<span class="hljs-number">3</span>
-Stopped <span class="hljs-keyword">at</span> <span class="hljs-number">7482e0</span>d... updated <span class="hljs-keyword">the</span> gemspec <span class="hljs-keyword">to</span> hopefully work better
-You can amend <span class="hljs-keyword">the</span> commit now, <span class="hljs-keyword">with</span>
+<pre><code>$ git rebase -i HEAD~3
+Stopped at 7482e0d... updated the gemspec to hopefully work better
+You can amend the commit now, with
 
-       git commit <span class="hljs-comment">--amend</span>
+       git commit --amend
 
-Once you’re satisfied <span class="hljs-keyword">with</span> your changes, <span class="hljs-command">run</span>
+Once you’re satisfied with your changes, run
 
-       git rebase <span class="hljs-comment">--continue</span>
+       git rebase --continue
 </code></pre><p>В этой инструкции в точности сказано, что надо сделать. Наберите</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><p>Измените сообщение коммита и выйдите из редактора. Теперь выполните</p>
-<pre><code>$ git rebase --<span class="hljs-keyword">continue</span>
+<pre><code>$ git rebase --continue
 </code></pre><p>Данная команда применит оставшиеся два коммита автоматически и закончит на этом. Если вы измените pick на edit для большего количества строк, то вы повторите эти шаги для каждого коммита, где вы напишете edit. Каждый раз Git будет останавливаться, давая вам исправить коммит, а потом, когда вы закончите, будет продолжать.</p>
 <h2 id="-">Переупорядочение коммитов</h2>
 <p>Интерактивное перемещение можно также использовать для изменения порядка следования и для полного удаления коммитов. Если вы хотите удалить коммит &quot;added cat-file&quot; и поменять порядок, в котором идут два других коммита, измените сценарий для rebase с такого</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><p>на такой:</p>
-<pre><code>pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
+<pre><code>pick 310154e updated README formatting and added blame
+pick f7f3f6d changed my name a bit
 </code></pre><p>Когда вы сохраните и выйдете из редактора, Git откатит вашу ветку к родительскому для этих трёх коммиту, применит <code>310154e</code>, затем <code>f7f3f6d</code>, а потом остановится. Вы фактически поменяли порядок следования коммитов и полностью удалили коммит &quot;added cat-file&quot;.</p>
 <h2 id="-">Уплотнение коммитов</h2>
 <p>С помощью интерактивного перемещения также возможно взять несколько коммитов и сплющить их в один коммит. Сценарий выдаёт полезное сообщение с инструкциями для перемещения:</p>
-<pre><code><span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Commands:</span>
-<span class="hljs-preprocessor">#  p, pick = use commit</span>
-<span class="hljs-preprocessor">#  e, edit = use commit, but stop for amending</span>
-<span class="hljs-preprocessor">#  s, squash = use commit, but meld into previous commit</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
-<span class="hljs-preprocessor"># However, if you remove everything, the rebase will be aborted.</span>
-<span class="hljs-preprocessor">#</span>
+<pre><code>#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+#
 </code></pre><p>Если вместо &quot;pick&quot; или &quot;edit&quot; указать &quot;squash&quot;, Git применит изменения и из этого коммита, и из предыдущего, а затем даст вам объединить сообщения для коммитов. Итак, чтобы сделать один коммит из трёх наших коммитов, надо сделать так, чтобы сценарий выглядел следующим образом:</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-squash <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-squash a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+squash 310154e updated README formatting and added blame
+squash a5f4a0d added cat-file
 </code></pre><p>Когда вы сохраните и выйдете из редактора, Git применит все три изменения, а затем опять выдаст вам редактор для того, чтобы объединить сообщения трёх коммитов:</p>
-<pre><code># This <span class="hljs-keyword">is</span> a combination <span class="hljs-keyword">of</span> <span class="hljs-number">3</span> commits.
-# The first commit<span class="hljs-attribute">'s</span> message <span class="hljs-keyword">is</span>:
-changed my name a <span class="hljs-typename">bit</span>
+<pre><code># This is a combination of 3 commits.
+# The first commit&#39;s message is:
+changed my name a bit
 
-# This <span class="hljs-keyword">is</span> the <span class="hljs-number">2</span>nd commit message:
+# This is the 2nd commit message:
 
-updated README formatting <span class="hljs-keyword">and</span> added blame
+updated README formatting and added blame
 
-# This <span class="hljs-keyword">is</span> the <span class="hljs-number">3</span>rd commit message:
+# This is the 3rd commit message:
 
-added cat-<span class="hljs-keyword">file</span>
+added cat-file
 </code></pre><p>Когда вы это сохраните, у вас будет один коммит, который вносит изменения такие же, как три бывших коммита.</p>
 <h2 id="-">Разбиение коммита</h2>
 <p>Разбиение коммита — это отмена коммита, а затем индексирование изменений частями и добавление коммитов столько раз, сколько коммитов вы хотите получить. Предположим, что вы хотите разбить средний из наших трёх коммитов. Вместо &quot;updated README formatting and added blame&quot; вы хотите получить два отдельных коммита: &quot;updated README formatting&quot; в качестве первого и &quot;added blame&quot; в качестве второго. Вы можете сделать это в сценарии <code>rebase -i</code>, поставив &quot;edit&quot; в инструкции для коммита, который хотите разбить:</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-edit <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+edit 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><p>Когда вы сохраните и выйдете из редактора, Git откатится к родителю первого коммита в списке, применит первый коммит (<code>f7f3f6d</code>), применит второй (<code>310154e</code>) и выбросит вас в консоль. Здесь вы можете сбросить последний коммит в смешанном режиме с помощью <code>git reset HEAD^</code> — это в сущности отменит этот коммит и оставит изменённые файлы непроиндексированными. Теперь вы можете взять сброшенные изменения и создать из них несколько коммитов. Просто добавляйте файлы в индекс и делайте коммиты, пока не сделаете несколько штук. Затем, когда закончите, выполните <code>git rebase --continue</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git reset <span class="hljs-constant">HEAD</span>^
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'updated README formatting'</span>
-<span class="hljs-variable">$ </span>git add lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'added blame'</span>
-<span class="hljs-variable">$ </span>git rebase --continue
+<pre><code>$ git reset HEAD^
+$ git add README
+$ git commit -m &#39;updated README formatting&#39;
+$ git add lib/simplegit.rb
+$ git commit -m &#39;added blame&#39;
+$ git rebase --continue
 </code></pre><p>Когда Git применит последний коммит (<code>a5f4a0d</code>) в сценарии, история будет выглядеть так:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> -<span class="hljs-number">4</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> <span class="hljs-variable">%s</span>"</span>
-<span class="hljs-number">1</span>c002dd added cat-file
-<span class="hljs-number">9</span>b29157 added blame
-<span class="hljs-number">35</span>cfb2b updated README formatting
-f3cc40e changed <span class="hljs-keyword">my</span> name a bit
+<pre><code>$ git log -4 --pretty=format:&quot;%h %s&quot;
+1c002dd added cat-file
+9b29157 added blame
+35cfb2b updated README formatting
+f3cc40e changed my name a bit
 </code></pre><p>Повторимся ещё раз, что эта операция меняет SHA всех коммитов в списке, так что убедитесь, что ни один из коммитов в этом списке вы ещё не успели отправить в общий репозиторий.</p>
 <h2 id="-filter-branch">Крайнее средство: filter-branch</h2>
 <p>Есть ещё один вариант переписывания истории, который можно использовать, если надо переписать большое количество коммитов в автоматизируемой форме — например, везде поменять свой e-mail адрес или удалить файл из каждого коммита — это команда <code>filter-branch</code>. Она может переписать огромные периоды вашей истории, так что, возможно, вообще не стоит использовать её, если ваш проект успел стать публичным и другие люди уже работают на основе коммитов, которые вы собрались переписать. Однако, она может быть весьма полезной. Мы посмотрим на некоторые типичные варианты использования команды так, чтобы вы получили представление о тех вещах, на которые она способна.</p>
 <h3 id="-">Удаление файла изо всех коммитов</h3>
 <p>Такое случается довольно часто. Кто-нибудь случайно добавляет в коммит огромный бинарный файл, необдуманно выполнив <code>git add .</code>, и вы хотите удалить его отовсюду. Или, может быть, вы нечаянно добавили в коммит файл содержащий пароль, а теперь хотите сделать код этого проекта открытым. <code>filter-branch</code> — это тот инструмент, который вы наверняка захотите использовать, чтобы прочесать всю историю. Чтобы удалить файл с именем passwords.txt изо всей истории, используйте опцию <code>--tree-filter</code> для <code>filter-branch</code>:</p>
-<pre><code>$ git <span class="hljs-keyword">filter</span>-branch --tree-<span class="hljs-keyword">filter</span> <span class="hljs-string">'rm -f passwords.txt'</span> HEAD
-Rewrite <span class="hljs-number">6</span>b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (<span class="hljs-number">21</span>/<span class="hljs-number">21</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --tree-filter &#39;rm -f passwords.txt&#39; HEAD
+Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><p>Опция <code>--tree-filter</code> выполняет указанную команду после выгрузки каждой версии проекта и затем заново делает коммит из результата. В нашем случае мы удалили файл с именем passwords.txt из каждого снимка состояния независимо от того, существовал ли он там или нет. Если вы хотите удалить все случайно добавленные резервные копии, сделанные вашим текстовым редактором, выполните что-то типа <code>git filter-branch --tree-filter &quot;find * -type f -name &#39;*~&#39; -delete&quot; HEAD</code>.</p>
 <p>Вы увидите, как Git переписывает деревья и коммиты, а в конце переставляет указатель ветки. Как правило, хороший вариант — делать это в тестовой ветке, а затем жёстко сбрасывать ветку master с помощью <code>reset --hard</code>, когда вы поймёте, что результат — это то, чего вы действительно добивались. Чтобы запустить <code>filter-branch</code> для всех веток, можно передать команде параметр <code>--all</code>.</p>
 <h3 id="-">Сделать подкаталог новым корнем</h3>
 <p>Предположим, вы импортировали репозиторий из другой системы контроля версий, и в нём есть бессмысленные каталоги (trunk, tags, и др.). Если вы хотите сделать <code>trunk</code> новым корнем проекта, команда <code>filter-branch</code> может помочь вам сделать и это:</p>
-<pre><code>$ git <span class="hljs-built_in">filter</span>-branch <span class="hljs-comment">--subdirectory-filter trunk HEAD</span>
-Rewrite <span class="hljs-number">856</span>f0bf61e41a27326cdae8f09fe708d679f596f (<span class="hljs-number">12</span>/<span class="hljs-number">12</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --subdirectory-filter trunk HEAD
+Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><p>Теперь всюду корневой каталог проекта будет в подкаталоге <code>trunk</code>. Git также автоматически удалит все коммиты, которые не затрагивают данный подкаталог.</p>
 <h3 id="-e-mail-">Глобальное изменение e-mail адреса</h3>
 <p>Ещё один типичный случай — это, когда вы забыли выполнить <code>git config</code>, чтобы задать своё имя и e-mail адрес, перед тем как начать работать. Или, возможно, вы хотите открыть код своего проекта с работы и поменять все свои рабочие e-mail&#39;ы на свой личный адрес. В любом случае с помощью <code>filter-branch</code> вы с таким же успехом можете поменять адреса почты в нескольких коммитах за один раз. Вам надо быть аккуратным, чтобы не поменять и чужие адреса, поэтому используйте <code>--commit-filter</code>:</p>
-<pre><code>$ git filter-branch --commit-filter <span class="hljs-comment">'</span>
-        <span class="hljs-keyword">if</span> [ <span class="hljs-string">"$GIT_AUTHOR_EMAIL"</span> = <span class="hljs-string">"schacon@localhost"</span> ];
-        <span class="hljs-keyword">then</span>
-                GIT_AUTHOR_NAME=<span class="hljs-string">"Scott Chacon"</span>;
-                GIT_AUTHOR_EMAIL=<span class="hljs-string">"schacon@example.com"</span>;
-                git commit-tree <span class="hljs-string">"$@"</span>;
-        <span class="hljs-keyword">else</span>
-                git commit-tree <span class="hljs-string">"$@"</span>;
-        fi<span class="hljs-comment">' HEAD</span>
+<pre><code>$ git filter-branch --commit-filter &#39;
+        if [ &quot;$GIT_AUTHOR_EMAIL&quot; = &quot;schacon@localhost&quot; ];
+        then
+                GIT_AUTHOR_NAME=&quot;Scott Chacon&quot;;
+                GIT_AUTHOR_EMAIL=&quot;schacon@example.com&quot;;
+                git commit-tree &quot;$@&quot;;
+        else
+                git commit-tree &quot;$@&quot;;
+        fi&#39; HEAD
 </code></pre><p>Эта команда проходит по всем коммитам и переписывает их так, чтобы там был указан новый адрес. Так как коммиты содержат значения SHA-1 своих родителей, эта команда поменяет все SHA в вашей истории, а не только те, в которых есть указанный e-mail адрес.</p>
 
                     
@@ -1002,9 +1005,9 @@ Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

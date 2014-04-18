@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.6" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.6" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -841,30 +844,30 @@
 <p><img src="http://git-scm.com/figures/18333fig0401-tn.png" alt=""></p>
 <p>Figura 4-1. El interface web GitWeb.</p>
 <p>Si quieres comprobar cómo podría quedar GitWeb con tu proyecto, Git dispone de un comando para activar una instancia temporal, si en tu sistema tienes un servidor web ligero, como por ejemplo &#39;lighttup&#39; o &#39;webrick&#39;. En las máquinas Linux, &#39;lighttpd&#39; suele estar habitualmente instalado. Por lo que tan solo has de activarlo lanzando el comando &#39;git instaweb&#39;, estando en la carpeta de tu proyecto. Si tienes una máquina Mac, Leopard trae preinstalado Ruby, por lo que &#39;webrick&#39; puede ser tu mejor apuesta. Para instalar &#39;instaweb&#39; disponiendo de un controlador no-lighttpd, puedes lanzarlo con la opción &#39;--httpd&#39;.  </p>
-<pre><code><span class="hljs-attribute">$ git instaweb --httpd</span>=<span class="hljs-string">webrick
+<pre><code>$ git instaweb --httpd=webrick
 [2009-02-21 10:02:21] INFO  WEBrick 1.3.1
-[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]</span>
+[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 </code></pre><p>Esto arranca un servidor HTTPD en el puerto 1234, y luego arranca un navegador que abre esa página. Es realmente sencillo. Cuando ya has terminado y quieras apagar el servidor, puedes lanzar el mismo comando con la opción &#39;--stop&#39;.</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">instaweb</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">httpd=webrick</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">stop</span>
+<pre><code>$ git instaweb --httpd=webrick --stop
 </code></pre><p>Si quieres disponer permanentemente de un interface web para tu equipo o para un proyecto de código abierto que alberges, necesitarás ajustar el script CGI para ser servido por tu servidor web habitual. Algunas distribuciones Linux suelen incluir el paquete &#39;gitweb&#39;, y podrás instalarlo a través de las utilidades &#39;apt&#39; o &#39;yum&#39;; merece la pena probarlo en primer lugar. Enseguida vamos a revisar el proceso de instalar GitWeb manualmente. Primero, necesitas el código fuente de Git, que viene con GitWeb, para generar un script CGI personalizado:</p>
-<pre><code>$ git clone git://git<span class="hljs-preprocessor">.kernel</span><span class="hljs-preprocessor">.org</span>/pub/scm/git/git<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 $ cd git/
-$ make GITWEB_PROJECTROOT=<span class="hljs-string">"/opt/git"</span> \
-        prefix=/usr gitweb/gitweb<span class="hljs-preprocessor">.cgi</span>
-$ sudo <span class="hljs-keyword">cp</span> -Rf gitweb /var/www/
+$ make GITWEB_PROJECTROOT=&quot;/opt/git&quot; \
+        prefix=/usr gitweb/gitweb.cgi
+$ sudo cp -Rf gitweb /var/www/
 </code></pre><p>Fijate que es necesario indicar la ubicación donde se encuentran los repositorios Git, utilizando la variable &#39;GITWEB_PROJECTROOT&#39;. A continuación, tienes que preparar Apache para que utilice dicho script, Para ello, puedes añadir un VirtualHost:</p>
-<pre><code><span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
-    <span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> gitserver
-    <span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /var/www/gitweb
-    <span class="hljs-tag">&lt;Directory /var/www/gitweb&gt;</span>
-        <span class="hljs-keyword"><span class="hljs-common">Options</span></span> ExecCGI +FollowSymLinks +SymLinksIfOwnerMatch
-        <span class="hljs-keyword">AllowOverride</span> <span class="hljs-literal">All</span>
-        <span class="hljs-keyword"><span class="hljs-common">order</span></span> allow,deny
-        <span class="hljs-keyword"><span class="hljs-common">Allow</span></span> from <span class="hljs-literal">all</span>
-        <span class="hljs-keyword">AddHandler</span> cgi-script cgi
-        <span class="hljs-keyword">DirectoryIndex</span> gitweb.cgi
-    <span class="hljs-tag">&lt;/Directory&gt;</span>
-<span class="hljs-tag">&lt;/VirtualHost&gt;</span>
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName gitserver
+    DocumentRoot /var/www/gitweb
+    &lt;Directory /var/www/gitweb&gt;
+        Options ExecCGI +FollowSymLinks +SymLinksIfOwnerMatch
+        AllowOverride All
+        order allow,deny
+        Allow from all
+        AddHandler cgi-script cgi
+        DirectoryIndex gitweb.cgi
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
 </code></pre><p>Recordar una vez más que GitWeb puede servirse desde cualquier servidor web con capacidades CGI. Por lo que si prefieres utilizar algún otro, no debería ser dificil de configurarlo. En este momento, deberias poder visitar &#39;<a href="http://gitserver/" target="_blank">http://gitserver/</a>&#39; para ver tus repositorios online. Y utilizar &#39;<a href="http://git.gitserver/" target="_blank">http://git.gitserver</a>&#39; para clonar (clone) y recuperar (fetch) tus repositorios a través de HTTP.</p>
 
                     
@@ -884,9 +887,9 @@ $ sudo <span class="hljs-keyword">cp</span> -Rf gitweb /var/www/
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.4" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.4" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_1018">
+                    <section class="normal" id="section-gitbook_949">
                     
                         <h1 id="-nderungshistorie-ver-ndern">Änderungshistorie verändern</h1>
 <!--Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.-->
@@ -872,7 +875,7 @@
 <!--If you only want to modify your last commit message, it’s very simple:-->
 
 <p>Die letzte Commit-Nachricht noch einmal zu ändern ist sehr einfach:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><!--That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.-->
 
 <p>Nach Eingabe dieses Befehls wird der Texteditor mit dem Inhalt der letzten Commit-Nachricht geöffnet. Jetzt hat man Gelegenheit diesen Text zu ändern. Nach dem Speichern und Schließen des Editors, wird die Commit-Nachricht des letzten Commits entsprechend angepasst. Der alte Commit ist dadurch nicht mehr vorhanden und Du erhältst einen neuen Commit mit dem gleichen Inhalt und Deiner neuen Commit-Nachricht.</p>
@@ -891,7 +894,7 @@
 <!--For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:-->
 
 <p>Wenn Du zum Beispiel die letzten drei, oder eine oder mehrere der letzten drei Commit-Nachrichten ändern möchtest, musst Du zusätzlich zu dem Befehl <code>git rebase -i</code> den übergeordneten Commit (also dem Commit, der in der Historie genau ein Commit zurückliegt) des letzten Commits, den Du ändern möchtest, angeben. Bei drei Commit-Nachrichten müsste das Argument also <code>HEAD~2^</code> beziehungsweise <code>HEAD~3</code> lauten. Wahrscheinlich fällt es Dir leichter das Argument <code>~3</code> zu merken, weil Du ja schließlich auf die letzten drei Einträge verweisen möchtest. Du solltest Dir aber bewusst sein, dass Du auf den viertältesten Commit verweisen musst, also den übergeordneten Commit, den Du ändern möchtest.</p>
-<pre><code><span class="hljs-variable">$ </span>git rebase -i <span class="hljs-constant">HEAD</span>~<span class="hljs-number">3</span>
+<pre><code>$ git rebase -i HEAD~3
 </code></pre><!--Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.-->
 
 <p>Es ist wichtig, dass Du Dir bewusst bist, dass mit diesem Rebase-Befehl jeder Commit im Bereich <code>HEAD~3..HEAD</code> geändert wird, unabhängig davon, ob Du die Commit-Nachricht beziehungsweise den Schnappschuss änderst oder nicht. Der Rebase-Befehl sollte nie einen Commit beinhalten, der bereits an einen zentralen Server gepusht worden ist.
@@ -900,55 +903,55 @@ Hältst Du Dich nicht daran, werden sich andere Entwickler über Dich ärgern od
 
 <p>Wenn Du den Befehl ausführst, erhältst Du eine Reihe von Commits in Deinem Texteditor. Das könnte in etwa folgendermaßen aussehen:</p>
 <pre><code>pick f7f3f6d changed my name a bit
-pick <span class="hljs-number">310154</span>e updated<span class="hljs-constant"> README </span>formatting and added blame
+pick 310154e updated README formatting and added blame
 pick a5f4a0d added cat-file
 
-<span class="hljs-preprocessor"># Rebase 710f0f8..a5f4a0d onto 710f0f8</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Commands:</span>
-<span class="hljs-preprocessor">#  p, pick = use commit</span>
-<span class="hljs-preprocessor">#  e, edit = use commit, but stop for amending</span>
-<span class="hljs-preprocessor">#  s, squash = use commit, but meld into previous commit</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
-<span class="hljs-preprocessor"># However, if you remove everything, the rebase will be aborted.</span>
-<span class="hljs-preprocessor">#</span>
+# Rebase 710f0f8..a5f4a0d onto 710f0f8
+#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+#
 </code></pre><!--It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:-->
 
 <p>Vielleicht ist es Dir schon aufgefallen, die Commits werden genau in der umgekehrten Reihenfolge dargestellt, wie sie der <code>log</code> Befehl ausgegeben hätte. Wenn Du also den Befehl <code>log</code> ausführst, erhält man in etwa die folgende Ausgabe:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> <span class="hljs-variable">%s</span>"</span> HEAD~<span class="hljs-number">3</span>..HEAD
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; HEAD~3..HEAD
 a5f4a0d added cat-file
-<span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-f7f3f6d changed <span class="hljs-keyword">my</span> name a bit
+310154e updated README formatting and added blame
+f7f3f6d changed my name a bit
 </code></pre><!--Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.-->
 
 <p>Siehst Du den Unterschied? Es ist genau die umgekehrte Reihenfolge. Ein interaktiver Rebase wird nach einem festen Schema, einer Art Skript, durchgeführt und der Texteditor zeigt Dir an, wie dieses Skript genau ablaufen wird. Der Rebase startet bei dem Commit, der in der Kommandozeile angegeben wird (<code>HEAD~3</code>) und führt die Änderungen, die durch jeden Commit hinzukommen, von oben nach unten aus. Das bedeutet, dass anstatt des neuesten, der älteste Commit ganz oben steht, weil dieser der erste Commit ist, der bearbeitet wird.</p>
 <!--You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:-->
 
 <p>Du musst das Skript so anpassen, dass es an jedem Commit anhält, den Du ändern möchtest. Dazu musst Du bei jedem Commit, an dem das Skript anhalten soll, das Wort „pick“ mit dem Wort „edit“ ersetzen. Um zum Beispiel die drittälteste Commit-Nachricht zu ändern, müssen die Änderungen am Skript in etwa folgendermaßen aussehen:</p>
-<pre><code>edit f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>edit f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><!--When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:-->
 
 <p>Nachdem Du das Skript gespeichert und den Editor beendet hast, setzt Git nun alle Änderungen bis zum letzten Commit der Liste zurück und zeigt danach in der Kommandozeile in etwa Folgendes an:</p>
-<pre><code>$ git rebase -i HEAD~<span class="hljs-number">3</span>
-Stopped <span class="hljs-keyword">at</span> <span class="hljs-number">7482e0</span>d... updated <span class="hljs-keyword">the</span> gemspec <span class="hljs-keyword">to</span> hopefully work better
-You can amend <span class="hljs-keyword">the</span> commit now, <span class="hljs-keyword">with</span>
+<pre><code>$ git rebase -i HEAD~3
+Stopped at 7482e0d... updated the gemspec to hopefully work better
+You can amend the commit now, with
 
-       git commit <span class="hljs-comment">--amend</span>
+       git commit --amend
 
-Once you’re satisfied <span class="hljs-keyword">with</span> your changes, <span class="hljs-command">run</span>
+Once you’re satisfied with your changes, run
 
-       git rebase <span class="hljs-comment">--continue</span>
+       git rebase --continue
 </code></pre><!--These instructions tell you exactly what to do. Type-->
 
 <p>Diese Anweisungen zeigen Dir sehr genau, was Du zu tun hast. Gib also den folgenden Befehl ein:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><!--Change the commit message, and exit the editor. Then, run-->
 
 <p>Im sich öffnenden Texteditor kannst Du jetzt die Commit-Nachricht ändern und danch wieder schließen. Danach führst Du folgenden Befehl aus:</p>
-<pre><code>$ git rebase --<span class="hljs-keyword">continue</span>
+<pre><code>$ git rebase --continue
 </code></pre><!--This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.-->
 
 <p>Der letzte Befehl speichert die letzten beiden Commits automatisch im Repository und der Rebase ist danach abgeschlossen. Wenn Du in einer weiteren Zeile „pick“ mit „edit“ ersetzt hast, kannst Du die oben dargestellten Schritte entsprechend noch einmal ausführen. Git wird nach jedem Commit anhalten und Dir die Möglichkeit bieten, den Commit anzupassen. Danach kannst Du Git auffordern, den Rebase fortzusetzen (<code>git rebase --continue</code>).</p>
@@ -958,14 +961,14 @@ Once you’re satisfied <span class="hljs-keyword">with</span> your changes, <sp
 <!--You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this-->
 
 <p>Mit einem interaktiven Rebase kannst Du ebenso die Reihenfolge von Commits ändern oder sogar komplette Commits löschen. Um den Commit „added cat-file“ zu löschen und die Reihenfolge der beiden anderen Commits zu ändern, kannst Du das vorhandene Skript</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><!--to this:-->
 
 <p>folgendermaßen ändern:</p>
-<pre><code>pick <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
+<pre><code>pick 310154e updated README formatting and added blame
+pick f7f3f6d changed my name a bit
 </code></pre><!--When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.-->
 
 <p>Nach dem Speichern und Verlassen des Editors, setzt Git nun alle Änderungen bis zum letzten Commit der Liste zurück, speichert den Commit <code>310154e</code>, danach den Commit <code>310154e</code> und beendet danach den Rebase. Das Ergebnis: Der Commit „added cat-file“ ist aus der Historie verschwunden und die Reihenfolge der beiden restlichen Commits ist getauscht.</p>
@@ -975,35 +978,35 @@ pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-prop
 <!--It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:-->
 
 <p>Man kann mit einem interaktiven Rebase auch mehrere Commits zu einem einzelnen Commit zusammenfassen. Im Skript der Rebase-Nachricht steht eine Anleitung, wie Du dazu vorgehen musst:</p>
-<pre><code><span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Commands:</span>
-<span class="hljs-preprocessor">#  p, pick = use commit</span>
-<span class="hljs-preprocessor">#  e, edit = use commit, but stop for amending</span>
-<span class="hljs-preprocessor">#  s, squash = use commit, but meld into previous commit</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
-<span class="hljs-preprocessor"># However, if you remove everything, the rebase will be aborted.</span>
-<span class="hljs-preprocessor">#</span>
+<pre><code>#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+#
 </code></pre><!--If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:-->
 
 <p>Wenn Du statt „pick“ oder „edit“, den Befehl „squash“ angibst, führt Git beide Commits zu einem gemeinsamen Commit zusammen und bietet Dir die Möglichkeit, die Commit-Nachricht ebenso entsprechend zu verheiraten. Wenn Du also aus den drei Commits einen einzelnen Commit machen willst, muss Dein Skript folgendermaßen aufgebaut sein:</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-squash <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-squash a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+squash 310154e updated README formatting and added blame
+squash a5f4a0d added cat-file
 </code></pre><!--When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages:-->
 
 <p>Nach dem Speichern und Beenden des Editors, führt Git alle drei Änderungen zu einem einzelnen Commit zusammen und öffnet einen Texteditor, der alle drei Commit-Nachrichten enthält:</p>
-<pre><code># This <span class="hljs-keyword">is</span> a combination <span class="hljs-keyword">of</span> <span class="hljs-number">3</span> commits.
-# The first commit<span class="hljs-attribute">'s</span> message <span class="hljs-keyword">is</span>:
-changed my name a <span class="hljs-typename">bit</span>
+<pre><code># This is a combination of 3 commits.
+# The first commit&#39;s message is:
+changed my name a bit
 
-# This <span class="hljs-keyword">is</span> the <span class="hljs-number">2</span>nd commit message:
+# This is the 2nd commit message:
 
-updated README formatting <span class="hljs-keyword">and</span> added blame
+updated README formatting and added blame
 
-# This <span class="hljs-keyword">is</span> the <span class="hljs-number">3</span>rd commit message:
+# This is the 3rd commit message:
 
-added cat-<span class="hljs-keyword">file</span>
+added cat-file
 </code></pre><!--When you save that, you have a single commit that introduces the changes of all three previous commits.-->
 
 <p>Du kannst nun die Commit-Nachricht entsprechend anpassen oder auch entsprechend dem vorgeschlagenen Ergebnis belassen. Wenn Du die Commit-Nachricht speicherst, hast Du danach nur noch einen einzelnen Commit, der die letzten drei Commits beinhaltet, in Deiner Historie.</p>
@@ -1013,26 +1016,26 @@ added cat-<span class="hljs-keyword">file</span>
 <!--Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":-->
 
 <p>Man kann mit Git einen einzelnen Commit auch aufsplitten. Das bedeutet, man setzt den ursprünglichen Commit zurück, fügt dann einen Teil der Änderungen zur Staging-Area hinzu und checkt das Ergebnis ein. Dies kann man unbegrenzt oft wiederholen und so einen einzelnen Commit in mehrere Commits aufteilen. Nehmen wir an, wir möchten den mittleren der beiden Commits aufteilen. Anstatt „updated README formatting and added blame“, möchten wir den Commit in folgende beiden Commits aufteilen: „updated README formatting“ soll das Thema des ersten Commits und „added blame“ soll das Thema des zweiten Commits sein. Dazu kannst Du das angezeigte Skript, welches Dir der Befehl <code>rebase -i</code> erzeugt, folgendermaßen anpassen:</p>
-<pre><code>pick f7f3f6d changed <span class="hljs-keyword">my</span> <span class="hljs-property">name</span> a bit
-edit <span class="hljs-number">310154</span>e updated README formatting <span class="hljs-keyword">and</span> added blame
-pick a5f4a0d added cat-<span class="hljs-type">file</span>
+<pre><code>pick f7f3f6d changed my name a bit
+edit 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
 </code></pre><!--When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can take the changes that have been reset, and create multiple commits out of them. Simply stage and commit files until you have several commits, and run `git rebase -\-continue` when you’re done:-->
 
 <p>Nach dem Speichern und Schließen des Editors, setzt Git die Änderungen entsprechend zurück und wendet den ersten (<code>f7f3f6d</code>) und zweiten (<code>310154e</code>) Commit an und wechselt danach zurück zur Kommandozeile. Jetzt hast Du die Möglichkeit den letzten Commit zurückzusetzen, ohne dass die Änderungen im Arbeitsverzeichnis zurückgesetzt werden. Das heißt, der Commit im Repository wird gelöscht, aber Deine Änderungen im Arbeitsverzeichnis gehen nicht verloren. Um dies durchzuführen, kannst Du den Befehl <code>git reset HEAD^</code> verwenden. Jetzt kannst Du die gewünschten Änderungen für den ersten Commit zur Staging-Area hinzufügen und danach einchecken. Diesen Vorgang kannst Du beliebig wiederholen, bis alle Änderungen eingecheckt sind. Wenn Du fertig bist, kannst Du den Rebase mit <code>git rebase --continue</code> fortsetzen beziehungsweise abschließen:</p>
-<pre><code><span class="hljs-variable">$ </span>git reset <span class="hljs-constant">HEAD</span>^
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'updated README formatting'</span>
-<span class="hljs-variable">$ </span>git add lib/simplegit.rb
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'added blame'</span>
-<span class="hljs-variable">$ </span>git rebase --continue
+<pre><code>$ git reset HEAD^
+$ git add README
+$ git commit -m &#39;updated README formatting&#39;
+$ git add lib/simplegit.rb
+$ git commit -m &#39;added blame&#39;
+$ git rebase --continue
 </code></pre><!--Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this:-->
 
 <p>Git speichert dazu den letzten Commit (<code>a5f4a0d</code>) aus dem Skript im Repository. Das Resultat sieht in etwa folgendermaßen aus:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> -<span class="hljs-number">4</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> <span class="hljs-variable">%s</span>"</span>
-<span class="hljs-number">1</span>c002dd added cat-file
-<span class="hljs-number">9</span>b29157 added blame
-<span class="hljs-number">35</span>cfb2b updated README formatting
-f3cc40e changed <span class="hljs-keyword">my</span> name a bit
+<pre><code>$ git log -4 --pretty=format:&quot;%h %s&quot;
+1c002dd added cat-file
+9b29157 added blame
+35cfb2b updated README formatting
+f3cc40e changed my name a bit
 </code></pre><!--Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository.-->
 
 <p>Ich möchte Dich noch einmal darauf hinweisen, dass jede SHA-Prüfsumme von allen Commits aus der Liste geändert werden. Bitte stell also sicher, dass diese Commits in keinem öffentlichen Repository verfügbar sind.</p>
@@ -1048,9 +1051,9 @@ f3cc40e changed <span class="hljs-keyword">my</span> name a bit
 <!--This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `-\-tree-filter` option to `filter-branch`:-->
 
 <p>Dieses Szenario tritt sogar relativ häufig auf. Nehmen wir einmal an, jemand fügt gedankenlos eine große binäre Datei mit <code>git add .</code> zum Repository dazu und diese soll aber in keinem der Commits enthalten sein. Oder Du hast aus Versehen eine Datei, welche ein Passwort enthält, zum Repository hinzugefügt und möchtest dieses Repository nun veröffentlichen. <code>filter-branch</code> ist dann das Werkzeug Deiner Wahl, um die komplette Historie umzukrempeln. Um eine Datei mit dem Namen „passwords.txt“ aus der kompletten Historie zu löschen, kannst Du die Option <code>--tree-filter</code> verwenden:</p>
-<pre><code>$ git <span class="hljs-keyword">filter</span>-branch --tree-<span class="hljs-keyword">filter</span> <span class="hljs-string">'rm -f passwords.txt'</span> HEAD
-Rewrite <span class="hljs-number">6</span>b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (<span class="hljs-number">21</span>/<span class="hljs-number">21</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --tree-filter &#39;rm -f passwords.txt&#39; HEAD
+Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><!--The `-\-tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch -\-tree-filter "rm -f *~" HEAD`.-->
 
 <p>Die Option <code>--tree-filer</code> führt den nachfolgenden Befehl nach jedem Auschecken eines Commits des Projekts aus und checkt danach das Ergebnis wieder ein. In diesem Beispiel wird die Datei „passwords.txt“ aus jedem Schnappschuss entfernt, unabhängig davon, ob sie existiert oder nicht. Ein anderes Beispiel wäre es, alle Backup-Dateien eines Texteditors aus dem Repository zu löschen. Dazu kann man in etwa den Befehl <code>git filter-branch -\-tree-filter &quot;rm -f *~&quot; HEAD</code> ausführen.</p>
@@ -1063,9 +1066,9 @@ Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
 <!--Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:-->
 
 <p>Wenn man zum Beispiel ein Projekt aus einem anderen Versionskontrollwerkzeug in Git importiert, gibt es dort oft Verzeichnisse, die in Git nicht relevant sind, zum Beispiel trunk, tags, usw.. Wenn man also das Unterverzeichnis <code>trunk</code> das neue Wurzelverzeichnis machen will, kann man dies mit Hilfe von <code>filter-branch</code> umsetzen:</p>
-<pre><code>$ git <span class="hljs-built_in">filter</span>-branch <span class="hljs-comment">--subdirectory-filter trunk HEAD</span>
-Rewrite <span class="hljs-number">856</span>f0bf61e41a27326cdae8f09fe708d679f596f (<span class="hljs-number">12</span>/<span class="hljs-number">12</span>)
-Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
+<pre><code>$ git filter-branch --subdirectory-filter trunk HEAD
+Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
+Ref &#39;refs/heads/master&#39; was rewritten
 </code></pre><!--Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory.-->
 
 <p>Nach der Ausführung dieses Befehls ist das „trunk“ Verzeichnis das neue Arbeitsverzeichnis. Bei diesem Vorgang entfernt Git außerdem alle Commits, die nicht eine Änderung des „trunk“-Verzeichnisses beinhalten.</p>
@@ -1075,15 +1078,15 @@ Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
 <!--Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `-\-commit-filter`:-->
 
 <p>Verflixt, es ist schon wieder passiert. Du hast vergessen, den Befehl <code>git config</code> auszuführen und Deinen Namen und E-Mail-Adresse zu setzen, bevor Du mit der Arbeit begonnen hast. Mit <code>filter-branch</code> kann man diesen Fehler einfach beheben. Man sollte nur darauf achten, dass man nur seine eigene E-Mail-Adresse ändert. Deshalb verwenden wir die Option <code>--commit-filter</code>:</p>
-<pre><code>$ git filter-branch --commit-filter <span class="hljs-comment">'</span>
-        <span class="hljs-keyword">if</span> [ <span class="hljs-string">"$GIT_AUTHOR_EMAIL"</span> = <span class="hljs-string">"schacon@localhost"</span> ];
-        <span class="hljs-keyword">then</span>
-                GIT_AUTHOR_NAME=<span class="hljs-string">"Scott Chacon"</span>;
-                GIT_AUTHOR_EMAIL=<span class="hljs-string">"schacon@example.com"</span>;
-                git commit-tree <span class="hljs-string">"$@"</span>;
-        <span class="hljs-keyword">else</span>
-                git commit-tree <span class="hljs-string">"$@"</span>;
-        fi<span class="hljs-comment">' HEAD</span>
+<pre><code>$ git filter-branch --commit-filter &#39;
+        if [ &quot;$GIT_AUTHOR_EMAIL&quot; = &quot;schacon@localhost&quot; ];
+        then
+                GIT_AUTHOR_NAME=&quot;Scott Chacon&quot;;
+                GIT_AUTHOR_EMAIL=&quot;schacon@example.com&quot;;
+                git commit-tree &quot;$@&quot;;
+        else
+                git commit-tree &quot;$@&quot;;
+        fi&#39; HEAD
 </code></pre><!--This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.-->
 
 <p>Dieser Befehl durchforstet das Repository und ersetzt in jedem Commit, dessen E-Mail-Adresse des Autors „schacon@localhost“ lautet, mit der neuen E-Mail-Adresse „schacon@example.com“. Zusätzlich wird der Name des Autors geändert, falls dieser nicht vorher schon „Scott Chacon“ war. Auf Grund der Architektur, dass in Git in jedem Commit die SHA1-Prüfsumme des Vorgänger-Commits enthalten ist, ändert dieser Befehl jeden Commit in Deiner Historie. Die SHA1-Prüfsumme wird sich auch in allen Commits, die nicht die angegebene E-Mail-Adresse enthalten, verändern.</p>
@@ -1105,9 +1108,9 @@ Ref <span class="hljs-string">'refs/heads/master'</span> was rewritten
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.3" data-basepath=".." data-revision="1397503694381">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.3" data-basepath=".." data-revision="1397847855018">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -824,7 +827,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_432">
+                    <section class="normal" id="section-gitbook_435">
                     
                         <h1 id="schowek">Schowek</h1>
 <!-- # Stashing -->
@@ -843,49 +846,49 @@
 <!-- To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state: -->
 
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+#
 </code></pre><p>Teraz chcesz zmienić gałęzie, ale nie chcesz commitować tego nad czym pracowałeś do tej pory, więc dodasz te zmiany do przechowalni. Aby zapisać je w przechowalni, uruchom <code>git stash</code>:</p>
 <!-- Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`: -->
 
 <pre><code>$ git stash
-Saved working <span class="hljs-built_in">directory</span> <span class="hljs-operator">and</span> index state \
-  <span class="hljs-string">"WIP on master: 049d078 added the index file"</span>
-HEAD is now <span class="hljs-keyword">at</span> <span class="hljs-number">049</span>d078 added <span class="hljs-operator">the</span> index <span class="hljs-built_in">file</span>
-(To restore them type <span class="hljs-string">"git stash apply"</span>)
+Saved working directory and index state \
+  &quot;WIP on master: 049d078 added the index file&quot;
+HEAD is now at 049d078 added the index file
+(To restore them type &quot;git stash apply&quot;)
 </code></pre><p>Twój katalog roboczy jest teraz w stanie niezmienionym:</p>
 <!-- Your working directory is clean: -->
 
 <pre><code>$ git status
-<span class="hljs-comment"># On branch master</span>
-nothing <span class="hljs-built_in">to</span> commit (working <span class="hljs-built_in">directory</span> clean)
+# On branch master
+nothing to commit (working directory clean)
 </code></pre><p>W tej chwili, możesz bez problemu przejść na inną gałąź i rozpocząć pracę nad innymi zmianami; Twoje poprzednie modyfikacje zapisane są w przechowalni. Aby zobaczyć listę zapisanych zmian w przechowalni, użyj komendy <code>git stash list</code>: </p>
 <!-- At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`: -->
 
-<pre><code>$ git stash <span class="hljs-type">list</span>
-stash@{<span class="hljs-number">0</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">049</span>d078 added <span class="hljs-keyword">the</span> index <span class="hljs-type">file</span>
-stash@{<span class="hljs-number">1</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: c264051... Revert <span class="hljs-string">"added file_size"</span>
-stash@{<span class="hljs-number">2</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">21</span>d80a5... added <span class="hljs-type">number</span> <span class="hljs-keyword">to</span> <span class="hljs-command">log</span>
+<pre><code>$ git stash list
+stash@{0}: WIP on master: 049d078 added the index file
+stash@{1}: WIP on master: c264051... Revert &quot;added file_size&quot;
+stash@{2}: WIP on master: 21d80a5... added number to log
 </code></pre><p>W powyższym przykładzie, dwie poprzednie zmiany również zostały zapisane, masz więc dostęp do łącznie trzech. Możesz ponownie nałożyć tą którą ostatnio stworzyłeś, przy użyciu komendy widocznej w tekście pomocy do komendy stash: <code>git stash apply</code>. Jeżeli chcesz nałożyć jedną ze starszych zmian, wskazujesz ją poprzez nazwę w taki sposób: <code>git stash apply stash@{2}</code>. Jeżeli nie podasz nazwy, Git założy najnowszą i spróbuje ją zintegrować:</p>
 <!-- In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it: -->
 
 <pre><code>$ git stash apply
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   index.html
+#      modified:   lib/simplegit.rb
+#
 </code></pre><p>Możesz zauważyć, że Git zmodyfikował pliki które nie były zatwierdzone w czasie zapisywania w schowku. W tej sytuacji, miałeś niezmodyfikowany katalog roboczy, w chwili, gdy próbowałeś zaaplikować zmiany ze schowka na tą samą gałąź na której je stworzyłeś; jednak nie musisz mieć niezmodyfikowanego katalogu, ani nie musisz pracować na tej samej gałęzi, aby poprawnie zaaplikować zmiany ze schowka. Możesz zapisać w ten sposób zmiany w jednej gałęzi, zmienić gałąź na inną i spróbować nałożyć je. Możesz również mieć wprowadzone zmiany i zmodyfikowane pliki w czasie, gdy będziesz próbował nałożyć zmiany - Git pozwoli Ci na rozwiązanie ewentualnych konfliktów, jeżeli zmiany nie będą mogły się czysto połączyć.</p>
 <!-- You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly. -->
 
@@ -893,26 +896,26 @@ stash@{<span class="hljs-number">2</span>}: WIP <span class="hljs-function_start
 <!-- The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `-\-index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position: -->
 
 <pre><code>$ git stash apply --index
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+#
 </code></pre><p>Opcja &quot;apply&quot; próbuje tylko zintegrować zapisane zmiany - będziesz nadal miał je na liście zmian w schowku. Aby je usunąć, uruchom <code>git stash drop</code> z nazwą zmiany którą chcesz usunąć:</p>
 <!-- The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove: -->
 
-<pre><code>$ git stash <span class="hljs-type">list</span>
-stash@{<span class="hljs-number">0</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">049</span>d078 added <span class="hljs-keyword">the</span> index <span class="hljs-type">file</span>
-stash@{<span class="hljs-number">1</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: c264051... Revert <span class="hljs-string">"added file_size"</span>
-stash@{<span class="hljs-number">2</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">21</span>d80a5... added <span class="hljs-type">number</span> <span class="hljs-keyword">to</span> <span class="hljs-command">log</span>
-$ git stash drop stash@{<span class="hljs-number">0</span>}
-Dropped stash@{<span class="hljs-number">0</span>} (<span class="hljs-number">364e91</span>f3f268f0900bc3ee613f9f733e82aaed43)
+<pre><code>$ git stash list
+stash@{0}: WIP on master: 049d078 added the index file
+stash@{1}: WIP on master: c264051... Revert &quot;added file_size&quot;
+stash@{2}: WIP on master: 21d80a5... added number to log
+$ git stash drop stash@{0}
+Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 </code></pre><p>Możesz również uruchomić <code>git stash pop</code>, aby nałożyć ostatnio zapisane zmiany ze schowka, a następnie usunąć je z listy zmian.</p>
 <!-- You can also run `git stash pop` to apply the stash and then immediately drop it from your stack. -->
 
@@ -922,18 +925,18 @@ Dropped stash@{<span class="hljs-number">0</span>} (<span class="hljs-number">36
 <p>Może się zdarzyć sytuacja, w której nałożysz zmiany ze schowka, wprowadzisz jakieś inne zmiany, aby potem zechcesz cofnąć zmiany które zostały wprowadzone ze schowka. Git nie udostępnia komendy <code>git unapply</code>, ale można to osiągnąć poprzez pobranie wprowadzonych zmian i nałożenie ich w od tyłu:</p>
 <!-- In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse: -->
 
-<pre><code>$ git stash show <span class="hljs-attribute">-p</span> stash@{<span class="hljs-number">0</span>} <span class="hljs-subst">|</span> git apply <span class="hljs-attribute">-R</span>
+<pre><code>$ git stash show -p stash@{0} | git apply -R
 </code></pre><p>Ponownie, jeżeli nie wskażesz schowka, Git założy najnowszy:</p>
 <!-- Again, if you don’t specify a stash, Git assumes the most recent stash: -->
 
-<pre><code>$ git stash show <span class="hljs-attribute">-p</span> <span class="hljs-subst">|</span> git apply <span class="hljs-attribute">-R</span>
+<pre><code>$ git stash show -p | git apply -R
 </code></pre><p>Możesz chcieć stworzyć alias i dodać komendę <code>stash-unapply</code> do Gita. Na przykład tak:</p>
 <!-- You may want to create an alias and effectively add a `stash-unapply` command to your git. For example: -->
 
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.stash-unapply <span class="hljs-string">'!git stash show -p | git apply -R'</span>
-<span class="hljs-variable">$ </span>git stash
-<span class="hljs-variable">$ </span><span class="hljs-comment">#... work work work</span>
-<span class="hljs-variable">$ </span>git stash-unapply
+<pre><code>$ git config --global alias.stash-unapply &#39;!git stash show -p | git apply -R&#39;
+$ git stash
+$ #... work work work
+$ git stash-unapply
 </code></pre><h2 id="tworzenie-ga-zi-ze-schowka">Tworzenie gałęzi ze schowka</h2>
 <!-- ## Creating a Branch from a Stash -->
 
@@ -941,19 +944,19 @@ Dropped stash@{<span class="hljs-number">0</span>} (<span class="hljs-number">36
 <!-- If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully: -->
 
 <pre><code>$ git stash branch testchanges
-Switched to a <span class="hljs-keyword">new</span> branch <span class="hljs-string">"testchanges"</span>
-<span class="hljs-preprocessor"># On branch testchanges</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
-Dropped refs/stash@{<span class="hljs-number">0</span>} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
+Switched to a new branch &quot;testchanges&quot;
+# On branch testchanges
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+#
+Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 </code></pre><p>Jest to bardzo pomocny skrót do odzyskiwania zapisanych w schowku zmian i kontynuowania pracy w nowej gałęzi.</p>
 <!-- This is a nice shortcut to recover stashed work easily and work on it in a new branch. -->
 
@@ -975,9 +978,9 @@ Dropped refs/stash@{<span class="hljs-number">0</span>} (f0dfc4d5dc332d1cee34a63
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

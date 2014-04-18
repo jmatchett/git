@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.3" data-basepath=".." data-revision="1397503694385">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.3" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -842,79 +845,79 @@
 <h2 id="guardando-el-trabajo-temporalmente">Guardando el trabajo temporalmente</h2>
 <p>Por ejemplo, si se está trabajando sobre un par de archivos e incluso uno de ellos está ya añadido al área de preparación para un futuro almacenamiento de sus cambios en el repositorio. Al lanzar el comando &#39;git status&#39;, se podría observar un estado inconsistente tal como:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+#
 </code></pre><p>Si justo en este momento se desea cambiar de rama, pero sin confirmar los cambios realizados hasta entonces; la solución es un guardado rápido provisional de los cambios. Utilizando el comando &#39;git stash&#39; y enviando un nuevo grupo de cambios a la pila de guardado rápido:</p>
 <pre><code>$ git stash
-Saved working <span class="hljs-built_in">directory</span> <span class="hljs-operator">and</span> index state \
-  <span class="hljs-string">"WIP on master: 049d078 added the index file"</span>
-HEAD is now <span class="hljs-keyword">at</span> <span class="hljs-number">049</span>d078 added <span class="hljs-operator">the</span> index <span class="hljs-built_in">file</span>
-(To restore them type <span class="hljs-string">"git stash apply"</span>)
+Saved working directory and index state \
+  &quot;WIP on master: 049d078 added the index file&quot;
+HEAD is now at 049d078 added the index file
+(To restore them type &quot;git stash apply&quot;)
 </code></pre><p>Con ello, se limpia el área de trabajo:</p>
 <pre><code>$ git status
-<span class="hljs-comment"># On branch master</span>
-nothing <span class="hljs-built_in">to</span> commit (working <span class="hljs-built_in">directory</span> clean)
+# On branch master
+nothing to commit (working directory clean)
 </code></pre><p>Y se permite cambiar de rama para ponerse a trabajar en cualquier otra parte. Con la tranquilidad de que los cambios a medio completar están guardados a buen recaudo en la pila de guardado rápido. Para ver el contenido de dicha pila, se emplea el comando &#39;git stash list&#39;:</p>
-<pre><code>$ git stash <span class="hljs-type">list</span>
-stash@{<span class="hljs-number">0</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">049</span>d078 added <span class="hljs-keyword">the</span> index <span class="hljs-type">file</span>
-stash@{<span class="hljs-number">1</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: c264051... Revert <span class="hljs-string">"added file_size"</span>
-stash@{<span class="hljs-number">2</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">21</span>d80a5... added <span class="hljs-type">number</span> <span class="hljs-keyword">to</span> <span class="hljs-command">log</span>
+<pre><code>$ git stash list
+stash@{0}: WIP on master: 049d078 added the index file
+stash@{1}: WIP on master: c264051... Revert &quot;added file_size&quot;
+stash@{2}: WIP on master: 21d80a5... added number to log
 </code></pre><p>En este ejemplo, se habian realizado dos guardados rápidos anteriores, por lo que se ven tres grupos de cambios guardados en la pila. Con el comando &#39;git stash apply&#39;, tal y como se indica en la salida del comando stash original, se pueden volver a aplicar los últimos cambios recien guardados. Si lo que se desea es reaplicar alguno de los grupos más antiguos de cambios, se ha de indicar expresamente: <code>git stash apply stash@{2}</code> Si no se indica ningún grupo concreto, Git asume que se desea reaplicar el grupo de cambios más reciente de entre los guardados en la pila.</p>
 <pre><code>$ git stash apply
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   index.html
+#      modified:   lib/simplegit.rb
+#
 </code></pre><p>Como se ve en la salida del comando, Git vueve a aplicar los correspondientes cambios en los archivos que estaban modificados. Pero no conserva la información de lo que estaba o no estaba añadido al área de preparación.  En este ejemplo se han aplicado los cambios de vuelta sobre un espacio de trabajo limpio, en la misma rama. Pero no es esta la única situación en la que se pueden reaplicar cambios. Es perfectamente posible guardar rápidamente (stash) el estado de una rama. Cambiar posteriormente a otra rama. Y proceder a aplicar sobre esta otra rama los cambios guardados, en lugar de sobre la rama original. Es posible incluso aplicar de vuelta cambios sobre un espacio de trabajo inconsistente, donde haya otros cambios o algunos archivos añadidos al área de preparación. (Git notificará de los correspondientes conflictos de fusión si todo ello no se puede aplicar limpiamente.)</p>
 <p>Las modificaciones sobre los archivos serán aplicadas; pero no así el estado de preparación. Para conseguir esto último, es necesario emplear la opción <code>--index</code> del comando <code>git stash apply</code>. Con ella se le indica que debe intentar reaplicar también el estado de preparación de los archivos.  Y asi se puede conseguir volver exactamente al punto original:</p>
 <pre><code>$ git stash apply --index
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+#
 </code></pre><p>Los comandos <code>git stash apply</code> tan solo recuperan cambios almacenados en la pila de guardado rápido, sin afectar al estado de la pila. Es decir, los cambios siguen estando guardados en la pila. Para quitarlos de ahí, es necesario lanzar expresamente el comando <code>git stash drop</code> e indicar el número de guardado a borrar de la pila:</p>
-<pre><code>$ git stash <span class="hljs-type">list</span>
-stash@{<span class="hljs-number">0</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">049</span>d078 added <span class="hljs-keyword">the</span> index <span class="hljs-type">file</span>
-stash@{<span class="hljs-number">1</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: c264051... Revert <span class="hljs-string">"added file_size"</span>
-stash@{<span class="hljs-number">2</span>}: WIP <span class="hljs-function_start"><span class="hljs-keyword">on</span></span> master: <span class="hljs-number">21</span>d80a5... added <span class="hljs-type">number</span> <span class="hljs-keyword">to</span> <span class="hljs-command">log</span>
-$ git stash drop stash@{<span class="hljs-number">0</span>}
-Dropped stash@{<span class="hljs-number">0</span>} (<span class="hljs-number">364e91</span>f3f268f0900bc3ee613f9f733e82aaed43)
+<pre><code>$ git stash list
+stash@{0}: WIP on master: 049d078 added the index file
+stash@{1}: WIP on master: c264051... Revert &quot;added file_size&quot;
+stash@{2}: WIP on master: 21d80a5... added number to log
+$ git stash drop stash@{0}
+Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 </code></pre><p>También es posible utilizar el comando <code>git stash pop</code>,  que aplica cambios de un guardado y lo retira inmediatamente de la pila.</p>
 <h2 id="creando-una-rama-desde-un-guardado-r-pido-temporal">Creando una rama desde un guardado rápido temporal</h2>
 <p>Si se almacena rápidamente (stash) un cierto trabajo, se deja en la pila durante bastante tiempo, y se continua mientras tanto con otros trabajos sobre la misma rama. Es muy posible que se presenten problemas al tratar de reaplicar los cambios guardados tiempo atrás. Si  para recuperar esos cambios se ha de modificar un archivo que también haya sido modificado en los trabajos posteriores, se dará un conflicto de fusión (merge conflict) y será preciso resolverlo manualmente. Una forma más sencilla de reaplicar cambios es utilizando el comando <code>git stash branch</code>. Este comando crea una nueva rama, extrayendo (checkout) la confirmación de cambios original en la que se estaba cuando los cambios fueron guardados en la pila, reaplica estos sobre dicha rama y los borra de la pila si se consigue completar el proceso con éxito.</p>
 <pre><code>$ git stash branch testchanges
-Switched to a <span class="hljs-keyword">new</span> branch <span class="hljs-string">"testchanges"</span>
-<span class="hljs-preprocessor"># On branch testchanges</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#      modified:   lib/simplegit.rb</span>
-<span class="hljs-preprocessor">#</span>
-Dropped refs/stash@{<span class="hljs-number">0</span>} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
+Switched to a new branch &quot;testchanges&quot;
+# On branch testchanges
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+#
+Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 </code></pre><p>Este es un buen atajo para recuperar con facilidad un cierto trabajo desde la pila y continuar con él en una nueva rama.</p>
 
                     
@@ -934,9 +937,9 @@ Dropped refs/stash@{<span class="hljs-number">0</span>} (f0dfc4d5dc332d1cee34a63
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397503664232">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.1" data-basepath=".." data-revision="1397847843645">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -279,25 +282,25 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_118">
+                    <section class="normal" id="section-gitbook_117">
                     
                         <h1 id="git-tietol-hteen-hankinta">Git-tietolähteen hankinta</h1>
 <p>Voit hankkia itsellesi Git-projektin käyttäen kahta yleistä lähestymistapaa. Ensimmäinen ottaa jo olemassa olevan projektin tai hakemiston ja tuo sen Gitiin. Toinen kloonaa olemassa olevan Git tietolähteen toiselta palvelimelta.</p>
 <h2 id="tietol-hteen-alustaminen-jo-olemassa-olevalle-hakemistolle">Tietolähteen alustaminen jo olemassa olevalle hakemistolle</h2>
 <p>Jos aloitat jo olemassa olevan projektin jäljittämisen Gitillä, sinun täytyy mennä projektisi hakemistoon ja kirjoittaa</p>
-<pre><code><span class="hljs-variable">$ </span>git init
+<pre><code>$ git init
 </code></pre><p>Tämä luo uuden alihakemiston nimeltä <code>.git</code>, joka sisältää kaikki tarvittavat tietolähdetiedostot - luurangon Git-tietolähteelle. Tällä hetkellä mitään projektissasi ei vielä jäljitetä. (Katso <em>Luku 9</em> saadaksesi enemmän tietoa siitä, mitä tiedostoja tarkalleen ottaen juuri luomasi <code>.git</code>-hakemisto sisältää.)</p>
 <p>Jos haluat aloittaa versionhallinnan jo olemassa oleville tiedostoille (tyhjän kansion sijaan), sinun täytyy mitä luultavammin aloittaa näiden tiedostojen jäljittäminen ja tehdä alustava pysyvä muutos. Sinä saavutat tämän muutamalla <code>git add</code> -komennolla, joista ensimmäiset määrittävät, mitä tiedostoja haluat jäljittää, ja joita seuraa pysyvän muutoksen luonti:</p>
-<pre><code><span class="hljs-variable">$ </span>git add *.c
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit –m <span class="hljs-string">'initial project version'</span>
+<pre><code>$ git add *.c
+$ git add README
+$ git commit –m &#39;initial project version&#39;
 </code></pre><p>Me käymme pian läpi mitä nämä komennot tekevät. Tällä hetkellä sinulla on Git-tietolähde, joka jäljittää tiedostoja sekä alustava pysyvä muutos.</p>
 <h2 id="olemassa-olevan-tietol-hteen-kloonaus">Olemassa olevan tietolähteen kloonaus</h2>
 <p>Jos haluat kopion olemassa olevasta tietolähteestä - esimerkiksi projektista, johon haluat olla osallisena - komento, jonka tarvitset, on <code>git clone</code>. Jos muut VCS-järjestelmät, kuten Subversion, ovat sinulle tuttuja, huomaat, että komento on <code>clone</code> eikä <code>checkout</code>. Tämä on tärkeä ero - Git saa kopion melkein kaikesta datasta mitä palvelimella on. Jokainen versio jokaisesta tiedostosta projektin historiassa tulee vedetyksi, kun suoritat <code>git clone</code> -komennon. Itse asiassa, jos palvelimesi levy korruptoituu, voit käyttää mitä tahansa klooneista, miltä tahansa asiakassovellukselta, asettaaksesi palvelimen takaisin tilaan, jossa se oli, kun se kloonattiin (voit menettää jotain palvelinpuolen sovelluskoukkuja ja muuta, mutta kaikki versioitu data on tallessa - katso <em>Luku 4</em> tarkempia yksityiskohtia varten).</p>
 <p>Kloonaat tietolähteen <code>git clone [url]</code> -komennolla. Esimerkiksi, jos haluat kloonata Gritiksi kutsutun Ruby Git -kirjaston, voit tehdä sen näin:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git
 </code></pre><p>Tämä luo hakemiston nimeltä <code>grit</code>, alustaa <code>.git</code>-hakemiston sen sisään, vetää kaiken datan tietolähteestä, ja hakee viimeisimmän version työkopion. Jos menet uuteen <code>grit</code>-hakemistoon, näet projektin tiedostot valmiina työtä varten tai käytettäväksi. Jos haluat kloonata tietolähteen hakemistoon, joka on nimetty joksikin muuksi kuin grit, voit antaa nimen seuraavanlaisella komentorivioptiolla:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/grit.git mygrit</span>
+<pre><code>$ git clone git://github.com/schacon/grit.git mygrit
 </code></pre><p>Tämä komento tekee saman asian kuin edellinenkin, mutta kohdehakemisto on nimeltään <code>mygrit</code>.</p>
 <p>Gitissä on monta erilaista siirtoprotokollaa, joita voit käyttää. Edellinen esimerkki käyttää <code>git://</code>-protokollaa, mutta voit myös nähdä <code>http(s)://</code> tai <code>user@server:/path.git</code>, joka käyttää SSH-siirtoprotokollaa. <em>Luku 4</em> esittelee kaikki saatavilla olevat optiot, joilla palvelin voidaan asettaa päästämään Git-tietolähteen, sekä jokaisin hyvät ja huonot puolet.</p>
 
@@ -318,9 +321,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

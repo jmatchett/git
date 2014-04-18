@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397503662242">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397847842670">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -191,36 +194,36 @@
 <h2 id="instalarea-din-fi-iere-surs-">Instalarea din Fișiere Sursă</h2>
 <p>Dacă puteți, este uneori folositor să instalați Git din surse, deoarece veți obține cea mai nouă versiune. Fiecare nouă versiune tinde să conțină îmbunătațiri ale interfeței, așa că dacă doriți ultima apariție aceasta este cea mai bună metodă dacă sunteți confortabil în lucrul cu cod sursă. Uneori puteți întâlni cazul în care versiunea dumneavoastră de Linux conține pachete foarte vechi; așa că dacă nu aveți ultima apariție a distribuției sau folosiți backports, instalarea din surse poate fi cea mai sigură alegere.</p>
 <p>Pentru a instala Git, aveți nevoie de următoarele biblioteci de care Git depinde: curl, zlib, openssl, expat, și libiconv. De exemplu, dacă sunteți într-un sistem care folosește yum (cum ar fi Fedora) sau apt-get (cum ar fi un sistem bazat pe Debian), puteți să folosiți una din aceste comenzi pentru a instala toate dependințele:</p>
-<pre><code>$ yum install curl<span class="hljs-attribute">-devel</span> expat<span class="hljs-attribute">-devel</span> gettext<span class="hljs-attribute">-devel</span> <span class="hljs-subst">\</span>
-  openssl<span class="hljs-attribute">-devel</span> zlib<span class="hljs-attribute">-devel</span>
+<pre><code>$ yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
 
-$ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-attribute">-gnutls</span><span class="hljs-attribute">-dev</span> libexpat1<span class="hljs-attribute">-dev</span> gettext <span class="hljs-subst">\</span>
-  libz<span class="hljs-attribute">-dev</span> libssl<span class="hljs-attribute">-dev</span>
+$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+  libz-dev libssl-dev
 </code></pre><p>Când aveți toate dependințele cerute, puteți să treceți la pasul următor și să luați ultimul snapshot de pe site-ul Git:</p>
-<pre><code><span class="hljs-label">http:</span>//git-scm<span class="hljs-preprocessor">.com</span>/download
+<pre><code>http://git-scm.com/download
 </code></pre><p>Apoi, compilați și instalați:</p>
-<pre><code><span class="hljs-variable">$ </span>tar -zxf git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>.tar.gz
-<span class="hljs-variable">$ </span>cd git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>
-<span class="hljs-variable">$ </span>make prefix=<span class="hljs-regexp">/usr/local</span> all
-<span class="hljs-variable">$ </span>sudo make prefix=<span class="hljs-regexp">/usr/local</span> install
+<pre><code>$ tar -zxf git-1.6.0.5.tar.gz
+$ cd git-1.6.0.5
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install
 </code></pre><p>După toți acești pași, puteți să luați Git prin intermediul lui însăși folosind update-uri:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/git.kernel.org/pub</span><span class="hljs-regexp">/scm/git</span><span class="hljs-regexp">/git.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 </code></pre><h2 id="instalarea-n-sistemele-linux">Instalarea în sistemele Linux</h2>
 <p>Dacă doriți să instalați Git în Linux prin intermediul unui program de instalare, puteți de obicei să folosiți uneltele locale pentru administrarea pachetelor în funcție de distribuția utilizată. Dacă folosiți Fedora, puteți folosi yum:</p>
-<pre><code><span class="hljs-variable">$ </span>yum install git-core
+<pre><code>$ yum install git-core
 </code></pre><p>Sau dacă folosiți o distribuție bazată pe Debian, de exemplu Ubuntu, încercați apt-get:</p>
-<pre><code>$ apt-<span class="hljs-keyword">get</span> install git
+<pre><code>$ apt-get install git
 </code></pre><h2 id="instalarea-pe-sistemele-mac">Instalarea pe sistemele Mac</h2>
 <p>Sunt două moduri simple de a instala Git pe sistemele Mac. Cea mai simplă este să folosiți programul de instalare grafic pentru Git, pe care îl puteți descărca de la pagina Google Code ( vedeți Figura 1-7):</p>
-<pre><code><span class="hljs-label">http:</span>//code<span class="hljs-preprocessor">.google</span><span class="hljs-preprocessor">.com</span>/p/git-osx-installer
+<pre><code>http://code.google.com/p/git-osx-installer
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0107-tn.png" alt=""></p>
 <p>Figura 1-7. Programul de instalare Git în OS X.</p>
 <p>Cealaltă posibilitate este să instalați Git prin intermediul MacPorts (<code>http://www.macports.org</code>). Dacă aveți instalat MacPorts, atunci instalați Git cu comanda</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> port install git-core +svn +doc +bash_completion +gitweb
+<pre><code>$ sudo port install git-core +svn +doc +bash_completion +gitweb
 </code></pre><p>Nu trebuie să adăugați toate extra-opțiunile, dar probabil veți dori să includeți +svn în caz că veți dori să folosiți Git cu repository-uri Subversion (vedeți Capitolul 8).</p>
 <h2 id="instalarea-pe-sistemele-windows">Instalarea pe sistemele Windows</h2>
 <p>Instalarea Git în Windows este foarte simplă. Proiectul msysGit are una din procedurile cele mai simple de instalare. Pur și simplu descărcați programul de instalare de pe pagina GitHub, și rulați-l:</p>
-<pre><code><span class="hljs-label">http:</span>//msysgit<span class="hljs-preprocessor">.github</span><span class="hljs-preprocessor">.com</span>/
+<pre><code>http://msysgit.github.com/
 </code></pre><p>După ce este instalat, veți avea atât o versiune în linie de comandă (inclusiv un client SSH care vă va fi util mai târziu) cât și o interfață grafică standard (GUI [en]).</p>
 
                     
@@ -240,9 +243,9 @@ $ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

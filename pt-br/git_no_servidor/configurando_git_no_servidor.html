@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,25 +847,25 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_859">
+                    <section class="normal" id="section-gitbook_717">
                     
                         <h1 id="configurando-git-no-servidor">Configurando Git no Servidor</h1>
 <p>Antes de configurar qualquer servidor Git, você tem que exportar um repositório existente em um novo repositório limpo — um repositório que não contém um diretório sendo trabalhado. Isto é geralmente fácil de fazer. Para clonar seu repositório para criar um novo repositório limpo, você pode executar o comando clone com a opção <code>--bare</code>. Por convenção, diretórios de repositórios limpos terminam em <code>.git</code>, assim:</p>
-<pre><code>$ git clone <span class="hljs-comment">--bare my_project my_project.git</span>
-Initialized <span class="hljs-constant">empty</span> Git repository <span class="hljs-operator">in</span> /opt/projects/my_project.git/
+<pre><code>$ git clone --bare my_project my_project.git
+Initialized empty Git repository in /opt/projects/my_project.git/
 </code></pre><p>O resultado deste comando é um pouco confuso. Já que <code>clone</code> é basicamente um <code>git init</code> seguido de um <code>git fetch</code>, nós vemos um pouco do resultado de <code>git init</code>, que cria um diretório vazio. A transferência real de objetos não dá nenhum resultado, mas ocorre. Você deve ter agora uma cópia dos dados do diretório Git no seu diretório <code>my_project.git</code>.</p>
 <p>Isto é mais ou menos equivalente a algo assim</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> -Rf my_project/<span class="hljs-preprocessor">.git</span> my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ cp -Rf my_project/.git my_project.git
 </code></pre><p>Existem algumas diferenças menores no arquivo de configuração caso você siga este caminho; mas para o propósito, isto é perto da mesma coisa. Ele copia o repositório Git, sem um diretório de trabalho, e cria um diretório especificamente para ele sozinho.</p>
 <h2 id="colocando-o-reposit-rio-limpo-no-servidor">Colocando o Repositório Limpo no Servidor</h2>
 <p>Agora que você tem uma cópia limpa do seu repositório, tudo o que você precisa fazer é colocá-lo num servidor e configurar os protocolos. Vamos dizer que você configurou um servidor chamado <code>git.example.com</code> que você tem acesso via SSH, e você quer armazenar todos os seus repositórios Git no diretório <code>/opt/git</code>. Você pode configurar o seu novo repositório apenas copiando o seu repositório limpo:</p>
-<pre><code>$ scp -r my_project<span class="hljs-preprocessor">.git</span> user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git
+<pre><code>$ scp -r my_project.git user@git.example.com:/opt/git
 </code></pre><p>Neste ponto, outros usuários com acesso SSH para o mesmo servidor e que possuam acesso de leitura para o diretório <code>/opt/git</code> podem clonar o seu repositório executando</p>
-<pre><code>$ git clone user@git<span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.com</span>:/opt/git/my_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone user@git.example.com:/opt/git/my_project.git
 </code></pre><p>Se um usuário acessar um servidor via SSH e ele tiver acesso de escrita no diretório <code>/opt/git/my_project.git</code>, ele também terá acesso para envio (push) automaticamente. Git irá automaticamente adicionar permissões de escrita apropriadas para o grupo se o comando <code>git init</code> com a opção <code>--shared</code> for executada em um repositório.</p>
-<pre><code><span class="hljs-variable">$ </span>ssh user<span class="hljs-variable">@git</span>.example.com
-<span class="hljs-variable">$ </span>cd /opt/git/my_project.git
-<span class="hljs-variable">$ </span>git init --bare --shared
+<pre><code>$ ssh user@git.example.com
+$ cd /opt/git/my_project.git
+$ git init --bare --shared
 </code></pre><p>Você pode ver como é fácil pegar um repositório Git, criar uma versão limpa, e colocar num servidor onde você e seus colaboradores têm acesso SSH. Agora vocês estão prontos para colaborar no mesmo projeto.</p>
 <p>É importante notar que isso é literalmente tudo que você precisa fazer para rodar um servidor Git útil no qual várias pessoas possam acessar — apenas adicione as contas com acesso SSH ao servidor, coloque um repositório Git em algum lugar do servidor no qual todos os usuários tenham acesso de leitura e escrita. Você está pronto — nada mais é necessário.</p>
 <p>Nas próximas seções, você verá como expandir para configurações mais sofisticas. Essa discussão irá incluir a característica de não precisar criar contas para cada usuário, adicionar acesso de leitura pública para os seus repositórios, configurar Web UIs, usando a ferramenta Gitosis, e mais. Entretanto, mantenha em mente que para colaborar com algumas pessoas em um projeto privado, tudo o que você <em>precisa</em> é um servidor SSH e um repositório limpo.</p>
@@ -892,9 +895,9 @@ Initialized <span class="hljs-constant">empty</span> Git repository <span class=
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

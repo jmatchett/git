@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.6" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.6" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -780,42 +783,42 @@
 <p>Prima di finire questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere l&#39;esperienza nell&#39;uso di Git più semplice, facile e familiare. Molte persone usano Git senza usare questi suggerimenti e non ci riferiremo ad essi o presumeremo che tu li abbia usati successivamente nel libro; ma probabilmente dovresti sapere come realizzarli.</p>
 <h2 id="auto-completamento">Auto-Completamento</h2>
 <p>Se usi una shell Bash, Git fornisce un piacevole script di auto completamento che può essere usato. Scarica il codice sorgente di Git, e guarda nella directory <code>contrib/completation</code>; dovrebbe esserci un file chiamato <code>git-completation.bash</code>. Copia questo file nella tua directory di home e aggiungila al tuo file <code>.bashrc</code>:</p>
-<pre><code>source ~/<span class="hljs-preprocessor">.git</span>-completion<span class="hljs-preprocessor">.bash</span>
+<pre><code>source ~/.git-completion.bash
 </code></pre><p>Se vuoi impostare Git per avere l&#39;auto completamento della shell Bash per tutti gli utenti, copia lo script nella directory <code>/opt/local/etc/bash_completion.d</code> sui sistemi Mac o in <code>/etc/bash_completion.d/</code> sui sistemi Linux. Questa è una directory degli script che Bash automaticamente carica per fornire l&#39;auto completamento da shell.</p>
 <p>Se stai usando Windows con Git Bash, che è l&#39;installazione di base per Git su Windows con msysGit, l&#39;auto completamento dovrebbe essere preconfigurato.</p>
 <p>Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti avere una serie di suggerimenti da selezionare:</p>
-<pre><code>$ git co<span class="hljs-tag">&lt;<span class="hljs-title">tab</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">tab</span>&gt;</span>
+<pre><code>$ git co&lt;tab&gt;&lt;tab&gt;
 commit config
 </code></pre><p>In questo caso, scrivendo git co e poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo <code>m&lt;tab&gt;</code> si completa <code>git commit</code> automaticamente.</p>
 <p>Questo funziona anche con le opzioni, cosa che forse è molto più utile. Per esempio, se si lancia il comando <code>git log</code> e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">log</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">s</span>&lt;<span class="hljs-comment">tab</span>&gt;
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">shortstat</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">since=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">src</span><span class="hljs-literal">-</span><span class="hljs-comment">prefix=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">stat</span>   <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">summary</span>
+<pre><code>$ git log --s&lt;tab&gt;
+--shortstat  --since=  --src-prefix=  --stat   --summary
 </code></pre><p>Questo è un trucco davvero utile e permette di risparmiare molto tempo e lettura della documentazione.</p>
 <h2 id="alias-con-git">Alias con Git</h2>
 <p>Git non deduce il comando se si digita solo in parte. Se non si vuole scrivere l&#39;intero testo di qualsiasi comando Git, puoi facilmente scegliere un alias per ogni comando, usando <code>git config</code>. Qui ci sono un po&#39; di esempi su alcune configurazioni che potresti volere impostare:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.co checkout
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.br branch
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.ci commit
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.st status
+<pre><code>$ git config --global alias.co checkout
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status
 </code></pre><p>Questo significa che, per esempio, invece di digitare <code>git commit</code>, hai solamente bisogno di scrivere <code>git ci</code>. Andando avanti con l&#39;uso di Git, probabilmente ci saranno altri comandi che userai di frequente; in questi casi, non esitare a creare nuovi alias.</p>
 <p>Questa tecnica può anche essere molto utile per creare comandi che ritieni dovrebbero esistere. Per esempio, per correggere un problema comune in cui si incorre quando si vuole disimpegnare un file dall&#39;area di stage, puoi aggiungere il tuo alias unstage a Git:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.unstage <span class="hljs-string">'reset HEAD --'</span>
+<pre><code>$ git config --global alias.unstage &#39;reset HEAD --&#39;
 </code></pre><p>Questo rende i seguenti due comandi equivalenti:</p>
-<pre><code><span class="hljs-variable">$ </span>git unstage fileA
-<span class="hljs-variable">$ </span>git reset <span class="hljs-constant">HEAD</span> fileA
+<pre><code>$ git unstage fileA
+$ git reset HEAD fileA
 </code></pre><p>Questo sembra più pulito. É anche comodo aggiungere il comando <code>last</code>, come:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.last <span class="hljs-string">'log -1 HEAD'</span>
+<pre><code>$ git config --global alias.last &#39;log -1 HEAD&#39;
 </code></pre><p>In questo modo puoi vedere l&#39;ultimo commit facilmente:</p>
 <pre><code>$ git last
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">66938</span>dae3329c7aebe598c2246a8e6af90d04646
+commit 66938dae3329c7aebe598c2246a8e6af90d04646
 Author: Josh Goebel &lt;dreamer3@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Aug <span class="hljs-number">26</span> <span class="hljs-number">19</span>:<span class="hljs-number">48</span>:<span class="hljs-number">51</span> <span class="hljs-number">2008</span> +<span class="hljs-number">0800</span>
+Date:   Tue Aug 26 19:48:51 2008 +0800
 
-    test <span class="hljs-keyword">for</span> <span class="hljs-keyword">current</span> head
+    test for current head
 
-    Signed-off-<span class="hljs-keyword">by</span>: Scott Chacon &lt;schacon@example.com&gt;</span>
+    Signed-off-by: Scott Chacon &lt;schacon@example.com&gt;
 </code></pre><p>Git semplicemente sostituisce il nuovo comando con quello che corrisponde all&#39;alias. Magari, vuoi avviare un comando esterno, invece dei sotto comandi Git. In questo caso, devi avviare il comando con il carattere &quot;!&quot;. Questo è utile se stai scrivendo i tuoi strumenti di lavoro con un repository Git. Per esempio creiamo un alias <code>git visual</code> per lanciare <code>gitk</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.visual <span class="hljs-string">'!gitk'</span>
+<pre><code>$ git config --global alias.visual &#39;!gitk&#39;
 </code></pre>
                     
                     </section>
@@ -834,9 +837,9 @@ Author: Josh Goebel &lt;dreamer3@example.com&gt;
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

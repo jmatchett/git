@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397503664229">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397847843644">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -292,15 +295,15 @@
 <p>У Windows Git шукае файл <code>.gitconfig</code> у каталогу<code>$HOME</code> directory (<code>C:\Documents and Settings\$USER</code> для большасці карастыльнікаў). Таксама ён шукае /etc/gitconfig, але ўжо адносна карнявога каталогу MSys, які знаходзіцца там, дзе вы вырашылі ўсталяваць Git.</p>
 <h2 id="-">Ваша ідэнтыфікацыя</h2>
 <p>Першае, што вам трэба зрабіць, калі вы ўсталявалі Git, - задаць ваша імя і адрас e-mail. Гэта важна таму, што кожны каміт у Git выкарыстоўвае гэтую інфармацыю, і яна ўключаецца ў каміты, перадаваемыя вамі, і далей ня можа быць зменена:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>Зноў-такі, вам трэба зрабіць гэта толькі адзін раз, калі перадалі параметр <code>--global</code>, таму шта Git будзе заўжды выкарыстоўваць гэту інфармацыю для ўсяго, што вы будзеце рабіць на гэтай сістэме. Калі вы хочаце змяніць гэта на іншае імя ці адрас e-mail для канкрэтнага праекта, вы можаце выканаць каманду без параметра <code>--global</code>, калі вы знаходзіцеся ў каталогу праекта.</p>
 <h2 id="-">Ваш рэдактар</h2>
 <p>Цяпер, калі вы наладзілі данныя ідэнтыфікацыі, вы можаце наладзіць тэкставы рэдактар, які будзе выкарыстоўвацца, калі Git&#39;у трэба, каб вы ўвялі паведамленне. Па змаўчанні Git выкарыстоўвае стандартны рэдактар вашай сістэмы, звычайна гэта Vi ці Vim. Калі вы жадаеце выкарыстаць іншы тэкставы рэдактар, напрыклда Emacs, вы можаце зрабіць наступнае:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><h2 id="-">Ваша утыліта параўнання</h2>
 <p>Яшчэ адна карысная налада, якую вы мажліва хочаце змяніць, - гэта стандартная утыліта для параўнання, якая выкарыстоўваецца для вырашэння канфліктаў зліцця. Напрыклад, вы хочаце выкарыстоўваць vimdiff:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>Git падтрымлівае kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge і opendiff як дапушчальныя утыліты параўнання. Таксама вы можаце наладзіць іншую утыліту; больш аб гэтым напісана ў Главе 7.</p>
 <h2 id="-">Праверка вашых наладак</h2>
 <p>Калі вы хочаце праверыць вышы налады, вы можаце выкарыстаць каманду <code>git config --list</code> для вываду ўсіх наладак Git, якія даступны на данным узроўні:</p>
@@ -311,11 +314,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>Вы можаце бачыць параметры больш аднаго разу, бо Git счытвае аднолькавыя параметры з розных файлаў (<code>/etc/gitconfig</code> і <code>~/.gitconfig</code> для прыкладу). У такім выпадку Git выкарыстоўвае апошняе значэнне для кожнага знайдзеннага параметра.</p>
 <p>Таксама вы можаце праверыць што для Git з&#39;яўляецца значэннем для канкрэтнага параметра, выканаўшы <code>git config {параметр}</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -334,9 +337,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

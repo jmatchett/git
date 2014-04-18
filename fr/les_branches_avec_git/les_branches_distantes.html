@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_644">
+                    <section class="normal" id="section-gitbook_857">
                     
                         <h1 id="les-branches-distantes">Les branches distantes</h1>
 <p>Les branches distantes sont des références à l&#39;état des branches sur votre dépôt distant.
@@ -884,12 +887,12 @@ De cette manière, vous pouvez utiliser des branches privées pour le travail qu
 <p>Si vous possédez une branche nommée <code>correctionserveur</code> sur laquelle vous souhaitez travailler avec des tiers, vous pouvez la pousser de la même manière que vous avez poussé votre première branche.
 Lancez <code>git push [serveur distant] [branche]</code> :</p>
 <pre><code>$ git push origin correctionserveur
-Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-number">1.74</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 20, done.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 1.74 KiB, done.
+Total 15 (delta 5), reused 0 (delta 0)
 To git@github.com:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> branch]      correctionserveur -&gt; correctionserveur
+ * [new branch]      correctionserveur -&gt; correctionserveur
 </code></pre><p>C&#39;est un raccourci.
 En fait, Git étend le nom de branche <code>correctionserveur</code> en <code>refs/heads/correctionserveur:refs/heads/correctionserveur</code>, ce qui signifie « Prendre ma branche locale <code>correctionserveur</code> et la pousser pour mettre à jour la branche distante <code>correctionserveur</code> ».
 Nous traiterons plus en détail la partie <code>refs/heads/</code> au chapitre 9, mais vous pouvez généralement l&#39;oublier.
@@ -898,19 +901,19 @@ Vous pouvez utiliser ce format pour pousser une branche locale vers une branche 
 Si vous ne souhaitez pas l&#39;appeler <code>correctionserveur</code> sur le serveur distant, vous pouvez lancer à la place <code>git push origin correctionserveur:branchegeniale</code> pour pousser votre branche locale <code>correctionserveur</code> sur la branche <code>branchegeniale</code> sur le dépôt distant.</p>
 <p>La prochaine fois qu&#39;un de vos collaborateurs récupère les données depuis le serveur, il récupérera une référence à l&#39;état de la branche distante <code>origin/correctionserveur</code> :</p>
 <pre><code>$ git fetch origin
-remote: Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (15/15), done.
 From git@github.com:schacon/simplegit
- * [<span class="hljs-keyword">new</span> branch]      correctionserveur    -&gt; origin/correctionserveur
+ * [new branch]      correctionserveur    -&gt; origin/correctionserveur
 </code></pre><p>Important : lorsque l&#39;on récupère une nouvelle branche depuis un serveur distant, il n&#39;y a pas de création automatique d&#39;une copie locale éditable.
 En d&#39;autres termes, il n&#39;y a pas de branche <code>correctionserveur</code>, seulement un pointeur sur la branche <code>origin/correctionserveur</code> qui n&#39;est pas modifiable.</p>
 <p>Pour fusionner ce travail dans votre branche actuelle de travail, vous pouvez lancer <code>git merge origin/correctionserveur</code>.
 Si vous souhaitez créer votre propre branche <code>correctionserveur</code> pour pouvoir y travailler, vous pouvez la baser sur le pointeur distant :</p>
 <pre><code>$ git checkout -b correctionserveur origin/correctionserveur
-Branch correctionserveur <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/correctionserveur.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"correctionserveur"</span>
+Branch correctionserveur set up to track remote branch refs/remotes/origin/correctionserveur.
+Switched to a new branch &quot;correctionserveur&quot;
 </code></pre><p>Cette commande vous fournit une branche locale modifiable basée sur l&#39;état actuel de <code>origin/correctionserveur</code>.</p>
 <h2 id="suivre-les-branches">Suivre les branches</h2>
 <p>L&#39;extraction d&#39;une branche locale à partir d&#39;une branche distante crée automatiquement ce qu&#39;on appelle une <em>branche de suivi</em>.
@@ -922,21 +925,21 @@ C&#39;est pourquoi les commandes <code>git push</code> et <code>git pull</code> 
 Vous pouvez néanmoins créer d&#39;autres branches de suivi si vous le souhaitez, qui ne suivront pas <code>origin</code> ni la branche <code>master</code>.
 Un cas d&#39;utilisation simple est l&#39;exemple précédent, en lançant <code>git checkout -b [branche] [nomdistant]/[branche]</code>.
 Si vous avez Git version 1.6.2 ou plus, vous pouvez aussi utiliser l&#39;option courte <code>--track</code> :</p>
-<pre><code>$ git checkout <span class="hljs-comment">--track origin/correctionserveur</span>
-Branch correctionserveur <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/correctionserveur.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"correctionserveur"</span>
+<pre><code>$ git checkout --track origin/correctionserveur
+Branch correctionserveur set up to track remote branch refs/remotes/origin/correctionserveur.
+Switched to a new branch &quot;correctionserveur&quot;
 </code></pre><p>Pour créer une branche locale avec un nom différent de celui de la branche distante, vous pouvez simplement utiliser la première version avec un nom de branche locale différent :</p>
 <pre><code>$ git checkout -b sf origin/correctionserveur
-Branch sf <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch refs/remotes/origin/correctionserveur.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"sf"</span>
+Branch sf set up to track remote branch refs/remotes/origin/correctionserveur.
+Switched to a new branch &quot;sf&quot;
 </code></pre><p>À présent, votre branche locale sf poussera vers et tirera automatiquement depuis origin/correctionserveur.</p>
 <h2 id="effacer-des-branches-distantes">Effacer des branches distantes</h2>
 <p>Supposons que vous en avez terminé avec une branche distante.
 Vous et vos collaborateurs avez terminé une fonctionnalité et l&#39;avez fusionnée dans la branche <code>master</code> du serveur distant (ou la branche correspondant à votre code stable).
 Vous pouvez effacer une branche distante en utilisant la syntaxe plutôt obtuse <code>git push [nomdistant] :[branch]</code>.
 Si vous souhaitez effacer votre branche <code>correctionserveur</code> du serveur, vous pouvez lancer ceci :</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:correctionserveur</span>
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit.git
+<pre><code>$ git push origin :correctionserveur
+To git@github.com:schacon/simplegit.git
  - [deleted]         correctionserveur
 </code></pre><p>Boum !
 Plus de branche sur le serveur.
@@ -961,9 +964,9 @@ Si vous éliminez la partie <code>[branchelocale]</code>, cela signifie « ne ri
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

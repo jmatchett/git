@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.6" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -774,7 +777,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_352">
+                    <section class="normal" id="section-gitbook_363">
                     
                         <h1 id="rifondazione">Rifondazione</h1>
 <p>In Git, ci sono due modi per integrare i cambiamenti da un ramo in un altro: il <code>merge</code> ed il <code>rebase</code>. In questa sezione imparerai cos&#39;è la rifondazione, come farlo, perché è uno strumento così fantastico, ed in quali casi puoi non volerlo utilizzare.</p>
@@ -789,8 +792,8 @@
 <p>In questo esempio, digita quanto segue:</p>
 <pre><code>$ git checkout experiment
 $ git rebase master
-First, rewinding head <span class="hljs-built_in">to</span> replay your work <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">top</span> <span class="hljs-title">of</span> <span class="hljs-title">it</span>...</span>
-Applying: added staged <span class="hljs-command"><span class="hljs-keyword">command</span></span>
+First, rewinding head to replay your work on top of it...
+Applying: added staged command
 </code></pre><p>Questi comandi funzionano andando al progenitore comune dei due rami (uno è quello in cui ti trovi e uno è quello su cui stai facendo il rebase), ottiene il diff di ogni commit del ramo in cui ti trovi, salva le informazioni in un file temporaneo, reimposta il ramo corrente allo stesso commit del ramo su cui stai facendo il rebase, e alla fine applica ogni singolo cambiamento. La Figura 3-29 illustra questo processo.</p>
 <p><img src="http://git-scm.com/figures/18333fig0329-tn.png" alt=""></p>
 <p>Figura 3-29. Rifondazione dei cambiamenti introdotti in C3 in C4.</p>
@@ -805,26 +808,26 @@ Applying: added staged <span class="hljs-command"><span class="hljs-keyword">com
 <p><img src="http://git-scm.com/figures/18333fig0331-tn.png" alt=""></p>
 <p>Figura 3-31. Una storia con un ramo a tema ed un altro ramo a tema da questo.</p>
 <p>Supponiamo che tu decida di voler unire i tuoi cambiamenti lato client nella linea principale per un rilascio, ma non vuoi unire le modifiche lato server per testarle ulteriormente. Puoi prendere le modifiche sul client che non sono sul server (C8 e C9) ed applicarle nel ramo master usano l&#39;opzione <code>--onto</code> di <code>git rebase</code>:</p>
-<pre><code>$ git rebase --onto master <span class="hljs-keyword">server</span> <span class="hljs-keyword">client</span>
+<pre><code>$ git rebase --onto master server client
 </code></pre><p>Questo dice, “Prendi il ramo client, fai le patch a partire dall&#39;ancora comune dei rami <code>client</code> e <code>server</code>, ed applicali in <code>master</code>.“ É un po&#39; complesso; ma il risultato, mostrato in Figura 3-32, è davvero interessante.</p>
 <p><img src="http://git-scm.com/figures/18333fig0332-tn.png" alt=""></p>
 <p>Figura 3-32. Rifondazione di un ramo a tema con un altro ramo a tema.</p>
 <p>Ora puoi fare una fusione veloce con il ramo master (vedi Figura 3-33):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge client
+<pre><code>$ git checkout master
+$ git merge client
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0333-tn.png" alt=""></p>
 <p>Figura 3-33. Fusione ad avanzamento veloce con il ramo master per includere i cambiamenti del ramo client.</p>
 <p>Diciamo che hai deciso di inviare il tutto nel ramo server. Puoi fare un rebase del ramo server in quello master senza dover controllarlo prima lanciando <code>git rebase [basebranch] [topicbranch]</code> — che controlla il ramo a tema (in questo caso, <code>server</code>) per te e gli applica il ramo base (<code>master</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git rebase master server
+<pre><code>$ git rebase master server
 </code></pre><p>Questo applica il tuo lavoro <code>server</code> sopra al tuo lavoro <code>master</code>, come in Figura 3-34.</p>
 <p><img src="http://git-scm.com/figures/18333fig0334-tn.png" alt=""></p>
 <p>Figura 3-34. Rifondazione del ramo server sopra al ramo master.</p>
 <p>Poi, puoi fare una fusione veloce con il ramo base (<code>master</code>):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge server
+<pre><code>$ git checkout master
+$ git merge server
 </code></pre><p>Puoi rimuovere i rami <code>client</code> e <code>server</code> perché tutto il lavoro è integrato e non ne hai più bisogno, lasciando così la storia dell&#39;intero processo come in Figura 3-35:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> client
-$ git branch <span class="hljs-operator">-d</span> server
+<pre><code>$ git branch -d client
+$ git branch -d server
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0335-tn.png" alt=""></p>
 <p>Figura 3-35. Storia finale dei commit.</p>
 <h2 id="i-rischio-della-rifondazione">I Rischio della Rifondazione</h2>
@@ -864,9 +867,9 @@ $ git branch <span class="hljs-operator">-d</span> server
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

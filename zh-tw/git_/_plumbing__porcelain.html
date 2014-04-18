@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397503670754">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397847845594">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="開始" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="../git_.html" title="Git 基礎要點" class="chapter done " data-progress="1.3" style="left: 4%;"></a>
     
@@ -754,14 +757,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_150">
+                    <section class="normal" id="section-gitbook_174">
                     
                         <h1 id="-plumbing-porcelain-">底層命令 (Plumbing) 和高層命令 (Porcelain)</h1>
 <p>本書講解了使用 <code>checkout</code>, <code>branch</code>, <code>remote</code> 等共約 30 個 Git 命令。然而由於 Git 一開始被設計成供 VCS 使用的工具集，而不是一整套 user-friendly 的 VCS，它還包含了許多底層命令，這些命令用於以 UNIX 風格使用或由腳本呼叫。這些命令一般被稱為 “plumbing” 命令（底層命令），其他的更友好的命令則被稱為 “porcelain” 命令（高層命令）。 </p>
 <p>本書前八章主要專門討論高層命令。本章將主要討論底層命令以理解 Git 的內部工作機制、演示 Git 如何及為何要以這種方式工作。這些命令主要不是用來從命令列手工使用的，更多的是用來為其他工具和自訂腳本服務的。 </p>
 <p>當你在一個新目錄或已有目錄內執行 <code>git init</code> 時，Git 會創建一個 <code>.git</code> 目錄，幾乎所有 Git 儲存和操作的內容都位於該目錄下。如果你要備份或複製一個倉庫，基本上將這一目錄拷貝至其他地方就可以了。本章基本上都討論該目錄下的內容。該目錄結構如下： </p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">HEAD</span>
+<pre><code>$ ls
+HEAD
 branches/
 config
 description
@@ -790,9 +793,9 @@ refs/
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

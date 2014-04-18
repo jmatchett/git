@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.4" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.4" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -848,52 +851,52 @@
                     
                         <h1 id="-">Настраиваем сервер</h1>
 <p>Давайте рассмотрим настройку доступа по SSH на стороне сервера. В этом примере мы будем использовать метод <code>authorized_keys</code> для аутентификации пользователей. Мы подразумеваем, что вы используете стандартный дистрибутив Linux типа Ubuntu. Для начала создадим пользователя &#39;git&#39; и каталог <code>.ssh</code> для этого пользователя:</p>
-<pre><code><span class="hljs-variable">$ </span>sudo adduser git
-<span class="hljs-variable">$ </span>su git
-<span class="hljs-variable">$ </span>cd
-<span class="hljs-variable">$ </span>mkdir .ssh
+<pre><code>$ sudo adduser git
+$ su git
+$ cd
+$ mkdir .ssh
 </code></pre><p>Затем нужно добавить открытый SSH-ключ какого-нибудь разработчика в файл <code>authorized_keys</code> этого пользователя. Предположим, вы уже получили несколько ключей по электронной почте и сохранили их во временные файлы. Напомню, открытые ключи выглядят вот так:</p>
-<pre><code>$ cat /tmp/id_rsa<span class="hljs-preprocessor">.john</span><span class="hljs-preprocessor">.pub</span>
+<pre><code>$ cat /tmp/id_rsa.john.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
-ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/<span class="hljs-number">5</span>zytK6Ztg3RPKK+<span class="hljs-number">4</span>k
+ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4k
 Yjh6541NYsnEAZuXz0jTTyAUfrtU3Z5E003C4oxOj6H0rfIF1kKI9MAQLMdpGW1GYEIgS9Ez
 Sdfd8AcCIicTDWbqLAcU4UpkaX8KyGlLwsNuuGztobF8m72ALC/nLF6JLtPofwFBlgc+myiv
 O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 dAv8JggJICUvax2T9va5 gsg-keypair
 </code></pre><p>Вы просто добавляете их в свой файл <code>authorized_keys</code>:</p>
-<pre><code>$ cat /tmp/id_rsa<span class="hljs-preprocessor">.john</span><span class="hljs-preprocessor">.pub</span> &gt;&gt; ~/<span class="hljs-preprocessor">.ssh</span>/authorized_keys
-$ cat /tmp/id_rsa<span class="hljs-preprocessor">.josie</span><span class="hljs-preprocessor">.pub</span> &gt;&gt; ~/<span class="hljs-preprocessor">.ssh</span>/authorized_keys
-$ cat /tmp/id_rsa<span class="hljs-preprocessor">.jessica</span><span class="hljs-preprocessor">.pub</span> &gt;&gt; ~/<span class="hljs-preprocessor">.ssh</span>/authorized_keys
+<pre><code>$ cat /tmp/id_rsa.john.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
 </code></pre><p>Теперь вы можете создать пустой репозиторий для них, запустив <code>git init</code> с параметром <code>--bare</code>, что инициализирует репозиторий без рабочего каталога:</p>
-<pre><code><span class="hljs-variable">$ </span>cd /opt/git
-<span class="hljs-variable">$ </span>mkdir project.git
-<span class="hljs-variable">$ </span>cd project.git
-<span class="hljs-variable">$ </span>git --bare init
+<pre><code>$ cd /opt/git
+$ mkdir project.git
+$ cd project.git
+$ git --bare init
 </code></pre><p>Затем Джон, Джози или Джессика могут отправить первую версию своего проекта в этот репозиторий, добавив его как удалённый и отправив ветку. Заметьте, что кто-то должен заходить на сервер и создавать голый репозиторий каждый раз, когда вы хотите добавить проект. Пусть <code>gitserver</code> — имя хоста сервера, на котором вы создали пользователя &#39;git&#39; и репозиторий. Если он находится в вашей внутренней сети, вы можете настроить DNS-запись для <code>gitserver</code>, ссылающуюся на этот сервер, и использовать эти команды:</p>
-<pre><code><span class="hljs-comment"># на компьютере Джона </span>
-<span class="hljs-variable">$ </span>cd myproject
-<span class="hljs-variable">$ </span>git init
-<span class="hljs-variable">$ </span>git add .
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
-<span class="hljs-variable">$ </span>git remote add origin git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:/opt/git/project</span>.git
-<span class="hljs-variable">$ </span>git push origin master
+<pre><code># на компьютере Джона 
+$ cd myproject
+$ git init
+$ git add .
+$ git commit -m &#39;initial commit&#39;
+$ git remote add origin git@gitserver:/opt/git/project.git
+$ git push origin master
 </code></pre><p>Теперь остальные могут склонировать его и отправлять (push) туда изменения так же легко:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:/opt/git/project</span>.git
-<span class="hljs-variable">$ </span>cd project
-<span class="hljs-variable">$ </span>vim <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'fix for the README file'</span>
-<span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git clone git@gitserver:/opt/git/project.git
+$ cd project
+$ vim README
+$ git commit -am &#39;fix for the README file&#39;
+$ git push origin master
 </code></pre><p>Этим способом вы можете быстро получить Git-сервер с доступом на чтение/запись для небольшой группы разработчиков.</p>
 <p>В качестве дополнительной меры предосторожности вы можете ограничить возможности пользователя &#39;git&#39; только действиями, связанными с Git&#39;ом, с помощью ограниченной оболочки <code>git-shell</code>, поставляемой вместе с Git&#39;ом. Если вы выставите её в качестве командного интерпретатора пользователя &#39;git&#39;, то этот пользователь не сможет получить доступ к обычной командной оболочке на вашем сервере. Чтобы её использовать, укажите <code>git-shell</code> вместо bash или csh в качестве командной оболочки пользователя. Для этого вы должны отредактировать файл <code>/etc/passwd</code>:</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> vim /etc/passwd
+<pre><code>$ sudo vim /etc/passwd
 </code></pre><p>В конце вы должны найти строку, похожую на эту:</p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/bin/sh</span>
+<pre><code>git:x:1000:1000::/home/git:/bin/sh
 </code></pre><p>Замените <code>/bin/sh</code> на <code>/usr/bin/git-shell</code> (или запустите <code>which git-shell</code>, чтобы проверить, куда он установлен). Отредактированная строка должна выглядеть следующим образом:</p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/usr/bin/git-shell</span>
+<pre><code>git:x:1000:1000::/home/git:/usr/bin/git-shell
 </code></pre><p>Теперь пользователь &#39;git&#39; может использовать SSH-соединение только для работы с Git-репозиториями и не может зайти на машину. Вы можете попробовать и увидите, что вход в систему отклонён:</p>
-<pre><code><span class="hljs-variable">$ </span>ssh git<span class="hljs-variable">@gitserver</span>
-<span class="hljs-symbol">fatal:</span> <span class="hljs-constant">What</span> <span class="hljs-keyword">do</span> you think <span class="hljs-constant">I</span> am? <span class="hljs-constant">A</span> shell?
-<span class="hljs-constant">Connection</span> to gitserver closed.
+<pre><code>$ ssh git@gitserver
+fatal: What do you think I am? A shell?
+Connection to gitserver closed.
 </code></pre>
                     
                     </section>
@@ -912,9 +915,9 @@ $ cat /tmp/id_rsa<span class="hljs-preprocessor">.jessica</span><span class="hlj
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

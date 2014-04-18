@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="5.3" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="5.3" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,126 +847,126 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_533">
+                    <section class="normal" id="section-gitbook_604">
                     
                         <h1 id="het-beheren-van-een-project">Het beheren van een project</h1>
 <p>Naast weten hoe effectief bij te dragen aan een project, moet je waarschijnlijk ook moeten weten hoe je er een beheert. Dit kan bestaan uit het accepteren en toepassen van patches die met <code>format-patch</code> gemaakt en naar je gemaild zijn, of het integreren van wijzigingen in de remote branches van repositories die je hebt toegevoegd als remotes van je project. Of je nu een canonieke repository beheert, of wilt bijdragen door het controleren of goedkeuren van patches, je moet weten hoe werk te ontvangen op een zodanige manier die het duidelijkst is voor andere bijdragers en voor jou op langere termijn vol te houden.</p>
 <h2 id="werken-in-topic-branches">Werken in topic branches</h2>
 <p>Als je overweegt om nieuw werk te integreren, is het over het algemeen een goed idee om het uit te proberen in een topic branch - een tijdelijke branch, speciaal gemaakt om dat nieuwe werk uit te proberen. Op deze manier is het handig om een patch individueel te behandelen en het even opzij te zetten als het niet werkt, totdat je tijd hebt om er op terug te komen. Als je een eenvoudige branchnaam maakt, gebaseerd op het onderwerp van het werk dat je aan het proberen bent, bijvoorbeeld <code>ruby_client</code> of zoiets beschrijvends, dan is het makkelijk om te herinneren als je het voor een tijdje opzij legt en er later op terug komt. De beheerder van het Git project heeft de neiging om deze branches ook van een naamsruimte (namespace) te voorzien - zoals <code>sc/ruby_client</code>, waarbij <code>sc</code> een afkorting is van de persoon die het werk heeft bijgedragen.
 Zoals je je zult herinneren, kun je de branch gebaseerd op je master branch zo maken:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch sc/ruby_client master
+<pre><code>$ git branch sc/ruby_client master
 </code></pre><p>Of, als je er ook meteen naar wilt omschakelen, kun je de <code>checkout -b</code> optie gebruiken:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout -b sc/ruby_client master
+<pre><code>$ git checkout -b sc/ruby_client master
 </code></pre><p>Nu ben je klaar om het bijgedragen werk in deze topic branch toe te voegen, en te bepalen of je het wilt mergen in je meer permanente branches.</p>
 <h2 id="patches-uit-e-mail-toepassen">Patches uit e-mail toepassen</h2>
 <p>Als je een patch per e-mail ontvangt, en je moet die integreren in je project, moet je de patch in je topic branch toepassen om het te evalueren. Er zijn twee manieren om een gemailde patch toe te passen: met <code>git apply</code> of met <code>git am</code>.</p>
 <h3 id="een-patch-toepassen-met-apply">Een patch toepassen met apply</h3>
 <p>Als je de patch ontvangen hebt van iemand die het gegenereerd heeft met de <code>git diff</code> of een Unix <code>diff</code> commando, kun je het toepassen met het <code>git apply</code> commando. Aangenomen dat je de patch als <code>/tmp/patch-ruby-client.patch</code> opgeslagen hebt, kun je de patch als volgt toepassen:</p>
-<pre><code>$ git apply /tmp/<span class="hljs-keyword">patch</span>-ruby-client.<span class="hljs-keyword">patch</span>
+<pre><code>$ git apply /tmp/patch-ruby-client.patch
 </code></pre><p>Dit wijzigt de bestanden in je werk directory. Het is vrijwel gelijk aan het uitvoeren van een <code>patch -p1</code> commando om de patch toe te passen, alhoewel het meer paranoïde is en minder &quot;fuzzy matches&quot; accepteert dan patch. Het handelt ook het toevoegen, verwijderen, en hernoemen van bestanden af als ze beschreven staan in het <code>git diff</code> formaat, wat <code>patch</code> niet doet. Als laatste volgt <code>git apply</code> een &quot;pas alles toe of laat alles weg&quot; model waarbij alles of niets wordt toegepast. Dit in tegenstelling tot <code>patch</code> die gedeeltelijke patches kan toepassen, waardoor je werkdirectory in een vreemde status achterblijft. Over het algemeen is <code>git apply</code> meer paranoïde dan <code>patch</code>. Het zal geen commit voor je aanmaken: na het uitvoeren moet je de geïntroduceerde wijzigingen handmatig stagen en committen.</p>
 <p>Je kunt ook git apply gebruiken om te zien of een patch netjes kan worden toepast voordat je het echt doet; je kunt <code>git apply --check</code> uitvoeren met de patch:</p>
-<pre><code>$ git apply <span class="hljs-subst">--</span>check <span class="hljs-number">0001</span><span class="hljs-attribute">-seeing</span><span class="hljs-attribute">-if</span><span class="hljs-attribute">-this</span><span class="hljs-attribute">-helps</span><span class="hljs-attribute">-the</span><span class="hljs-attribute">-gem</span><span class="hljs-built_in">.</span>patch
-error: patch failed: ticgit<span class="hljs-built_in">.</span>gemspec:<span class="hljs-number">1</span>
-error: ticgit<span class="hljs-built_in">.</span>gemspec: patch does <span class="hljs-literal">not</span> apply
+<pre><code>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
 </code></pre><p>Als er geen uitvoer is, dan zou de patch netjes moeten passen. Dit commando retourneert ook een niet-nul status als de controle faalt, zodat je het kunt gebruiken in scripts als je dat zou willen.</p>
 <h3 id="een-patch-met-am-toepassen">Een patch met am toepassen</h3>
 <p>Als de bijdrager een Git gebruiker is en zo vriendelijk is geweest om het <code>format-patch</code> commando te gebruiken om de patch te genereren, dan is je werk eenvoudiger omdat de patch de auteur informatie en een commit bericht voor je bevat. Als het enigzins kan, probeer dan je bijdragers aan te moedigen om <code>format-patch</code> te gebruiken in plaats van <code>diff</code> om patches te genereren voor je. Je zou alleen <code>git apply</code> willen hoeven te gebruiken voor oude patches en dat soort dingen.</p>
 <p>Om een patch gegenereerd met <code>format-patch</code> toe te passen, gebruik je <code>git am</code>. Technisch is <code>git am</code> gemaakt om een mbox bestand te lezen, dat een eenvoudig gewone platte tekstformaat is om één of meer e-mail berichten in een tekstbestand op te slaan. Het ziet er ongeveer zo uit:</p>
-<pre><code>From <span class="hljs-number">330090432754092</span>d704da8e76ca5c05c198e71a8 Mon Sep <span class="hljs-number">17</span> <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2001</span>
+<pre><code>From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 From: Jessica Smith &lt;jessica@example.com&gt;
-Date: Sun, <span class="hljs-number">6</span> Apr <span class="hljs-number">2008</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> -<span class="hljs-number">0700</span>
-Subject: [PATCH <span class="hljs-number">1</span>/<span class="hljs-number">2</span>] <span class="hljs-built_in">add</span> limit <span class="hljs-built_in">to</span> <span class="hljs-built_in">log</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
+Date: Sun, 6 Apr 2008 10:17:23 -0700
+Subject: [PATCH 1/2] add limit to log function
 
-Limit <span class="hljs-built_in">log</span> functionality <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> <span class="hljs-number">20</span>
+Limit log functionality to the first 20
 </code></pre><p>Dit is het begin van de uitvoer van het format-patch commando dat je gezien hebt in de vorige paragraaf. Dit is ook een geldig mbox e-mail formaat. Als iemand jou de patch correct gemaild heeft door gebruik te maken van git send-email en je downloadt dat in een mbox formaat, dan kan je het git am naar dat mbox bestand verwijzen, en het zal beginnen met alle patches die het tegenkomt toe te passen. Als je een mail client gebruikt die meerdere e-mails kan opslaan in mbox formaat, dan kun je hele reeksen patches in een bestand opslaan en dan git am gebruiken om ze één voor één toe te passen.</p>
 <p>Maar, als iemand een patch bestand heeft geüpload die gegenereerd is met <code>format-patch</code> naar een ticket systeem of zoiets, kun je het bestand lokaal opslaan en dan dat opgeslagen bestand aan <code>git am</code> doorgeven om het te applyen:</p>
-<pre><code>$ git am <span class="hljs-number">0001</span>-limit-log-<span class="hljs-function"><span class="hljs-keyword">function</span>.<span class="hljs-title">patch</span>
-<span class="hljs-title">Applying</span><span class="hljs-type">: add</span> <span class="hljs-title">limit</span> <span class="hljs-title">to</span> <span class="hljs-title">log</span> <span class="hljs-title">function</span></span>
+<pre><code>$ git am 0001-limit-log-function.patch
+Applying: add limit to log function
 </code></pre><p>Je ziet dat het netjes is toegepast, en automatisch een nieuwe commit voor je heeft aangemaakt. De auteursinformatie wordt gehaald uit de <code>From</code> en <code>Date</code> velden in de kop, en het bericht van de commit wordt gehaald uit de <code>Subject</code> en de inhoud (voor de patch) uit het mailbericht zelf. Bijvoorbeeld, als deze patch was toegepast van het mbox voorbeeld dat ik zojuist getoond heb, dan zou de gegenereerde commit er ongeveer zo uit zien:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=fuller -1</span>
-commit <span class="hljs-number">6</span>c5e70b984a60b3cecd395edd5b48a7575bf58e0
+<pre><code>$ git log --pretty=fuller -1
+commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 Author:     Jessica Smith &lt;jessica@example.com&gt;
-AuthorDate: Sun Apr <span class="hljs-number">6</span> <span class="hljs-number">10</span>:<span class="hljs-number">17</span>:<span class="hljs-number">23</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+AuthorDate: Sun Apr 6 10:17:23 2008 -0700
 Commit:     Scott Chacon &lt;schacon@gmail.com&gt;
-CommitDate: Thu Apr <span class="hljs-number">9</span> <span class="hljs-number">09</span>:<span class="hljs-number">19</span>:<span class="hljs-number">06</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>
+CommitDate: Thu Apr 9 09:19:06 2009 -0700
 
-   <span class="hljs-built_in">add</span> limit <span class="hljs-built_in">to</span> <span class="hljs-built_in">log</span> <span class="hljs-function"><span class="hljs-keyword">function</span></span>
+   add limit to log function
 
-   Limit <span class="hljs-built_in">log</span> functionality <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> <span class="hljs-keyword">first</span> <span class="hljs-number">20</span>
+   Limit log functionality to the first 20
 </code></pre><p>De <code>Commit</code> informatie toont de persoon die de patch toegepast heeft en de tijd waarop het is toegepast. De <code>Author</code> informatie de persoon die de patch oorspronkelijk gemaakt heeft en wanneer het gemaakt is.</p>
 <p>Maar het is mogelijk dat de patch niet netjes toegepast kan worden. Misschien is jouw hoofdbranch te ver afgeweken van de branch waarop de patch gebouwd is, of is de patch afhankelijk van een andere patch, die je nog niet hebt toegepast. In dat geval zal het <code>git am</code> proces falen en je vragen wat je wilt doen:</p>
-<pre><code>$ git am <span class="hljs-number">0001</span>-seeing-<span class="hljs-keyword">if</span>-this-helps-<span class="hljs-keyword">the</span>-gem.patch
-Applying: seeing <span class="hljs-keyword">if</span> this helps <span class="hljs-keyword">the</span> gem
-<span class="hljs-keyword">error</span>: patch failed: ticgit.gemspec:<span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: ticgit.gemspec: patch <span class="hljs-keyword">does</span> <span class="hljs-keyword">not</span> apply
-Patch failed <span class="hljs-keyword">at</span> <span class="hljs-number">0001.</span>
-When you have resolved this problem <span class="hljs-command">run</span> <span class="hljs-string">"git am --resolved"</span>.
-If you would prefer <span class="hljs-keyword">to</span> skip this patch, instead <span class="hljs-command">run</span> <span class="hljs-string">"git am --skip"</span>.
-To restore <span class="hljs-keyword">the</span> original branch <span class="hljs-keyword">and</span> stop patching <span class="hljs-command">run</span> <span class="hljs-string">"git am --abort"</span>.
+<pre><code>$ git am 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Patch failed at 0001.
+When you have resolved this problem run &quot;git am --resolved&quot;.
+If you would prefer to skip this patch, instead run &quot;git am --skip&quot;.
+To restore the original branch and stop patching run &quot;git am --abort&quot;.
 </code></pre><p>Dit commando zet conflict markeringen in alle bestanden waar het problemen mee heeft, net zoals een conflicterende merge of rebase operatie. Je lost dit probleem op een vergelijkbare manier op: wijzig het bestand om het conflict op te lossen, stage het bestand en voer dan <code>git am --resolved</code> uit om door te gaan met de volgende patch:</p>
-<pre><code>$ (fix <span class="hljs-operator">the</span> <span class="hljs-built_in">file</span>)
-$ git <span class="hljs-built_in">add</span> ticgit.gemspec
-$ git am <span class="hljs-comment">--resolved</span>
-Applying: seeing <span class="hljs-keyword">if</span> this helps <span class="hljs-operator">the</span> gem
+<pre><code>$ (fix the file)
+$ git add ticgit.gemspec
+$ git am --resolved
+Applying: seeing if this helps the gem
 </code></pre><p>Als je wilt dat Git iets meer intelligentie toepast om het conflict op te lossen, kun je een <code>-3</code> optie eraan meegeven, dit zorgt ervoor dat Git een driewegs-merge probeert. Deze optie staat standaard niet aan omdat het niet werkt als de commit waarvan de patch zegt dat het op gebaseerd is niet in je repository zit. Als je die commit wel hebt - als de patch gebaseerd was op een publieke commit - dan is de <code>-3</code> over het algemeen veel slimmer in het toepassen van een conflicterende patch:</p>
-<pre><code>$ git am <span class="hljs-subst">-</span><span class="hljs-number">3</span> <span class="hljs-number">0001</span><span class="hljs-attribute">-seeing</span><span class="hljs-attribute">-if</span><span class="hljs-attribute">-this</span><span class="hljs-attribute">-helps</span><span class="hljs-attribute">-the</span><span class="hljs-attribute">-gem</span><span class="hljs-built_in">.</span>patch
-Applying: seeing <span class="hljs-keyword">if</span> this helps the gem
-error: patch failed: ticgit<span class="hljs-built_in">.</span>gemspec:<span class="hljs-number">1</span>
-error: ticgit<span class="hljs-built_in">.</span>gemspec: patch does <span class="hljs-literal">not</span> apply
-Using index info <span class="hljs-keyword">to</span> reconstruct a base tree<span class="hljs-attribute">...</span>
-Falling back <span class="hljs-keyword">to</span> patching base <span class="hljs-literal">and</span> <span class="hljs-number">3</span><span class="hljs-attribute">-way</span> merge<span class="hljs-attribute">...</span>
-No changes <span class="hljs-subst">--</span> Patch already applied<span class="hljs-built_in">.</span>
+<pre><code>$ git am -3 0001-seeing-if-this-helps-the-gem.patch
+Applying: seeing if this helps the gem
+error: patch failed: ticgit.gemspec:1
+error: ticgit.gemspec: patch does not apply
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+No changes -- Patch already applied.
 </code></pre><p>In dit geval, probeerde ik een patch te applyen die ik al eerder toegepast had. Zonder de <code>-3</code> optie ziet het eruit als een conflict.</p>
 <p>Als je een aantal patches van een mbox toepast, kun je ook het <code>am</code> commando in een interactieve modus uitvoeren, wat bij iedere patch die het vind stopt en je vraagt of je het wilt applyen:</p>
 <pre><code>$ git am -3 -i mbox
-<span class="hljs-header">Commit Body is:
---------------------------</span>
-<span class="hljs-header">seeing if this helps the gem
---------------------------</span>
+Commit Body is:
+--------------------------
+seeing if this helps the gem
+--------------------------
 Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 </code></pre><p>Dit is prettig als je een aantal patches bewaard hebt, omdat je de patch eerst kunt zien als je niet kunt herinneren wat het is, of de patch niet wilt toepassen omdat je dat al eerder gedaan hebt.</p>
 <p>Als alle patches voor je topic branch zijn toegepast en gecommit zijn op je branch, kan je besluiten of en hoe ze te integreren in een branch met een langere looptijd.</p>
 <h2 id="remote-branches-uitchecken">Remote branches uitchecken</h2>
 <p>Als je bijdrage van een Git gebruiker komt die zijn eigen repository opgezet heeft, een aantal patches daarin gepusht heeft, en jou de URL naar de repository gestuurd heeft en de naam van de remote branch waarin de wijzigingen zitten, kan je ze toevoegen als een remote en het mergen lokaal doen.</p>
 <p>Bijvoorbeeld, als Jessica je een e-mail stuurt waarin staat dat ze een prachtig mooie nieuwe feature in de <code>ruby-client</code> branch van haar repository heeft, kun je deze testen door de remote toe te voegen en die branch lokaal te bekijken:</p>
-<pre><code><span class="hljs-char">$ </span>git remote add jessica <span class="hljs-method">git:</span>//github.com/jessica/myproject.git
-<span class="hljs-char">$ </span>git fetch jessica
-<span class="hljs-char">$ </span>git checkout -b rubyclient jessica/ruby-client
+<pre><code>$ git remote add jessica git://github.com/jessica/myproject.git
+$ git fetch jessica
+$ git checkout -b rubyclient jessica/ruby-client
 </code></pre><p>Als ze je later opnieuw mailt met een andere branch die weer een andere mooie feature bevat, dan kun je die ophalen en bekijken omdat je de remote al ingesteld hebt.</p>
 <p>Dit is meest practisch als je vaak met een persoon werkt. Als iemand een enkele patch eens in de zoveel tijd bij te dragen heeft, dan is het accepteren per mail misschien minder tijdrovend dan te eisen dat iedereen hun eigen server moet beheren, en daarna voortdurend remotes te moeten toevoegen en verwijderen voor die paar patches. Je zult daarbij waarschijnlijk ook niet honderden remotes willen hebben, elk voor iemand die maar een patch of twee bijdraagt. Aan de andere kant, scripts en gehoste diensten maken het wellicht eenvoudiger; het hangt sterk af van de manier waarop ontwikkelt en hoe je bijdragers ontwikkelen.</p>
 <p>Het andere voordeel van deze aanpak is dat je de historie van de commits ook krijgt. Alhoewel je misschien terechte merge problemen hebt, weet je op welk punt in de historie hun werk is gebaseerd; een echte drieweg merge is de standaard in plaats van een <code>-3</code> te moeten meegeven en hopen dat de patch gegenereerd was van een publieke commit waar je toegang toe hebt.</p>
 <p>Als je maar af en toe met een persoon werkt, maar toch op deze manier van hen wilt pullen, dan kun je de URL van de remote repository geven aan het <code>git pull</code> commando. Dit doet een eenmalig pull en bewaart de URL niet als een remote referentie:</p>
-<pre><code>$ git pull git:<span class="hljs-comment">//github.com/onetimeguy/project.git</span>
-<span class="hljs-keyword">From</span> git:<span class="hljs-comment">//github.com/onetimeguy/project</span>
+<pre><code>$ git pull git://github.com/onetimeguy/project.git
+From git://github.com/onetimeguy/project
  * branch            HEAD       -&gt; FETCH_HEAD
-Merge made <span class="hljs-keyword">by</span> recursive.
+Merge made by recursive.
 </code></pre><h2 id="bepalen-wat-ge-ntroduceerd-wordt">Bepalen wat geïntroduceerd wordt</h2>
 <p>Je hebt een topic branch dat bijgedragen werk bevat. Nu kan je besluiten wat je er mee wilt doen. Deze paragraaf behandelt een paar commando&#39;s nogmaals om te laten zien hoe je ze kunt gebruiken om precies te reviewen wat je zult introduceren als je dit merged in je hoofd branch.</p>
 <p>Het is vaak handig om een review te krijgen van alle commits die in deze branch zitten, maar die niet in je master branch zitten. Je kunt commits weglaten die al in de master branch zitten door de <code>--not</code> optie mee te geven voor de branch naam. Bijvoorbeeld, als je bijdrager je twee patches stuurt, je hebt een branch genaamd <code>contrib</code> gemaakt en hebt die patches daar toegepast, dan kun je dit uitvoeren:</p>
-<pre><code>$ git log contrib <span class="hljs-comment">--not master</span>
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">5</span>b6235bd297351589efc4d73316f0a68d484f118
+<pre><code>$ git log contrib --not master
+commit 5b6235bd297351589efc4d73316f0a68d484f118
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Fri Oct <span class="hljs-number">24</span> <span class="hljs-number">09</span>:<span class="hljs-number">53</span>:<span class="hljs-number">59</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Fri Oct 24 09:53:59 2008 -0700
 
-    seeing <span class="hljs-keyword">if</span> this helps the gem
+    seeing if this helps the gem
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">7482e0</span>d16d04bea79d0dba8988cc78df655f16a0
+commit 7482e0d16d04bea79d0dba8988cc78df655f16a0
 Author: Scott Chacon &lt;schacon@gmail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Oct <span class="hljs-number">22</span> <span class="hljs-number">19</span>:<span class="hljs-number">38</span>:<span class="hljs-number">36</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Oct 22 19:38:36 2008 -0700
 
-    updated the gemspec <span class="hljs-keyword">to</span> hopefully <span class="hljs-keyword">work</span> better</span>
+    updated the gemspec to hopefully work better
 </code></pre><p>Om te zien welke wijzigingen door een commit worden geïntroduceerd, onthoud dan dat je de <code>-p</code> optie kunt meegeven aan <code>git log</code> en dan zal het de geïntroduceerde diff erachter plakken bij iedere commit.</p>
 <p>Om een volledige diff te zien van wat zou gebeuren als je deze topic branch merged met een andere branch, zul je misschien een vreemde truc moeten toepassen om de juiste resultaten te krijgen. Je zult misschien denken om dit uit te voeren:</p>
-<pre><code><span class="hljs-variable">$ </span>git diff master
+<pre><code>$ git diff master
 </code></pre><p>Dit commando geeft je een diff, maar het kan misleidend zijn. Als je <code>master</code> branch vooruit geschoven is sinds je de topic branch er vanaf hebt gemaakt, dan zul je ogenschijnlijk vreemde resultaten krijgen. Dit gebeurt omdat Git de snapshots van de laatste commit op de topic branch waar je op zit vergelijkt met het laatste snapshot van de <code>master</code> branch. Bijvoorbeeld, als je een regel in een bestand hebt toegevoegd op de <code>master</code> branch, dan zal een directe vergelijking van de snapshots eruit zien alsof de topic branch die regel gaat verwijderen.</p>
 <p>Als <code>master</code> een directe voorganger is van je topic branch is dit geen probleem, maar als de twee histories uit elkaar zijn gegaan, zal de diff eruit zien alsof je alle nieuwe spullen in je topic branch toevoegt en al hetgeen wat alleen in de <code>master</code> branch staat weghaalt.</p>
 <p>Wat je eigenlijk had willen zien zijn de wijzigingen die in de topic branch zijn toegevoegd: het werk dat je zult introduceren als je deze branch met master merged. Je doet dat door Git de laatste commit op je topic branch te laten vergelijken met de eerste gezamenlijke voorouder die het heeft met de master branch.</p>
 <p>Technisch, kun je dat doen door de gezamenlijke voorouder op te zoeken en dan daar je diff op uit te voeren:</p>
-<pre><code><span class="hljs-variable">$ </span>git merge-base contrib master
-<span class="hljs-number">36</span>c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-<span class="hljs-variable">$ </span>git diff <span class="hljs-number">36</span>c7db
+<pre><code>$ git merge-base contrib master
+36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
+$ git diff 36c7db
 </code></pre><p>Maar, dat is niet handig, dus levert Git een andere verkorte manier om hetzelfde te doen: de driedubbele punt syntax. In de context van het <code>diff</code> commando, kun je drie punten achter een andere branch zetten om een <code>diff</code> te doen tussen de laatste commit van de branch waar je op zit en de gezamenlijke voorouder met een andere branch:</p>
-<pre><code><span class="hljs-variable">$ </span>git diff master...contrib
+<pre><code>$ git diff master...contrib
 </code></pre><p>Dit commando laat alleen het werk zien dat je huidige topic branch heeft geïntroduceerd sinds de gezamenlijke voorouder met master. Dat is een erg handige syntax om te onthouden.</p>
 <h2 id="bijgedragen-werk-integreren">Bijgedragen werk integreren</h2>
 <p>Als al het werk in je onderwerp branch klaar is om te worden geïntegreerd in een hogere branch, dan is de vraag hoe het te doen. En daarbij, welke workflow wil je gebruiken om je project te beheren? Je hebt een aantal keuzes, dus ik zal er een paar behandelen.</p>
@@ -999,63 +1002,63 @@ Je kunt dit concept ook verder doorvoeren, waarbij je een integratie branch hebt
 <p>Als je commit <code>e43a6</code> in je master branch wilt pullen, dan kun je dit uitvoeren</p>
 <pre><code>$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 Finished one cherry-pick.
-[<span class="hljs-link_reference">master</span>]:<span class="hljs-link_url"> created a0a41a9: "More friendly message when locking the index fails."</span><span class="hljs-link_url">
- 3 files changed, 17 insertions(+), 3 deletions(-)</span>
+[master]: created a0a41a9: &quot;More friendly message when locking the index fails.&quot;
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 </code></pre><p>Dit pulled dezelfde wijziging zoals geïntroduceerd in <code>e43a6</code>, maar je krijgt een nieuwe SHA-1 waarde, omdat de gegevens op een andere manier toegepast zijn. Nu ziet je historie eruit als Figuur 5-27.</p>
 <p><img src="http://git-scm.com/figures/18333fig0527-tn.png" alt=""></p>
 <p>Figuur 5-27. Historie na het cherry-picken van een commit op een topic branch.</p>
 <p>Nu kun je de topic branch verwijderen en de commits die je niet wilde pullen weggooien.</p>
 <h2 id="je-releases-taggen">Je releases taggen</h2>
 <p>Als je hebt besloten om een release te maken, zul je waarschijnlijk een tag willen aanmaken zodat je die release op elk moment in de toekomst opnieuw kunt maken. Je kunt een nieuwe tag maken zoals ik heb beschreven in Hoofdstuk 2. Als je besluit om de tag als de beheerder te signeren, dan ziet het taggen er misschien zo uit:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-s</span> v1<span class="hljs-number">.5</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my signed 1.5 tag'</span>
-You need a passphrase <span class="hljs-keyword">to</span> unlock the secret key for
-user: <span class="hljs-string">"Scott Chacon &lt;schacon@gmail.com&gt;"</span>
-<span class="hljs-number">1024</span><span class="hljs-attribute">-bit</span> DSA key, ID F721C45A, created <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">09</span>
+<pre><code>$ git tag -s v1.5 -m &#39;my signed 1.5 tag&#39;
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;schacon@gmail.com&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09
 </code></pre><p>Als je tags signeert, dan heb je misschien een problem om de publieke PGP sleutel, die gebruikt is om de tags te signeren, te distribueren. De beheerder van het Git project heeft dit probleem opgelost door hun publieke sleutel als een blob in de repository mee te nemen en een tag te maken die direct naar die inhoud wijst. Om dit te doen kun je uitvinden welke sleutel je wilt door <code>gpg --list-keys</code> uit te voeren:</p>
 <pre><code>$ gpg --list-keys
-<span class="hljs-header">/Users/schacon/.gnupg/pubring.gpg
----------------------------------</span>
+/Users/schacon/.gnupg/pubring.gpg
+---------------------------------
 pub   1024D/F721C45A 2009-02-09 [expires: 2010-02-09]
 uid                  Scott Chacon &lt;schacon@gmail.com&gt;
 sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 </code></pre><p>Daarna kun je de sleutel direct in de Git database importeren, door het te exporteren en te &quot;pipen&quot; naar <code>git hash-object</code>, wat een nieuwe blob schrijft in Git met die inhoud en je de SHA-1 van de blob teruggeeft:</p>
-<pre><code>$ gpg <span class="hljs-attribute">-a</span> <span class="hljs-subst">--</span>export F721C45A <span class="hljs-subst">|</span> git hash<span class="hljs-attribute">-object</span> <span class="hljs-attribute">-w</span> <span class="hljs-subst">--</span>stdin
-<span class="hljs-number">659</span>ef797d181633c87ec71ac3f9ba29fe5775b92
+<pre><code>$ gpg -a --export F721C45A | git hash-object -w --stdin
+659ef797d181633c87ec71ac3f9ba29fe5775b92
 </code></pre><p>Nu je de inhoud van je sleutel in Git hebt, kun je een tag aanmaken die direct daar naar wijst door de nieuw SHA-1 waarde die het <code>hash-object</code> commando je gaf te specificeren:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> maintainer<span class="hljs-attribute">-pgp</span><span class="hljs-attribute">-pub</span> <span class="hljs-number">659</span>ef797d181633c87ec71ac3f9ba29fe5775b92
+<pre><code>$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 </code></pre><p>Als je <code>git push --tags</code> uitvoert, zal de <code>maintainer-pgp-pub</code> tag met iedereen gedeeld worden. Als iemand een tag wil verifiëren, dan kunnen ze jouw PGP sleutel direct importeren door de blob direct uit de database te halen en het in GPG te importeren:</p>
-<pre><code>$ git show maintainer<span class="hljs-attribute">-pgp</span><span class="hljs-attribute">-pub</span> <span class="hljs-subst">|</span> gpg <span class="hljs-subst">--</span><span class="hljs-keyword">import</span>
+<pre><code>$ git show maintainer-pgp-pub | gpg --import
 </code></pre><p>Ze kunnen die sleutel gebruiken om al je gesigneerde tags te verifiëren. Als je instructies in het tag bericht zet, dan zal <code>git show &lt;tag&gt;</code> je eindgebruikers meer specifieke instructies geven over tag verificatie.</p>
 <h2 id="een-bouw-nummer-genereren">Een bouw nummer genereren</h2>
 <p>Omdat Git geen monotoon oplopende nummers heeft zoals &#39;v123&#39; of iets gelijkwaardigs om bij iedere commit mee te worden genomen, en je een voor mensen leesbare naam wilt hebben bij een commit, kan je <code>git describe</code> uitvoeren op die commit. Git geeft je de naam van de dichtstbijzijnde tag met het aantal commits achter die tag en een gedeeltelijke SHA-1 waarde van de commit die je omschrijft:</p>
 <pre><code>$ git describe master
-v1<span class="hljs-number">.6</span><span class="hljs-number">.2</span><span class="hljs-attribute">-rc1</span><span class="hljs-subst">-</span><span class="hljs-number">20</span><span class="hljs-attribute">-g8c5b85c</span>
+v1.6.2-rc1-20-g8c5b85c
 </code></pre><p>Op deze manier kun je een snapshot of &quot;build&quot; exporteren en het vernoemen naar iets dat begrijpelijk is voor mensen. Sterker nog: als je Git, gecloned van het Git repository, vanaf broncode gebouwd hebt geeft <code>git --version</code> je iets dat er zo uitziet. Als je een commit omschrijft die je direct getagged hebt, dan krijg je de tag naam.</p>
 <p>Het <code>git describe</code> commando geeft beschreven tags de voorkeur (tags gemaakt met de <code>-a</code> of <code>-s</code> vlag), dus release tags moeten op deze manier aangemaakt worden als je <code>git describe</code> gebruikt, om er zeker van te zijn dat de commit juist benoemd wordt als het omschreven wordt. Je kunt deze tekst ook gebruiken als het doel van een checkout of show commando, alhoewel het afhankelijk is van de verkorte SHA-1 waarde aan het einde, dus het zou niet eeuwig geldig kunnen zijn. Bijvoorbeeld, de Linux kernel sprong recentelijk van 8 naar 10 karakters om er zeker van de zijn dat de SHA-1 uniek zijn, oudere <code>git describe</code> commando uitvoernamen werden daardoor ongeldig.</p>
 <h2 id="een-release-voorbereiden">Een release voorbereiden</h2>
 <p>Nu wil je een build vrijgeven. Een van de dingen die je wilt doen is een archief maken van de laatste snapshot van je code voor de arme stumperds die geen Git gebruiken. Het commando om dit te doen is <code>git archive</code>:</p>
-<pre><code>$ git archive master <span class="hljs-subst">--</span>prefix<span class="hljs-subst">=</span><span class="hljs-string">'project/'</span> <span class="hljs-subst">|</span> gzip <span class="hljs-subst">&gt;</span> <span class="hljs-string">`git describe master`</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
-$ ls <span class="hljs-subst">*</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
-v1<span class="hljs-number">.6</span><span class="hljs-number">.2</span><span class="hljs-attribute">-rc1</span><span class="hljs-subst">-</span><span class="hljs-number">20</span><span class="hljs-attribute">-g8c5b85c</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz
+<pre><code>$ git archive master --prefix=&#39;project/&#39; | gzip &gt; `git describe master`.tar.gz
+$ ls *.tar.gz
+v1.6.2-rc1-20-g8c5b85c.tar.gz
 </code></pre><p>Als iemand die tarball opent, dan krijgen ze de laatste snapshot van je project onder een project directory. Je kunt op vrijwel dezelfde manier ook een zip archief maken, maar dan door de <code>format=zip</code> optie mee te geven aan <code>git archive</code>:</p>
-<pre><code>$ git archive master --prefix=<span class="hljs-string">'project/'</span> --<span class="hljs-keyword">format</span>=zip &gt; <span class="hljs-string">`git describe master`</span>.zip
+<pre><code>$ git archive master --prefix=&#39;project/&#39; --format=zip &gt; `git describe master`.zip
 </code></pre><p>Je hebt nu een mooie tarball en een zip archief van je project release, die je kunt uploaden naar je website of naar mensen kunt e-mailen.</p>
 <h2 id="de-shortlog">De shortlog</h2>
 <p>De tijd is gekomen om de maillijst met mensen die willen weten wat er gebeurt in je project te mailen. Een prettige manier om een soort van wijzigingsverslag te krijgen van wat er is toegevoegd in je project sinds je laatste release of e-mail is om het <code>git shortlog</code> commando te gebruiken. Het vat alle commits samen binnen de grenswaarden die je het geeft. Bijvoorbeeld het volgende geeft je een samenvatting van alle commits sinds je vorige release, als je laatste release v1.0.1 heette:</p>
-<pre><code>$ git shortlog --no-merges master --<span class="hljs-keyword">not</span> v1.<span class="hljs-number">0.1</span>
-Chris Wanstrath (<span class="hljs-number">8</span>):
-      <span class="hljs-keyword">Add</span> support <span class="hljs-keyword">for</span> annotated tags <span class="hljs-keyword">to</span> Grit::Tag
-      <span class="hljs-keyword">Add</span> <span class="hljs-keyword">packed</span>-refs annotated tag support.
-      <span class="hljs-keyword">Add</span> Grit::Commit#to_patch
-      Update version <span class="hljs-keyword">and</span> History.txt
-      <span class="hljs-keyword">Remove</span> stray `puts`
+<pre><code>$ git shortlog --no-merges master --not v1.0.1
+Chris Wanstrath (8):
+      Add support for annotated tags to Grit::Tag
+      Add packed-refs annotated tag support.
+      Add Grit::Commit#to_patch
+      Update version and History.txt
+      Remove stray `puts`
       Make ls_tree ignore nils
 
-Tom Preston-Werner (<span class="hljs-number">4</span>):
-      fix dates <span class="hljs-keyword">in</span> history
-      <span class="hljs-keyword">dynamic</span> version <span class="hljs-function"><span class="hljs-keyword">method</span>
-      <span class="hljs-title">Version</span> <span class="hljs-title">bump</span> <span class="hljs-title">to</span> 1.0.2
-      <span class="hljs-title">Regenerated</span> <span class="hljs-title">gemspec</span> <span class="hljs-title">for</span> <span class="hljs-title">version</span> 1.0.2</span>
+Tom Preston-Werner (4):
+      fix dates in history
+      dynamic version method
+      Version bump to 1.0.2
+      Regenerated gemspec for version 1.0.2
 </code></pre><p>Je krijgt een opgeschoonde samenvatting van alle commits sinds v1.0.1, gegroepeerd op auteur, die je naar de lijst kunt e-mailen.</p>
 
                     
@@ -1075,9 +1078,9 @@ Tom Preston-Werner (<span class="hljs-number">4</span>):
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.3" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.3" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_1001">
+                    <section class="normal" id="section-gitbook_928">
                     
                         <h1 id="git-referenzen">Git-Referenzen</h1>
 <!--You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.-->
@@ -863,37 +866,37 @@
 <!--In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:-->
 
 <p>Diese Namen werden in Git intern als „references“ oder „refs“ (also Referenz bzw. Verweis) bezeichnet. Du kannst diese Dateien, die SHA-1-Hashes enthalten, im Verzeichnis <code>.git/refs</code> finden. In unserem gegenwärtigen Projekt enthält dieses Verzeichnis noch keine Dateien, aber eine simple Verzeichnisstruktur:</p>
-<pre><code>$ find <span class="hljs-preprocessor">.git</span>/refs
-<span class="hljs-preprocessor">.git</span>/refs
-<span class="hljs-preprocessor">.git</span>/refs/heads
-<span class="hljs-preprocessor">.git</span>/refs/tags
-$ find <span class="hljs-preprocessor">.git</span>/refs -type f
+<pre><code>$ find .git/refs
+.git/refs
+.git/refs/heads
+.git/refs/tags
+$ find .git/refs -type f
 $
 </code></pre><!--To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:-->
 
 <p>Um jetzt eine neue Referenz anzulegen, die Dir dabei hilft, Dich zu erinnern, wo sich Dein letzter Commit befindet, könntest Du, technisch gesehen, Folgendes tun:</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">"1a410efbd13591db07496601ebc7a059dd55cfe9"</span> &gt; .git/refs/heads/master
+<pre><code>$ echo &quot;1a410efbd13591db07496601ebc7a059dd55cfe9&quot; &gt; .git/refs/heads/master
 </code></pre><!--Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:-->
 
 <p>Jetzt kannst Du diese „head“-Referenz anstelle des SHA-1-Wertes in allen möglichen Git-Befehlen verwenden:</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=oneline  master</span>
-1a410efbd13591db07496601ebc7a059dd55cfe9 third <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d <span class="hljs-keyword">second</span> <span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+<pre><code>$ git log --pretty=oneline  master
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><!--You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:-->
 
 <p>Allerdings ist es nicht empfehlenswert, die Referenz-Dateien direkt zu bearbeiten. Git stellt einen sichereren Befehl dafür zur Verfügung, den Befehl <code>git update-ref</code>:</p>
-<pre><code>$ git update-<span class="hljs-keyword">ref</span> refs/heads/master <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
+<pre><code>$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 </code></pre><!--That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:-->
 
 <p>Im Prinzip ist das alles, was einen Branch in Git ausmacht: ein simpler Zeiger oder eine Referenz auf den jeweiligen Head einer Arbeitsreihe. Um einen neuen Branch anzulegen, der vom zweiten Commit aus verzweigt, kannst Du Folgendes tun:</p>
-<pre><code>$ git update-<span class="hljs-keyword">ref</span> refs/heads/test cac0ca
+<pre><code>$ git update-ref refs/heads/test cac0ca
 </code></pre><!--Your branch will contain only work from that commit down:-->
 
 <p>Dein Branch beginnt jetzt beim zweiten Commit:</p>
-<pre><code>$ git log <span class="hljs-comment">--pretty=oneline test</span>
-cac0cab538b970a37ea1e769cbbde608743bc96d second <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+<pre><code>$ git log --pretty=oneline test
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 </code></pre><!--Now, your Git database conceptually looks something like Figure 9-4.-->
 
 <p>Die Git-Datenbank unseres Beispiel-Repositorys ist jetzt wie folgt strukturiert:</p>
@@ -911,32 +914,32 @@ fdf4fc3344e67ab068f836878b6c4951e3b15f3d <span class="hljs-keyword">first</span>
 <!--The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:-->
 
 <p>Die Frage ist jetzt: Wenn Du <code>git branch (Branch-Name)</code> ausführst, woher weiß Git den SHA-1 des letzten Commits? Die Antwort ist: aus der Datei HEAD. Diese Datei ist eine symbolische Referenz auf den jeweiligen Branch, auf dem Du Dich gerade befindest. Mit „symbolischer Referenz“ meine ich, dass sie (anders als eine „normale“ Referenz) keinen SHA-1-Hash enthält, sondern stattdessen auf eine andere Referenz zeigt. Wenn Du Dir die Datei ansiehst, findest Du normalerweise etwas wie:</p>
-<pre><code>$ cat <span class="hljs-preprocessor">.git</span>/HEAD
-<span class="hljs-label">ref:</span> refs/heads/master
+<pre><code>$ cat .git/HEAD
+ref: refs/heads/master
 </code></pre><!--If you run `git checkout test`, Git updates the file to look like this:-->
 
 <p>Wenn Du jetzt <code>git checkout test</code> ausführst, wird Git die Datei aktualisieren, sodass sie so aussieht:</p>
-<pre><code>$ cat <span class="hljs-preprocessor">.git</span>/HEAD
-<span class="hljs-label">ref:</span> refs/heads/test
+<pre><code>$ cat .git/HEAD
+ref: refs/heads/test
 </code></pre><!--When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.-->
 
 <p>Wenn Du <code>git commit</code> ausführst, erzeugt Git das Commit-Objekt und verwendet als Parent des Commit-Objektes den jeweiligen Wert der Referenz, auf die HEAD zeigt.</p>
 <!--You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:-->
 
 <p>Du kannst diese Datei manuell bearbeiten, aber wiederum verfügt Git über einen sichereren Befehl, um das zu tun: <code>git symbolic-ref</code>. Du kannst den Wert des HEAD mit Hilfe des folgenden Befehls lesen:</p>
-<pre><code>$ git symbolic-<span class="hljs-keyword">ref</span> HEAD
+<pre><code>$ git symbolic-ref HEAD
 refs/heads/master
 </code></pre><!--You can also set the value of HEAD:-->
 
 <p>Und so kannst Du ihn setzen:</p>
-<pre><code>$ git symbolic-<span class="hljs-keyword">ref</span> HEAD refs/heads/test
+<pre><code>$ git symbolic-ref HEAD refs/heads/test
 $ cat .git/HEAD
-<span class="hljs-keyword">ref</span>: refs/heads/test
+ref: refs/heads/test
 </code></pre><!--You can’t set a symbolic reference outside of the refs style:-->
 
 <p>Du kannst den Befehl allerdings nicht verwenden, um eine Referenz außerhalb von <code>refs</code> zu setzen:</p>
-<pre><code>$ git symbolic-<span class="hljs-keyword">ref</span> HEAD test
-fatal: Refusing <span class="hljs-keyword">to</span> point HEAD outside <span class="hljs-keyword">of</span> refs/
+<pre><code>$ git symbolic-ref HEAD test
+fatal: Refusing to point HEAD outside of refs/
 </code></pre><!--## Tags-->
 ## Tags
 
@@ -946,30 +949,30 @@ fatal: Refusing <span class="hljs-keyword">to</span> point HEAD outside <span cl
 <!--As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:-->
 
 <p>Wie wir schon in Kapitel 2 besprochen haben, gibt es zwei Typen von Tags: „annotierte“ und „einfache“. Du kannst einen einfachen Tag wie folgt anlegen:</p>
-<pre><code>$ git update-<span class="hljs-keyword">ref</span> refs/tags/v1<span class="hljs-number">.0</span> cac0cab538b970a37ea1e769cbbde608743bc96d
+<pre><code>$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 </code></pre><!--That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):-->
 
 <p>Das ist alles, woraus ein einfacher Tag besteht: einem Branch, der sich nie bewegt. Ein annotierter Tag ist komplexer. Wenn Du einen annotierten Tag anlegst, erzeugt Git ein Tag-Objekt und speichert eine Referenz, die darauf zeigt, statt direkt auf den Commit zu zeigen. Du kannst das sehen, wenn Du einen annotierten Tag anlegst (<code>-a</code> bewirkt, dass wir einen annotierten Tag erhalten):</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.1</span> <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9 <span class="hljs-attribute">-m</span> <span class="hljs-string">'test tag'</span>
+<pre><code>$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 -m &#39;test tag&#39;
 </code></pre><!--Here’s the object SHA-1 value it created:-->
 
 <p>Das erzeugt den folgenden Objekt SHA-1-Hash:</p>
-<pre><code><span class="hljs-variable">$ </span>cat .git/refs/tags/v1.<span class="hljs-number">1</span>
-<span class="hljs-number">9585191</span>f37f7b0fb9444f35a9bf50de191beadc2
+<pre><code>$ cat .git/refs/tags/v1.1
+9585191f37f7b0fb9444f35a9bf50de191beadc2
 </code></pre><!--Now, run the `cat-file` command on that SHA-1 value:-->
 
 <p>Jetzt wendest Du den Befehl <code>git cat-file</code> auf diesen SHA-1-Hash an:</p>
-<pre><code>$ git cat<span class="hljs-attribute">-file</span> <span class="hljs-attribute">-p</span> <span class="hljs-number">9585191</span>f37f7b0fb9444f35a9bf50de191beadc2
-object <span class="hljs-number">1</span>a410efbd13591db07496601ebc7a059dd55cfe9
-<span class="hljs-keyword">type</span> commit
-<span class="hljs-built_in">tag</span> v1<span class="hljs-number">.1</span>
-tagger Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gmail<span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span> Sat May <span class="hljs-number">23</span> <span class="hljs-number">16</span>:<span class="hljs-number">48</span>:<span class="hljs-number">58</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0700</span>
+<pre><code>$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
+object 1a410efbd13591db07496601ebc7a059dd55cfe9
+type commit
+tag v1.1
+tagger Scott Chacon &lt;schacon@gmail.com&gt; Sat May 23 16:48:58 2009 -0700
 
-test <span class="hljs-built_in">tag</span>
+test tag
 </code></pre><!--Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running-->
 
 <p>Beachte, dass der der Wert <code>object</code> auf den SHA-1 des Commits zeigt, den Du getaggt hast. Weiterhin muss der Eintrag nicht auf einen Commit zeigen. In Git kann man jedes beliebige Objekt taggen. Im Git-Quellcode befindet sich beispielweise der öffentliche GPG-Schlüssel des Projektbetreibers als ein Blob-Objekt, sowie ein Tag, der darauf zeigt. Du kannst Dir den öffentlichen Schlüssel anzeigen lassen, indem du den folgenden Befehl im Git-Quellcode-Repository ausführst:</p>
-<pre><code>$ git cat<span class="hljs-attribute">-file</span> blob junio<span class="hljs-attribute">-gpg</span><span class="hljs-attribute">-pub</span>
+<pre><code>$ git cat-file blob junio-gpg-pub
 </code></pre><!--in the Git source code repository. The Linux kernel repository also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.-->
 
 <p>Der Linux-Kernel hat auch ein Tag-Objekt, das nicht auf einen Commit zeigt – der erste erstellte Tag zeigt auf den anfänglichen Tree des Quelltext-Imports.</p>
@@ -979,18 +982,18 @@ test <span class="hljs-built_in">tag</span>
 <!--The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:-->
 
 <p>Der dritte Referenztyp ist die externe Referenz („remote reference“). Wenn Du einen externen Server („remote“) definierst und dorthin pushst, merkt sich Git den zuletzt gepushten Commit für jeden Branch im <code>refs/remotes</code> Verzeichnis. Bespielsweise fügst Du einen externen Server <code>origin</code> hinzu und pushst Deinen Branch <code>master</code> dorthin:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> origin git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
-$ git <span class="hljs-keyword">push</span> origin master
-Counting objects: <span class="hljs-number">11</span>, done.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">5</span>/<span class="hljs-number">5</span>), done.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">7</span>/<span class="hljs-number">7</span>), <span class="hljs-number">716</span> bytes, done.
-Total <span class="hljs-number">7</span> (delta <span class="hljs-number">2</span>), reused <span class="hljs-number">4</span> (delta <span class="hljs-number">1</span>)
-To git@github<span class="hljs-preprocessor">.com</span>:schacon/simplegit-progit<span class="hljs-preprocessor">.git</span>
-   a11bef0.<span class="hljs-preprocessor">.ca</span>82a6d  master -&gt; master
+<pre><code>$ git remote add origin git@github.com:schacon/simplegit-progit.git
+$ git push origin master
+Counting objects: 11, done.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (7/7), 716 bytes, done.
+Total 7 (delta 2), reused 4 (delta 1)
+To git@github.com:schacon/simplegit-progit.git
+   a11bef0..ca82a6d  master -&gt; master
 </code></pre><!--Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:-->
 
 <p>Dann kannst Du herausfinden, in welchem Zustand sich der Branch <code>master</code> auf dem Server <code>origin</code> zuletzt befand (d.h. als Du das letzte Mal mit ihm kommuniziert hast), indem Du Dir die Datei <code>refs/remotes/origin/master</code> anschaust:</p>
-<pre><code><span class="hljs-variable">$ </span>cat .git/refs/remotes/origin/master
+<pre><code>$ cat .git/refs/remotes/origin/master
 ca82a6dff817ec66f44342007202690a93763949
 </code></pre><!--Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.-->
 
@@ -1013,9 +1016,9 @@ ca82a6dff817ec66f44342007202690a93763949
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

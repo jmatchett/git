@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_913">
+                    <section class="normal" id="section-gitbook_987">
                     
                         <h1 id="protokoly">Protokoly</h1>
 <p>Git může k přenosu dat používat jeden ze čtyř hlavních síťových protokolů: Local, Secure Shell (SSH), Git nebo HTTP. V této části se podíváme na to, co jsou jednotlivé protokoly zač a za jakých okolností je (ne)vhodné je použít.</p>
@@ -862,12 +865,12 @@
 <h2 id="protokol-local">Protokol Local</h2>
 <p>Nejzákladnější variantou je protokol Local, v němž je vzdálený repozitář uložen v jiném adresáři na disku. Často se využívá v případech, kdy mají všichni z vašeho týmu přístup k vašim sdíleným souborům, např. přes připojení systému NFS, nebo – v méně pravděpodobném případě – se všichni přihlašují na jednom počítači. Tato druhá varianta není právě ideální, protože všechny instance repozitáře s kódem jsou v takovém případě umístěny v jednom počítači, čímž se zvyšuje riziko nevratné ztráty dat.</p>
 <p>Máte-li připojený sdílený systém souborů, můžete klonovat, odesílat a stahovat z lokálního souborového repozitáře (local file-based repository). Chcete-li takový repozitář naklonovat nebo přidat jako vzdálený repozitář do existujícího projektu, použijte jako URL cestu k repozitáři. K naklonování lokálního repozitáře můžete použít příkaz například v tomto tvaru:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone /opt/git/project.git
+<pre><code>$ git clone /opt/git/project.git
 </code></pre><p>Nebo můžete provést následující:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">file:</span>/<span class="hljs-regexp">//opt</span><span class="hljs-regexp">/git/project</span>.git
+<pre><code>$ git clone file:///opt/git/project.git
 </code></pre><p>Pokud na začátek URL explicitně zadáte výraz <code>file://</code>, pracuje Git trochu jinak. Pokud pouze zadáte cestu, Git se pokusí použít hardlinky nebo rovnou zkopírovat soubory, které potřebuje. Pokud zadáte výraz <code>file://</code>, Git spustí procesy, jež běžně používá k přenosu dat prostřednictvím sítě. Síť je většinou výrazně méně výkonnou metodou přenosu dat. Hlavním důvodem, proč zadat předponu <code>file://</code> je to, že tak získáte čistou kopii repozitáře bez nepotřebných referencí a objektů, např. po importu z jiného verzovacího systému a podobně (úkony správy jsou popsány v kapitole 9). My budeme používat normální cestu, neboť tato metoda je téměř vždy rychlejší.</p>
 <p>K přidání lokálního repozitáře do existujícího projektu Git můžete použít příkaz například v tomto tvaru:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> local_proj /opt/git/project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add local_proj /opt/git/project.git
 </code></pre><p>Poté můžete odesílat data a stahovat je z tohoto vzdáleného serveru, jako byste tak činili prostřednictvím sítě.</p>
 <h3 id="v-hody">Výhody</h3>
 <p>Výhoda souborových repozitářů spočívá v tom, že jsou jednoduché a používají existující oprávnění k souborům a síťový přístup. Pokud už máte sdílený systém souborů, k němuž má přístup celý váš tým, je nastavení repozitáře velice jednoduché. Kopii holého repozitáře umístíte někam, kam mají všichni sdílený přístup, a nastavíte oprávnění ke čtení/zápisu stejně jako u jakéhokoli jiného sdíleného adresáře. O exportu kopie holého repozitáře pro tento účel se více dočtete v následující části „Jak umístit Git na server“.</p>
@@ -878,9 +881,9 @@
 <h2 id="protokol-ssh">Protokol SSH</h2>
 <p>Patrně nejčastějším přenosovým protokolem pro systém Git je SSH. Je to z toho důvodu, že SSH přístup k serverům je na většině míst už nastaven, a pokud ne, není ho těžké nastavit. SSH je navíc jediným síťovým protokolem, z nějž lze snadno číst a do nějž lze snadno zapisovat. Oba zbývající síťové protokoly (HTTP i Git) jsou většinou určeny pouze ke čtení, a proto i když je máte k dispozici, budete potřebovat SSH protokol pro příkazy k zápisu. SSH je také síťovým protokolem s ověřováním, a protože je hojně rozšířen, je jeho nastavení a používání většinou snadné.</p>
 <p>Chcete-li naklonovat repozitář Git pomocí protokolu SSH, zadejte „ssh:// URL“, například:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">ssh:</span>/<span class="hljs-regexp">/user@server/project</span>.git
+<pre><code>$ git clone ssh://user@server/project.git
 </code></pre><p>Protokol ostatně ani nemusíte zadávat – pokud žádný výslovně neurčíte, Git použije SSH jako výchozí možnost:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone user<span class="hljs-variable">@server</span><span class="hljs-symbol">:project</span>.git
+<pre><code>$ git clone user@server:project.git
 </code></pre><p>Stejně tak nemusíte zadávat ani uživatele, Git automaticky použije uživatele, jehož účtem jste právě přihlášeni.</p>
 <h3 id="v-hody">Výhody</h3>
 <p>Používání protokolu SSH přináší mnoho výhod. Především byste ho měli používat vždy, když chcete v síti ověřovat oprávnění k zápisu do repozitáře. Zadruhé: protokol SSH má snadné nastavení – SSH démoni jsou zcela běžní, správci sítě si s nimi většinou vědí rady a mnoho distribucí OS je má ve výchozí instalaci nebo má nástroje, aby s nimi mohly pracovat. Z dalších výhod bychom měli zmínit také to, že přístup přes protokol SSH je bezpečný, veškerý přenos dat je šifrovaný a ověřený. A stejně jako protokoly Git a Local je i protokol SSH výkonný. Data jsou před přenosem upravena do co nejkompaktnější podoby.</p>
@@ -895,13 +898,13 @@
 Pravděpodobně se také jedná o protokol s nejobtížnějším nastavením. Vyžaduje spuštění vlastního démona – na jeho nastavení se podíváme v části „Gitosis“ této kapitoly – a dále konfiguraci <code>xinetd</code> nebo podobnou, která také není právě jednoduchá. Vyžaduje rovněž povolení přístupu k portu 9418 skrz firewall. Tento port nepatří mezi standardní porty, které by firemní firewally vždy povolovaly. Velkými podnikovými firewally je tento málo rozšířený port většinou blokován.</p>
 <h2 id="protokol-http-s">Protokol HTTP/S</h2>
 <p>Na konec jsme si nechali protokol HTTP. Co je na protokolu HTTP nebo HTTPS sympatické, je jejich jednoduché nastavení. Jediné, co většinou stačí udělat, je umístit holý repozitář Git do kořenového adresáře HTTP a nastavit příslušný zásuvný modul <code>post-update</code> (zásuvné moduly Git viz kapitola 7). Tím je nastavení hotové. V tuto chvíli může každý, kdo má přístup na webový server, kam jste repozitář uložili, tento repozitář naklonovat. Chcete-li u svého repozitáře nastavit oprávnění pro čtení pomocí protokolu HTTP, proveďte následující:</p>
-<pre><code><span class="hljs-variable">$ </span>cd /var/www/htdocs/
-<span class="hljs-variable">$ </span>git clone --bare /path/to/git_project gitproject.git
-<span class="hljs-variable">$ </span>cd gitproject.git
-<span class="hljs-variable">$ </span>mv hooks/post-update.sample hooks/post-update
-<span class="hljs-variable">$ </span>chmod a+x hooks/post-update
+<pre><code>$ cd /var/www/htdocs/
+$ git clone --bare /path/to/git_project gitproject.git
+$ cd gitproject.git
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>A to je vše. Zásuvný modul <code>post-update</code>, který je standardně součástí systému Git, spustí příkaz <code>git update-server-info</code>, který zajistí správné vyzvedávání a klonování dat přes protokol HTTP. Tento příkaz se spustí, když do tohoto repozitáře odesíláte data přes protokol SSH. Ostatní mohou klonovat třeba takto:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/example.com/gitproject</span>.git
+<pre><code>$ git clone http://example.com/gitproject.git
 </code></pre><p>V tomto konkrétním případě používáme cestu <code>/var/www/htdocs</code>, která je obvyklá u nastavení Apache, ale použít lze v podstatě jakýkoli webový server – stačí uložit holý repozitář do daného umístění. Data repozitáře Git jsou obsluhována jako obyčejné statické soubory (podrobnosti naleznete v kapitole 9).</p>
 <p>Odesílat data do repozitáře Git je možné také přes protokol HTTP, avšak tento způsob není příliš rozšířený a vyžaduje nastavení komplexních požadavků protokolu WebDAV. Protože se tato možnost využívá zřídka, nebudeme se jí v této knize věnovat. Pokud vás zajímá používání protokolů HTTP k odesílání dat, více se o přípravě repozitáře k tomuto účelu dočtete na adrese: <code>http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt</code> (anglicky). Příjemným faktem na odesílání dat přes protokol HTTP je, že můžete použít jakýkoli server WebDAV i bez speciálních funkcí systému Git. Tuto možnost tak můžete využít, pokud váš poskytovatel webhostingu podporuje WebDAV pro zápis aktualizací na vaše webové stránky.</p>
 <h3 id="v-hody">Výhody</h3>
@@ -928,9 +931,9 @@ Pravděpodobně se také jedná o protokol s nejobtížnějším nastavením. Vy
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

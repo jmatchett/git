@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.1" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_571">
+                    <section class="normal" id="section-gitbook_644">
                     
                         <h1 id="de-protocollen">De protocollen</h1>
 <p>Git kan vier veel voorkomende netwerk protocollen gebruiken om data te transporteren: Lokaal, Beveiligde Shell (Secure Shell, SSH), Git en HTTP. Hier bespreken we wat deze zijn, en in welke omstandigheden je ze zou willen gebruiken (of juist niet).</p>
@@ -852,12 +855,12 @@
 <h2 id="lokaal-protocol">Lokaal protocol</h2>
 <p>Het simpelste is het <em>Lokale protocol</em>, waarbij de remote repository in een andere directory op de schijf staat. Deze opzet wordt vaak gebruikt als iedereen in het team toegang heeft op een gedeeld bestandssyteem zoals een NFS mount, of in het weinig voorkomende geval dat iedereen op dezelfde computer werkt. Het laatste zou niet ideaal zijn, want dan zouden alle repositories op dezelfde computer staan, zodat de kans op een fataal verlies van gegevens veel groter wordt.</p>
 <p>Als je een gedeeld bestandssyteem hebt, dan kun je clonen, pushen en pullen van een op een lokaal bestand aanwezige repository. Om een dergelijk repository te clonen, of om er een als een remote aan een bestaand project toe te voegen, moet je het pad naar het repository als URL gebruiken. Bijvoorbeeld, om een lokaal repository te clonen, kun je zoiets als het volgende uitvoeren:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone /opt/git/project.git
+<pre><code>$ git clone /opt/git/project.git
 </code></pre><p>Of je kunt dit doen:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">file:</span>/<span class="hljs-regexp">//opt</span><span class="hljs-regexp">/git/project</span>.git
+<pre><code>$ git clone file:///opt/git/project.git
 </code></pre><p>Git werkt iets anders als je expliciet <code>file://</code> aan het begin van de URL zet. Als je alleen het pad specificeert, probeert Git hardlinks te gebruiken naar de bestanden die het nodig heeft. Als ze niet op hetzelfde bestandssysteem staan zal Git de objecten die het nodig heeft kopiëren, gebruikmakend van het standaard kopieer mechanisme van het besturingssysteem. Als je <code>file://</code> specificeert, dan start Git de processen die het normaal gesproken gebruikt om data te transporteren over een netwerk, wat over het algemeen een minder efficiënte methode is om gegevens over te dragen. De belangrijkste reden om <code>file://</code> wel te specificeren is als je een schone kopie van de repository wilt met de vreemde referenties of objecten eruit gelaten; over het algemeen na een import uit een ander versiebeheer systeem of iets dergelijks (zie Hoofdstuk 9 voor onderhoudstaken). We zullen het normale pad hier gebruiken, omdat het bijna altijd sneller is om het zo te doen.</p>
 <p>Om een lokale repository aan een bestaand Git project toe te voegen, kun je iets als het volgende uitvoeren:</p>
-<pre><code>$ git remote <span class="hljs-keyword">add</span> local_proj /opt/git/project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git remote add local_proj /opt/git/project.git
 </code></pre><p>Daarna kun je op gelijke wijze pushen naar, en pullen van die remote als je over een netwerk zou doen.</p>
 <h3 id="de-voordelen">De voordelen</h3>
 <p>De voordelen van bestands-gebaseerde repositories zijn dat ze eenvoudig zijn en ze maken gebruik van bestaande bestandspermissies en netwerk toegang. Als je al een gedeeld bestandssysteem hebt waar het hele team al toegang toe heeft, dan is een repository opzetten heel gemakkelijk. Je stopt de kale repository ergens waar iedereen gedeelde toegang tot heeft, en stelt de lees- en schrijfrechten in zoals je dat bij iedere andere gedeelde directory zou doen. In de volgende paragraaf &quot;Git op een Server Krijgen&quot; bespreken we hoe je een kopie van een kale repository kunt exporteren voor dit doeleinde.</p>
@@ -868,9 +871,9 @@
 <h2 id="het-ssh-protocol">Het SSH protocol</h2>
 <p>Waarschijnlijk het meest voorkomende protocol voor Git is SSH. De reden hiervoor is dat toegang met SSH tot servers in veel plaatsen al geconfigureerd is; en als dat niet het geval is, dan is het eenvoudig om dat te doen. SSH is ook het enige netwerk gebaseerde protocol waarvan je makkelijk kunt lezen en naartoe kunt schrijven. De andere twee netwerk protocollen (HTTP en Git) zijn over het algemeen alleen-lezen, dus zelfs als je ze al beschikbaar hebt voor de ongeïnitieerde massa, dan heb je nog steeds SSH nodig voor je eigen schrijfcommandos. SSH is ook een geauthenticieerd protocol; en omdat het alom aanwezig is, is het over het algemeen eenvoudig om in te stellen en te gebruiken.</p>
 <p>Om een Git repository via SSH te clonen, kun je een ssh:// URL opgeven zoals:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">ssh:</span>/<span class="hljs-regexp">/user@server/project</span>.git
+<pre><code>$ git clone ssh://user@server/project.git
 </code></pre><p>Of je gebruikt de kortere scp-achtige syntax voor het SSH protocol:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone user<span class="hljs-variable">@server</span><span class="hljs-symbol">:project</span>.git
+<pre><code>$ git clone user@server:project.git
 </code></pre><p>Je kunt ook de gebruiker weglaten, en Git gebruikt de gegevens van de gebruiker waarmee je op dat moment bent ingelogd.</p>
 <h3 id="de-voordelen">De voordelen</h3>
 <p>Er zijn vele voordelen om SSH te gebruiken. Ten eerste moet je het eigenlijk wel gebruiken als je geauthenticeerde schrijftoegang op je repository via een netwerk wilt. Ten tweede is het relatief eenvoudig in te stellen: SSH daemons komen veel voor, veel systeembeheerders hebben er ervaring mee, en veel operating systemen zijn er mee uitgerust of hebben applicaties om ze te beheren. Daarnaast is toegang via SSH veilig: alle data transporten zijn versleuteld en geauthenticeerd. En als laatste is SSH efficiënt, net zoals bij het Git en lokale protocol worden de gegevens zo compact mogelijk gemaakt voordat het getransporteerd wordt.</p>
@@ -885,13 +888,13 @@
 Het is waarschijnlijk ook het meest ingewikkelde protocol om in te richten. Het moet een eigen daemon hebben, die speciaal voor die situatie ingericht is – we zullen er een instellen in de &quot;Gitosis&quot; paragraaf van dit hoofdstuk – het gebruikt <code>xinetd</code> configuratie of iets vergelijkbaars, wat ook niet altijd eenvoudig is op te zetten. Daarbij is ook firewall toegang tot poort 9418 nodig, wat geen standaard poort is dat in bedrijfsfirewalls is opengezet. Bij firewalls van grote bedrijven, is deze ongebruikelijke poort meestal dichtgezet.</p>
 <h2 id="het-http-s-protocol">Het HTTP/S protocol</h2>
 <p>Als laatste hebben we het HTTP protocol. Het mooie aan het HTTP of HTTPS protocol is dat het simpel in te stellen is. Eigenlijk is alles wat je moet doen de kale Git repository in je HTTP document root zetten, en een specifieke <code>post-update</code> hook (haak) instellen en je bent klaar (zie hoofdstuk 7 voor details over Git hooks). Vanaf dat moment kan iedereen die toegang heeft tot de webserver waar je de repository op gezet hebt ook je repository clonen. Om leestoegang tot je repository over HTTP toe te staan, doe je zoiets als het volgende:</p>
-<pre><code><span class="hljs-variable">$ </span>cd /var/www/htdocs/
-<span class="hljs-variable">$ </span>git clone --bare /path/to/git_project gitproject.git
-<span class="hljs-variable">$ </span>cd gitproject.git
-<span class="hljs-variable">$ </span>mv hooks/post-update.sample hooks/post-update
-<span class="hljs-variable">$ </span>chmod a+x hooks/post-update
+<pre><code>$ cd /var/www/htdocs/
+$ git clone --bare /path/to/git_project gitproject.git
+$ cd gitproject.git
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>Dat is alles. De <code>post-update</code> hook, die standaard bij Git geleverd wordt, voert het noodzakelijke commando (<code>git update-server-info</code>) uit om HTTP fetching en cloning goed werkend te krijgen en houden. Dit commando wordt uitgevoerd als je via SSH naar deze repository pusht, en andere mensen kunnen clonen met behulp van zoiets als</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/example.com/gitproject</span>.git
+<pre><code>$ git clone http://example.com/gitproject.git
 </code></pre><p>In dit specifieke voorbeeld gebruiken we het <code>/var/www/htdocs</code> pad wat gebruikelijk is voor Apache opstellingen, maar je kunt iedere statische webserver gebruiken – gewoon de kale repository in het betreffende pad neerzetten. De Git data wordt geserveerd als standaard statische bestanden (zie hoofdstuk 9 voor details over hoe het precies geserveerd wordt).</p>
 <p>Het is mogelijk om Git ook over HTTP te laten pushen, alhoewel dat geen veelgebruikte techniek is en het vereist dat je complexe WebDAV instellingen inricht. Omdat het zelden gebruikt wordt, zullen we het niet in dit boek behandelen. Als je geïnteresseerd bent om de HTTP-push protocollen te gebruiken, dan kun je op <code>http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt</code> lezen hoe je een repository kunt maken. Het aardige van Git laten pushen over HTTP is dat je iedere WebDAV server kunt gebruiken zonder specifieke Git funtionaliteit. Dus je kunt deze optie gebruiken als je web-hosting provider WebDAV ondersteunt voor het maken van wijzigingen aan je webpagina.</p>
 <h3 id="de-voordelen">De voordelen</h3>
@@ -918,9 +921,9 @@ Het is waarschijnlijk ook het meest ingewikkelde protocol om in te richten. Het 
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

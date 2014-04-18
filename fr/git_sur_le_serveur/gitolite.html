@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_605">
+                    <section class="normal" id="section-gitbook_818">
                     
                         <h1 id="gitolite">Gitolite</h1>
 <p>Cette section constitue une introduction à Gitolite et fournit des instructions de base pour son installation et sa mise en œuvre.
@@ -860,10 +863,10 @@ Dans les exemples qui suivent, un compte <code>git</code> sur un serveur <code>g
 <p>Pour commencer, créez un utilisateur nommé <code>git</code> et loggez-vous avec cet utilisateur.
 Copiez votre clé publique SSH depuis votre station de travail en la renommant <code>&lt;votrenom&gt;.pub</code> (nous utiliserons <code>scott.pub</code> pour l&#39;exemple de cette section).
 Ensuite, lancez les commandes ci-dessous :</p>
-<pre><code><span class="hljs-char">$ </span>git clone <span class="hljs-method">git:</span>//github.com/sitaramc/gitolite
-<span class="hljs-char">$ </span>gitolite/install -ln
-  # suppose que <span class="hljs-char">$H</span>OME/bin existe et apparaît dans <span class="hljs-char">$P</span>ATH
-<span class="hljs-char">$ </span>gitolite setup -pk <span class="hljs-char">$H</span>OME/scott.pub
+<pre><code>$ git clone git://github.com/sitaramc/gitolite
+$ gitolite/install -ln
+  # suppose que $HOME/bin existe et apparaît dans $PATH
+$ gitolite setup -pk $HOME/scott.pub
 </code></pre><p>Cette dernière commande crée un nouveau dépôt Git appelé <code>gitolite-admin</code> sur le serveur.</p>
 <p>Enfin, de retour sur la station de travail, lancez <code>git clone git@gitserver:gitolite-admin</code>.
 C&#39;est fini !
@@ -874,19 +877,19 @@ L&#39;administration de Gitolite passe par des modifications dans ce dépôt sui
 Ces modifications sont réalisées en éditant le fichier « rc » utilisé par le serveur, mais si cela ne s&#39;avère pas suffisant, il existe plus d&#39;information dans la documentation sur la personnalisation de Gitolite.</p>
 <h2 id="fichier-de-configuration-et-r-gles-de-contr-le-d-acc-s">Fichier de configuration et règles de contrôle d&#39;accès</h2>
 <p>Une fois l&#39;installation terminée, vous pouvez basculer vers le clone <code>gitolite-admin</code> présent sur votre station de travail et inspecter ce qui s&#39;y trouve :</p>
-<pre><code><span class="hljs-variable">$ </span>cd ~<span class="hljs-regexp">/gitolite-admin/</span>
-<span class="hljs-variable">$ </span>ls
+<pre><code>$ cd ~/gitolite-admin/
+$ ls
 conf/  keydir/
-<span class="hljs-variable">$ </span>find conf keydir -type f
+$ find conf keydir -type f
 conf/gitolite.conf
 keydir/scott.pub
-<span class="hljs-variable">$ </span>cat conf/gitolite.conf
+$ cat conf/gitolite.conf
 
 repo gitolite-admin
-    <span class="hljs-constant">RW</span>+                 = scott
+    RW+                 = scott
 
 repo testing
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@all</span>
+    RW+                 = @all
 </code></pre><p>Notez que « scott » (le nom de la clé publique pour la commande <code>gl-setup</code> ci-dessus) détient les permissions en lecture/écriture sur le dépôt <code>gitolite-admin</code> ainsi qu&#39;une clé publique du même nom.</p>
 <p>L&#39;ajout d&#39;utilisateurs est simple.
 Pour ajouter une utilisatrice appelée « alice », demandez-lui de vous fournir une clé publique SSH, renommez-la <code>alice.pub</code>, et placez-la dans le répertoire <code>keydir</code> du clone du dépôt <code>gitolite-admin</code> sur la station de travail.
@@ -897,30 +900,30 @@ L&#39;utilisatrice « alice » vient d&#39;être ajoutée.</p>
 Les noms de groupes sont juste comme des macros.
 À leur définition, il importe peu que ce soient des projets ou des utilisateurs.
 Cette distinction ne sert que lors de <em>l&#39;utilisation</em> de la « macro ».</p>
-<pre><code><span class="hljs-variable">@oss_repos</span>      = linux perl rakudo git gitolite
-<span class="hljs-variable">@secret_repos</span>   = fenestra pear
+<pre><code>@oss_repos      = linux perl rakudo git gitolite
+@secret_repos   = fenestra pear
 
-<span class="hljs-variable">@admins</span>         = scott
-<span class="hljs-variable">@interns</span>        = ashok
-<span class="hljs-variable">@engineers</span>      = sitaram dilbert wally alice
-<span class="hljs-variable">@staff</span>          = <span class="hljs-variable">@admins</span> <span class="hljs-variable">@engineers</span> <span class="hljs-variable">@interns</span>
+@admins         = scott
+@interns        = ashok
+@engineers      = sitaram dilbert wally alice
+@staff          = @admins @engineers @interns
 </code></pre><p>Vous pouvez contrôler les permissions au niveau « ref ».
 Dans l&#39;exemple suivant, les stagiaires (intern) ne peuvent pousser que sur la branche « int ».
 Les ingénieurs peuvent pousser toutes les branches dont le nom commence par « eng » et les étiquettes qui commencent par « rc » suivi d&#39;un chiffre.
 Les administrateurs ont tous les droits (y compris le rembobinage) sur toutes les <code>refs</code>.</p>
-<pre><code>repo <span class="hljs-variable">@oss_repos</span>
-    <span class="hljs-constant">RW</span>  int<span class="hljs-variable">$ </span>               = <span class="hljs-variable">@interns</span>
-    <span class="hljs-constant">RW</span>  eng-                = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>  refs/tags/rc[<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]   = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                     = <span class="hljs-variable">@admins</span>
+<pre><code>repo @oss_repos
+    RW  int$                = @interns
+    RW  eng-                = @engineers
+    RW  refs/tags/rc[0-9]   = @engineers
+    RW+                     = @admins
 </code></pre><p>L&#39;expression après les <code>RW</code> ou les <code>RW+</code> est une expression rationnelle (<em>regular expression</em> ou regex) qui filtre le nom de la référence (<code>ref</code>).
 Elle s&#39;appelle donc une « refex » !
 Bien entendu, une « refex » peut être bien plus puissante que celles montrées ci-dessus et il est inutile de trop chercher si vous n&#39;êtes pas à l&#39;aise avec les regex Perl.</p>
 <p>De plus, logiquement, Gitolite préfixe les refex qui ne commencent pas par <code>refs/</code> avec la chaîne <code>refs/heads/</code>.</p>
 <p>Une autre particularité importante de la syntaxe du fichier de configuration est que toutes les règles ne sont pas nécessairement à un seul endroit.
 On peut conserver toute la configuration commune, telle que l&#39;ensemble des règles pour tous les dépôts <code>oss_repo</code> ci-dessus au début puis ajouter des règles spécifiques plus loin, comme :</p>
-<pre><code><span class="hljs-attribute">repo gitolite
-    RW+                     </span>=<span class="hljs-string"> sitaram</span>
+<pre><code>repo gitolite
+    RW+                     = sitaram
 </code></pre><p>Cette règle sera juste ajoutée à l&#39;ensemble des règles préexistantes du dépôt <code>gitolite</code>.</p>
 <p>Du coup, il est nécessaire d&#39;expliciter la politique d&#39;application des règles de contrôle d&#39;accès.</p>
 <p>Il existe deux niveaux de contrôle d&#39;accès dans Gitolite.
@@ -937,9 +940,9 @@ Néanmoins, Gitolite connaît une autre permission : <code>-</code> qui signifie
 Cela vous donne bien plus de possibilités, au prix d&#39;une complexité accrue car à présent l&#39;absence de correspondance n&#39;est plus la <em>seule</em> manière de refuser l&#39;accès, mais il devient nécessaire de faire attention à l&#39;ordre des règles !</p>
 <p>Supposons que dans la situation ci-dessus, nous souhaitons que les ingénieurs soient capables de rembobiner n&#39;importe quelle branche <em>excepté</em> master et integ.
 Voici comment faire :</p>
-<pre><code>    <span class="hljs-constant">RW</span>  master integ    = <span class="hljs-variable">@engineers</span>
-    -   master integ    = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@engineers</span>
+<pre><code>    RW  master integ    = @engineers
+    -   master integ    = @engineers
+    RW+                 = @engineers
 </code></pre><p>Une fois encore, il suffit de suivre simplement les règles de haut en bas jusqu&#39;à rencontrer une correspondance pour votre mode d&#39;accès ou de refus.
 Les poussées en non-rembobinage sur master ou integ sont permises par la première règle.
 Les poussées en rembobinage à ces références n&#39;ont pas de correspondance dans la première règle et se poursuivent par la seconde qui les refuse.
@@ -949,12 +952,12 @@ Toute poussée (en rembobinage ou non) à des <code>refs</code> autres que maste
 Par exemple, un Makefile (ou tout autre script) n&#39;est pas supposé être modifié par n&#39;importe qui, du fait que de nombreuses choses en dépendent et qu&#39;une modification non maîtrisée pourrait casser beaucoup de choses.
 Vous pouvez indiquer à Gitolite :</p>
 <pre><code>repo foo
-    <span class="hljs-constant">RW</span>                      =   <span class="hljs-variable">@junior_devs</span> <span class="hljs-variable">@senior_devs</span>
+    RW                      =   @junior_devs @senior_devs
 
-    <span class="hljs-constant">RW</span>  <span class="hljs-constant">NAME</span>/               =   <span class="hljs-variable">@senior_devs</span>
-    -   <span class="hljs-constant">NAME</span>/<span class="hljs-constant">Makefile</span>       =   <span class="hljs-variable">@junior_devs</span>
-    <span class="hljs-constant">RW</span>  <span class="hljs-constant">NAME</span>/               =   <span class="hljs-variable">@junior_devs</span>
-    -   <span class="hljs-constant">VREF</span>/<span class="hljs-constant">NAME</span>/<span class="hljs-constant">Makefile</span>  =   <span class="hljs-variable">@junior_devs</span>
+    RW  NAME/               =   @senior_devs
+    -   NAME/Makefile       =   @junior_devs
+    RW  NAME/               =   @junior_devs
+    -   VREF/NAME/Makefile  =   @junior_devs
 </code></pre><p>Les utilisateurs migrant depuis une version précédente de Gitolite pourront noter qu&#39;il y a une modification significative du comportement de cette fonctionnalité.
 Référez-vous au guide de migration pour plus de détails.</p>
 <h2 id="branches-personnelles">Branches personnelles</h2>
@@ -977,14 +980,14 @@ Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (<c
 <p><strong>Rapport sur les droits d&#39;accès</strong> : une autre fonctionnalité très utile concerne la prise en charge de la connexion SSH au serveur.
 Gitolite vous affiche à quels dépôts vous pouvez accéder et avec quels droits.
 Ci-dessous un exemple :</p>
-<pre><code>hello scott, this is git@git running gitolite3 <span class="hljs-subst">\</span>
-v3<span class="hljs-number">.01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span><span class="hljs-attribute">-g9609868</span> <span class="hljs-keyword">on</span> git <span class="hljs-number">1.7</span><span class="hljs-number">.4</span><span class="hljs-number">.4</span>
+<pre><code>hello scott, this is git@git running gitolite3 \
+v3.01-18-g9609868 on git 1.7.4.4
 
-         R     anu<span class="hljs-attribute">-wsd</span>
+         R     anu-wsd
          R     entrans
-         R  W  git<span class="hljs-attribute">-notes</span>
+         R  W  git-notes
          R  W  gitolite
-         R  W  gitolite<span class="hljs-attribute">-admin</span>
+         R  W  gitolite-admin
          R     indic_web_input
          R     shreelipi_converter
 </code></pre><p><strong>Délégation</strong> : Pour les grands déploiements, il est possible de déléguer la responsabilité de groupes de dépôts à différentes personnes en leur permettant de les gérer de manière autonome.
@@ -1008,9 +1011,9 @@ Cela permet de réduire la charge de travail de l&#39;administrateur principal e
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

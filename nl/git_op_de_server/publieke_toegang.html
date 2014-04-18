@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,40 +847,40 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_575">
+                    <section class="normal" id="section-gitbook_648">
                     
                         <h1 id="publieke-toegang">Publieke toegang</h1>
 <p>Wat als je anonieme leestoegang op je project wil? Misschien wil je geen intern privé project beheren, maar een open source project. Of misschien heb je een aantal geautomatiseerde bouwservers of continue integratie servers die vaak wisselen, en wil je niet doorlopend SSH sleutels hoeven genereren – je wil gewoon eenvoudige anonieme leestoegang toevoegen.</p>
 <p>Waarschijnlijk is de eenvoudigste manier voor kleinschalige opstellingen om een statische webserver in te stellen, waarbij de document root naar de plaats van je Git repositories wijst, en dan de <code>post-update</code> hook aanzetten waar we het in de eerste paragraaf van dit hoofdstuk over gehad hebben. Laten we eens uitgaan van het voorgaande voorbeeld. Stel dat je je repositories in de <code>/opt/git</code> directory hebt staan, en er draait een Apache server op je machine. Nogmaals, je kunt hiervoor iedere web server gebruiken: maar als voorbeeld zullen we wat simpele Apache configuraties laten zien, die je het idee weergeven van wat je nodig hebt.</p>
 <p>Eerst moet je de haak inschakelen:</p>
 <pre><code>$ cd project.git
-$ mv hooks/<span class="hljs-built_in">post</span>-update.sample hooks/<span class="hljs-built_in">post</span>-update
-$ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in">post</span>-update
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>Wat doet deze <code>post-update</code> haak? Het ziet er eigenlijk als volgt uit:</p>
 <pre><code>$ cat .git/hooks/post-update
-<span class="hljs-shebang">#!/bin/sh</span>
-<span class="hljs-comment">#</span>
-<span class="hljs-comment"># An example hook script to prepare a packed repository for use over</span>
-<span class="hljs-comment"># dumb transports.</span>
-<span class="hljs-comment">#</span>
-<span class="hljs-comment"># To enable this hook, rename this file to "post-update".</span>
-<span class="hljs-comment">#</span>
+#!/bin/sh
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to &quot;post-update&quot;.
+#
 
-<span class="hljs-keyword">exec</span> git-update-server-info
+exec git-update-server-info
 </code></pre><p>Dit betekent dat wanneer je naar de server via SSH pusht, Git dit commando uitvoert om de benodigde bestanden voor HTTP fetching te verversen.</p>
 <p>Vervolgens moet je een VirtualHost regel in je Apache configuratie aanmaken, met de document root als de hoofddirectory van je Git projecten. Hier nemen we aan dat je wildcard DNS ingesteld hebt om <code>*.gitserver</code> door te sturen naar de machine waar je dit alles draait:</p>
-<pre><code><span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
-    <span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> git.gitserver
-    <span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /opt/git
-    <span class="hljs-tag">&lt;Directory /opt/git/&gt;</span>
-        <span class="hljs-keyword"><span class="hljs-common">Order</span></span> allow, deny
-        <span class="hljs-keyword"><span class="hljs-common">allow</span></span> from <span class="hljs-literal">all</span>
-    <span class="hljs-tag">&lt;/Directory&gt;</span>
-<span class="hljs-tag">&lt;/VirtualHost&gt;</span>
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName git.gitserver
+    DocumentRoot /opt/git
+    &lt;Directory /opt/git/&gt;
+        Order allow, deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
 </code></pre><p>Je zult ook de Unix gebruikers groep van de <code>/opt/git</code> directories moeten zetten op <code>www-data</code> zodat je web server leestoegang hebt op de repositories, omdat de Apache instantie het CGI script (standaard) uitvoert als die gebruiker draait:</p>
-<pre><code>$ chgrp -<span class="hljs-type">R</span> www-<span class="hljs-typedef"><span class="hljs-keyword">data</span> /opt/git</span>
+<pre><code>$ chgrp -R www-data /opt/git
 </code></pre><p>Als je Apache herstart, dan zou je je repositories onder die directory moeten kunnen clonen door de URL van je project te specificeren:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/git.gitserver/project</span>.git
+<pre><code>$ git clone http://git.gitserver/project.git
 </code></pre><p>Op deze manier kun je HTTP-gebaseerde toegang voor elk van je projecten voor een groot aantal gebruikers in slechts een paar minuten regelen. Een andere eenvoudige optie om publieke ongeauthenticeerde toegang in te stellen is een Git daemon te starten, alhoewel dat vereist dat je het proces als daemon uitvoert – we beschrijven deze optie in de volgende paragraaf als je een voorkeur hebt voor deze variant.</p>
 
                     
@@ -897,9 +900,9 @@ $ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in"
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

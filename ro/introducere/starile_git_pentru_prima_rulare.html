@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397503662242">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397847842670">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -197,15 +200,15 @@
 <p>În sistemele Windows, Git caută fișierul <code>.gitconfig</code> din directorul <code>$HOME</code> (<code>C:\Documents and Settings\$USER</code> (utilizator [ro])). De asemenea se va uita în /etc/gitconfig, chiar dacă este relativ la rădăcin MSys, care este dată de locul unde v-ați decis să instalați Git pe sistemul dumneavoastră Windows la instalare.</p>
 <h2 id="identitatea-dumneavoastr-">Identitatea Dumneavoastră</h2>
 <p>Primul lucru care ar trebui să îl faceți atunci când instalați Git este să vă stabiliți numele și adresa de email. Acest aspect este important deoarece fiecare commit în Git va folosi aceste informații, și acestea vor fi conținute în commit-urile care le veți distribui:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>Din nou, va fi necesar să efectuați acești pași o singură dată dacă introduceți opțiunea <code>--global</code>, deoarece atunci Git va folosi întotdeauna aceste informații pentru toate operațiile efectuate pe acel sistem. Dacă doriți să suprascrieți aceste informații cu un nume sau email diferite pentru anumite proiecte, atunci puteți executa comanda fără opțiunea <code>--global</code> atunci când vă aflați în acel proiect.</p>
 <h2 id="editorul-dumneavoastr-">Editorul Dumneavoastră</h2>
 <p>Acum că v-ați setat identitatea, puteți configura editorul de text ce va fi folosit implicit atunci când Git are nevoie să introduceți mesaje. Implicit, Git va folosi editorul definit în sistem, cel mai des acesta va fi Vi sau Vim. Dacă doriți să folosiți un editor text diferit, cum ar fi Emacs, puteți să faceți următoarele:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><h2 id="utilitatorul-pentru-diferen-e">Utilitatorul Pentru Diferențe</h2>
 <p>O altă configurare utilă pe care o puteți face este utilitarul folosit în aflarea diferențelor (diff [en]) folosit pentru rezolvarea conflictelor. Să presupunem că doriți să folosiți vimdiff:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>Git acceptă ca și unelte valide pentru diferențe următoarele: kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, și opendiff. Puteți de asemenea să configurați un utlitar personalizat; vedeți Capitolul 7 pentru mai multe informații despre această procedură.</p>
 <h2 id="verificarea-set-rilor">Verificarea Setărilor</h2>
 <p>Dacă doriți să vă verificați setările, puteți folosi comanda <code>git config --list</code> pentru a afișa toate setările pe care Git le poate utiliza în prezent:</p>
@@ -216,11 +219,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>Puteți vedea și mai multe chei de mai multe ori, deoarece Git citește aceeași cheie din fișiere diferite (<code>/etc/gitconfig</code> și <code>~/.gitconfig</code>, de exemplu). În acest caz, Git folosește ultima valoare pentru fiecare cheie unică întâlnită.</p>
 <p>Puteți de asemenea să vedeți ceea ce Git crede despre valoarea unei anumite chei dacă scrieți <code>git config {cheie}</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -239,9 +242,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

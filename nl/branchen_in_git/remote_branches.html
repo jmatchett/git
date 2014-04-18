@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.5" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_549">
+                    <section class="normal" id="section-gitbook_620">
                     
                         <h1 id="remote-branches">Remote branches</h1>
 <p>Remote branches zijn referenties naar de staat van de branches op remote repositories. Ze zijn lokale branches die jij niet kunt verplaatsen; ze worden automatisch verplaatst zodra je er netwerk communicatie plaatsvindt. Remote branches gedragen zich als boekenleggers om je eraan te helpen herinneren wat de staat van de branches was op je remote repositories toen je voor het laatst met ze in contact was.</p>
@@ -868,42 +871,42 @@
 <p>Als je een branch wil delen met de rest van de wereld, dan moet je het naar een remote terugzetten waar je schrijftoegang op hebt. Je lokale branches worden niet automatisch gesynchroniseerd met de remotes waar je naar schrijft - je moet de branches die je wilt delen uitdrukkelijk pushen. Op die manier kun je privé branches gebruiken voor het werk dat je niet wil delen, en alleen die topic branches pushen waar je op wilt samenwerken.</p>
 <p>Als je een branch genaamd <code>serverfix</code> hebt waar je met anderen aan wilt werken, dan kun je die op dezelfde manier pushen als waarop je dat voor de eerste branch hebt gedaan. Voer <code>git push (remote) (branch)</code> uit:</p>
 <pre><code>$ git push origin serverfix
-Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-number">1.74</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+Counting objects: 20, done.
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (15/15), 1.74 KiB, done.
+Total 15 (delta 5), reused 0 (delta 0)
 To git@github.com:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> branch]      serverfix -&gt; serverfix
+ * [new branch]      serverfix -&gt; serverfix
 </code></pre><p>Dit is een beetje de bocht afsnijden. Git zal de <code>serverfix</code> branchnaam automatisch expanderen naar <code>refs/heads/serverfix:refs/heads/serverfix</code>, wat staat voor &quot;Neem mijn lokale serverfix branch en push die om de serverfix branch van de remote te vernieuwen.&quot;. We zullen het <code>refs/heads</code> gedeelte gedetaileerd behandelen in Hoofdstuk 9, maar je kunt het normaalgesproken weglaten. Je kun ook <code>git push origin serverfix:serverfix</code> doen, wat hetzelfde doet. Dit staat voor &quot;Neem mijn serverfix en maak het de serverfix van de remote.&quot; Je kunt dit formaat gebruiken om een lokale branch te pushen naar een remote branch die anders heet. Als je niet wil dat het <code>serverfix</code> heet aan de remote kant, kan je in plaats daarvan <code>git push origin serverfix:awesomebranch</code> gebruiken om je lokale <code>serverfix</code> branch naar de <code>awesomebranch</code> op het remote project te pushen.</p>
 <p>De volgende keer dat één van je medewerkers van de server fetched zal deze een referentie krijgen naar de versie van <code>serverfix</code> op de server, onder de remote branch <code>origin/serverfix</code>:</p>
 <pre><code>$ git fetch origin
-remote: Counting objects: <span class="hljs-number">20</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">15</span> (delta <span class="hljs-number">5</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 5), reused 0 (delta 0)
+Unpacking objects: 100% (15/15), done.
 From git@github.com:schacon/simplegit
- * [<span class="hljs-keyword">new</span> branch]      serverfix    -&gt; origin/serverfix
+ * [new branch]      serverfix    -&gt; origin/serverfix
 </code></pre><p>Het is belangrijk om op te merken dat wanneer je een fetch doet die nieuwe remote branches ophaalt, je niet automatisch lokale aanpasbare kopieën daarvan hebt. In andere woorden, in dit geval heb je geen nieuwe <code>serverfix</code> branch - je hebt alleen een <code>origin/serverfix</code> verwijzing die je niet kunt aanpassen.</p>
 <p>Om dit werk in je huidige werk branch te mergen, kun je <code>git merge origin/serverfix</code> uitvoeren. Als je een eigen <code>serverfix</code> branch wilt waar je op kunt werken, dan kun je deze op je remote branch baseren:</p>
 <pre><code>$ git checkout -b serverfix origin/serverfix
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch serverfix <span class="hljs-built_in">from</span> origin.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">'serverfix'</span>
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch &#39;serverfix&#39;
 </code></pre><p>Dit maakt een lokale branch aan waar je op kunt werken, die begint met waar <code>origin/serverfix</code> is.</p>
 <h2 id="tracking-branches">Tracking branches</h2>
 <p>Een lokale branch uitchecken van een remote branch creëert automatisch een zogenaamde <em>tracking branch</em> (<em>volg branch</em>). Tracking branches zijn lokale branches die een directe releatie met een remote branch hebben. Als je op een tracking branch zit en <code>git push</code> typt, dat weet Git automatisch naar welke server en branch hij moet pushen. En, als je op een van die branches zit zal het uitvoeren van <code>git pull</code> alle remote referenties ophalen en automatisch de corresponderende remote branch erin mergen.</p>
 <p>Als je een repository cloned, zal het over het algemeen automatisch een <code>master</code> branch aanmaken die <code>origin/master</code> trackt. Daarom werken <code>git push</code> en <code>git pull</code> zo uit het doosje, zonder verdere argumenten. Maar je kan ook andere tracking branches aanmaken als je dat wilt, andere die niet branches tracken op <code>origin</code> en niet de <code>master</code> branch tracken. Een eenvoudig voorbeeld is wat je zojuist gezien hebt: <code>git checkout -b [branch] [remotenaam]/[branch]</code> uitvoeren. Als je Git versie 1.6.2 of nieuwer hebt, kun je ook de <code>--track</code> afkorting gebruiken:</p>
-<pre><code>$ git checkout <span class="hljs-comment">--track origin/serverfix</span>
-Branch serverfix <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch serverfix <span class="hljs-built_in">from</span> origin.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">'serverfix'</span>
+<pre><code>$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch &#39;serverfix&#39;
 </code></pre><p>Om een lokale branch te maken met een andere naam dan de remote branch, kun je simpelweg de eerste variant met een andere lokale branch naam gebruiken:</p>
 <pre><code>$ git checkout -b sf origin/serverfix
-Branch sf <span class="hljs-built_in">set</span> up <span class="hljs-built_in">to</span> track remote branch serverfix <span class="hljs-built_in">from</span> origin.
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">'sf'</span>
+Branch sf set up to track remote branch serverfix from origin.
+Switched to a new branch &#39;sf&#39;
 </code></pre><p>Nu zal je lokale <code>sf</code> branch automatisch pullen en pushen van origin/serverfix.</p>
 <h2 id="remote-branches-verwijderen">Remote branches verwijderen</h2>
 <p>Stel dat je klaar bent met een remote branch - zeg maar, jij en je medewerkers zijn klaar met een feature en het hebben gemerged in de <code>master</code> branch van de remote (of welke branch jullie stabiele code ook in zit). Dan kun je een remote branch verwijderen door de nogal botte syntax <code>git push [remotenaam] :[branch]</code> te gebruiken. Als je de <code>serverfix</code> branch van de server wilt verwijderen, dan voer je het volgende uit:</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin <span class="hljs-symbol">:serverfix</span>
-<span class="hljs-constant">To</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>schacon/simplegit.git
+<pre><code>$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
  - [deleted]         serverfix
 </code></pre><p>Poef. Geen branch meer op je server. Je zult deze pagina wel een ezelsoortje willen geven, omdat je dat commando nodig gaat hebben en het waarschijnlijk zult vergeten. Een manier om dit commando te onthouden is door de <code>git push [remotenaam] [lokalebranch]:[remotebranch]</code> syntax te onthouden die we kortgeleden behandeld hebben. Als je het <code>[lokalebranch]</code> gedeelte weglaat dan zeg je in feite, &quot;Neem niets aan mijn kant en maak dat de <code>[remotebranch]</code>.&quot;</p>
 
@@ -924,9 +927,9 @@ Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</sp
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

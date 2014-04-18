@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397503663161">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397847843407">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -284,43 +287,43 @@
 <h2 id="-">التنصيب من الكود المصدري</h2>
 <p>بالطبع، من المفضل أن تقوم بتنصيب Git من الكود المصدري (أي أن تقوم ببناء Git يدوياً، إن استطعت) وذلك لأنك ستحصل دائماً على آخر نسخة منها. كل اصدار جديد من Git غالباً ما يحوي على تحسينات في واجهة الإستخدام. بالإضافة إلى أنك ستحصل على اصدار قديم اذا كنت تستخدم احدى توزيعات لينكس المختلفة. ولذلك، إذا لم تكن على توزيعة حديثاً جداً من المفضل أن تقوم بتنصيب مباشرة من الكود المصدري لـ Git.</p>
 <p>لتنصيب Git، عليك أن تتحق من أن نظامك يحوي على المكتبات التالية، والتي تعتمد عليها Git، وهي: curl, zlip, openssl, expat و libiconv. على سبيل المثال، اذا كنت على نظام يحوي على أداة yum (مثل فيدورا Fedora) أو apt-get (مثل ديبيان Debian)، يمكنك تشغيل أحد الأوامر التالية للتأكد من تواجد هذه المكتبات:</p>
-<pre><code>$ yum install curl<span class="hljs-attribute">-devel</span> expat<span class="hljs-attribute">-devel</span> gettext<span class="hljs-attribute">-devel</span> <span class="hljs-subst">\</span>
-  openssl<span class="hljs-attribute">-devel</span> zlib<span class="hljs-attribute">-devel</span>
+<pre><code>$ yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
 
-$ apt<span class="hljs-attribute">-get</span> install libcurl4<span class="hljs-attribute">-gnutls</span><span class="hljs-attribute">-dev</span> libexpat1<span class="hljs-attribute">-dev</span> gettext <span class="hljs-subst">\</span>
-  libz<span class="hljs-attribute">-dev</span>
+$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+  libz-dev
 </code></pre><p>بعد تأكدك من المكتبات المطلوبة، يمكنك الحصول على آخر نسخة من الكود المصدري لـ Git من الموقع:</p>
-<pre><code><span class="hljs-label">http:</span>//git-scm<span class="hljs-preprocessor">.com</span>/download
+<pre><code>http://git-scm.com/download
 </code></pre><p>ثم، يمكنك البناء والتنصيب:</p>
-<pre><code><span class="hljs-variable">$ </span>tar -zxf git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>.tar.gz
-<span class="hljs-variable">$ </span>cd git-<span class="hljs-number">1.6</span>.<span class="hljs-number">0</span>.<span class="hljs-number">5</span>
-<span class="hljs-variable">$ </span>make prefix=<span class="hljs-regexp">/usr/local</span> all
-<span class="hljs-variable">$ </span>sudo make prefix=<span class="hljs-regexp">/usr/local</span> install
+<pre><code>$ tar -zxf git-1.6.0.5.tar.gz
+$ cd git-1.6.0.5
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install
 </code></pre><p>بعد ذلك، ستتمكن من الحصول على تحديثات على الكود المصدري لـ Git من خلال Git نفسها :)</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">git:</span>/<span class="hljs-regexp">/git.kernel.org/pub</span><span class="hljs-regexp">/scm/git</span><span class="hljs-regexp">/git.git</span>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
 </code></pre><h2 id="-">التنصيب على لينكس</h2>
 <p>إذا أردت تنصيب Git على نظام لينكس دون بناءه يدوياً، يمكنك ذلك من خلال أداة النصيب الخاصة بنظامك والتي تأتي مع نظامك. على سبيل المثال اذا كنت تستخدم نظام فيدورا Fedora، يمكنك استخدام yum:</p>
-<pre><code><span class="hljs-variable">$ </span>yum install git-core
+<pre><code>$ yum install git-core
 </code></pre><p>أو اذا كنت على نظام مبنى على ديبيان Debian مثل أوبونتو Ubuntu، يمكنك استخدام apt-get كالتالي:</p>
-<pre><code>$ apt-<span class="hljs-keyword">get</span> install git
+<pre><code>$ apt-get install git
 </code></pre><h2 id="-">التنصيب على نظام الماك أو اس</h2>
 <p>هناك طريقتين للتنصيب على  ماك أو اس، الأسهل هي استخدام الواجهة الرسومية للتنصيب، والتي يمكنك تحميلها من صفحة المشروع على غوغل كود (انظر الشكل 1-7):</p>
-<pre><code><span class="hljs-label">http:</span>//code<span class="hljs-preprocessor">.google</span><span class="hljs-preprocessor">.com</span>/p/git-osx-installer
+<pre><code>http://code.google.com/p/git-osx-installer
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0107-tn.png" alt=""></p>
 <p>الشكل 1-7. تنصيب Git على ماك أو اس.</p>
 <p>والطريقة الأكثر شهرة للحصول على Git هي من خلال MacPorts، (&quot;<a href="http://macports.org/" target="_blank">http://macports.org</a>&quot;). يمكنك تشغيل الأمر التالي اذا كنت قد نصبت MacPorts من قبل:</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> port install git-core +svn +doc +bash_completion +gitweb
+<pre><code>$ sudo port install git-core +svn +doc +bash_completion +gitweb
 </code></pre><p>يمكنك عدم تنصيب أي من الأمور الإضافية مع Git، ولكنك ستحتاج الى +svn اذا كنت ستستخدم Git على repository تعتمد على نظام Subversion (انظر الفصل 8).</p>
 <h2 id="-">التنصيب على ويندوز</h2>
 <p>يمكنك تنصيب Git على نظام ويندوز بسهولة. أحد أسهل الطرق هو استخدام مشروع msysGit. يمكنك تنصيب البرنامج من صفحة المشروع على غوغل كود:</p>
-<pre><code><span class="hljs-label">http:</span>//msysgit<span class="hljs-preprocessor">.github</span><span class="hljs-preprocessor">.com</span>/
+<pre><code>http://msysgit.github.com/
 </code></pre><p>بعد التنصيب سيكون لدين نسختين من الأداة للـ command-line في ويندوز (بالإضافة الى أداة SSH والتي ستستفيد منها لاحقاً) والأداة بالواجهة الرسومية الإعتيادية.
 ب هذه المعلومات من مخدم خارجي.</p>
 <p>هذا يعني أيضاً أن الأمور التي لا تستطيع فعلها عندما تكون مفصولاً عن الإنترنت أو عن الشبكة الداخلية قليلة جداً. إذا كنت في طائرة أو في القطار ولم تستطيع الإرتباط بالشبكة بشكل صحيح، يمكنك إكمال عملك بشكل طبيعي. في الأنظمة الأخرى يكون هذا الأمر مستحيلاً! أو من الممكن لك أن تعدل الملفات ولكن دون عمليات Commit لتغييراتك. في نظام Perforce على سبيل المثال، لا يمكنك فعل الكثير حينما تكون مفصولاً عن المخدم الأساسي; وفي Subversion أو CVS، يمكنك التعديل على الملفات لكن بدون عمليات Commit لتعديلاتك، قد تعتقد بأن هذا ليس بالأمر الكبير، ولكن ستتفاجئ بحجم الفرق الذي يصنعه.</p>
 <h2 id="git-">Git تحمل المصداقية</h2>
 <p>كل شيء في Git سيتم وضع Check-sum عليه قبل تخزينة حيث ستتم الإشارة اليه لاحقاً بهذه الـ checksum. هذا يعني أنه من المستحيل أن يتم تغيير أي ملف أو مجلد دون أن يتم اعلام Git بهذا التغيير. تم بناء هذه الخاصية بشكل أساسي في فلسفة وطريقة عمل Git. من المستحيل أن تخسر معلوماتك بشكل فجائي أو أن ينعطب معلف ما دون أن تعرف Git بذلك.</p>
 <p>تدعى الآلية التي تستخدمها Git لعملية الـ checksum هذه باسم SHA-1 hash. وهي عبارة عن قيمة نصية من 40 محرف ستاعشري (0-9 و a-f) ويتم حسابها بناء على محتوى الملف أو المجلد الذي تتبعه Git. يبدو الـ hash من نوع SHA-1 كما يلي:</p>
-<pre><code><span class="hljs-number">24</span>b9da6552252987aa493b52f8696<span class="hljs-built_in">cd</span>6d3b00373
+<pre><code>24b9da6552252987aa493b52f8696cd6d3b00373
 </code></pre><p>سترى أن هذه القيم ستكون موجودة في كل مكان في Git ذلك لأنها تستخدمها بشكل كثيف. في الحقيقة، تستخدم Git هذه القيم للدلالة على الملفات في قاعدة بياناتها.</p>
 <h2 id="git-">Git تضيف المعلومات فقط!</h2>
 <p>عندما تقوم بعملياتك في Git، ستقوم Git في أغلب الأحيان بإضافة معلومات فقط الى قاعدة البيانات. ومن الصعب جداً القيام بعملية بحيث لا يمكنك العودة الى الوراء فيها أو محيها من قاعدة البيانات بشكل نهائي. ولكن، وكما هو الأمر في أغلب نظم إدارة الإصدارات، من الممكن أن تخسر المعلومات قبل القيام بعملية Commit للتغيرات الحاصلة; ولكن بعد عملية الـ commit في Git، من الصعب جداً خسارة المعلومات، وخاصة اذا كنت تقوم بعملية push للتعديلات من قاعدة بياناتك الى repository اخرى بشكل منظم.</p>
@@ -359,9 +362,9 @@ If a particular version of a file is in the git directory, it’s considered com
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

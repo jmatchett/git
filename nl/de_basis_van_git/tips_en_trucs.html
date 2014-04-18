@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.7" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.7" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,48 +847,48 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_558">
+                    <section class="normal" id="section-gitbook_629">
                     
                         <h1 id="tips-en-trucs">Tips en trucs</h1>
 <p>Voordat we dit hoofdstuk over de basis van Git afsluiten laten we je nog wat kleine tips en trucs zien die je Git ervaring een beetje eenvoudiger, makkelijker of bekender maken. Veel mensen gebruiken Git zonder deze tips, en we refereren er niet meer aan of gaan er niet vanuit dat je ze gebruikt verderop in dit boek; maar je zult waarschijnlijk willen weten hoe je ze moet doen.</p>
 <h2 id="auto-aanvulling">Auto-aanvulling</h2>
 <p>Als je de Bash shell gebruikt, heeft Git een prettige auto-aanvulling script dat je aan kunt zetten. Download het direct van de Git broncode op <a href="https://github.com/git/git/blob/master/contrib/completion/git-completion.bash" target="_blank">https://github.com/git/git/blob/master/contrib/completion/git-completion.bash</a>. Kopieer dit bestand naar je home directory, en voeg dit aan je <code>.bashrc</code> bestand toe:</p>
-<pre><code>source ~/<span class="hljs-preprocessor">.git</span>-completion<span class="hljs-preprocessor">.bash</span>
+<pre><code>source ~/.git-completion.bash
 </code></pre><p>Als je Git wilt instellen dat het automatische Bash shell aanvulling heeft voor alle gebruikers, kopieer dit script dan naar de <code>/opt/local/etc/bash_completion.d</code> directory op Mac systemen, of naar de <code>/etc/bash_completion.d/</code> directory op Linux systemen. Dit is een directory met scripts dat Bash automatisch zal laden om shell aanvullingen aan te bieden.</p>
 <p>Als je Windows gebruikt met Git Bash, wat de standaard is als je Git op Windows installeert met msysGit, dan zou auto-aanvulling voorgeconfigureerd moeten zijn.</p>
 <p>Druk de Tab toets als je een Git commando aan het typen bent, en het zou een lijstje suggesties voor je moeten teruggeven:</p>
-<pre><code>$ git co<span class="hljs-tag">&lt;<span class="hljs-title">tab</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">tab</span>&gt;</span>
+<pre><code>$ git co&lt;tab&gt;&lt;tab&gt;
 commit config
 </code></pre><p>In dit geval zal <code>git co</code> en dan de Tab toets twee keer indrukken git commit en config voorstellen. Als je daarna <code>m&lt;tab&gt;</code> toevoegt, wordt het automatisch tot <code>git commit</code> gecompleteerd.</p>
 <p>Dit werkt ook met opties, wat nog bruikbaarder is. Bijvoorbeeld, als je een <code>git log</code> commando uitvoert en je een van de opties niet meer kunt herinneren, dan kun je beginnen met het te typen en Tab indrukken om te zien wat er past:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">log</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">s</span>&lt;<span class="hljs-comment">tab</span>&gt;
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">shortstat</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">since=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">src</span><span class="hljs-literal">-</span><span class="hljs-comment">prefix=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">stat</span>   <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">summary</span>
+<pre><code>$ git log --s&lt;tab&gt;
+--shortstat  --since=  --src-prefix=  --stat   --summary
 </code></pre><p>Dat is een erg handig trucje en zal je misschien wat tijd en documentatie lezen besparen.</p>
 <h2 id="git-aliassen">Git aliassen</h2>
 <p>Git zal geen commando&#39;s afleiden uit wat je gedeeltelijk intypt. Als je niet de hele tekst van ieder Git commando wilt intypen, kun je gemakkelijk een alias voor ieder commando configureren door <code>git config</code> te gebruiken. Hier zijn een aantal voorbeelden die je misschien wilt instellen:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.co checkout
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.br branch
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.ci commit
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.st status
+<pre><code>$ git config --global alias.co checkout
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status
 </code></pre><p>Dit betekent dat je, bijvoorbeeld, in plaats van <code>git commit</code> je alleen <code>git ci</code> hoeft in te typen. Als je verder gaat met Git, zul je waarschijnlijk andere commando&#39;s ook vaker gaan gebruiken; in dat geval: schroom niet om nieuwe aliassen te maken.</p>
 <p>Deze techniek kan ook makkelijk zijn om commando&#39;s te maken waarvan je vindt dat ze zouden moeten bestaan. Bijvoorbeeld, om het bruikbaarheidsprobleem wat je met het unstagen van een bestand tegenkwam op te lossen, kun je jouw eigen unstage alias aan Git toevoegen:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.unstage <span class="hljs-string">'reset HEAD --'</span>
+<pre><code>$ git config --global alias.unstage &#39;reset HEAD --&#39;
 </code></pre><p>Dit maakt de volgende twee commando&#39;s equivalent:</p>
-<pre><code><span class="hljs-variable">$ </span>git unstage fileA
-<span class="hljs-variable">$ </span>git reset <span class="hljs-constant">HEAD</span> fileA
+<pre><code>$ git unstage fileA
+$ git reset HEAD fileA
 </code></pre><p>Het lijkt wat duidelijker. Het is ook gebruikelijk om een <code>last</code> commando toe te voegen:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.last <span class="hljs-string">'log -1 HEAD'</span>
+<pre><code>$ git config --global alias.last &#39;log -1 HEAD&#39;
 </code></pre><p>Op deze manier kun je de laatste commit makkelijk zien:</p>
 <pre><code>$ git last
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">66938</span>dae3329c7aebe598c2246a8e6af90d04646
+commit 66938dae3329c7aebe598c2246a8e6af90d04646
 Author: Josh Goebel &lt;dreamer3@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Aug <span class="hljs-number">26</span> <span class="hljs-number">19</span>:<span class="hljs-number">48</span>:<span class="hljs-number">51</span> <span class="hljs-number">2008</span> +<span class="hljs-number">0800</span>
+Date:   Tue Aug 26 19:48:51 2008 +0800
 
-    test <span class="hljs-keyword">for</span> <span class="hljs-keyword">current</span> head
+    test for current head
 
-    Signed-off-<span class="hljs-keyword">by</span>: Scott Chacon &lt;schacon@example.com&gt;</span>
+    Signed-off-by: Scott Chacon &lt;schacon@example.com&gt;
 </code></pre><p>Zoals je kunt zien, vervangt Git eenvoudigweg het nieuwe commando met hetgeen waarvoor je het gealiassed hebt. Maar, misschien wil je een extern commando uitvoeren, in plaats van een Git subcommando. In dat geval begin je het commando met een <code>!</code> karakter. Dit is handig als je je eigen applicaties maakt die met een Git repository werken. We kunnen dit demonstreren door <code>git visual</code> een <code>gitk</code> te laten uitvoeren:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.visual <span class="hljs-string">'!gitk'</span>
+<pre><code>$ git config --global alias.visual &#39;!gitk&#39;
 </code></pre>
                     
                     </section>
@@ -904,9 +907,9 @@ Author: Josh Goebel &lt;dreamer3@example.com&gt;
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

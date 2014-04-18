@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397503670764">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397847845602">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -364,7 +367,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_233">
+                    <section class="normal" id="section-gitbook_259">
                     
                         <h1 id="dallanma-ve-birle-tirmenin-temelleri">Dallanma ve Birleştirmenin Temelleri</h1>
 <p>Gelin, basit bir örnekle, gerçek hayatta kullanacağınız bir dallanma ve birleştirme işleyişinin üstünden geçelim. Şu adımları izleyeceksiniz:</p>
@@ -386,63 +389,63 @@
 <p>Figür 3-10. Kısa ve basit bir kayıt tarihçesi.</p>
 <p>Şirketinizin kullandığı sorun izleme programındaki #53 numaralı sorun üzerinde çalışmaya karar verdiniz. Açıklığa kavuşturmak için söyleyelim: Git herhangi bir sorun izleme programına bağlı değildir; ama #53 numaralı sorun üzerinde çalışmak istediğiniz başı sonu belli bir konu olduğu için, çalışmanızı bir dal üzerinde yapacaksınız. Bir dalı yaratır yaratmaz hemen ona geçiş yapmak için <code>git checout</code> komutunu <code>-b</code> seçeneğiyle birlikte kullanabilirsiniz:</p>
 <pre><code>$ git checkout -b iss53
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"iss53"</span>
+Switched to a new branch &quot;iss53&quot;
 </code></pre><p>Bu, aşağıdaki iki komutun yerine kullanabileceğiniz bir kısayoldur:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch iss53
-<span class="hljs-variable">$ </span>git checkout iss53
+<pre><code>$ git branch iss53
+$ git checkout iss53
 </code></pre><p>Figür 3-11 sonucu resmediyor.</p>
 <p><img src="http://git-scm.com/figures/18333fig0311-tn.png" alt=""></p>
 <p>Figür 3-11. Yeni bir dal imleci yaratmak.</p>
 <p>Web sitesi üzerinde çalışıp bazı kayıtlar yapıyorsunuz. Bunu yaptığınızda <code>iss53</code> dalı ilerliyor, çünkü seçtiğiniz dal o (yani <code>HEAD</code> onu gösteriyor; bkz. Figür 3-12).</p>
-<pre><code><span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'added a new footer [issue 53]'</span>
+<pre><code>$ vim index.html
+$ git commit -a -m &#39;added a new footer [issue 53]&#39;
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0312-tn.png" alt=""></p>
 <p>Figür 3-12. Çalışamız sonucunda iss53 dalı ilerledi.</p>
 <p>Şimdi, sizden web sitesindeki bir sorun için acilen bir yama hazırlamanız istensin. Git kullanıyorsanız, yamayı daha önce <code>iss53</code> dalında yaptığınız yaptığınız değişikliklerle birlikte yayına sokmanız gerekmez; yama üzerinde çalışmaya başlamadan önce söz konusu değişiklikleri geri alıp yayındaki web sitesini kaynak koduna ulaşabilmek için fazla çabalamanıza da gerek yok. Tek yapmanız gereken <code>master</code> dalına geri dönmek.</p>
 <p>Ama, bunu yapmadan önce şunu belirtmekte yarar var: eğer çalışma klasörünüzde ya da kayda hazırlık alanında seçmek (<em>checkout</em>) istediğiniz dalla uyuşmazlık gösteren kaydedilmemiş değişiklikler varsa, Git dal değiştirmenize izin vermeyecektir. Dal değiştirirken çalışma alanınızı temiz olması en iyisidir. Bunun üstesinden gelmek için başvurulabilecek yolları (zulalama ve kayıt değiştirme gibi) daha sonra inceleyeceğiz. Şimdilik, bütün değişikliklerinizi kaydettiniz, dolayısıyla <code>master</code> dalına geçiş yapabilirsiniz.</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
+<pre><code>$ git checkout master
+Switched to branch &quot;master&quot;
 </code></pre><p>Bu noktada, çalışma klasörünüz #53 numaralı sorun üzerinde çalışmaya başlamadan hemen önceki halindedir ve yamayı hazırlamaya odaklanabilirsiniz. Burası önemli: Git, çalışma klasörünüzü seçtiğiniz dalın gösterdiği kaydın bellek kopyasıyla aynı olacak şekilde ayarlar. Dal, son kaydınızda nasıl görünüyorsa çalışma klasörünü o hale getirebilmek için otomatik olarak dosyaları ekler, siler ve değiştirir.</p>
 <p>Sırada, hazırlanacak yama var. Şimdi yama üzerinde çalışmak için bir <code>hotfix</code> dalı oluşturalım (bkz. Figür 3-13):</p>
-<pre><code>$ git checkout <span class="hljs-attribute">-b</span> <span class="hljs-string">'hotfix'</span>
-Switched <span class="hljs-keyword">to</span> a <span class="hljs-literal">new</span> branch <span class="hljs-string">"hotfix"</span>
-$ vim index<span class="hljs-built_in">.</span>html
-$ git commit <span class="hljs-attribute">-a</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'fixed the broken email address'</span>
-<span class="hljs-preprocessor">[</span>hotfix<span class="hljs-preprocessor">]</span><span class="hljs-markup">: created 3a0874c: "fixed the broken email address"
- 1 files changed, 0 insertions(+), 1 deletions(-)</span>
+<pre><code>$ git checkout -b &#39;hotfix&#39;
+Switched to a new branch &quot;hotfix&quot;
+$ vim index.html
+$ git commit -a -m &#39;fixed the broken email address&#39;
+[hotfix]: created 3a0874c: &quot;fixed the broken email address&quot;
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0313-tn.png" alt=""></p>
 <p>Figür 3-13. hotfix dalı master dalını baz alıyor.</p>
 <p>Testlerinizi uygulayabilir, yamanızın istediğiniz gibi olduğundan emin olduktan sonra yayına sokabilmek için <code>master</code> dalıyla birleştirebilirsiniz. Bunun için <code>git merge</code> komutu kullanılır:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge hotfix
-<span class="hljs-constant">Updating</span> f42c576..<span class="hljs-number">3</span>a0874c
-<span class="hljs-constant">Fast</span> forward
- <span class="hljs-constant">README</span> |    <span class="hljs-number">1</span> -
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code>$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast forward
+ README |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p>Birleştirme çıktısındaki &quot;Fast forward&quot; ifadesine dikkat. Birleştirdiğiniz dalın gösterdiği kayıt, üstünde bulunduğunuz dalın doğrudan devamı olduğundan, Git yalnızca imleci ileri alır. Başka bir deyişle, bir kaydı, kendi tarihçesinde geri giderek ulaşılabilecek bir başka kayıtla birleştiriyorsanız, Git ıraksayan ve birleştirilmesi gereken herhangi bir şey olmadığı için işleri kolaylaştırıp imleci ileri alır —buna &quot;fast forward&quot; (hızlı ileri alma) denir.</p>
 <p>Yaptığınız değişiklik artık <code>master</code> dalı tarafından işaret edilen kaydın bellek kopyasındadır ve yayımlanabilir (bkz. Figür 3-14).</p>
 <p><img src="http://git-scm.com/figures/18333fig0314-tn.png" alt=""></p>
 <p>Figür 3-14. Birleştirmeden sonra master dalınız hotfix dalınızla aynı yeri gösterir.</p>
 <p>Bu çok önemli yama yayımlandıktan sonra, kaldığınız yere geri dönebilirsiniz. Fakat önce <code>hotfix</code> dalını sileceksiniz, çünkü artık ona ihtiyacınız kalmadı —<code>master</code> dalı aynı yeri gösteriyor. <code>git branch</code> komutunu <code>-d</code> seçeneğiyle birlikte kullanarak silme işlemini yapabilirsiniz:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> hotfix
-Deleted branch hotfix (<span class="hljs-number">3</span>a0874c).
+<pre><code>$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).
 </code></pre><p>Şimdi kaldığınız yere geri dönebilir ve #53 numaralı sorun üzerinde çalışmaya devam edebilirsiniz (bkz. 3-15).</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout iss53
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"iss53"</span>
-<span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'finished the new footer [issue 53]'</span>
-[iss53]<span class="hljs-symbol">:</span> created <span class="hljs-symbol">ad82d7a:</span> <span class="hljs-string">"finished the new footer [issue 53]"</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git checkout iss53
+Switched to branch &quot;iss53&quot;
+$ vim index.html
+$ git commit -a -m &#39;finished the new footer [issue 53]&#39;
+[iss53]: created ad82d7a: &quot;finished the new footer [issue 53]&quot;
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0315-tn.png" alt=""></p>
 <p>Figür 3-15. iss53 dalınız bağımsız olarak ilerleyebilir.</p>
 <p>Şunu belirtmekte yarar var: <code>hotfix</code> dalında yaptığınız düzeltme <code>iss53</code> dalındaki dosyalarda bulunmuyor. Eğer bu değişikliği çekmek isterseniz, <code>git merge master</code> komutunu çalıştırarak <code>master</code> dalınızı <code>iss53</code> dalınızla birleştirebilirsiniz; alternatif olarak <code>iss53</code> dalındaki değişiklikleri <code>master</code>dalıyla birleştirmeye hazır hale getirene kadar bekleyebilirsiniz.</p>
 <h2 id="birle-tirmenin-temelleri">Birleştirmenin Temelleri</h2>
 <p>Diyelim ki #53 numaralı sorunla ilgili çalışmanızı tamamladınız ve <code>master</code> dalıyla birleştirmeye hazırsınız. Bunu yapabilmek için <code>iss53</code> dalınızı, aynı <code>hotfix</code> dalını yaptığınız gibi birleştireceksiniz. Bütün yapmanız gereken birleştirmeyi gerçekleştirmek istediğiniz dalı seçmek (<em>checkout</em>) ve <code>git merge</code> komutunu çalıştırmak:</p>
 <pre><code>$ git checkout master
-$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
- README |    <span class="hljs-number">1</span> +
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)</span>
+$ git merge iss53
+Merge made by recursive.
+ README |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Bu daha önce yaptığınız <code>hotfix</code> birleştirmesinden biraz farklı görünüyor. Burada, kayıt tarihçeniz daha eski bir noktadan ıraksamıştı. Üzerinde bulunduğunuz dalın gösterdiği kayıt birleştirmekte olduğunuz dalın doğrudan atası olmadığından Git&#39;in biraz iş yapması gerekiyor. Bu örnekte Git, iki dalın en uç noktası ve ikisinin ortak atasının kullanıldığı üç taraflı basit bir birleştirme yapıyor. Figür 3-16, bu birleştirmede kullanılan üç farklı bellek kopyasını vurguluyor.</p>
 <p><img src="http://git-scm.com/figures/18333fig0316-tn.png" alt=""></p>
 <p>Figür 3-16. Git, dalları birleştirmek için en uygun ortak atayı buluyor.</p>
@@ -451,66 +454,66 @@ $ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
 <p><img src="http://git-scm.com/figures/18333fig0317-tn.png" alt=""></p>
 <p>Figür 3-17. Git, otomatik olarak, birleştirilmiş çalışmayı içeren yeni bir kayıt nesnesi yaratır.</p>
 <p>Çalışmanız birleştirildiğine göre, artık <code>iss53</code> dalına ihtiyacınız kalmadı. Dalı silip, sorun izleme sisteminizdeki sorunu da kapatabilirsiniz:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> iss53
+<pre><code>$ git branch -d iss53
 </code></pre><h2 id="temel-birle-tirme-uyu-mazl-klar-">Temel Birleştirme Uyuşmazlıkları</h2>
 <p>Zaman zaman bu süreç o kadar da pürüzsüz ilerlemez. Eğer aynı dosyanın aynı bölümünü her iki dalda da değiştirmişseniz, Git temiz bir birleştirme yapamaz. #53 numaraları sorun için hazırladığınız düzeltme <code>hotfix</code>le aynı yazılım parçasını değiştiriyorsa, şuna benzer bir birleştirme uyuşmazlığıyla karşılaşırsınız:</p>
-<pre><code>$ git <span class="hljs-built_in">merge</span> iss53
+<pre><code>$ git merge iss53
 Auto-merging index.html
-CONFLICT (content): Merge conflict <span class="hljs-operator">in</span> index.html
-Automatic <span class="hljs-built_in">merge</span> failed; fix conflicts <span class="hljs-operator">and</span> <span class="hljs-keyword">then</span> commit <span class="hljs-operator">the</span> <span class="hljs-built_in">result</span>.
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
 </code></pre><p>Burada Git otomatik olarak yeni bir birleştirme kaydı oluşturmadı. Sizin uyuşmazlığı çözmenizi beklemek için sürece ara verdi. Bir birleştirme uyuşmazlığından sonra hangi dosyaların birleştirilmemiş olduğunu görmek için <code>git status</code> komutunu çalıştırabilirsiniz.</p>
 <pre><code>[master*]$ git status
 index.html: needs merge
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    unmerged:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#    unmerged:   index.html
+#
 </code></pre><p>Birleştirme uyuşmazlığı henüz çözümlenmemiş her şey <em>unmerged</em> (birleştirilmemiş) olarak gösterilecektir. Git, dosyaları açıp uyuşmazlıkları çözümleyebilmeniz için standart uyuşmazlık çözümleme işaretçileri koyar. Dosyanızda şuna benzer bir bölümle karşılaşırsınız:</p>
 <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
-<span class="hljs-header">&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
-=======</span>
-&lt;div id="footer"&gt;
-<span class="hljs-code">  please contact us at support@github.com</span>
+&lt;div id=&quot;footer&quot;&gt;contact : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id=&quot;footer&quot;&gt;
+  please contact us at support@github.com
 &lt;/div&gt;
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html
 </code></pre><p>Burada , <code>HEAD</code>deki sürüm (ki bu <code>master</code> dalındaki sürümdür çünkü birleştirme komutunu bu daldan çalıştırdınız) üstte, (<code>=======</code> işaretinin üstündeki her şey), <code>iss53</code> dalındaki sürüm ise altta gösterilmektedir. Uyuşmazlığı çözümleyebilmek için bu ikisinden birini seçmeli, ya da birleştirmeyi istediğiniz gibi kendiniz düzenlemelisiniz. Söz gelimi, uyuşmazlığı çözmek için bütün bu kod bloğunun yerine şunu yerleştirebilirsiniz:</p>
-<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"footer"</span>&gt;
-please contact us <span class="hljs-keyword">at</span> email.support@github.com
-&lt;/<span class="hljs-keyword">div</span>&gt;
+<pre><code>&lt;div id=&quot;footer&quot;&gt;
+please contact us at email.support@github.com
+&lt;/div&gt;
 </code></pre><p>Çözümlemede iki taraftan da bir şeyler var ve <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, ve <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> işaretlerini içeren satırlar tamamen silinmiş durumda. Uyuşmazlık olan her bir dosyadaki her bir uyuşmazlık bloğunu çözümledikten sonra her dosyanın üzerinde <code>git add</code> komutunu çalıştırarak, uyuşmazlığın o dosya için çözülmüş olduğunu belirtebilirsiniz. Bir dosyayı ayda hazırlamak o dosyayı uyuşmazlığı çözümlenmiş olarak işaretler.
 Uyuşmazlıkları çözümlemek için görsel bir araç kullanmak isterseniz <code>git mergetool</code> komutunu çalıştırabilirsiniz; bu komut size tek tek herbir uyuşmazlığı gösterecek uygun bir birleştirme aracını çalıştırır:</p>
 <pre><code>$ git mergetool
-<span class="hljs-built_in">merge</span> tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-Merging <span class="hljs-operator">the</span> <span class="hljs-built_in">files</span>: index.html
+merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
+Merging the files: index.html
 
-Normal <span class="hljs-built_in">merge</span> conflict <span class="hljs-keyword">for</span> <span class="hljs-string">'index.html'</span>:
-  {<span class="hljs-built_in">local</span>}: modified
+Normal merge conflict for &#39;index.html&#39;:
+  {local}: modified
   {remote}: modified
-Hit <span class="hljs-constant">return</span> <span class="hljs-built_in">to</span> start <span class="hljs-built_in">merge</span> resolution tool (opendiff):
+Hit return to start merge resolution tool (opendiff):
 </code></pre><p>Varsayılan aracın dışında bir araç kullanmak isterseniz (Git, Mac&#39;te çalıştığım için bu örnekte <code>opendiff</code>&#39;i seçti), Git&#39;in desteklediği bütün birleştirme araçlarının listesini en üstte “merge tool candidates” yazısından hemen sonra görebilirsiniz. Kullanmak istediğiniz aracın adını yazın. 7. Bölüm&#39;de kendi çalışma ortamınız için varsayılan değeri nasıl değiştirebileceğinizi inceleyeceğiz.</p>
 <p>Birleştirme aracını kapattıktan sonra, Git size birleştirmenin başarılı olup olmadığını soracaktır. Eğer başarılı olduğunu söylerseniz, sizin yerinize dosyayı kayda hazırlayıp çözümlenmiş olarak işaretler.</p>
 <p>Bütün uyuşmazlıkların çözümlendiğinden emin olmak için tekrar <code>git status</code> komutunu çalıştırabilirsiniz:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    modified:   index.html
+#
 </code></pre><p>Durumdan memnunsanız ve uyuşmazlığı olan bütün dosyaların kayda hazırlandığından eminseniz, <code>git commit</code>&#39;i kullanarak birleştirme kaydını tamamlayabilirsiniz. Öntanımlı kayıt mesajı şöyle görünür:</p>
-<pre><code>Merge branch <span class="hljs-string">'iss53'</span>
+<pre><code>Merge branch &#39;iss53&#39;
 
 Conflicts:
   index.html
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># It looks like you may be committing a MERGE.</span>
-<span class="hljs-preprocessor"># If this is not correct, please remove the file</span>
-<span class="hljs-preprocessor"># .git/MERGE_HEAD</span>
-<span class="hljs-preprocessor"># and try again.</span>
-<span class="hljs-preprocessor">#</span>
+#
+# It looks like you may be committing a MERGE.
+# If this is not correct, please remove the file
+# .git/MERGE_HEAD
+# and try again.
+#
 </code></pre><p>İleride bu birleştirme işlemini inceleyecek olanlar için yararlı olacağını düşünüyorsanız bu kayıt mesajını ayrıntılandırabilirsiniz —eğer aşikâr değilse, birleştirmeyi neden yaptığınızı, ve birleştirmede neler yaptığınızı açıklayabilirsiniz.</p>
 
                     
@@ -530,9 +533,9 @@ Conflicts:
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

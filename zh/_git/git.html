@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.3" data-basepath=".." data-revision="1397503670754">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.3" data-basepath=".." data-revision="1397847845594">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="起步" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="../git_.html" title="Git 基础" class="chapter done " data-progress="1.3" style="left: 4%;"></a>
     
@@ -754,7 +757,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_164">
+                    <section class="normal" id="section-gitbook_143">
                     
                         <h1 id="git-">Git挂钩</h1>
 <p>和其他版本控制系统一样，当某些重要事件发生时，Git 以调用自定义脚本。有两组挂钩：客户端和服务器端。客户端挂钩用于客户端的操作，如提交和合并。服务器端挂钩用于 Git 服务器端的操作，如接收被推送的提交。你可以随意地使用这些挂钩，下面会讲解其中一些。</p>
@@ -797,13 +800,13 @@
 <h2 id="-">关键字扩展</h2>
 <p>使用SVN或CVS的开发人员经常要求关键字扩展。在 Git 中，你无法在一个文件被提交后修改它，因为 Git 会先对该文件计算校验和。然而，你可以在签出时注入文本，在提交前删除它。 Git 属性提供了2种方式这么做。</p>
 <p>首先，你能够把blob的SHA-1校验和自动注入文件的<code>$Id$</code>字段。如果在一个或多个文件上设置了此字段，当下次你签出分支的时候，Git 用blob的SHA-1值替换那个字段。注意，这不是提交对象的SHA校验和，而是blob本身的校验和：</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'*.txt ident'</span> &gt;&gt; .gitattributes
-$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'$Id$'</span> &gt; test.txt
+<pre><code>$ echo &#39;*.txt ident&#39; &gt;&gt; .gitattributes
+$ echo &#39;$Id$&#39; &gt; test.txt
 </code></pre><p>下次签出文件时，Git 入了blob的SHA值：</p>
-<pre><code><span class="hljs-variable">$ </span>rm test.txt
-<span class="hljs-variable">$ </span>git checkout -- test.txt
-<span class="hljs-variable">$ </span>cat test.txt
-<span class="hljs-variable">$Id</span><span class="hljs-symbol">:</span> <span class="hljs-number">42812</span>b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+<pre><code>$ rm test.txt
+$ git checkout -- test.txt
+$ cat test.txt
+$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 </code></pre><p>然而，这样的显示结果没有多大的实际意义。这个SHA的值相当地随机，无法区分日期的前后，所以，如果你在CVS或Subversion中用过关键字替换，一定会包含一个日期值。</p>
 <p>因此，你能写自己的过滤器，在提交文件到暂存区或签出文件时替换关键字。有2种过滤器，&quot;clean&quot;和&quot;smudge&quot;。在 <code>.gitattributes</code>文件中，你能对特定的路径设置一个过滤器，然后设置处理文件的脚本，这些脚本会在文件签出前（&quot;smudge&quot;，见图 7-2）和提交到暂存区前（&quot;clean&quot;，见图7-3）被调用。这些过滤器能够做各种有趣的事。</p>
 <p><img src="http://git-scm.com/figures/18333fig0702-tn.png" alt=""></p>
@@ -811,54 +814,54 @@ $ <span class="hljs-built_in">echo</span> <span class="hljs-string">'$Id$'</span
 <p><img src="http://git-scm.com/figures/18333fig0703-tn.png" alt=""></p>
 <p>图7-3. 提交到暂存区时，“clean”过滤器被触发。</p>
 <p>这里举一个简单的例子：在暂存前，用<code>indent</code>（缩进）程序过滤所有C源代码。在<code>.gitattributes</code>文件中设置&quot;indent&quot;过滤器过滤<code>*.c</code>文件：</p>
-<pre><code><span class="hljs-attribute">*.c     filter</span>=<span class="hljs-string">indent</span>
+<pre><code>*.c     filter=indent
 </code></pre><p>然后，通过以下配置，让 Git 知道&quot;indent&quot;过滤器在遇到&quot;smudge&quot;和&quot;clean&quot;时分别该做什么：</p>
-<pre><code>$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.clean</span> indent
-$ git config --global filter<span class="hljs-preprocessor">.indent</span><span class="hljs-preprocessor">.smudge</span> cat
+<pre><code>$ git config --global filter.indent.clean indent
+$ git config --global filter.indent.smudge cat
 </code></pre><p>于是，当你暂存<code>*.c</code>文件时，<code>indent</code>程序会被触发，在把它们签出之前，<code>cat</code>程序会被触发。但<code>cat</code>程序在这里没什么实际作用。这样的组合，使C源代码在暂存前被<code>indent</code>程序过滤，非常有效。</p>
 <p>另一个例子是类似RCS的<code>$Date$</code>关键字扩展。为了演示，需要一个小脚本，接受文件名参数，得到项目的最新提交日期，最后把日期写入该文件。下面用Ruby脚本来实现：</p>
-<pre><code><span class="hljs-preprocessor">#! /usr/bin/env ruby</span>
-<span class="hljs-typedef"><span class="hljs-keyword">data</span> = <span class="hljs-type">STDIN</span>.read</span>
-<span class="hljs-title">last_date</span> = `git log <span class="hljs-comment">--pretty=format:"%ad" -1`</span>
-<span class="hljs-title">puts</span> <span class="hljs-typedef"><span class="hljs-keyword">data</span>.gsub<span class="hljs-container">('$<span class="hljs-type">Date</span>$', '$<span class="hljs-type">Date</span>: ' + <span class="hljs-title">last_date</span>.<span class="hljs-title">to_s</span> + '$')</span></span>
+<pre><code>#! /usr/bin/env ruby
+data = STDIN.read
+last_date = `git log --pretty=format:&quot;%ad&quot; -1`
+puts data.gsub(&#39;$Date$&#39;, &#39;$Date: &#39; + last_date.to_s + &#39;$&#39;)
 </code></pre><p>该脚本从<code>git log</code>命令中得到最新提交日期，找到文件中的所有<code>$Date$</code>字符串，最后把该日期填充到<code>$Date$</code>字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为<code>expand_date</code>，放到正确的路径中，之后需要在 Git 中设置一个过滤器（<code>dater</code>），让它在签出文件时调用<code>expand_date</code>，在暂存文件时用Perl清除之：</p>
-<pre><code><span class="hljs-formula">$ git config filter.dater.smudge expand_date
-$</span> git config filter.dater.clean 'perl -pe "s/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-special">[</span>^<span class="hljs-command">\\</span><span class="hljs-command">\$</span><span class="hljs-special">]</span>*<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/<span class="hljs-command">\\</span><span class="hljs-command">\$</span>Date<span class="hljs-command">\\</span><span class="hljs-command">\$</span>/"'
+<pre><code>$ git config filter.dater.smudge expand_date
+$ git config filter.dater.clean &#39;perl -pe &quot;s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/&quot;&#39;
 </code></pre><p>这个Perl小程序会删除<code>$Date$</code>字符串里多余的字符，恢复<code>$Date$</code>原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入<code>$Date$</code>关键字，然后设置 Git 属性：</p>
-<pre><code>$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'# $Date$'</span> &gt; date_test.txt
-$ <span class="hljs-built_in">echo</span> <span class="hljs-string">'date*.txt filter=dater'</span> &gt;&gt; .gitattributes
+<pre><code>$ echo &#39;# $Date$&#39; &gt; date_test.txt
+$ echo &#39;date*.txt filter=dater&#39; &gt;&gt; .gitattributes
 </code></pre><p>如果暂存该文件，之后再签出，你会发现关键字被替换了：</p>
-<pre><code>$ git <span class="hljs-keyword">add</span> date_test<span class="hljs-preprocessor">.txt</span> <span class="hljs-preprocessor">.gitattributes</span>
-$ git commit -m <span class="hljs-string">"Testing date expansion in Git"</span>
-$ rm date_test<span class="hljs-preprocessor">.txt</span>
-$ git checkout date_test<span class="hljs-preprocessor">.txt</span>
-$ cat date_test<span class="hljs-preprocessor">.txt</span>
-<span class="hljs-preprocessor"># $Date: Tue Apr 21 07:26:52 2009 -0700$</span>
+<pre><code>$ git add date_test.txt .gitattributes
+$ git commit -m &quot;Testing date expansion in Git&quot;
+$ rm date_test.txt
+$ git checkout date_test.txt
+$ cat date_test.txt
+# $Date: Tue Apr 21 07:26:52 2009 -0700$
 </code></pre><p>虽说这项技术对自定义应用来说很有用，但还是要小心，因为<code>.gitattributes</code>文件会随着项目一起提交，而过滤器（例如：<code>dater</code>）不会，所以，过滤器不会在所有地方都生效。当你在设计这些过滤器时要注意，即使它们无法正常工作，也要让整个项目运作下去。</p>
 <h2 id="-">导出仓库</h2>
 <p>Git属性在导出项目归档时也能发挥作用。</p>
 <h3 id="export-ignore">export-ignore</h3>
 <p>当产生一个归档时，可以设置 Git 不导出某些文件和目录。如果你不想在归档中包含一个子目录或文件，但想他们纳入项目的版本管理中，你能对应地设置<code>export-ignore</code>属性。</p>
 <p>例如，在<code>test/</code>子目录中有一些测试文件，在项目的压缩包中包含他们是没有意义的。因此，可以增加下面这行到 Git 属性文件中：</p>
-<pre><code>test/ <span class="hljs-keyword">export</span>-ignore
+<pre><code>test/ export-ignore
 </code></pre><p>现在，当运行git archive来创建项目的压缩包时，那个目录不会在归档中出现。</p>
 <h3 id="export-subst">export-subst</h3>
 <p>还能对归档做一些简单的关键字替换。在第2章中已经可以看到，可以以<code>--pretty=format</code>形式的简码在任何文件中放入<code>$Format:$</code> 字符串。例如，如果想在项目中包含一个叫作<code>LAST_COMMIT</code>的文件，当运行<code>git archive</code>时，最后提交日期自动地注入进该文件，可以这样设置：</p>
-<pre><code><span class="hljs-variable">$ </span>echo <span class="hljs-string">'Last commit date: $Format:%cd$'</span> &gt; <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-variable">$ </span>echo <span class="hljs-string">"LAST_COMMIT export-subst"</span> &gt;&gt; .gitattributes
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">LAST_COMMIT</span> .gitattributes
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'adding LAST_COMMIT file for archives'</span>
+<pre><code>$ echo &#39;Last commit date: $Format:%cd$&#39; &gt; LAST_COMMIT
+$ echo &quot;LAST_COMMIT export-subst&quot; &gt;&gt; .gitattributes
+$ git add LAST_COMMIT .gitattributes
+$ git commit -am &#39;adding LAST_COMMIT file for archives&#39;
 </code></pre><p>运行<code>git archive</code>后，打开该文件，会发现其内容如下：</p>
-<pre><code><span class="hljs-variable">$ </span>cat <span class="hljs-constant">LAST_COMMIT</span>
-<span class="hljs-constant">Last</span> commit <span class="hljs-symbol">date:</span> <span class="hljs-variable">$Format</span><span class="hljs-symbol">:Tue</span> <span class="hljs-constant">Apr</span> <span class="hljs-number">21</span> 08<span class="hljs-symbol">:</span><span class="hljs-number">38</span><span class="hljs-symbol">:</span><span class="hljs-number">48</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0700</span>$
+<pre><code>$ cat LAST_COMMIT
+Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 </code></pre><h2 id="-">合并策略</h2>
 <p>通过 Git 属性，还能对项目中的特定文件使用不同的合并策略。一个非常有用的选项就是，当一些特定文件发生冲突，Git 会尝试合并他们，而使用你这边的合并。</p>
 <p>如果项目的一个分支有歧义或比较特别，但你想从该分支合并，而且需要忽略其中某些文件，这样的合并策略是有用的。例如，你有一个数据库设置文件database.xml，在2个分支中他们是不同的，你想合并一个分支到另一个，而不弄乱该数据库文件，可以设置属性如下：</p>
-<pre><code><span class="hljs-attribute">database.xml merge</span>=<span class="hljs-string">ours</span>
+<pre><code>database.xml merge=ours
 </code></pre><p>如果合并到另一个分支，database.xml文件不会有合并冲突，显示如下：</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> topic
-Auto-merging <span class="hljs-keyword">database</span>.xml
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.</span>
+<pre><code>$ git merge topic
+Auto-merging database.xml
+Merge made by recursive.
 </code></pre><p>这样，database.xml会保持原样。</p>
 
                     
@@ -878,9 +881,9 @@ Auto-merging <span class="hljs-keyword">database</span>.xml
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

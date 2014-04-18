@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.4" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.4" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,22 +857,22 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_1008">
+                    <section class="normal" id="section-gitbook_937">
                     
                         <h1 id="einrichten-des-servers">Einrichten des Servers</h1>
 <!--Let’s walk through setting up SSH access on the server side. In this example, you’ll use the `authorized_keys` method for authenticating your users. We also assume you’re running a standard Linux distribution like Ubuntu. First, you create a 'git' user and a `.ssh` directory for that user.-->
 
 <p>Nun kommen wir zur Einrichtung des SSH-Zugangs auf der Server-Seite. In diesem Beispiel verwendest Du die <code>authorized_keys</code>-Methode zur Authentifizierung der Benutzer. Wir nehmen auch an, dass Du eine gebräuchliche Linux-Distribution wie Ubuntu verwendest. Zuerst erstellst Du den Benutzer ‚git‘ und ein <code>.ssh</code>-Verzeichnis für diesen Benutzer.</p>
-<pre><code><span class="hljs-variable">$ </span>sudo adduser git
-<span class="hljs-variable">$ </span>su git
-<span class="hljs-variable">$ </span>cd
-<span class="hljs-variable">$ </span>mkdir .ssh
+<pre><code>$ sudo adduser git
+$ su git
+$ cd
+$ mkdir .ssh
 </code></pre><!--Next, you need to add some developer SSH public keys to the `authorized_keys` file for that user. Let’s assume you’ve received a few keys by e-mail and saved them to temporary files. Again, the public keys look something like this:-->
 
 <p>Als nächstes ist es nötig, einige öffentliche SSH-Schlüssel der Entwickler zu der <code>authorized_keys</code>-Datei des Benutzers hinzuzufügen. Nehmen wir an, dass Du ein paar Schlüssel per E-Mail empfangen hast und diese in temporären Dateien gespeichert hast. Die öffentlichen Schlüssel sehen wieder etwa wie folgt aus:</p>
-<pre><code>$ cat /tmp/id_rsa<span class="hljs-preprocessor">.john</span><span class="hljs-preprocessor">.pub</span>
+<pre><code>$ cat /tmp/id_rsa.john.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
-ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/<span class="hljs-number">5</span>zytK6Ztg3RPKK+<span class="hljs-number">4</span>k
+ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4k
 Yjh6541NYsnEAZuXz0jTTyAUfrtU3Z5E003C4oxOj6H0rfIF1kKI9MAQLMdpGW1GYEIgS9Ez
 Sdfd8AcCIicTDWbqLAcU4UpkaX8KyGlLwsNuuGztobF8m72ALC/nLF6JLtPofwFBlgc+myiv
 O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
@@ -877,55 +880,55 @@ dAv8JggJICUvax2T9va5 gsg-keypair
 </code></pre><!--You just append them to your `authorized_keys` file:-->
 
 <p>Du hängst sie einfach an Deine <code>authorized_keys</code>-Datei an:</p>
-<pre><code>$ cat /tmp/id_rsa<span class="hljs-preprocessor">.john</span><span class="hljs-preprocessor">.pub</span> &gt;&gt; ~/<span class="hljs-preprocessor">.ssh</span>/authorized_keys
-$ cat /tmp/id_rsa<span class="hljs-preprocessor">.josie</span><span class="hljs-preprocessor">.pub</span> &gt;&gt; ~/<span class="hljs-preprocessor">.ssh</span>/authorized_keys
-$ cat /tmp/id_rsa<span class="hljs-preprocessor">.jessica</span><span class="hljs-preprocessor">.pub</span> &gt;&gt; ~/<span class="hljs-preprocessor">.ssh</span>/authorized_keys
+<pre><code>$ cat /tmp/id_rsa.john.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
 </code></pre><!--Now, you can set up an empty repository for them by running `git init` with the `-\-bare` option, which initializes the repository without a working directory:-->
 
 <p>Jetzt kannst Du einen leeren Ordner für sie anlegen, indem Du den Befehl <code>git init</code> mit der Option <code>--bare</code> ausführst. Damit wird ein Repository ohne ein Arbeitsverzeichnis erzeugt.</p>
-<pre><code><span class="hljs-variable">$ </span>cd /opt/git
-<span class="hljs-variable">$ </span>mkdir project.git
-<span class="hljs-variable">$ </span>cd project.git
-<span class="hljs-variable">$ </span>git --bare init
+<pre><code>$ cd /opt/git
+$ mkdir project.git
+$ cd project.git
+$ git --bare init
 </code></pre><!--Then, John, Josie, or Jessica can push the first version of their project into that repository by adding it as a remote and pushing up a branch. Note that someone must shell onto the machine and create a bare repository every time you want to add a project. Let’s use `gitserver` as the hostname of the server on which you’ve set up your 'git' user and repository. If you’re running it internally, and you set up DNS for `gitserver` to point to that server, then you can use the commands pretty much as is:-->
 
 <p>Dann können John, Josie oder Jessica die erste Version ihres Projektes in das Repository hochladen, indem sie es als externes Repository hinzufügen und einen Branch hochladen. Beachte, dass sich bei jeder Projekterstellung jemand mit der Maschine auf eine Shell verbinden muss, um ein einfaches Repository zu erzeugen. Lass uns <code>gitserver</code> als Hostnamen des Servers verwenden, auf dem Du den Benutzer ‚git‘ und das Repository eingerichtet hast. Wenn Du den Server intern betreibst und das DNS so eingerichtet hast, dass <code>gitserver</code> auf den Server zeigt, dann kannst Du die Befehle ziemlich wie hier benutzen:</p>
-<pre><code><span class="hljs-comment"># on Johns computer</span>
-<span class="hljs-variable">$ </span>cd myproject
-<span class="hljs-variable">$ </span>git init
-<span class="hljs-variable">$ </span>git add .
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
-<span class="hljs-variable">$ </span>git remote add origin git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:/opt/git/project</span>.git
-<span class="hljs-variable">$ </span>git push origin master
+<pre><code># on Johns computer
+$ cd myproject
+$ git init
+$ git add .
+$ git commit -m &#39;initial commit&#39;
+$ git remote add origin git@gitserver:/opt/git/project.git
+$ git push origin master
 </code></pre><!--At this point, the others can clone it down and push changes back up just as easily:-->
 
 <p>An diesem Punkt können die anderen das Repository klonen und Änderungen ebenso leicht hochladen:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone git<span class="hljs-variable">@gitserver</span><span class="hljs-symbol">:/opt/git/project</span>.git
-<span class="hljs-variable">$ </span>cd project
-<span class="hljs-variable">$ </span>vim <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git commit -am <span class="hljs-string">'fix for the README file'</span>
-<span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git clone git@gitserver:/opt/git/project.git
+$ cd project
+$ vim README
+$ git commit -am &#39;fix for the README file&#39;
+$ git push origin master
 </code></pre><!--With this method, you can quickly get a read/write Git server up and running for a handful of developers.-->
 
 <p>Mit dieser Methode kannst Du schnell für eine Handvoll Entwickler einen Lese/Schreib Git-Server zum Laufen bekommen.</p>
 <!--As an extra precaution, you can easily restrict the 'git' user to only doing Git activities with a limited shell tool called `git-shell` that comes with Git. If you set this as your 'git' user’s login shell, then the 'git' user can’t have normal shell access to your server. To use this, specify `git-shell` instead of bash or csh for your user’s login shell. To do so, you’ll likely have to edit your `/etc/passwd` file:-->
 
 <p>Als zusätzliche Vorsichtsmaßnahme kannst Du den Benutzer ‚git‘ so beschränken, dass er nur Git-Aktivitäten mit einem limitierten Shell-Tool namens <code>git-shell</code> ausführen kann, dass mit Git kommt. Wenn Du das als Login-Shell des ‚git‘-Benutzers einrichtest, dann hat der Benutzer ‚git‘ keinen normalen Shell-Zugriff auf den Server. Zur Benutzung bestimme <code>git-shell</code> anstatt von bash oder csh als Login-Shell Deines Benutzers. Um das zu tun wirst Du wahrscheinlich Deine <code>/etc/passwd</code> editieren:</p>
-<pre><code>$ <span class="hljs-built_in">sudo</span> vim /etc/passwd
+<pre><code>$ sudo vim /etc/passwd
 </code></pre><!--At the bottom, you should find a line that looks something like this:-->
 
 <p>Am Ende solltest Du eine Zeile finden, die in etwa so aussieht:</p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/bin/sh</span>
+<pre><code>git:x:1000:1000::/home/git:/bin/sh
 </code></pre><!--Change `/bin/sh` to `/usr/bin/git-shell` (or run `which git-shell` to see where it’s installed). The line should look something like this:-->
 
 <p>Ändere <code>/bin/sh</code> zu <code>/usr/bin/git-shell</code> (oder führe <code>which git-shell</code> aus, um zu sehen, wo es installiert ist). Die Zeile sollte in etwa so aussehen:</p>
-<pre><code><span class="hljs-symbol">git:</span><span class="hljs-symbol">x:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-number">1000</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:/home/git</span><span class="hljs-symbol">:/usr/bin/git-shell</span>
+<pre><code>git:x:1000:1000::/home/git:/usr/bin/git-shell
 </code></pre><!--Now, the 'git' user can only use the SSH connection to push and pull Git repositories and can’t shell onto the machine. If you try, you’ll see a login rejection like this:-->
 
 <p>Jetzt kann der ‚git‘-Benutzer die SSH-Verbindung nur noch verwenden, um Git-Repositories hochzuladen und herunterzuladen. Der Benutzer kann sich nicht mehr per Shell zur Maschine verbinden. Wenn Du es versuchst, siehst Du eine Login-Ablehnung wie diese:</p>
-<pre><code><span class="hljs-variable">$ </span>ssh git<span class="hljs-variable">@gitserver</span>
-<span class="hljs-symbol">fatal:</span> <span class="hljs-constant">What</span> <span class="hljs-keyword">do</span> you think <span class="hljs-constant">I</span> am? <span class="hljs-constant">A</span> shell?
-<span class="hljs-constant">Connection</span> to gitserver closed.
+<pre><code>$ ssh git@gitserver
+fatal: What do you think I am? A shell?
+Connection to gitserver closed.
 </code></pre><!--# Public Access-->
                     
                     </section>
@@ -944,9 +947,9 @@ $ cat /tmp/id_rsa<span class="hljs-preprocessor">.jessica</span><span class="hlj
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

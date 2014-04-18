@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.5" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.5" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_637">
+                    <section class="normal" id="section-gitbook_850">
                     
                         <h1 id="travailler-avec-des-d-p-ts-distants">Travailler avec des dépôts distants</h1>
 <p>Pour pouvoir collaborer sur un projet Git, il est nécessaire de savoir comment gérer les dépôts distants.
@@ -857,29 +860,29 @@ Dans cette section, nous traiterons des commandes de gestion distante.</p>
 <p>Pour visualiser les serveurs distants que vous avez enregistrés, vous pouvez lancer la commande <code>git remote</code>.
 Elle liste les noms des différentes références distantes que vous avez spécifiées.
 Si vous avez cloné un dépôt, vous devriez au moins voir l&#39;origine <code>origin</code> — c&#39;est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :</p>
-<pre><code>$ git clone git:<span class="hljs-comment">//github.com/schacon/ticgit.git</span>
-Initialized empty Git repository <span class="hljs-keyword">in</span> /<span class="hljs-keyword">private</span>/tmp/ticgit/.git/
-remote: Counting objects: <span class="hljs-number">595</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">269</span>/<span class="hljs-number">269</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">595</span> (delta <span class="hljs-number">255</span>), reused <span class="hljs-number">589</span> (delta <span class="hljs-number">253</span>)
-Receiving objects: <span class="hljs-number">100</span>% (<span class="hljs-number">595</span>/<span class="hljs-number">595</span>), <span class="hljs-number">73.31</span> KiB | <span class="hljs-number">1</span> KiB/s, <span class="hljs-keyword">done</span>.
-Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">255</span>/<span class="hljs-number">255</span>), <span class="hljs-keyword">done</span>.
+<pre><code>$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
 $ cd ticgit
 $ git remote
 origin
 </code></pre><p>Vous pouvez aussi spécifier <code>-v</code>, qui vous montre l&#39;URL que Git a stockée pour chaque nom court :</p>
 <pre><code>$ git remote -v
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (fetch)
-origin  git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span> (<span class="hljs-keyword">push</span>)
+origin  git://github.com/schacon/ticgit.git (fetch)
+origin  git://github.com/schacon/ticgit.git (push)
 </code></pre><p>Si vous avez plus d&#39;un dépôt distant, la commande précédente les liste tous.
 Par exemple, mon dépôt Grit ressemble à ceci.</p>
 <pre><code>$ cd grit
 $ git remote -v
-bakkdoor  git://github<span class="hljs-preprocessor">.com</span>/bakkdoor/grit<span class="hljs-preprocessor">.git</span>
-cho45     git://github<span class="hljs-preprocessor">.com</span>/cho45/grit<span class="hljs-preprocessor">.git</span>
-defunkt   git://github<span class="hljs-preprocessor">.com</span>/defunkt/grit<span class="hljs-preprocessor">.git</span>
-koke      git://github<span class="hljs-preprocessor">.com</span>/koke/grit<span class="hljs-preprocessor">.git</span>
-origin    git@github<span class="hljs-preprocessor">.com</span>:mojombo/grit<span class="hljs-preprocessor">.git</span>
+bakkdoor  git://github.com/bakkdoor/grit.git
+cho45     git://github.com/cho45/grit.git
+defunkt   git://github.com/defunkt/grit.git
+koke      git://github.com/koke/grit.git
+origin    git@github.com:mojombo/grit.git
 </code></pre><p>Cela signifie que nous pouvons tirer très facilement des contributions depuis certains utilisateurs.
 Mais il est à noter que seul le dépôt distant <code>origin</code> utilise une URL SSH, ce qui signifie que c&#39;est le seul sur lequel je peux pousser (nous traiterons de ceci au chapitre 4).</p>
 <h2 id="ajouter-des-d-p-ts-distants">Ajouter des dépôts distants</h2>
@@ -887,24 +890,24 @@ Mais il est à noter que seul le dépôt distant <code>origin</code> utilise une
 Pour ajouter un nouveau dépôt distant Git comme nom court auquel il est facile de faire référence, lancez <code>git remote add [nomcourt] [url]</code> :</p>
 <pre><code>$ git remote
 origin
-$ git remote <span class="hljs-keyword">add</span> pb git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+$ git remote add pb git://github.com/paulboone/ticgit.git
 $ git remote -v
-origin    git://github<span class="hljs-preprocessor">.com</span>/schacon/ticgit<span class="hljs-preprocessor">.git</span>
-pb    git://github<span class="hljs-preprocessor">.com</span>/paulboone/ticgit<span class="hljs-preprocessor">.git</span>
+origin    git://github.com/schacon/ticgit.git
+pb    git://github.com/paulboone/ticgit.git
 </code></pre><p>Maintenant, vous pouvez utiliser le mot-clé <code>pb</code> sur la ligne de commande au lieu de l&#39;URL complète.
 Par exemple, si vous voulez récupérer toute l&#39;information que Paul a mais que vous ne souhaitez pas l&#39;avoir encore dans votre branche, vous pouvez lancer <code>git fetch pb</code> :</p>
 <pre><code>$ git fetch pb
-remote: Counting objects: <span class="hljs-number">58</span>, <span class="hljs-keyword">done</span>.
-remote: Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">41</span>/<span class="hljs-number">41</span>), <span class="hljs-keyword">done</span>.
-remote: Total <span class="hljs-number">44</span> (delta <span class="hljs-number">24</span>), reused <span class="hljs-number">1</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-keyword">done</span>.
-From git:<span class="hljs-comment">//github.com/paulboone/ticgit</span>
- * [<span class="hljs-keyword">new</span> branch]      master     -&gt; pb/master
- * [<span class="hljs-keyword">new</span> branch]      ticgit     -&gt; pb/ticgit
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit
 </code></pre><p>La branche <code>master</code> de Paul est accessible localement en tant que <code>pb/master</code> — vous pouvez la fusionner dans une de vos propres branches, ou vous pouvez extraire une branche localement si vous souhaitez l&#39;inspecter.</p>
 <h2 id="r-cup-rer-et-tirer-depuis-des-d-p-ts-distants">Récupérer et tirer depuis des dépôts distants</h2>
 <p>Comme vous venez tout juste de le voir, pour obtenir les données des dépôts distants, vous pouvez lancer :</p>
-<pre><code><span class="hljs-variable">$ </span>git fetch [nom-distant]
+<pre><code>$ git fetch [nom-distant]
 </code></pre><p>Cette commande s&#39;adresse au dépôt distant et récupère toutes les données de ce projet que vous ne possédez pas déjà.
 Après cette action, vous possédez toutes les références à toutes les branches contenues dans ce dépôt, que vous pouvez fusionner ou inspecter à tout moment (nous reviendrons plus précisément sur les branches et leur utilisation au chapitre 3).</p>
 <p>Si vous clonez un dépôt, le dépôt distant est automatiquement ajouté sous le nom <code>origin</code>.
@@ -919,7 +922,7 @@ Lancer <code>git pull</code> récupère généralement les données depuis le se
 <p>Lorsque votre dépôt vous semble prêt à être partagé, il faut le pousser en amont.
 La commande pour le faire est simple : <code>git push [nom-distant] [nom-de-branche]</code>.
 Si vous souhaitez pousser votre branche <code>master</code> vers le serveur <code>origin</code> (pour rappel, cloner un dépôt définit automatiquement ces noms pour vous), alors vous pouvez lancez ceci pour pousser votre travail vers le serveur amont :</p>
-<pre><code><span class="hljs-variable">$ </span>git push origin master
+<pre><code>$ git push origin master
 </code></pre><p>Cette commande ne fonctionne que si vous avez cloné depuis un serveur sur lequel vous avez des droits d&#39;accès en écriture et si personne n&#39;a poussé dans l&#39;intervalle.
 Si vous et quelqu&#39;un d&#39;autre clonez un dépôt au même moment et que cette autre personne pousse ses modifications et qu&#39;après vous tentez de pousser les vôtres, votre poussée sera rejetée à juste titre.
 Vous devrez tout d&#39;abord tirer les modifications de l&#39;autre personne et les fusionner avec les vôtres avant de pouvoir pousser.
@@ -929,8 +932,8 @@ Référez-vous au chapitre 3 pour de plus amples informations sur les techniques
 Si vous lancez cette commande avec un nom court particulier, tel que <code>origin</code>, vous obtenez quelque chose comme :</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git://github.com/schacon/ticgit.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  URL: git://github.com/schacon/ticgit.git
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
   Tracked remote branches
     master
@@ -942,14 +945,14 @@ Cela donne aussi la liste des autres références qu&#39;il aura tirées.</p>
 Lors d&#39;une utilisation plus intense de Git, la commande <code>git remote show</code> fournira beaucoup d&#39;information :</p>
 <pre><code>$ git remote show origin
 * remote origin
-  <span class="hljs-built_in">URL</span>: git@github.com:defunkt/github.git
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">issues</span></span>
+  URL: git@github.com:defunkt/github.git
+  Remote branch merged with &#39;git pull&#39; while on branch issues
     issues
-  Remote branch merged <span class="hljs-operator">with</span> <span class="hljs-string">'git pull'</span> <span class="hljs-keyword">while</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">branch</span> <span class="hljs-title">master</span></span>
+  Remote branch merged with &#39;git pull&#39; while on branch master
     master
-  New remote branches (next fetch will store <span class="hljs-operator">in</span> remotes/origin)
+  New remote branches (next fetch will store in remotes/origin)
     caching
-  Stale tracking branches (use <span class="hljs-string">'git remote prune'</span>)
+  Stale tracking branches (use &#39;git remote prune&#39;)
     libwalker
     walker2
   Tracked remote branches
@@ -959,22 +962,22 @@ Lors d&#39;une utilisation plus intense de Git, la commande <code>git remote sho
     issues
     master
     postgres
-  Local branch pushed <span class="hljs-operator">with</span> <span class="hljs-string">'git push'</span>
+  Local branch pushed with &#39;git push&#39;
     master:master
 </code></pre><p>Cette commande affiche les branches poussées automatiquement lorsqu&#39;on lance <code>git push</code> dessus.
 Elle montre aussi les branches distantes qui n&#39;ont pas encore été rapatriées, les branches distantes présentes localement mais effacées sur le serveur, et toutes les branches qui seront fusionnées quand on lancera <code>git pull</code>.</p>
 <h2 id="retirer-et-d-placer-des-branches-distantes">Retirer et déplacer des branches distantes</h2>
 <p>Si vous souhaitez renommer une référence, dans les versions récentes de Git, vous pouvez lancer <code>git remote rename</code> pour modifier le nom court d&#39;un dépôt distant.
 Par exemple, si vous souhaitez renommer <code>pb</code> en <code>paul</code>, vous pouvez le faire avec <code>git remote rename</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rename pb paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rename pb paul
+$ git remote
 origin
 paul
 </code></pre><p>Il faut mentionner que ceci modifie aussi les noms de branches distantes.
 Celle qui était référencée sous <code>pb/master</code> l&#39;est maintenant sous <code>paul/master</code>.</p>
 <p>Si vous souhaitez retirer une référence pour certaines raisons — vous avez changé de serveur ou vous n&#39;utilisez plus ce serveur particulier, ou peut-être un contributeur a cessé de contribuer — vous pouvez utiliser <code>git remote rm</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git remote rm paul
-<span class="hljs-variable">$ </span>git remote
+<pre><code>$ git remote rm paul
+$ git remote
 origin
 </code></pre>
                     
@@ -994,9 +997,9 @@ origin
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

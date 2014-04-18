@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397503783438">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.5" data-basepath=".." data-revision="1397847907678">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -851,33 +854,33 @@
 <p>Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that <code>post-update</code> hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the <code>/opt/git</code> directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.</p>
 <p>First you need to enable the hook:</p>
 <pre><code>$ cd project.git
-$ mv hooks/<span class="hljs-built_in">post</span>-update.sample hooks/<span class="hljs-built_in">post</span>-update
-$ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in">post</span>-update
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update
 </code></pre><p>What does this <code>post-update</code> hook do? It looks basically like this:</p>
 <pre><code>$ cat .git/hooks/post-update
-<span class="hljs-shebang">#!/bin/sh</span>
-<span class="hljs-comment">#</span>
-<span class="hljs-comment"># An example hook script to prepare a packed repository for use over</span>
-<span class="hljs-comment"># dumb transports.</span>
-<span class="hljs-comment">#</span>
-<span class="hljs-comment"># To enable this hook, rename this file to "post-update".</span>
-<span class="hljs-comment">#</span>
+#!/bin/sh
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to &quot;post-update&quot;.
+#
 
-<span class="hljs-keyword">exec</span> git-update-server-info
+exec git-update-server-info
 </code></pre><p>This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.</p>
 <p>Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send <code>*.gitserver</code> to whatever box you’re using to run all this:</p>
-<pre><code><span class="hljs-tag">&lt;VirtualHost *:80&gt;</span>
-    <span class="hljs-keyword"><span class="hljs-common">ServerName</span></span> git.gitserver
-    <span class="hljs-keyword"><span class="hljs-common">DocumentRoot</span></span> /opt/git
-    <span class="hljs-tag">&lt;Directory /opt/git/&gt;</span>
-        <span class="hljs-keyword"><span class="hljs-common">Order</span></span> allow, deny
-        <span class="hljs-keyword"><span class="hljs-common">allow</span></span> from <span class="hljs-literal">all</span>
-    <span class="hljs-tag">&lt;/Directory&gt;</span>
-<span class="hljs-tag">&lt;/VirtualHost&gt;</span>
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName git.gitserver
+    DocumentRoot /opt/git
+    &lt;Directory /opt/git/&gt;
+        Order allow, deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
 </code></pre><p>You’ll also need to set the Unix user group of the <code>/opt/git</code> directories to <code>www-data</code> so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:</p>
-<pre><code>$ chgrp -<span class="hljs-type">R</span> www-<span class="hljs-typedef"><span class="hljs-keyword">data</span> /opt/git</span>
+<pre><code>$ chgrp -R www-data /opt/git
 </code></pre><p>When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/git.gitserver/project</span>.git
+<pre><code>$ git clone http://git.gitserver/project.git
 </code></pre><p>This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.</p>
 
                     
@@ -897,9 +900,9 @@ $ chmod <span class="hljs-operator">a</span>+x hooks/<span class="hljs-built_in"
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

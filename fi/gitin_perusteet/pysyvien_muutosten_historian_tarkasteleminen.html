@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.3" data-basepath=".." data-revision="1397503664232">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.3" data-basepath=".." data-revision="1397847843645">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -284,26 +287,26 @@
                         <h1 id="pysyvien-muutosten-historian-tarkasteleminen">Pysyvien muutosten historian tarkasteleminen</h1>
 <p>Kun olet luonut useita pysyviä muutoksia tai kloonannut tietovaraston, jonka historiassa on pysyviä muutoksia, haluat todennäköisesti katsoa taaksepäin nähdäksesi, mitä on tapahtunut. Yksinkertaisin ja tehokkain työkalu tähän on <code>git log</code> -komento.</p>
 <p>Nämä esimerkit käyttävät erittäin yksinkertaista projektia nimeltä <code>simplegit</code>, jota käytän useasti havainnollistamisessa. Saadaksesi projektin, aja</p>
-<pre><code>git <span class="hljs-keyword">clone</span> git:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
+<pre><code>git clone git://github.com/schacon/simplegit-progit.git
 </code></pre><p>Kun ajat <code>git log</code> tässä projektissa, sinun tulisi saada vastaavanlainen tuloste:</p>
 <pre><code>$ git log
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> ca82a6dff817ec66f44342007202690a93763949
+commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed the version <span class="hljs-keyword">number</span>
+    changed the version number
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
-<span class="hljs-keyword">commit</span> a11bef06a3f659402fe7563abf99ad00de2209e6
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
-    <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+    first commit
 </code></pre><p>Oletuksena, ilman argumentteja, <code>git log</code> listaa tietovarastoon tehdyt pysyvät muutokset käänteisessä aikajärjestyksessä. Se tarkoittaa, että uusin pysyvä muutos tulee ensimmäiseksi. Kuten voit nähdä, tämä komento listaa kustakin pysyvästä muutoksesta sen SHA-1-tarkisteen,  tekijän nimen ja sähköpostin, luontipäiväyksen sekä viestin.</p>
 <p><code>Git log</code> -komennolle on saatavilla valtava määrä ja lajitelma optioita näyttääkseen sinulle tarkalleen etsimäsi. Näytämme tässä sinulle joitakin käytetyimpiä optioita.</p>
 <p>Yksi hyödyllisimmistä optioista on <code>-p</code>, joka näyttää kunkin pysyvän muutoksen eroavaisuuden. Voit myös käyttää <code>-2</code>, joka rajaa tulosteen ainoastaan kahteen viimeisimpään kirjaukseen:</p>
@@ -316,15 +319,15 @@ Date:   Mon Mar 17 21:52:11 2008 -0700
 
 diff --git a/Rakefile b/Rakefile
 index a874b73..8f94139 100644
--<span class="ruby">-- a/<span class="hljs-constant">Rakefile</span>
-</span>+++ b/Rakefile
-@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,5 +5,5 @@ require &#39;rake/gempackagetask&#39;
  spec = Gem::Specification.new do |s|
-     s.name      =   "simplegit"
--<span class="ruby">    s.version   =   <span class="hljs-string">"0.1.0"</span>
-</span>+    s.version   =   "0.1.1"
-     s.author    =   "Scott Chacon"
-     s.email     =   "schacon@gee-mail.com
+     s.name      =   &quot;simplegit&quot;
+-    s.version   =   &quot;0.1.0&quot;
++    s.version   =   &quot;0.1.1&quot;
+     s.author    =   &quot;Scott Chacon&quot;
+     s.email     =   &quot;schacon@gee-mail.com
 
 commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
@@ -334,77 +337,77 @@ Date:   Sat Mar 15 16:40:33 2008 -0700
 
 diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 index a0a60ae..47c6340 100644
--<span class="ruby">-- a/lib/simplegit.rb
-</span>+++ b/lib/simplegit.rb
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
 @@ -18,8 +18,3 @@ class SimpleGit
      end
 
  end
--<span class="ruby">
-</span>-<span class="ruby"><span class="hljs-keyword">if</span> <span class="hljs-variable">$0</span> == __FILE_<span class="hljs-number">_</span>
-</span>-<span class="ruby">  git = <span class="hljs-constant">SimpleGit</span>.new
-</span>-<span class="ruby">  puts git.show
-</span>-<span class="ruby"><span class="hljs-keyword">end</span>
-</span>\ No newline at end of file
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end
+\ No newline at end of file
 </code></pre><p>Tämä optio näyttää saman informaation, mutta jokaista kirjausta seuraavalla eroavaisuudella. Tämä on erittäin hyödyllinen koodin katselmoinnissa tai nopeasti tarkistettaessa, mitä tapahtui pysyvien muutosten sarjassa, jonka työtoveri on lisännyt.</p>
 <p>Joskus on helpompaa katselmoida muutoksia sanatasolla kuin rivitasolla. Gitissä on saatavilla <code>--word-diff</code>-optio, jonka voit lisätä <code>git log -p</code> -komentoon saadaksesi sanatason eroavaisuuden normaalin rivitasoisen eroavaisuuden sijaan. Sanatason eroavaisuuden formaatti on melko hyödytön käytettäessä sitä lähdekoodiin, mutta siitä tulee kätevä käytettäessä sitä isoihin tekstitiedostoihin, kuten kirjoihin tai väitöskirjaasi. Tässä on esimerkki:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> -U1 <span class="hljs-comment">--word-diff</span>
+<pre><code>$ git log -U1 --word-diff
 commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+    changed the version number
 
-diff <span class="hljs-comment">--git a/Rakefile b/Rakefile</span>
-index a874b73.<span class="hljs-number">.8</span>f94139 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/Rakefile</span>
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
 +++ b/Rakefile
-@@ -<span class="hljs-number">7</span>,<span class="hljs-number">3</span> +<span class="hljs-number">7</span>,<span class="hljs-number">3</span> @@ spec = Gem::Specification.<span class="hljs-built_in">new</span> <span class="hljs-built_in">do</span> |s|
-    s.name      =   <span class="hljs-string">"simplegit"</span>
-    s.<span class="hljs-built_in">version</span>   =   [-<span class="hljs-string">"0.1.0"</span>-]{+<span class="hljs-string">"0.1.1"</span>+}
-    s.author    =   <span class="hljs-string">"Scott Chacon"</span>
+@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+    s.name      =   &quot;simplegit&quot;
+    s.version   =   [-&quot;0.1.0&quot;-]{+&quot;0.1.1&quot;+}
+    s.author    =   &quot;Scott Chacon&quot;
 </code></pre><p>Kuten voit nähdä, tässä tulosteessa ei ole lisättyjä ja poistettuja rivejä, kuten normaalissa eroavaisuudessa. Muutokset esitetään sen sijaan rivin sisällä. Voit nähdä lisätyn sanan ympäröitynä <code>{+ +}</code> -merkeillä ja poistetun ympäröitynä <code>[- -]</code> -merkeillä. Voit myös haluta vähentää tavallisen kolmen rivin kontekstin eroavaisuustulosteessa vain yhden rivin kontekstiksi, koska asiayhteys on nyt sanatasolla ei rivitasolla. Voit tehdä tämän <code>-U1</code>-optiolla, kuten teimme esimerkissä yläpuolella.</p>
 <p>Voit myös käyttää yhteenveto-optioiden sarjaa <code>git log</code>in kanssa. Esimerkiksi, jos haluat nähdä hieman lyhennettyjä tilastoja kustakin pysyvästä muutoksesta, voit käyttää <code>--stat</code>-optiota:</p>
 <pre><code>$ git log --stat
 commit ca82a6dff817ec66f44342007202690a93763949
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
     changed the version number
 
- Rakefile |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ Rakefile |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-commit <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |    <span class="hljs-number">5</span> -----
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">5</span> deletions(-)
+ lib/simplegit.rb |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
 commit a11bef06a3f659402fe7563abf99ad00de2209e6
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
     first commit
 
- README           |    <span class="hljs-number">6</span> ++++++
- Rakefile         |   <span class="hljs-number">23</span> +++++++++++++++++++++++
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |   <span class="hljs-number">25</span> +++++++++++++++++++++++++
- <span class="hljs-number">3</span> files changed, <span class="hljs-number">54</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ README           |    6 ++++++
+ Rakefile         |   23 +++++++++++++++++++++++
+ lib/simplegit.rb |   25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+), 0 deletions(-)
 </code></pre><p>Kuten voit nähdä, <code>--stat</code>-optio tulostaa kunkin pysyvän muutoksen alapuolelle listan muokatuista tiedostoista, kuinka montaa tiedostoa muutettiin ja kuinka monta riviä lisättiin ja poistettiin näissä tiedostoissa. Se esittää myös lopuksi yhteenvedon tiedoista.
 Toinen todella hyödyllinen optio on <code>--pretty</code>. Tämä optio muuttaa lokitulosteen oletuksesta poikkeaviin muotoihin. Saatavilla on muutama esikäännetty optio käytettäväksesi. <code>Oneline</code>-optio tulostaa kunkin pysyvän muutoksen yhdelle riville,  mikä on hyödyllistä, jos katselet monia pysyviä muutoksia. Lisäksi <code>short</code>-, <code>full</code>- ja <code>fuller</code>-optiot näyttävät tulosteen karkeasti ottaen alkuperäisessä muodossa, mutta vastaavasti vähemmillä tai enemmillä tiedoilla:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=oneline</span>
-ca82a6dff817ec66f44342007202690a93763949 changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
-<span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
-a11bef06a3f659402fe7563abf99ad00de2209e6 <span class="hljs-keyword">first</span> commit
+<pre><code>$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 changed the version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
+a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 </code></pre><p>Kiinnostavin optio on <code>format</code>, joka antaa sinun määritellä oman formaatin lokitulosteelle. Tämä on hyödyllinen varsinkin, kun  luot tulostetta koneellista parsimista varten — koska sinä määrittelet formaatin eksplisiittisesti, tiedät, ettei se muutu Gitin päivitysten myötä:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%an</span>, <span class="hljs-variable">%ar</span> : <span class="hljs-variable">%s</span>"</span>
-ca82a6d - Scott Chacon, <span class="hljs-number">11</span> months ago : changed the version number
-085bb3b - Scott Chacon, <span class="hljs-number">11</span> months ago : removed unnecessary test code
-a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-number">11</span> months ago : first commit
+<pre><code>$ git log --pretty=format:&quot;%h - %an, %ar : %s&quot;
+ca82a6d - Scott Chacon, 11 months ago : changed the version number
+085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
+a11bef0 - Scott Chacon, 11 months ago : first commit
 </code></pre><p>Taulukko 2-1 listaa joitakin hyödyllisempiä optioita, joita format hyväksyy.</p>
 <table>
 <thead>
@@ -478,17 +481,17 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 </table>
 <p>Saatat ihmetellä, mitä eroa on <em>tekijällä</em> ja <em>hyväksyjällä</em>. <em>Tekijä</em> on henkilö, joka alunperin kirjoitti muutoksen, kun taas <em>hyväksyjä</em> on henkilö, joka lopulta otti muutoksen käyttöön. Joten, jos sinä lähetät muutoksen projektiin ja joku ydinjäsenistä ottaa muutoksen käyttöön, te saatte molemmat kunniaa — sinä tekijänä ja ydinjäsen hyväksyjänä. Käsittelemme tätä eroa enemmän <em>Luvussa 5</em>.</p>
 <p><code>Oneline</code>- ja <code>format</code>-optiot ovat  erityisen hyödyllisiä yhdessä toisen <code>--graph</code>-nimisen <code>log</code>-komennon option kanssa. Tämä optio lisää kivan pienen ASCII-kaavion esittämään haarasi ja yhdistämisten historiaa, jonka voimme nähdä Grit-projektin tietovaraston kopiossamme:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=format:"%h %s" --graph</span>
-* <span class="hljs-number">2</span>d3acf9 ignore errors <span class="hljs-built_in">from</span> SIGCHLD <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">trap</span></span>
-*  <span class="hljs-number">5e3</span>ee11 Merge branch <span class="hljs-string">'master'</span> <span class="hljs-operator">of</span> git://github.com/dustin/grit
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; --graph
+* 2d3acf9 ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch &#39;master&#39; of git://github.com/dustin/grit
 |\
-| * <span class="hljs-number">420</span>eac9 Added <span class="hljs-operator">a</span> method <span class="hljs-keyword">for</span> getting <span class="hljs-operator">the</span> current branch.
-* | <span class="hljs-number">30e367</span>c timeout code <span class="hljs-operator">and</span> tests
-* | <span class="hljs-number">5</span>a09431 <span class="hljs-built_in">add</span> timeout protection <span class="hljs-built_in">to</span> grit
-* | e1193f8 support <span class="hljs-keyword">for</span> heads <span class="hljs-operator">with</span> slashes <span class="hljs-operator">in</span> them
+| * 420eac9 Added a method for getting the current branch.
+* | 30e367c timeout code and tests
+* | 5a09431 add timeout protection to grit
+* | e1193f8 support for heads with slashes in them
 |/
-* d6016bc <span class="hljs-built_in">require</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">for</span> xmlschema
-*  <span class="hljs-number">11</span>d191e Merge branch <span class="hljs-string">'defunkt'</span> <span class="hljs-keyword">into</span> <span class="hljs-built_in">local</span>
+* d6016bc require time for xmlschema
+*  11d191e Merge branch &#39;defunkt&#39; into local
 </code></pre><p>Ne ovat vain joitakin yksinkertaisia tulosteenmuotoiluoptioita <code>git log</code>ille — monia muitakin on olemassa. Taulukko 2-2 listaa optiot, jotka olemme käsitelleet tähän mennessä sekä joitakin muita yleisiä muotoiluoptioita, jotka voivat olla hyödyllisiä, yhdessä sen kanssa, miten ne muuttavat <code>log</code>-komennon tulostetta.</p>
 <table>
 <thead>
@@ -547,7 +550,7 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 <h2 id="tulosteen-rajaaminen">Tulosteen rajaaminen</h2>
 <p>Lisäyksenä tulosteen muotoiluoptioihin, <code>git log</code> hyväksyy useita hyödyllisiä rajaamisoptioita — optioita, jotka antavat sinun näyttää vain osajoukon pysyvistä muutoksista. Olet nähnyt yhden sellaisen option ennestään — <code>-2</code>-option, joka näyttää vain kaksi viimeisintä pysyvää muutosta. Itse asiassa, voit käyttää <code>-&lt;n&gt;</code>:tä, jossa <code>n</code> on mikä tahansa kokonaisluku näyttääksesi viimeiset <code>n</code> pysyvää muutosta. Todellisuudessa käytät sitä epätodennäköisesti usein, koska oletuksena Git putkittaa kaiken tulosteen sivuttajan läpi, joten näet vain yhden sivun lokitulosteesta kerralla.</p>
 <p>Aikarajausoptiot, kuten <code>--since</code> ja <code>--until</code>, ovat kuitenkin erittäin hyödyllisiä. Esimerkiksi tämä komento hakee listan pysyvistä muutoksista, jotka on tehty kahden viimeisen viikon aikana.</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--since=2.weeks</span>
+<pre><code>$ git log --since=2.weeks
 </code></pre><p>Tämä komento toimii useilla muodoilla — voit määritellä tietyn päivämäärän (”15. 1. 2008”) tai suhteellisen päiväyksen, kuten ”2 vuotta 1 päivä ja 3 minuuttia sitten”.</p>
 <p>Voit myös suodattaa listan pysyviin muutoksiin, joihin sopii  jokin hakukriteeri. <code>--author</code>-optio antaa sinun suodattaa tietyllä tekijällä ja <code>--grep</code>-optio etsiä avainsanoja pysyvän muutoksen viestistä (Huomaa, että jos haluat määritellä sekä tekijä- että grep-optiot, täytyy sinun lisätä <code>--all-match</code> tai komento sopii pysyviin muutoksiin, jotka täyttävät vain toisen ehdon.)</p>
 <p>Viimeinen todella hyödyllinen <code>git log</code>ille suodattimena annettava optio on hakemistopolku (path). Jos määrittelet hakemiston tai tiedoston nimen, voit rajata lokitulosteen pysyviin muutoksiin, jotka esittelivät muutokset niihin tiedostoihin. Tämä on aina viimeinen optio ja yleensä varustettu kahden viivan (<code>--</code>) etuliitteellä, jotta hakemistopolut erotettaisiin optioista.</p>
@@ -583,14 +586,14 @@ a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-numbe
 </tbody>
 </table>
 <p>Esimerkiksi, jos haluat nähdä, mitkä testitiedostoja muokanneet pysyvät muutokset Gitin lähdekoodihistoriassa Junio Hamano teki lokakuussa 2008, joita ei ole yhdistetty, voit ajaa jotakuinkin seuraavasti:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%s</span>"</span> --author=gitster --since=<span class="hljs-string">"2008-10-01"</span> \
-   --before=<span class="hljs-string">"2008-11-01"</span> --<span class="hljs-keyword">no</span>-merges -- t/
-<span class="hljs-number">5610</span>e3b - Fix testcase failure <span class="hljs-keyword">when</span> extended attribute
-acd3b9e - Enhance hold_lock_file_for<span class="hljs-number">_</span>{update,append}()
+<pre><code>$ git log --pretty=&quot;%h - %s&quot; --author=gitster --since=&quot;2008-10-01&quot; \
+   --before=&quot;2008-11-01&quot; --no-merges -- t/
+5610e3b - Fix testcase failure when extended attribute
+acd3b9e - Enhance hold_lock_file_for_{update,append}()
 f563754 - demonstrate breakage of detached checkout wi
-d1a43f2 - <span class="hljs-keyword">reset</span> --hard/<span class="hljs-keyword">read</span>-tree --<span class="hljs-keyword">reset</span> -u: remove un
-<span class="hljs-number">51</span>a94af - Fix <span class="hljs-string">"checkout --track -b newbranch"</span> on detac
-b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hljs-variable">$something</span>:<span class="hljs-variable">$cur</span></span>
+d1a43f2 - reset --hard/read-tree --reset -u: remove un
+51a94af - Fix &quot;checkout --track -b newbranch&quot; on detac
+b0ad11e - pull: allow &quot;git pull origin $something:$cur
 </code></pre><p>Tämä komento näyttää melkein 20 000 pysyvän muutoksen Gitin lähdekoodihistoriasta 6 näihin ehtoihin sopivaa pysyvää muutosta.</p>
 <h2 id="gui-n-k-ytt-minen-historian-visualisointiin">GUI:n käyttäminen historian visualisointiin</h2>
 <p>Jos haluat käyttää graafisempaa työkalua visualisoidaksesi pysyvien muutosten historiaasi, voit haluta katsoa <code>gitk</code>:ksi kutsuttua Tcl/Tk-ohjelmaa, jota levitetään Gitin kanssa. Gitk on periaatteessa visuaalinen <code>git log</code> -työkalu ja se hyväksyy lähes kaikki suodatusoptiot, joita <code>git log</code>kin hyväksyy. Jos kirjoitat projektissasi komentoriville <code>gitk</code>, sinun pitäisi saada Kuvaa 2-2 vastaava tulos.</p>
@@ -615,9 +618,9 @@ b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hl
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

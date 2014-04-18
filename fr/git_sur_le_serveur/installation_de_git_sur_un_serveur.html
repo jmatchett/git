@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,35 +847,35 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_608">
+                    <section class="normal" id="section-gitbook_820">
                     
                         <h1 id="installation-de-git-sur-un-serveur">Installation de Git sur un serveur</h1>
 <p>Pour réaliser l&#39;installation initiale d&#39;un serveur Git, il faut exporter un dépôt existant dans un nouveau dépôt nu — un dépôt qui ne contient pas de copie de répertoire de travail.
 C&#39;est généralement simple à faire.
 Pour cloner votre dépôt en créant un nouveau dépôt nu, lancez la commande clone avec l&#39;option <code>--bare</code>.
 Par convention, les répertoires de dépôt nu finissent en <code>.git</code>, de cette manière :</p>
-<pre><code>$ git clone <span class="hljs-comment">--bare mon_project mon_project.git</span>
-Initialized <span class="hljs-constant">empty</span> Git repository <span class="hljs-operator">in</span> /opt/projets/mon_project.git/
+<pre><code>$ git clone --bare mon_project mon_project.git
+Initialized empty Git repository in /opt/projets/mon_project.git/
 </code></pre><p>La sortie de cette commande est un peu déroutante.
 Comme <code>clone</code> est un <code>git init</code> de base, suivi d&#39;un <code>git fetch</code>, nous voyons les messages du <code>git init</code> qui crée un répertoire vide.
 Le transfert effectif d&#39;objets ne fournit aucune sortie, mais il a tout de même lieu.
 Vous devriez maintenant avoir une copie des données de Git dans votre répertoire <code>mon_project.git</code>.</p>
 <p>C&#39;est grossièrement équivalent à :</p>
-<pre><code>$ <span class="hljs-keyword">cp</span> -Rf mon_project/<span class="hljs-preprocessor">.git</span> mon_project<span class="hljs-preprocessor">.git</span>
+<pre><code>$ cp -Rf mon_project/.git mon_project.git
 </code></pre><p>Il y a quelques légères différences dans le fichier de configuration mais pour l&#39;utilisation envisagée, c&#39;est très proche.
 La commande extrait le répertoire Git sans répertoire de travail et crée un répertoire spécifique pour l&#39;accueillir.</p>
 <h2 id="copie-du-d-p-t-nu-sur-un-serveur">Copie du dépôt nu sur un serveur</h2>
 <p>À présent que vous avez une copie nue de votre dépôt, il ne reste plus qu&#39;à la placer sur un serveur et à régler les protocoles.
 Supposons que vous avez mis en place un serveur nommé <code>git.exemple.com</code> auquel vous avez accès par SSH et que vous souhaitez stocker vos dépôts Git dans le répertoire <code>/opt/git</code>.
 Vous pouvez mettre en place votre dépôt en copiant le dépôt nu :</p>
-<pre><code>$ scp -r mon_projet<span class="hljs-preprocessor">.git</span> utilisateur@git<span class="hljs-preprocessor">.exemple</span><span class="hljs-preprocessor">.com</span>:/opt/git
+<pre><code>$ scp -r mon_projet.git utilisateur@git.exemple.com:/opt/git
 </code></pre><p>À partir de maintenant, tous les autres utilisateurs disposant d&#39;un accès SSH au serveur et ayant un accès en lecture seule au répertoire <code>/opt/git</code> peuvent cloner votre dépôt en lançant la commande :</p>
-<pre><code>$ git clone utilisateur@git<span class="hljs-preprocessor">.exemple</span><span class="hljs-preprocessor">.com</span>:/opt/git/mon_projet<span class="hljs-preprocessor">.git</span>
+<pre><code>$ git clone utilisateur@git.exemple.com:/opt/git/mon_projet.git
 </code></pre><p>Si un utilisateur se connecte par SSH au serveur et a accès en lecture au répertoire <code>/opt/git/mon_projet.git</code>, il aura automatiquement accès pour tirer.
 Git ajoutera automatiquement les droits de groupe en écriture à un dépôt si vous lancez la commande <code>git init</code> avec l&#39;option <code>--shared</code>.</p>
-<pre><code><span class="hljs-variable">$ </span>ssh utilisateur<span class="hljs-variable">@git</span>.exemple.com
-<span class="hljs-variable">$ </span>cd /opt/git/mon_projet.git
-<span class="hljs-variable">$ </span>git init --bare --shared
+<pre><code>$ ssh utilisateur@git.exemple.com
+$ cd /opt/git/mon_projet.git
+$ git init --bare --shared
 </code></pre><p>Vous voyez comme il est simple de prendre un dépôt Git, créer une version nue et la placer sur un serveur auquel vous et vos collaborateurs avez accès en SSH.
 Vous voilà prêts à collaborer sur le même projet.</p>
 <p>Il faut noter que c&#39;est littéralement tout ce dont vous avez besoin pour démarrer un serveur Git utile auquel plusieurs personnes ont accès — ajoutez des comptes SSH sur un serveur, et collez un dépôt nu quelque part où tous les utilisateurs ont accès en lecture et écriture.
@@ -915,9 +918,9 @@ Tant que chaque utilisateur peut accéder à un shell sur la machine, n&#39;impo
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

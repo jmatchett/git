@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.3" data-basepath=".." data-revision="1397503662242">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.3" data-basepath=".." data-revision="1397847842670">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -203,7 +206,7 @@
 <h2 id="git-are-integritate">Git Are Integritate</h2>
 <p>Totul in Git are o sumă de control (checksum [en]) înainte de a fi stocat și este apoi referit de către acea sumă de control. Aceasta înseamnă că este imposibil de schimbat conținutul oricărui fișier sau director fără ca Git să știe de el. Aceast funcționalitate este inclusă în Git la cele mai de jos nivele și este o parte integrantă a filosofiei sale. Nu puteți pierde informații în tranzit sau să întâlniți corupere de fișiere fără ca Git să le detecteze.</p>
 <p>Mecanismul folosit de Git pentru sumele de control este denumit hash SHA-1. Acesta este un șir de 40 de caractere compus din caractere hexazecimale (toate cifrele, 0 la 9 și caracterele de la a la f) și este calculat pe baza conținutului unui fișier sau a structurii de directoare din Git. Un hash SHA-1 arată similar cu următorul șir:</p>
-<pre><code><span class="hljs-number">24</span>b9da6552252987aa493b52f8696<span class="hljs-built_in">cd</span>6d3b00373
+<pre><code>24b9da6552252987aa493b52f8696cd6d3b00373
 </code></pre><p>Veți vedea aceste șiruri peste tot în cadrul Git deoarece Git le folosește foarte mult. De fapt, Git stochează orice nu bazându-se pe numele fișierului ci în baza de date Git adresabilă prin intermediul valorii hash a conținutului său. </p>
 <h2 id="git-adaug-date-n-general">Git Adaugă Date în General</h2>
 <p>Când efectuați anumite operații în Git, aproape toate din ele doar adaugă date în baza de date Git. Este foarte dificil să constrângem sistemul să facă orice operații care sunt permanente sau să șteargă date în vreun fel. Dar ca în orice VCS, puteți pierde sau strica informații datorată schimbărilor care nu sunt deja adăugate; dar după ce faceți commit unui snapshot în Git, este foarte dificil să pierdeți date, mai ales dacă vă împingeți (push [en]) repository-ul către un alt repository.</p>
@@ -241,9 +244,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

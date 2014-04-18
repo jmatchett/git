@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_878">
+                    <section class="normal" id="section-gitbook_736">
                     
                         <h1 id="b-sico-de-branch-e-merge">Básico de Branch e Merge</h1>
 <p>Vamos ver um exemplo simples de uso de branch e merge com um fluxo de trabalho que você pode usar no mundo real. Você seguirá esses passos:</p>
@@ -866,63 +869,63 @@
 <p>Figura 3-10. Um histórico de commits pequeno e simples.</p>
 <p>Você decidiu que irá trabalhar na tarefa (issue) #53 do gerenciador de bugs ou tarefas que sua empresa usa. Para deixar claro, Git não é amarrado a nenhum gerenciador de tarefas em particular; mas já que a tarefa #53 tem um foco diferente, você criará um branch novo para trabalhar nele. Para criar um branch e mudar para ele ao mesmo tempo, você pode executar o comando <code>git checkout</code> com a opção <code>-b</code>:</p>
 <pre><code>$ git checkout -b iss53
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"iss53"</span>
+Switched to a new branch &quot;iss53&quot;
 </code></pre><p>Isso é um atalho para:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch iss53
-<span class="hljs-variable">$ </span>git checkout iss53
+<pre><code>$ git branch iss53
+$ git checkout iss53
 </code></pre><p>Figura 3-11 ilustra o resultado.</p>
 <p><img src="http://git-scm.com/figures/18333fig0311-tn.png" alt=""></p>
 <p>Figura 3-11. Criando um branch novo</p>
 <p>Você trabalha no seu web site e faz alguns commits. Ao fazer isso o branch <code>iss53</code> avançará, pois você fez o checkout dele (isto é, seu HEAD está apontando para ele; veja a Figura 3-12):</p>
-<pre><code><span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'adicionei um novo rodapé [issue 53]'</span>
+<pre><code>$ vim index.html
+$ git commit -a -m &#39;adicionei um novo rodapé [issue 53]&#39;
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0312-tn.png" alt=""></p>
 <p>Figura 3-12. O branch iss53 avançou com suas modificações.</p>
 <p>Nesse momento você recebe uma ligação dizendo que existe um problema com o web site e você deve resolvê-lo imediatamente. Com Git, você não precisa fazer o deploy de sua correção junto com as modificações que você fez no <code>iss53</code>, e você não precisa se esforçar muito para reverter essas modificações antes que você possa aplicar sua correção em produção. Tudo que você tem a fazer é voltar ao seu branch master.</p>
 <p>No entanto, antes de fazer isso, note que seu diretório de trabalho ou área de seleção tem modificações que não entraram em commits e que estão gerando conflitos com o branch que você está fazendo o checkout, Git não deixará você mudar de branch. É melhor ter uma área de trabalho limpa quando mudar de branch. Existem maneiras de contornar esta situação (isto é, incluir e fazer o commit) que vamos falar depois. Por enquanto, você fez o commit de todas as suas modificações, então você pode mudar para o seu branch master:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
+<pre><code>$ git checkout master
+Switched to branch &quot;master&quot;
 </code></pre><p>Nesse ponto, o diretório do seu projeto está exatamente do jeito que estava antes de você começar a trabalhar na tarefa #53, e você se concentra na correção do erro. É importante lembrar desse ponto: Git restabelece seu diretório de trabalho para ficar igual ao snapshot do commit que o branch que você criou aponta. Ele adiciona, remove, e modifica arquivos automaticamente para garantir que sua cópia é o que o branch parecia no seu último commit nele.</p>
 <p>Em seguida, você tem uma correção para fazer. Vamos criar um branch para a correção (hotfix) para trabalhar até a conclusão (veja Figura 3-13):</p>
-<pre><code>$ git checkout <span class="hljs-attribute">-b</span> <span class="hljs-string">'hotfix'</span>
-Switched <span class="hljs-keyword">to</span> a <span class="hljs-literal">new</span> branch <span class="hljs-string">"hotfix"</span>
-$ vim index<span class="hljs-built_in">.</span>html
-$ git commit <span class="hljs-attribute">-a</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'concertei o endereço de email'</span>
-<span class="hljs-preprocessor">[</span>hotfix<span class="hljs-preprocessor">]</span><span class="hljs-markup">: created 3a0874c: "concertei o endereço de email"
- 1 files changed, 0 insertions(+), 1 deletions(-)</span>
+<pre><code>$ git checkout -b &#39;hotfix&#39;
+Switched to a new branch &quot;hotfix&quot;
+$ vim index.html
+$ git commit -a -m &#39;concertei o endereço de email&#39;
+[hotfix]: created 3a0874c: &quot;concertei o endereço de email&quot;
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0313-tn.png" alt=""></p>
 <p>Figura 3-13. branch de correção (hotfix) baseado num ponto de seu branch master.</p>
 <p>Você pode rodar seus testes, tenha certeza que a correção é o que você quer, e faça o merge no seu branch master para fazer o deploy em produção. Você faz isso com o comando <code>git merge</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge hotfix
-<span class="hljs-constant">Updating</span> f42c576..<span class="hljs-number">3</span>a0874c
-<span class="hljs-constant">Fast</span> forward
- <span class="hljs-constant">README</span> |    <span class="hljs-number">1</span> -
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code>$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast forward
+ README |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p>Você irá notar a frase &quot;Fast forward&quot; no merge. Em razão do branch que você fez o merge apontar para o commit que está diretamente acima do commit que você se encontra, Git avança o ponteiro adiante. Em outras palavras, quando você tenta fazer o merge de um commit com outro que pode ser alcançado seguindo o histórico do primeiro, Git simplifica as coisas movendo o ponteiro adiante porque não existe modificações divergente para fazer o merge — isso é chamado de &quot;fast forward&quot;.</p>
 <p>Sua modificação está agora no snapshot do commit apontado pelo branch <code>master</code>, e você pode fazer o deploy (veja Figura 3-14).</p>
 <p><img src="http://git-scm.com/figures/18333fig0314-tn.png" alt=""></p>
 <p>Figura 3-14. Depois do merge seu branch master aponta para o mesmo local que o branch hotfix.</p>
 <p>Depois que a sua correção super importante foi enviada, você está pronto para voltar ao trabalho que estava fazendo antes de ser interrompido. No entanto, primeiro você apagará o branch <code>hotfix</code>, pois você não precisa mais dele — o branch <code>master</code> aponta para o mesmo local. Você pode excluí-lo com a opção <code>-d</code> em <code>git branch</code>:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> hotfix
-Deleted branch hotfix (<span class="hljs-number">3</span>a0874c).
+<pre><code>$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).
 </code></pre><p>Agora você pode voltar para o trabalho incompleto no branch da tafera #53 e continuar a trabalhar nele (veja Figura 3-15):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout iss53
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"iss53"</span>
-<span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'novo rodapé terminado [issue 53]'</span>
-[iss53]<span class="hljs-symbol">:</span> created <span class="hljs-symbol">ad82d7a:</span> <span class="hljs-string">"novo rodapé terminado [issue 53]"</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git checkout iss53
+Switched to branch &quot;iss53&quot;
+$ vim index.html
+$ git commit -a -m &#39;novo rodapé terminado [issue 53]&#39;
+[iss53]: created ad82d7a: &quot;novo rodapé terminado [issue 53]&quot;
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0315-tn.png" alt=""></p>
 <p>Figura 3-15. Seu branch iss53 pode avançar de forma independente.</p>
 <p>Vale a pena lembrar aqui que o trabalho feito no seu branch <code>hotfix</code> não existe nos arquivos do seu branch <code>iss53</code>. Se você precisa incluí-lo, você pode fazer o merge do seu branch <code>master</code> no seu branch <code>iss53</code> executando o comando <code>git merge master</code>, ou você pode esperar para integrar essas mudanças até você decidir fazer o pull do branch <code>iss53</code> no <code>master</code> mais tarde.</p>
 <h2 id="merge-b-sico">Merge Básico</h2>
 <p>Suponha que você decidiu que o trabalho na tarefa #53 está completo e pronto para ser feito o merge no branch <code>master</code>. Para fazer isso, você fará o merge do seu branch <code>iss53</code>, bem como o merge do branch <code>hotfix</code> de antes. Tudo que você tem a fazer é executar o checkout do branch para onde deseja fazer o merge e então rodar o comando <code>git merge</code>:</p>
 <pre><code>$ git checkout master
-$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
- README | <span class="hljs-number">1</span> +
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)</span>
+$ git merge iss53
+Merge made by recursive.
+ README | 1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Isso parece um pouco diferente do merge de <code>hotfix</code> que você fez antes. Neste caso, o histórico do seu desenvolvimento divergiu em algum ponto anterior. Pelo fato do commit no branch em que você está não ser um ancestral direto do branch que você está fazendo o merge, Git tem um trabalho adicional. Neste caso, Git faz um merge simples de três vias, usando os dois snapshots apontados pelas pontas dos branches e o ancestral comum dos dois. A Figura 3-16 destaca os três snapshots que Git usa para fazer o merge nesse caso.</p>
 <p><img src="http://git-scm.com/figures/18333fig0316-tn.png" alt=""></p>
 <p>Figura 3-16. Git identifica automaticamente a melhor base ancestral comum para o merge do branch.</p>
@@ -931,65 +934,65 @@ $ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
 <p><img src="http://git-scm.com/figures/18333fig0317-tn.png" alt=""></p>
 <p>Figura 3-17. Git cria automaticamente um novo objeto commit que contém as modificações do merge.</p>
 <p>Agora que foi feito o merge no seu trabalho, você não precisa mais do branch <code>iss53</code>. Você pode apagá-lo e fechar manualmente o chamado no seu gerenciador de chamados:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> iss53
+<pre><code>$ git branch -d iss53
 </code></pre><h2 id="conflitos-de-merge-b-sico">Conflitos de Merge Básico</h2>
 <p>Às vezes, esse processo não funciona sem problemas. Se você alterou a mesma parte do mesmo arquivo de forma diferente nos dois branches que está fazendo o merge, Git não será capaz de executar o merge de forma clara. Se sua correção para o erro #53 alterou a mesma parte de um arquivo que <code>hotfix</code>, você terá um conflito de merge parecido com isso:</p>
-<pre><code>$ git <span class="hljs-built_in">merge</span> iss53
+<pre><code>$ git merge iss53
 Auto-merging index.html
-CONFLICT (content): Merge conflict <span class="hljs-operator">in</span> index.html
-Automatic <span class="hljs-built_in">merge</span> failed; fix conflicts <span class="hljs-operator">and</span> <span class="hljs-keyword">then</span> commit <span class="hljs-operator">the</span> <span class="hljs-built_in">result</span>.
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
 </code></pre><p>Git não criou automaticamente um novo commit para o merge. Ele fez uma pausa no processo enquanto você resolve o conflito. Se você quer ver em quais arquivos não foi feito o merge, em qualquer momento depois do conflito, você pode executar <code>git status</code>:</p>
 <pre><code>[master*]$ git status
 index.html: needs merge
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    unmerged:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#    unmerged:   index.html
+#
 </code></pre><p>Qualquer coisa que tem conflito no merge e não foi resolvido é listado como &quot;unmerged&quot;. Git adiciona marcadores padrão de resolução de conflitos nos arquivos que têm conflitos, para que você possa abri-los manualmente e resolver esses conflitos. Seu arquivo terá uma seção parecida com isso:</p>
 <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
-<span class="hljs-header">&lt;div id="footer"&gt;contato : email.support@github.com&lt;/div&gt;
-=======</span>
-&lt;div id="footer"&gt;
-<span class="hljs-code">  por favor nos contate em support@github.com</span>
+&lt;div id=&quot;footer&quot;&gt;contato : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id=&quot;footer&quot;&gt;
+  por favor nos contate em support@github.com
 &lt;/div&gt;
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html
 </code></pre><p>Isso significa que a versão em HEAD (seu branch master, pois era isso que você tinha quando executou o comando merge) é a parte superior desse bloco (tudo acima de <code>=======</code>), enquanto a versão no seu branch <code>iss53</code> é toda a parte inferior. Para resolver esse conflito, você tem que optar entre um lado ou outro, ou fazer o merge do conteúdo você mesmo. Por exemplo, você pode resolver esse conflito através da substituição do bloco inteiro por isso:</p>
-<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"footer"</span>&gt;
+<pre><code>&lt;div id=&quot;footer&quot;&gt;
 por favor nos contate em email.support@github.com
-&lt;/<span class="hljs-keyword">div</span>&gt;
+&lt;/div&gt;
 </code></pre><p>Esta solução tem um pouco de cada seção, e eu removi completamente as linhas <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, e <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Depois que você resolveu cada uma dessas seções em cada arquivo com conflito, rode <code>git add</code> em cada arquivo para marcá-lo como resolvido. Colocar o arquivo na área de seleção o marcar como resolvido no Git. Se você quer usar uma ferramenta gráfica para resolver esses problemas, você pode executar <code>git mergetool</code>, que abre uma ferramenta visual de merge adequada e percorre os conflitos:</p>
 <pre><code>$ git mergetool
-<span class="hljs-built_in">merge</span> tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-Merging <span class="hljs-operator">the</span> <span class="hljs-built_in">files</span>: index.html
+merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
+Merging the files: index.html
 
-Normal <span class="hljs-built_in">merge</span> conflict <span class="hljs-keyword">for</span> <span class="hljs-string">'index.html'</span>:
-  {<span class="hljs-built_in">local</span>}: modified
+Normal merge conflict for &#39;index.html&#39;:
+  {local}: modified
   {remote}: modified
-Hit <span class="hljs-constant">return</span> <span class="hljs-built_in">to</span> start <span class="hljs-built_in">merge</span> resolution tool (opendiff):
+Hit return to start merge resolution tool (opendiff):
 </code></pre><p>Se você quer usar uma ferramenta de merge diferente da padrão (Git escolheu <code>opendiff</code> para mim, neste caso, porque eu rodei o comando em um Mac), você pode ver todas as ferramentas disponíveis listadas no topo depois de “merge tool candidates”. Digite o nome da ferramenta que você prefere usar. No <em>capítulo 7</em>, discutiremos como você pode alterar esse valor para o seu ambiente.</p>
 <p>Depois de sair da ferramenta de merge, Git pergunta se o merge foi concluído com sucesso. Se você disser ao script que foi, ele coloca o arquivo na área de seleção para marcá-lo como resolvido pra você.</p>
 <p>Se você rodar <code>git status</code> novamente para verificar que todos os conflitos foram resolvidos:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    modified:   index.html
+#
 </code></pre><p>Se você está satisfeito com isso, e verificou que tudo que havia conflito foi colocado na área de seleção, você pode digitar <code>git commit</code> para concluir o commit do merge. A mensagem de commit padrão é algo semelhante a isso:</p>
-<pre><code>Merge branch <span class="hljs-string">'iss53'</span>
+<pre><code>Merge branch &#39;iss53&#39;
 
 Conflicts:
   index.html
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># It looks like you may be committing a MERGE.</span>
-<span class="hljs-preprocessor"># If this is not correct, please remove the file</span>
-<span class="hljs-preprocessor"># .git/MERGE_HEAD</span>
-<span class="hljs-preprocessor"># and try again.</span>
-<span class="hljs-preprocessor">#</span>
+#
+# It looks like you may be committing a MERGE.
+# If this is not correct, please remove the file
+# .git/MERGE_HEAD
+# and try again.
+#
 </code></pre><p>Você pode modificar essa mensagem com detalhes sobre como você resolveu o merge se você acha que isso seria útil para outros quando olharem esse merge no futuro — por que você fez o que fez, se não é óbvio.</p>
 
                     
@@ -1009,9 +1012,9 @@ Conflicts:
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

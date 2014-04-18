@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397503680691">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.5" data-basepath=".." data-revision="1397847848831">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -419,7 +422,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_280">
+                    <section class="normal" id="section-gitbook_283">
                     
                         <h1 id="-git">Прво поставување на Git</h1>
 <p>Сега кога го имате Git на вашиот систем, ќе сакате да направите неколку работи за да ја подесите вашата Git околина. Овие работи треба да ги направите само еднаш, и тие ќе си останат такви и после надградбите. Исто така може да ги промените во било кое време извршувајќи соодветни наредби.</p>
@@ -432,15 +435,15 @@
 <p>На Windows системите, Git ја бара <code>.gitconfig</code> датотеката во <code>$HOME</code> папката (најчесто <code>C:\Documents and Settings\$USER</code>). Исто така ја бара и /etc/gitconfig, иако таа патека е релативна во однос на MSys коренот, кој се наоѓа онаму каде што сте одлучиле да го инсталирате Git на Windows.</p>
 <h2 id="-">Вашиот идентитет</h2>
 <p>Прва работа што треба да ја направите по инсталирањето на Git е да го подесите вашето име и e-mail адреса. Ова е важно затоа што секој Git комит ги користи тие информации, и истите се вградени во секој комит што ќе го направите:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><p>Ова треба да го направите само еднаш доколку како аргумент во наредбата ја користите <code>--global</code> опцијата, бидејќи во тој случај Git секогаш ќе ги користи тие информации за сите активности што ги изведувате на тој систем. Доколку за одреден проект сакате да користите поинакво име и e-mail адреса, тогаш повикајте ги наредбите без <code>--global</code> опцијата кога се наоѓате во тој проект.</p>
 <h2 id="-">Вашиот едитор</h2>
 <p>Сега кога вашиот идентитет е подесен, може да подесите и кој стандарден текстуален едитор ќе биде користен од Git кога ќе треба да внесете некоја порака. Стандардно, Git како едитор ќе го користи системскиот стандарден едитор, кој што вообичаено е Vi или Vim. Доколку сакате да користите друг текстуален едитор како што е Emacs, тоа може да го направите на следниов начин:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><h2 id="-diff-">Вашата Diff алатка</h2>
 <p>Друга корисна опција која што можеби би сакале да ја подесите е која diff алатка да се користи за разрешување на конфликти при спојување (merge) на гранки. Доколку за таа намена сакате да го користите vimdiff:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">vimdiff</span>
+<pre><code>$ git config --global merge.tool vimdiff
 </code></pre><p>Git ги прифаќа kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge и opendiff како валидни алатки за разрешување конфликти. Исто така за таа намена може да подесите и произволна алатка - за повеќе информации како се прави тоа видете во поглавје 7.</p>
 <h2 id="-">Прегледување на вашите подесувања</h2>
 <p>Доколку сакате да ги проверите вашите подесувања, може да ја користите наредбата <code>git config --list</code> за да ги излистате сите подесувања кои ги користи Git во тој момент:</p>
@@ -451,11 +454,11 @@ color.status=auto
 color.branch=auto
 color.interactive=auto
 color.diff=auto
-<span class="hljs-keyword">...</span>
+...
 </code></pre><p>Можеби ќе видите ист клуч повеќе пати, бидејќи Git го чита истиот клуч од различни датотеки (<code>/etc/gitconfig</code> и <code>~/.gitconfig</code>, на пример). Во тој случај, Git ја користи последната вредност за секој пронајден клуч.</p>
 <p>Може да проверите која вредност ја користи Git за некој клуч со испишување на <code>git config {key}</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config user.name
-<span class="hljs-constant">Scott</span> <span class="hljs-constant">Chacon</span>
+<pre><code>$ git config user.name
+Scott Chacon
 </code></pre>
                     
                     </section>
@@ -474,9 +477,9 @@ color.diff=auto
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_947">
+                    <section class="normal" id="section-gitbook_1019">
                     
                         <h1 id="z-klady-v-tven-a-slu-ov-n-">Základy větvení a slučování</h1>
 <p>Vytvořme si jednoduchý příklad větvení a slučování s pracovním postupem, který můžete využít i v reálném životě. Budete provádět tyto kroky:</p>
@@ -876,63 +879,63 @@
 <p>Obrázek 3-10. Krátká a jednoduchá historie revizí</p>
 <p>Rozhodli jste se, že budete pracovat na chybě č. 53, ať už vaše společnost používá jakýkoli systém sledování chyb. Přesněji řečeno, Git není začleněn do žádného konkrétního systému sledování chyb, ale protože je chyba č. 53 významná a chcete na ní pracovat, vytvoříte si pro ni novou větev. Abyste vytvořili novou větev a rovnou na ni přepnuli, můžete spustit příkaz <code>git checkout</code> s přepínačem <code>-b</code>:</p>
 <pre><code>$ git checkout -b iss53
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"iss53"</span>
+Switched to a new branch &quot;iss53&quot;
 </code></pre><p>Tímto způsobem jste spojili dva příkazy:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch iss53
-<span class="hljs-variable">$ </span>git checkout iss53
+<pre><code>$ git branch iss53
+$ git checkout iss53
 </code></pre><p>Obrázek 3-11 ukazuje výsledek.</p>
 <p><img src="http://git-scm.com/figures/18333fig0311-tn.png" alt=""></p>
 <p>Obrázek 3-11. Vytvoření nového ukazatele na větev</p>
 <p>Pracujete na webových stránkách a zapíšete několik revizí. S každou novou revizí se větev <code>iss53</code> posune vpřed, protože jste provedli její checkout (to znamená, že jste na ni přepnuli a ukazuje na ni soubor HEAD – viz obrázek 3-12):</p>
-<pre><code><span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'added a new footer [issue 53]'</span>
+<pre><code>$ vim index.html
+$ git commit -a -m &#39;added a new footer [issue 53]&#39;
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0312-tn.png" alt=""></p>
 <p>Obrázek 3-12. Větev iss53 se s vaší prací posouvá vpřed.</p>
 <p>V tomto okamžiku vám zavolají, že se na webových stránkách vyskytl problém, který musíte okamžitě vyřešit. Jelikož pracujete v systému Git, nemusíte svou opravu vytvářet uprostřed změn, které jste provedli v části <code>iss53</code>, ani nemusíte dělat zbytečnou práci, abyste všechny tyto změny vrátili, než budete moci začít pracovat na opravě produkční verze stránek. Jediné, co teď musíte udělat, je přepnout zpět na hlavní větev.</p>
 <p>Než tak učiníte, zkontrolujte, zda nemáte v pracovním adresáři nebo v oblasti připravených změn nezapsané změny, které kolidují s větví, jejíž checkout provádíte. V takovém případě by vám Git přepnutí větví nedovolil. Při přepínání větví je ideální, pokud máte čistý pracovní stav. Existují způsoby, jak toho docílit (jmenovitě odložení a doplnění revize), těm se však budeme věnovat až později. Pro tuto chvíli jste zapsali všechny provedené změny a můžete přepnout zpět na hlavní větev.</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
+<pre><code>$ git checkout master
+Switched to branch &quot;master&quot;
 </code></pre><p>V tomto okamžiku vypadá váš pracovní adresář přesně tak, jak vypadal, než jste začali pracovat na chybě č. 53, a vy se nyní můžete soustředit na rychlou opravu. Na paměti byste však stále měli mít následující: Git vždy vrátí pracovní adresář do stejného stavu, jak vypadal snímek revize, na niž ukazuje větev, jejíž checkout nyní provádíte. Automaticky budou přidány, odstraněny a upraveny soubory tak, aby byla vaše pracovní kopie totožná se stavem větve v okamžiku, kdy jste na ni zapsali poslední revizi.</p>
 <p>Nyní přichází na řadu hotfix. Vytvořme větev s hotfixem, v níž budeme pracovat, dokud nebude oprava hotová (viz obrázek 3-13):</p>
-<pre><code>$ git checkout <span class="hljs-attribute">-b</span> hotfix
-Switched <span class="hljs-keyword">to</span> a <span class="hljs-literal">new</span> branch <span class="hljs-string">"hotfix"</span>
-$ vim index<span class="hljs-built_in">.</span>html
-$ git commit <span class="hljs-attribute">-a</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'fixed the broken email address'</span>
-<span class="hljs-preprocessor">[</span>hotfix<span class="hljs-preprocessor">]</span><span class="hljs-markup">: created 3a0874c: "fixed the broken email address"
- 1 files changed, 0 insertions(+), 1 deletions(-)</span>
+<pre><code>$ git checkout -b hotfix
+Switched to a new branch &quot;hotfix&quot;
+$ vim index.html
+$ git commit -a -m &#39;fixed the broken email address&#39;
+[hotfix]: created 3a0874c: &quot;fixed the broken email address&quot;
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0313-tn.png" alt=""></p>
 <p>Obrázek 3-13. Větev „hotfix“ začleněná zpět v místě hlavní větve</p>
 <p>Můžete provádět testování, ujistit se, že hotfix splňuje všechny požadavky, a pak můžete větev začlenit (merge) zpět do hlavní větve, aby byla připravena do produkce. Učiníte tak příkazem <code>git merge</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge hotfix
-<span class="hljs-constant">Updating</span> f42c576..<span class="hljs-number">3</span>a0874c
-<span class="hljs-constant">Fast</span> forward
- <span class="hljs-constant">README</span> |    <span class="hljs-number">1</span> -
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code>$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast forward
+ README |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p>Při sloučení jste si možná všimli spojení „Fast forward“ (rychle vpřed). Jelikož revize, na niž ukazovala větev, do níž jste začleňovali, byla v přímé linii s revizí, na níž jste se nacházeli, Git přesunul ukazatel vpřed. Jinými slovy: pokud se pokoušíte sloučit jednu revizi s revizí druhou, k níž lze dospět následováním historie první revize, Git proces zjednoduší a přesune ukazatel vpřed, protože neexistuje žádná rozdílná práce, kterou by bylo třeba sloučit. Tomuto postupu se říká „rychle vpřed“.</p>
 <p>Vaše změna je nyní obsažena ve snímku revize, na niž ukazuje hlavní větev <code>master</code>, a vy můžete pokračovat v provádění změn (viz obrázek 3-14).</p>
 <p><img src="http://git-scm.com/figures/18333fig0314-tn.png" alt=""></p>
 <p>Obrázek 3-14. Hlavní větev ukazuje po sloučení na stejné místo jako větev „hotfix“.</p>
 <p>Poté, co jste dokončili práci na bezodkladné opravě, můžete přepnout zpět na práci, jíž jste se věnovali před telefonátem. Nejprve však smažete větev <code>hotfix</code>, kterou teď už nebudete potřebovat – větev <code>master</code> ukazuje na totéž místo. Větev smažete přidáním parametru <code>-d</code> k příkazu <code>git branch</code>:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> hotfix
-Deleted branch hotfix (<span class="hljs-number">3</span>a0874c).
+<pre><code>$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).
 </code></pre><p>Nyní můžete přepnout zpět na větev s rozdělanou prací a pokračovat na chybě č. 53 (viz obrázek 3-15):</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout iss53
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"iss53"</span>
-<span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'finished the new footer [issue 53]'</span>
-[iss53]<span class="hljs-symbol">:</span> created <span class="hljs-symbol">ad82d7a:</span> <span class="hljs-string">"finished the new footer [issue 53]"</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git checkout iss53
+Switched to branch &quot;iss53&quot;
+$ vim index.html
+$ git commit -a -m &#39;finished the new footer [issue 53]&#39;
+[iss53]: created ad82d7a: &quot;finished the new footer [issue 53]&quot;
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0315-tn.png" alt=""></p>
 <p>Obrázek 3-15. Větev iss53 může nezávisle postupovat vpřed.</p>
 <p>Za zmínku stojí, že práce, kterou jste udělali ve větvi <code>hotfix</code>, není obsažena v souborech ve větvi <code>iss53</code>. Pokud potřebujete tyto změny do větve natáhnout, můžete začlenit větev <code>master</code> do větve <code>iss53</code> – použijte příkaz <code>git merge master</code>. Druhou možností je s integrací změn vyčkat a provést ji až ve chvíli, kdy budete chtít větev <code>iss53</code> natáhnout zpět do větve <code>master</code>.</p>
 <h2 id="z-kladn-slu-ov-n-">Základní slučování</h2>
 <p>Předpokládejme, že jste dokončili práci na chybě č. 53 a nyní byste ji rádi začlenili do větve <code>master</code>. Učiníte tak začleněním větve <code>iss53</code>, které bude probíhat velmi podobně jako předchozí začlenění větve <code>hotfix</code>. Jediné, co pro to musíte udělat, je přepnout na větev, do níž chcete tuto větev začlenit, a spustit příkaz <code>git merge</code>.</p>
 <pre><code>$ git checkout master
-$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
- README |    <span class="hljs-number">1</span> +
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)</span>
+$ git merge iss53
+Merge made by recursive.
+ README |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Toto už se trochu liší od začlenění větve <code>hotfix</code>, které jste prováděli před chvílí. V tomto případě se historie vývoje od určitého bodu v minulosti rozbíhala. Vzhledem k tomu, že revize na větvi, na níž se nacházíte, není přímým předkem větve, kterou chcete začlenit, Git bude muset podniknout určité kroky. Git v tomto případě provádí jednoduché třícestné sloučení: vychází ze dvou snímků, na které ukazují větve, a jejich společného předka. Obrázek 3-16 označuje ony tři snímky, které Git v tomto případě použije ke sloučení.</p>
 <p><img src="http://git-scm.com/figures/18333fig0316-tn.png" alt=""></p>
 <p>Obrázek 3-16. Git automaticky identifikuje nejvhodnějšího společného předka jako základnu pro sloučení větví.</p>
@@ -941,66 +944,66 @@ $ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> iss53
 <p><img src="http://git-scm.com/figures/18333fig0317-tn.png" alt=""></p>
 <p>Obrázek 3-17. Git automaticky vytvoří nový objekt revize, který obsahuje sloučenou práci.</p>
 <p>Nyní, když jste svou práci sloučili, větev <code>iss53</code> už nebudete potřebovat. Můžete ji smazat a poté ručně zavřít tiket v systému sledování tiketů:</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> iss53
+<pre><code>$ git branch -d iss53
 </code></pre><h2 id="z-kladn-konflikty-p-i-slu-ov-n-">Základní konflikty při slučování</h2>
 <p>Může se stát, že sloučení neproběhne bez problémů. Pokud jste tutéž část jednoho souboru změnili odlišně ve dvou větvích, které chcete sloučit, Git je nebude umět sloučit čistě. Pokud se oprava chyby č. 53 týkala stejné části souboru jako větev <code>hotfix</code>, dojde ke konfliktu při slučování (merge conflict). Vypadá zhruba takto:</p>
-<pre><code>$ git <span class="hljs-built_in">merge</span> iss53
+<pre><code>$ git merge iss53
 Auto-merging index.html
-CONFLICT (content): Merge conflict <span class="hljs-operator">in</span> index.html
-Automatic <span class="hljs-built_in">merge</span> failed; fix conflicts <span class="hljs-operator">and</span> <span class="hljs-keyword">then</span> commit <span class="hljs-operator">the</span> <span class="hljs-built_in">result</span>.
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
 </code></pre><p>Git nepřistoupil k automatickému vytvoření nové revize sloučením. Prozatím pozastavil celý proces do doby, než konflikt vyřešíte. Chcete-li kdykoli po konfliktu zjistit, které soubory zůstaly nesloučeny, spusťte příkaz <code>git status</code>:</p>
 <pre><code>[master*]$ git status
 index.html: needs merge
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    unmerged:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#    unmerged:   index.html
+#
 </code></pre><p>Vše, co při sloučení kolidovalo a nebylo vyřešeno, je označeno jako „unmerged“ (nesloučeno). Git přidává ke kolidujícím souborům standardní poznámky o řešení konfliktů (conflict-resolution markers), takže je můžete ručně otevřít a konflikty vyřešit. Jedna část vašeho souboru bude vypadat zhruba takto:</p>
 <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
-<span class="hljs-header">&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
-=======</span>
-&lt;div id="footer"&gt;
-<span class="hljs-code">  please contact us at support@github.com</span>
+&lt;div id=&quot;footer&quot;&gt;contact : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id=&quot;footer&quot;&gt;
+  please contact us at support@github.com
 &lt;/div&gt;
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html
 </code></pre><p>To znamená, že verze ve větvi s ukazatelem HEAD (vaše hlavní větev – v té jste se nacházeli při provádění příkazu merge) je uvedena v horní části tohoto bloku (všechno nad oddělovačem <code>=======</code>), verze obsažená ve větvi <code>iss53</code> je vše, co se nachází v dolní části. Chcete-li vzniklý konflikt vyřešit, musíte buď vybrat jednu z obou stran, nebo konflikt sloučit sami. Tento konflikt můžete vyřešit například nahrazením celého bloku tímto textem:</p>
-<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"footer"</span>&gt;
-please contact us <span class="hljs-keyword">at</span> email.support@github.com
-&lt;/<span class="hljs-keyword">div</span>&gt;
+<pre><code>&lt;div id=&quot;footer&quot;&gt;
+please contact us at email.support@github.com
+&lt;/div&gt;
 </code></pre><p>Toto řešení obsahuje trochu z každé části a zcela jsem odstranil řádky <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> a <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Poté, co vyřešíte všechny tyto části ve všech kolidujících souborech, spusťte pro každý soubor příkaz <code>git add</code>, jímž ho označíte jako vyřešený. Připravení souboru k zápisu ho v systému Git označí jako vyřešený.
 Chcete-li k vyřešení problémů použít grafický nástroj, můžete spustit příkaz <code>git mergetool</code>, kterým otevřete příslušný vizuální nástroj pro slučování, a ten vás všemi konflikty provede:</p>
 <pre><code>$ git mergetool
-<span class="hljs-built_in">merge</span> tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-Merging <span class="hljs-operator">the</span> <span class="hljs-built_in">files</span>: index.html
+merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
+Merging the files: index.html
 
-Normal <span class="hljs-built_in">merge</span> conflict <span class="hljs-keyword">for</span> <span class="hljs-string">'index.html'</span>:
-  {<span class="hljs-built_in">local</span>}: modified
+Normal merge conflict for &#39;index.html&#39;:
+  {local}: modified
   {remote}: modified
-Hit <span class="hljs-constant">return</span> <span class="hljs-built_in">to</span> start <span class="hljs-built_in">merge</span> resolution tool (opendiff):
+Hit return to start merge resolution tool (opendiff):
 </code></pre><p>Chcete-li použít jiný než výchozí nástroj pro slučování (Git mi v tomto případě vybral <code>opendiff</code>, protože jsem příkaz zadal v systému Mac), všechny podporované nástroje jsou uvedeny na začátku výstupu v části „merge tool candidates“ (možné nástroje pro slučování). Zadejte název nástroje, který chcete použít. V kapitole 7 probereme, jak lze tuto výchozí hodnotu pro vaše prostředí změnit.</p>
 <p>Až nástroj pro slučování zavřete, Git se vás zeptá, zda sloučení proběhlo úspěšně. Pokud skriptu oznámíte, že ano, připraví soubor k zapsání a tím ho označí jako vyřešený.</p>
 <p>Ještě jednou můžete spustit příkaz <code>git status</code>, abyste si ověřili, že byly všechny konflikty vyřešeny:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    modified:   index.html
+#
 </code></pre><p>Pokud jste s výsledkem spokojeni a ujistili jste se, že všechny kolidující soubory jsou připraveny k zapsání, můžete zadat příkaz <code>git commit</code> a dokončit revizi sloučením. Zpráva revize má v takovém případě přednastavenu tuto podobu:</p>
-<pre><code>Merge branch <span class="hljs-string">'iss53'</span>
+<pre><code>Merge branch &#39;iss53&#39;
 
 Conflicts:
   index.html
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># It looks like you may be committing a MERGE.</span>
-<span class="hljs-preprocessor"># If this is not correct, please remove the file</span>
-<span class="hljs-preprocessor"># .git/MERGE_HEAD</span>
-<span class="hljs-preprocessor"># and try again.</span>
-<span class="hljs-preprocessor">#</span>
+#
+# It looks like you may be committing a MERGE.
+# If this is not correct, please remove the file
+# .git/MERGE_HEAD
+# and try again.
+#
 </code></pre><p>Pokud myslíte, že to může být pro spolupracovníky, kteří si jednou budou toto sloučení prohlížet, užitečné, můžete tuto zprávu upravit a doplnit o podrobnosti, jak jste sloučení vyřešili – pokud to není zřejmé, můžete okomentovat, co jste udělali a proč právě takto.</p>
 
                     
@@ -1020,9 +1023,9 @@ Conflicts:
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

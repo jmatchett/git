@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.2" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.2" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -785,83 +788,83 @@
 <h2 id="controlla-lo-stato-dei-tuoi-file">Controlla lo Stato dei Tuoi File</h2>
 <p>Lo strumento principale che userai per determinare quali file sono in un certo stato è il comando git status. Se lanci questo comando direttamente dopo aver fatto una clonazione, dovresti vedere qualcosa di simile a:</p>
 <pre><code>$ git status
-<span class="hljs-comment"># On branch master</span>
-nothing <span class="hljs-built_in">to</span> commit (working <span class="hljs-built_in">directory</span> clean)
+# On branch master
+nothing to commit (working directory clean)
 </code></pre><p>Questo significa che hai una directory di lavoro pulita — in altre parole, non c&#39;è traccia di file modificati. Git inoltre non vede altri file non tracciati, altrimenti sarebbero elencati qui. Infine, il comando ci dice in quale ramo si è. Per ora, è sempre il master, che è il predefinito; non preoccuparti di questo per ora. Il prossimo capitolo tratterà delle ramificazioni e dei riferimenti nei dettagli.</p>
 <p>Ora diciamo che hai aggiunto un nuovo file al tuo progetto, un semplice file README. Se il file non esisteva prima, e lanci <code>git status</code>, vedrai il tuo file non tracciato come segue:</p>
 <pre><code>$ vim README
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Untracked files:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to include in what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    README</span>
-nothing added to commit but untracked files present (use <span class="hljs-string">"git add"</span> to track)
+# On branch master
+# Untracked files:
+#   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+#
+#    README
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
 </code></pre><p>Puoi vedere che il tuo nuovo file README non è tracciato, perché è sotto al titolo &quot;Untracked files&quot; nell&#39;output degli stati. Untracked fondamentalmente significa che Git vede un file che non avevi nel precedente snapshot (commit); Git non inizierà ad includerlo negli snapshot dei tuoi commit fino a quando tu non glielo dirai esplicitamente. Si comporta così per evitare che tu accidentalmente includa file binari generati o qualsiasi altro tipo di file che non vuoi sia incluso. Se vuoi includere il file README, continua con il tracciamento dei file.</p>
 <h2 id="tracciare-nuovi-file">Tracciare Nuovi File</h2>
 <p>Per iniziare a tracciare un nuovo file, usa il comando <code>git add</code>. Per tracciare il file <code>README</code>, lancia questo comando:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
+<pre><code>$ git add README
 </code></pre><p>Se lanci nuovamente il comando di stato, puoi vedere il tuo file <code>README</code> tracciato e parcheggiato:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#
 </code></pre><p>Ti dice che è in stage (parcheggiato, ndt) perché è sotto al titolo &quot;Changes to be committed&quot;. Se fai ora il commit, la versione del file al momento in cui hai lanciato <code>git add</code> sarà quella che troverai nella storia dello snapshot.  Potresti ricordare che quando hai eseguito <code>git init</code> precedentemente, poi hai dovuto lanciare <code>git add (file)</code> — che era necessario per l&#39;inizio del tracciamento dei file nella tua directory. Il comando git add prende il nome del percorso di ogni file o directory; se è una directory, il comando aggiunge tutti i file in quella directory ricorsivamente.</p>
 <h2 id="parcheggiare-file-modificati">Parcheggiare File Modificati</h2>
 <p>Ora modifichiamo un file che è già stato tracciato. Se modifichi un file precedentemente tracciato chiamato <code>benchmarks.rb</code> e poi avvii nuovamente il comando <code>status</code>, otterrai qualcosa di simile a:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Il file benchmarks.rb appare sotto la sezione chiamata &quot;Changes not staged for commit&quot; — che significa che un file che è tracciato è stato modificato nella directory di lavoro ma non ancora messo in stage. Per parcheggiarlo, avvia il comando <code>git add</code> (è un comando multifunzione — è usato per iniziare a tracciare nuovi file, per parcheggiare i file e per fare altre cose come eseguire la fusione dei file che entrano in conflitto dopo che sono stati risolti). Avvia dunque <code>git add</code> per parcheggiare ora il file benchmarks.rb, e avvia nuovamente <code>git status</code>:</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Entrambi i file sono parcheggiati ed entreranno nel prossimo commit. A questo punto, supponendo che tu ti sia ricordato di una piccola modifica da fare a benchmarks.rb prima di fare il commit. Apri nuovamente il file ed esegui la modifica, e ora sei pronto per il commit. Come sempre, lanci <code>git status</code> ancora una volta:</p>
 <pre><code>$ vim benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#    modified:   benchmarks.rb
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Che succede? Ora benchmarks.rb è elencato sia in stage che non. Come è possibile? É saltato fuori che Git ha parcheggiato il file esattamente come se tu avessi avviato il comando git add. Se esegui ora il commit, la versione di benchmarks.rb che verrà inviata nel commit sarà quella di quando tu hai lanciato il comando git add, non la versione del file che appare nella tua directory di lavoro quando lanci git commit. Se modifichi un file dopo che hai lanciato <code>git add</code>, devi nuovamente avviare <code>git add</code> per parcheggiare l&#39;ultima versione del file:</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#    modified:   benchmarks.rb
+#
 </code></pre><h2 id="ignorare-file">Ignorare File</h2>
 <p>Spesso, si ha una classe di file che non si vuole automaticamente aggiungere o far vedere come file non tracciati a Git. Ci sono generalmente alcuni file generati automaticamente come i file di log o i file prodotti dalla creazione di un sistema. In questi casi, puoi creare un file chiamato .gitignore con una lista di pattern corrispondente ad essi. Questo è un esempio di file .gitignore:</p>
-<pre><code><span class="hljs-variable">$ </span>cat .gitignore
+<pre><code>$ cat .gitignore
 *.[oa]
 *~
 </code></pre><p>La prima linea dice a Git di ignorare qualsiasi file che finisce con .o o .a — file di oggetti o archivi che possono essere il prodotto di una compilazione del tuo codice. La seconda linea dice a Git di ignorare tutti i file che finiscono con la tilde (<code>~</code>), che è usata da alcuni editor di testo come Emacs per marcare i file temporanei. Puoi anche includere directory di log, tmp o pid; documentazioni generate automaticamente; e così via. Imposta un file .gitignore prima di di procedere è generalmente una buona idea, così si evita il rischio di eseguire accidentalmente dei commit dei file che non vuoi nel tuo repository Git.</p>
@@ -874,198 +877,198 @@ $ git status
 </ul>
 <p>I glob pattern sono come espressioni regolari semplificate usate dalla shell. Un asterisco (<code>*</code>) corrisponde a zero o più caratteri; <code>[abc]</code> corrispondente ad ogni carattere all&#39;interno delle parentesi (in questo caso a, b, o c); il punto di domanda (<code>?</code>) corrispondente ad un singolo carattere; ed i caratteri all&#39;interno delle parentesi quadre separati dal segno meno (<code>[0-9]</code>) corrispondono ad ogni carattere all&#39;interno del range impostato (in questo caso da 0 a 9).</p>
 <p>Questo è un altro esempio di file .gitignore:</p>
-<pre><code><span class="hljs-preprocessor"># un commento - questo è ignorato</span>
-<span class="hljs-preprocessor"># no file .a</span>
+<pre><code># un commento - questo è ignorato
+# no file .a
 *.a
-<span class="hljs-preprocessor"># ma traccia lib.a, mentre vengono ignorati tutti i file .a come sopra</span>
+# ma traccia lib.a, mentre vengono ignorati tutti i file .a come sopra
 !lib.a
-<span class="hljs-preprocessor"># ignora solamente il file TODO in root, non del tipo subdir/TODO</span>
+# ignora solamente il file TODO in root, non del tipo subdir/TODO
 /TODO
-<span class="hljs-preprocessor"># ignora tutti i file nella directory build/</span>
+# ignora tutti i file nella directory build/
 build/
-<span class="hljs-preprocessor"># ignora doc/note.txt, ma non doc/server/arch.txt</span>
-doc<span class="hljs-comment">/*.txt
+# ignora doc/note.txt, ma non doc/server/arch.txt
+doc/*.txt
 # ignora tutti i file .txt nella directory doc/
-doc/**/</span>*.txt
+doc/**/*.txt
 </code></pre><p>Un pattern <code>**/</code> è disponibile in Git dalla version 1.8.2.</p>
 <h2 id="visualizzare-le-tue-modifiche-parcheggiate-e-non">Visualizzare le Tue Modifiche Parcheggiate e Non</h2>
 <p>Se il comando <code>git status</code> è troppo vago per te — vorrai conoscere esattamente cosa hai modificato, non solamente i file che hai cambiato — puoi usare il comando <code>git diff</code>. Scopriremo in maggior dettaglio <code>git diff</code> più avanti; ma probabilmente lo userai più spesso per rispondere a queste due domande: Cosa hai modificato, ma non ancora parcheggiato? E cosa hai parcheggiato e che sta per mettere nel commit? Certamente, <code>git status</code> risponde a queste domande in generale, <code>git diff</code> ti mostra le linee esatte aggiunte e rimosse — la patch, per così dire.</p>
 <p>Nuovamente ti chiedo di modificare e parcheggiare il file README e poi modificare il file benchmarks.rb senza parcheggiarlo. Se lanci il comando <code>status</code>, vedrai nuovamente questo:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    new file:   README</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    new file:   README
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Per vedere cosa hai modificato, ma non ancora parcheggiato, digita <code>git diff</code> senza altri argomenti:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..da65585 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..da65585 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-           @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-         <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+           @commit.parents[0].parents[0].parents[0]
+         end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-         run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-           <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-           <span class="hljs-built_in">log</span>.size
+         run_code(x, &#39;commits 2&#39;) do
+           log = git.commits(&#39;master&#39;, 15)
+           log.size
 </code></pre><p>Questo comando compara cosa c&#39;è nella tua directory di lavoro con quello che è nella tua area di stage. Il risultato ti dice i cambiamenti che hai fatto che non sono ancora stati parcheggiati.</p>
 <p>Se vuoi vedere cosa hai parcheggiato e cosa sarà inviato con il tuo prossimo commit, puoi usare <code>git diff --cached</code>. (Nella versione 1.6.1 e successive di Git, puoi usare anche <code>git diff --staged</code>, che dovrebbe essere più facile da ricordare). Questo comando compara i tuoi cambiamenti nell&#39;area di stage ed il tuo ultimo commit:</p>
 <pre><code>$ git diff --cached
 diff --git a/README b/README
 new file mode 100644
 index 0000000..03902a1
-<span class="hljs-header">--- /dev/null</span>
-<span class="hljs-header">+++ b/README2</span>
-<span class="hljs-chunk">@@ -0,0 +1,5 @@</span>
-<span class="hljs-addition">+grit</span>
-<span class="hljs-addition">+ by Tom Preston-Werner, Chris Wanstrath</span>
-<span class="hljs-addition">+ http://github.com/mojombo/grit</span>
-<span class="hljs-addition">+</span>
-<span class="hljs-addition">+Grit is a Ruby library for extracting information from a Git repository</span>
+--- /dev/null
++++ b/README2
+@@ -0,0 +1,5 @@
++grit
++ by Tom Preston-Werner, Chris Wanstrath
++ http://github.com/mojombo/grit
++
++Grit is a Ruby library for extracting information from a Git repository
 </code></pre><p>É importante notare che <code>git diff</code> di per se non visualizza tutti i cambiamenti fatti dal tuo ultimo commit — solo i cambiamenti che ancora non sono parcheggiati. Questo può confondere, perché se hai messo in stage tutte le tue modifiche, <code>git diff</code> non darà nessun output.</p>
 <p>Per un altro esempio, se parcheggi il file benchmarks.rb e lo modifichi, puoi usare <code>git diff</code> per vedere i cambiamenti nel file che sono in stage e i cambiamenti che non sono parcheggiati:</p>
 <pre><code>$ git add benchmarks.rb
-$ echo <span class="hljs-string">'# test line'</span> &gt;&gt; benchmarks.rb
+$ echo &#39;# test line&#39; &gt;&gt; benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes to be committed:
+#
+#    modified:   benchmarks.rb
+#
+# Changes not staged for commit:
+#
+#    modified:   benchmarks.rb
+#
 </code></pre><p>Ora puoi usare <code>git diff</code> per vedere cosa non è ancora parcheggiato</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index e445e28.<span class="hljs-number">.86</span>b2f7c <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index e445e28..86b2f7c 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">127</span>,<span class="hljs-number">3</span> +<span class="hljs-number">127</span>,<span class="hljs-number">4</span> @@ <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -127,3 +127,4 @@ end
  main()
 
- <span class="hljs-comment">##pp Grit::GitRuby.cache_client.stats</span>
-+<span class="hljs-comment"># test line</span>
+ ##pp Grit::GitRuby.cache_client.stats
++# test line
 </code></pre><p>e <code>git diff --cached</code> per vedere cosa hai parcheggiato precedentemente:</p>
-<pre><code>$ git diff <span class="hljs-comment">--cached</span>
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..e445e28 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+<pre><code>$ git diff --cached
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..e445e28 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-          @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+          @commit.parents[0].parents[0].parents[0]
+        end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-        run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-          <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-          <span class="hljs-built_in">log</span>.size
+        run_code(x, &#39;commits 2&#39;) do
+          log = git.commits(&#39;master&#39;, 15)
+          log.size
 </code></pre><h2 id="eseguire-il-commit-delle-tue-modifiche">Eseguire il Commit delle Tue Modifiche</h2>
 <p>Ora la tua area di stage è impostata come volevi, puoi eseguire il commit delle tue modifiche. Ricorda che qualsiasi cosa che non è parcheggiata — qualsiasi file che hai creato o modificato e a cui non hai fatto <code>git add</code> — non andrà nel commit. Rimarranno come file modificati sul tuo disco.
 In questo caso, l&#39;ultima volta che hai lanciato <code>git status</code>, hai visto che tutto era parcheggiato, così sei pronto ad inviare le tue modifiche con un commit. Il modo più semplice per eseguire il commit è digitare <code>git commit</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit
+<pre><code>$ git commit
 </code></pre><p>Facendo questo lanci l&#39;editor che avevi scelto. (Questo è impostato nella tua shell dalla variabile di ambiente <code>$EDITOR</code> — generalmente vim o emacs, ovviamente puoi configurarlo con qualsiasi altro editor usando il comando <code>git config --global core.editor</code> come visto nel Capitolo 1).</p>
 <p>L&#39;editor visualizzerà il seguente testo (questo è un esempio della schermata di Vim):</p>
-<pre><code><span class="hljs-preprocessor"># Please enter the commit message for your changes. Lines starting</span>
-<span class="hljs-preprocessor"># with '#' will be ignored, and an empty message aborts the commit.</span>
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       new file:   README</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
+<pre><code># Please enter the commit message for your changes. Lines starting
+# with &#39;#&#39; will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       new file:   README
+#       modified:   benchmarks.rb
 ~
 ~
 ~
-<span class="hljs-string">".git/COMMIT_EDITMSG"</span> <span class="hljs-number">10</span>L, <span class="hljs-number">283</span>C
+&quot;.git/COMMIT_EDITMSG&quot; 10L, 283C
 </code></pre><p>Puoi vedere che il messaggio predefinito del commit contiene l&#39;ultimo output del comando <code>git status</code>, commentato, e la prima riga in alto è vuota. Puoi rimuovere questi commenti ed inserire il tuo messaggio, o puoi lasciarli così per aiutarti a ricordare cosa hai inviato. (Per avere una nota di ricordo più esplicita puoi passare l&#39;opzione <code>-v</code> a <code>git commit</code>. Così facendo inserirai i cambiamenti effettuati nell&#39;editor in modo che tu possa vedere esattamente cosa hai fatto). Quando esci dall&#39;editor, Git crea il tuo commit con un messaggio (con i commenti ed i cambiamenti eliminati).</p>
 <p>In alternativa, puoi inserire il messaggio del tuo commit in linea con il comando <code>commit</code> specificando dopo di esso l&#39;opzione -m, come segue:</p>
-<pre><code>$ git commit -m "Story 182: Fix benchmarks for speed"
-[<span class="hljs-link_reference">master</span>]:<span class="hljs-link_url"> created 463dc4f: "Fix benchmarks for speed"</span><span class="hljs-link_url">
- 2 files changed, 3 insertions(+), 0 deletions(-)</span><span class="hljs-link_url">
- create mode 100644 README</span>
+<pre><code>$ git commit -m &quot;Story 182: Fix benchmarks for speed&quot;
+[master]: created 463dc4f: &quot;Fix benchmarks for speed&quot;
+ 2 files changed, 3 insertions(+), 0 deletions(-)
+ create mode 100644 README
 </code></pre><p>Ora hai creato il tuo primo commit! Puoi vedere che il commit ha riportato alcune informazioni sull&#39;operazione: a quale ramo hai affidato il commit (<code>master</code>), quale checksum SHA-1 ha il commit (<code>463dc4f</code>), quanti file sono stati modificati e le statistiche sulle linee aggiunte e rimosse nel commit.</p>
 <p>Ricorda che il commit registra lo snapshot che hai impostato nella tua area di stage. Qualsiasi cosa che non hai parcheggiato rimarrà come modificata; puoi fare un altro commit per aggiungere questi alla storia del progetto. Ogni volta che fai un commit stai registrando una istantanea del tuo progetto, che puoi ripristinare o comparare successivamente.</p>
 <h2 id="saltare-l-area-di-stage">Saltare l&#39;Area di Stage</h2>
 <p>Anche se può essere estremamente utile per amministrare i commit esattamente come li vuoi, l&#39;area di stage è molto più complessa di quanto tu possa averne bisogno nel lavoro normale. Se vuoi saltare l&#39;area di parcheggio, Git fornisce una semplice scorciatoia. Passando l&#39;opzione <code>-a</code> al comando <code>git commit</code> Git automaticamente parcheggia tutti i file che sono già stati tracciati facendo il commit, permettendoti di saltare la parte <code>git add</code>:</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
-$ git commit -a -m <span class="hljs-string">'added new benchmarks'</span>
-[master <span class="hljs-number">83e38</span>c7] added <span class="hljs-keyword">new</span> benchmarks
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">5</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+# On branch master
+#
+# Changes not staged for commit:
+#
+#    modified:   benchmarks.rb
+#
+$ git commit -a -m &#39;added new benchmarks&#39;
+[master 83e38c7] added new benchmarks
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 </code></pre><p>Nota come non hai bisogno, in questo caso, di lanciare <code>git add</code> sul file benchmarks.rb prima del commit.</p>
 <h2 id="rimuovere-file">Rimuovere File</h2>
 <p>Per rimuovere un file con Git, hai bisogno di rimuoverlo dai file tracciati (più precisamente,  rimuoverlo dall&#39;area di stage) e poi di fare il commit. Il comando <code>git rm</code> fa questo ed inoltre rimuove il file dalla tua directory di lavoro così non lo vedrai come un file non tracciato la prossima volta.</p>
 <p>Se semplicemente rimuovi il file dalla directory di lavoro, sarà visto sotto l&#39;area &quot;Changes not staged for commit&quot; (cioè, <em>non parcheggiato</em>) dell&#39;output <code>git status</code>:</p>
 <pre><code>$ rm grit.gemspec
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add/rm &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       deleted:    grit.gemspec</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes not staged for commit:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+#
+#       deleted:    grit.gemspec
+#
 </code></pre><p>Poi, se lanci <code>git rm</code>, parcheggia il file rimosso:</p>
 <pre><code>$ git rm grit.gemspec
-rm <span class="hljs-string">'grit.gemspec'</span>
+rm &#39;grit.gemspec&#39;
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       deleted:    grit.gemspec</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+#
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       deleted:    grit.gemspec
+#
 </code></pre><p>La prossima volta che fai il commit, il file se ne andrà e non sarà più tracciato. Se modifichi il file e già aggiunto all&#39;indice, devi forzarne la rimozione con l&#39;opzione <code>-f</code>. Questa è una caratteristica di sicurezza per prevenire la rimozione accidentale dei dati che non sono ancora stati registrati in uno snapshot e che non possono essere recuperati da Git.</p>
 <p>Un&#39;altra cosa utile che potresti voler fare è mantenere il file nel tuo albero di lavoro ma rimuoverlo dall&#39;area di stage. In altre parole, vuoi mantenere il file sul tuo disco ma non vuoi che Git ne mantenga ancora traccia. Questo è particolarmente utile se ti dimentichi di aggiungere qualcosa al tuo file <code>.gitignore</code> ed accidentalmente lo aggiungi, come un lungo file di log od un gruppo di file <code>.a</code> compilati. Per fare questo, usa l&#39;opzione <code>--cached</code>:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">rm</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">cached</span> <span class="hljs-comment">readme</span><span class="hljs-string">.</span><span class="hljs-comment">txt</span>
+<pre><code>$ git rm --cached readme.txt
 </code></pre><p>Puoi passare file, directory o glob pattern di file al comando <code>git rm</code>. Questo significa che puoi fare cose come</p>
-<pre><code>$ git rm <span class="hljs-keyword">log</span>/\*.<span class="hljs-keyword">log</span>
+<pre><code>$ git rm log/\*.log
 </code></pre><p>Nota la barra inversa (<code>\</code>) di fronte a <code>*</code>. Questo è necessario perché Git ha una sua espansione dei nomi di file in aggiunta all&#39;espansione dei filename della tua shell. Questo comando rimuove tutti i file che hanno l&#39;estensione <code>.log</code> nella directory <code>log/</code>. O puoi fare qualcosa di simile a:</p>
-<pre><code><span class="hljs-variable">$ </span>git rm \*~
+<pre><code>$ git rm \*~
 </code></pre><p>Questo comando rimuove tutti i file che finiscono con <code>~</code>.</p>
 <h2 id="muovere-file">Muovere File</h2>
 <p>A differenza di altri sistemi VCS, Git non traccia esplicitamente i movimenti di file. Se rinomini un file in Git, nessun metadato è immagazzinato in Git che ti dirà che hai rinominato il file. Tuttavia, Git è abbastanza intelligente da capirlo dopo che è avvenuto — ci occuperemo di rilevare il movimento dei file più tardi.</p>
 <p>Perciò crea un po&#39; di confusione il fatto che Git  abbia un comando <code>mv</code>. Se vuoi rinominare un file in Git, puoi lanciare qualcosa come</p>
-<pre><code><span class="hljs-variable">$ </span>git mv file_from file_to
+<pre><code>$ git mv file_from file_to
 </code></pre><p>e questo funziona bene. Infatti, se lanci qualcosa come questo e guardi lo stato, vedrai che Git considera il file rinominato:</p>
 <pre><code>$ git mv README.txt README
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Your branch is ahead of 'origin/master' by 1 commit.</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       renamed:    README.txt -&gt; README</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Your branch is ahead of &#39;origin/master&#39; by 1 commit.
+#
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       renamed:    README.txt -&gt; README
+#
 </code></pre><p>Ovviamente, questo è equivalente a lanciare qualcosa come:</p>
-<pre><code><span class="hljs-variable">$ </span>mv <span class="hljs-constant">README</span>.txt <span class="hljs-constant">README</span>
-<span class="hljs-variable">$ </span>git rm <span class="hljs-constant">README</span>.txt
-<span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
+<pre><code>$ mv README.txt README
+$ git rm README.txt
+$ git add README
 </code></pre><p>Git capisce implicitamente che è stato rinominato, così non è un problema rinominare un file in questo modo o con il comando <code>mv</code>. L&#39;unica reale differenza è che <code>mv</code> è un solo comando invece di tre — è un comando di convenienza.  Più importante è che tu puoi usare qualsiasi strumento per rinominare un file, ed aggiungere/togliere più tardi, prima di un commit.</p>
 
                     
@@ -1085,9 +1088,9 @@ $ git status
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

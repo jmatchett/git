@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.7" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.7" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,52 +857,52 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_931">
+                    <section class="normal" id="section-gitbook_1003">
                     
                         <h1 id="za-len-n-podstromu">Začlenění podstromu</h1>
 <p>Nyní, když jsme poznali obtíže spojené se systémem submodulů, podívejme se na jedno alternativní řešení tohoto problému. Git se vždy při slučování nejprve podívá, co a kam začleňuje, a podle toho zvolí vhodnou strategii začlenění. Pokud slučujete dvě větve, používá Git rekurzivní strategii. Pokud slučujete více než dvě větve, zvolí Git tzv. strategii chobotnice (octopus strategy). Git vybírá tyto strategie automaticky. Rekurzivní strategie zvládá složité třícestné slučování (např. s více než jedním společným předkem), ale nedokáže sloučit více než dvě větve. Chobotnicové sloučení dokáže naproti tomu sloučit několik větví, ale je opatrnější při předcházení složitým konfliktům. Proto je ostatně nastaveno jako výchozí strategie při slučování více než dvou větví.</p>
 <p>Existují však ještě další strategie. Jednou z nich je tzv. začlenění podstromu (subtree merge), které lze použít jako řešení problémů se subprojektem. Ukažme si, jak se dá začlenit stejný adresář rack jako v předchozí části, tentokrát však s využitím strategie začlenění podstromu.</p>
 <p>Začlenění podstromu spočívá v tom, že máte dva projekty a jeden z projektů se promítá do podadresáře druhého projektu a naopak. Pokud určíte strategii začlenění podstromu, je Git natolik inteligentní, aby zjistil, že je jeden podstromem druhého, a provedl sloučení odpovídajícím způsobem – počíná si opravdu sofistikovaně.</p>
 <p>Nejprve přidáte aplikaci Rack do svého projektu. Projekt Rack přidáte ve vlastním projektu jako vzdálenou referenci a provedete jeho checkout do vlastní větve:</p>
-<pre><code>$ git remote add rack_remote git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/rack.git
+<pre><code>$ git remote add rack_remote git@github.com:schacon/rack.git
 $ git fetch rack_remote
-<span class="hljs-attribute">warning</span>: <span class="hljs-literal">no</span> common commits
-<span class="hljs-attribute">remote</span>: Counting <span class="hljs-attribute">objects</span>: <span class="hljs-number">3184</span>, done.
-<span class="hljs-attribute">remote</span>: Compressing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">1465</span>/<span class="hljs-number">1465</span>), done.
-<span class="hljs-attribute">remote</span>: Total <span class="hljs-number">3184</span> (delta <span class="hljs-number">1952</span>), reused <span class="hljs-number">2770</span> (delta <span class="hljs-number">1675</span>)
-Receiving <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">3184</span>/<span class="hljs-number">3184</span>), <span class="hljs-number">677.42</span> KiB | <span class="hljs-number">4</span> KiB/s, done.
-Resolving <span class="hljs-attribute">deltas</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">1952</span>/<span class="hljs-number">1952</span>), done.
-From git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/rack
- * [<span class="hljs-keyword">new</span> branch]      build<span class="hljs-function">      -&gt;</span> rack_remote/build
- * [<span class="hljs-keyword">new</span> branch]      master<span class="hljs-function">     -&gt;</span> rack_remote/master
- * [<span class="hljs-keyword">new</span> branch]      rack-<span class="hljs-number">0.4</span><span class="hljs-function">   -&gt;</span> rack_remote/rack-<span class="hljs-number">0.4</span>
- * [<span class="hljs-keyword">new</span> branch]      rack-<span class="hljs-number">0.9</span><span class="hljs-function">   -&gt;</span> rack_remote/rack-<span class="hljs-number">0.9</span>
+warning: no common commits
+remote: Counting objects: 3184, done.
+remote: Compressing objects: 100% (1465/1465), done.
+remote: Total 3184 (delta 1952), reused 2770 (delta 1675)
+Receiving objects: 100% (3184/3184), 677.42 KiB | 4 KiB/s, done.
+Resolving deltas: 100% (1952/1952), done.
+From git@github.com:schacon/rack
+ * [new branch]      build      -&gt; rack_remote/build
+ * [new branch]      master     -&gt; rack_remote/master
+ * [new branch]      rack-0.4   -&gt; rack_remote/rack-0.4
+ * [new branch]      rack-0.9   -&gt; rack_remote/rack-0.9
 $ git checkout -b rack_branch rack_remote/master
 Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
-Switched to a <span class="hljs-keyword">new</span> branch <span class="hljs-string">"rack_branch"</span>
+Switched to a new branch &quot;rack_branch&quot;
 </code></pre><p>Nyní máte kořenový adresář s projektem Rack ve větvi <code>rack_branch</code> a vlastní projekt ve větvi <code>master</code>. Provedete-li checkout jedné a posléze druhé větve, uvidíte, že mají jiné kořenové adresáře:</p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">AUTHORS</span>           <span class="hljs-constant">KNOWN</span>-<span class="hljs-constant">ISSUES</span>   <span class="hljs-constant">Rakefile</span>      contrib           lib
-<span class="hljs-constant">COPYING</span>           <span class="hljs-constant">README</span>         bin           example           test
-<span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
-<span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">README</span>
+<pre><code>$ ls
+AUTHORS           KNOWN-ISSUES   Rakefile      contrib           lib
+COPYING           README         bin           example           test
+$ git checkout master
+Switched to branch &quot;master&quot;
+$ ls
+README
 </code></pre><p>Projekt Rack chcete do projektu <code>master</code> natáhnout jako podadresář. V systému Git k tomu slouží příkaz <code>git read-tree</code>. O příkazu <code>read-tree</code> a jeho příbuzných se více dočtete v kapitole 9, nyní však vězte, že načte kořenový strom jedné větve do vaší aktuální oblasti připravených změn a do pracovního adresáře. Přepnuli jste zpět na větev <code>master</code> a větev <code>rack</code> natáhnete do podadresáře <code>rack</code> své větve <code>master</code> hlavního projektu:</p>
-<pre><code>$ git <span class="hljs-built_in">read</span>-tree <span class="hljs-comment">--prefix=rack/ -u rack_branch</span>
+<pre><code>$ git read-tree --prefix=rack/ -u rack_branch
 </code></pre><p>Až zapíšete revizi, bude to vypadat, jako byste měli všechny soubory Rack v tomto podadresáři, jako byste je zkopírovali z tarballu. Je zajímavé, že tak lze opravdu jednoduše začlenit změny z jedné větve do druhé. Pokud je proto projekt Rack aktualizován, můžete natáhnout novější změny přepnutím na tuto větev a jejím natažením:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout rack_branch
-<span class="hljs-variable">$ </span>git pull
+<pre><code>$ git checkout rack_branch
+$ git pull
 </code></pre><p>Tyto změny pak můžete začlenit zpět do hlavní větve. Můžete použít příkaz <code>git merge -s subtree</code> a začlenění proběhne úspěšně. Git však sloučí také obě historie, což pravděpodobně nebylo vaším záměrem. Chcete-li natáhnout změny a předběžně vyplnit zprávu k revizi, použijte parametry <code>--squash</code>, <code>--no-commit</code> a také parametr strategie <code>-s subtree</code>:</p>
 <pre><code>$ git checkout master
-$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> --squash -s subtree --<span class="hljs-keyword">no</span>-<span class="hljs-keyword">commit</span> rack_branch
-Squash <span class="hljs-keyword">commit</span> -- <span class="hljs-keyword">not</span> updating HEAD
-Automatic <span class="hljs-keyword">merge</span> went well;</span> stopped before committing as requested
+$ git merge --squash -s subtree --no-commit rack_branch
+Squash commit -- not updating HEAD
+Automatic merge went well; stopped before committing as requested
 </code></pre><p>Všechny změny z projektu Rack budou začleněny a budete je moci lokálně zapsat. Můžete ale postupovat také opačně – provést změny v podadresáři <code>rack</code> vaší hlavní větve, poté je začlenit do větve <code>rack_branch</code> a poslat je správcům nebo je odeslat do repozitáře.</p>
 <p>Chcete-li se podívat na výpis „diff“ s rozdíly mezi tím, co máte v podadresáři <code>rack</code>, a kódem ve větvi <code>rack_branch</code> (abyste věděli, jestli je nutné je slučovat), nelze použít běžný příkaz <code>diff</code>. V tomto případě je třeba zadat příkaz <code>git diff-tree</code> a větev, s níž chcete srovnání provést:</p>
-<pre><code>$ git diff<span class="hljs-attribute">-tree</span> <span class="hljs-attribute">-p</span> rack_branch
+<pre><code>$ git diff-tree -p rack_branch
 </code></pre><p>Popřípadě chcete-li porovnat, co je ve vašem podadresáři <code>rack</code>, s tím, co bylo ve větvi <code>master</code> na serveru v okamžiku, kdy jste naposledy vyzvedávali data, spusťte příkaz:</p>
-<pre><code>$ git diff<span class="hljs-attribute">-tree</span> <span class="hljs-attribute">-p</span> rack_remote/master
+<pre><code>$ git diff-tree -p rack_remote/master
 </code></pre>
                     
                     </section>
@@ -918,9 +921,9 @@ Automatic <span class="hljs-keyword">merge</span> went well;</span> stopped befo
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

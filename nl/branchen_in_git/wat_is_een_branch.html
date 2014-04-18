@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.1" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,14 +847,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_551">
+                    <section class="normal" id="section-gitbook_622">
                     
                         <h1 id="wat-is-een-branch">Wat is een branch</h1>
 <p>Om de manier waarop Git brancht echt te begrijpen, moeten we een stap terug doen en onderzoeken hoe Git zijn gegevens opslaat. Zoals je je misschien herinnert van Hoofdstuk 1, slaat Git zijn gegevens niet op als een reeks van wijzigingen of delta&#39;s, maar in plaats daarvan als een serie snapshots.</p>
 <p>Als je in Git commit, dan slaat Git een commit object op dat een verwijzing bevat naar het snapshot van de inhoud die je gestaged hebt, de auteur- en bericht-metagegevens, en nul of meer verwijzingen naar de commit of commits die de directe ouders van deze commit waren: nul ouders voor de eerste commit, één ouder voor een normale commit, en meerdere ouders voor een commit die het resultaat is van een merge van twee of meer branches.</p>
 <p>Om dit te visualiseren, gaan we aannemen dat je een directory hebt met drie bestanden, en je staget en commit ze allemaal. Je gaat de bestanden stagen waardoor ze allemaal een checksum krijgen (de SHA-1 hash waar we het in Hoofdstuk 1 over hadden), bewaart die versie van het bestand in het Git repository (Git noemt ze blobs), en voegt die checksum toe aan de staging area:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span> test.rb <span class="hljs-constant">LICENSE</span>
-<span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit of my project'</span>
+<pre><code>$ git add README test.rb LICENSE
+$ git commit -m &#39;initial commit of my project&#39;
 </code></pre><p>Als je de commit aanmaakt door <code>git commit</code> uit te voeren zal Git iedere directory in het project van een checksum voorzien en slaat ze als boomstructuur (<code>tree</code>) objecten in de Git repository op. Daarna creëert Git een <code>commit</code> object dat de metagegevens bevat en een verwijzing naar de hoofd-<code>tree</code>-object van het project zodat Git deze snapshot opnieuw kan oproepen als dat nodig is.</p>
 <p>Je Git repository bevat nu vijf objecten: een blob voor de inhoud van ieder van de drie bestanden, een tree die de inhoud van de directory weergeeft en specificeert welke bestandsnamen opgeslagen zijn als welke blobs, en een commit met de verwijzing naar die hoofd-tree en alle commit-metagegevens. Conceptueel zien de gegevens in je Git repository eruit zoals in Figuur 3-1.</p>
 <p><img src="http://git-scm.com/figures/18333fig0301-tn.png" alt=""></p>
@@ -863,7 +866,7 @@
 <p><img src="http://git-scm.com/figures/18333fig0303-tn.png" alt=""></p>
 <p>Figuur 3-3. Branch wijzend in de commit gegevens historie.</p>
 <p>Wat gebeurt er als je een nieuwe branch maakt? Door dat te doen wordt een nieuwe verwijzing voor je aangemaakt die je dan kunt verplaatsen. Laten we zeggen dat je een nieuwe branch genaamd testing maakt. Je doet dit met het <code>git branch</code> commando:</p>
-<pre><code><span class="hljs-variable">$ </span>git branch testing
+<pre><code>$ git branch testing
 </code></pre><p>Dit maakt een nieuwe verwijzing naar dezelfde commit waar je nu op zit (zie Figuur 3-4).</p>
 <p><img src="http://git-scm.com/figures/18333fig0304-tn.png" alt=""></p>
 <p>Figuur 3-4. Meerdere branches wijzend naar de commit-gegevenshistorie.</p>
@@ -871,25 +874,25 @@
 <p><img src="http://git-scm.com/figures/18333fig0305-tn.png" alt=""></p>
 <p>Figuur 3-5. HEAD-bestand wijzend naar de branch waar je op zit.</p>
 <p>Om over te schakelen naar een bestaande branch, voer je het <code>git checkout</code> commando uit. Laten we eens overschakelen naar de nieuwe testing branch:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout testing
+<pre><code>$ git checkout testing
 </code></pre><p>Dit verplaatst HEAD zodat het wijst naar de testing branch (zie Figuur 3-6).</p>
 <p><img src="http://git-scm.com/figures/18333fig0306-tn.png" alt=""></p>
 <p>Figuur 3-6. HEAD wijst naar een andere branch als je omschakelt.</p>
 <p>Wat is hier het belang van? Wel, laten we eens een andere commit doen:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made a change'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made a change&#39;
 </code></pre><p>Figuur 3-7 toont het resultaat.</p>
 <p><img src="http://git-scm.com/figures/18333fig0307-tn.png" alt=""></p>
 <p>Figuur 3-7. De branch waar HEAD naar wijst gaat vooruit met iedere commit.</p>
 <p>Dit is interessant, omdat je testing branch nu vooruit is gegaan, maar je master branch nog steeds wijst naar de commit waar je op was toen je <code>git checkout</code> uitvoerde voor het overschakelen. Laten we eens terugschakelen naar de <code>master</code> branch:</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
+<pre><code>$ git checkout master
 </code></pre><p>Figuur 3-8 toont het resultaat.</p>
 <p><img src="http://git-scm.com/figures/18333fig0308-tn.png" alt=""></p>
 <p>Figuur 3-8. HEAD verschuift naar een andere branch bij een checkout.</p>
 <p>Dat commando heeft twee dingen gedaan. Het verplaatste de HEAD verwijzing terug naar de <code>master</code> branch, en het draaide de bestanden in je werkdirectory terug naar de snapshot waar die <code>master</code> naar wijst. Dit betekent ook dat de wijzigingen die je vanaf dit punt maakt uiteen zullen gaan lopen met een oudere versie van het project. In essentie betekent het dat het werk dat je in je testing branch hebt gedaan tijdelijk wordt teruggedraaid, zodat je een andere richting op kunt gaan.</p>
 <p>Laten we een paar wijzigingen maken en nog eens committen:</p>
-<pre><code><span class="hljs-variable">$ </span>vim test.rb
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'made other changes'</span>
+<pre><code>$ vim test.rb
+$ git commit -a -m &#39;made other changes&#39;
 </code></pre><p>Nu is je projecthistorie uiteengelopen (zie Figuur 3-9). Je hebt een branch gemaakt en bent er naartoe overgeschakeld, hebt er wat werk op gedaan, en bent toen teruggeschakeld naar je hoofd-branch en hebt nog wat ander werk gedaan. Al die veranderingen zijn geïsoleerd van elkaar in aparte branches: je kunt heen en weer schakelen tussen de branches en ze mergen als je klaar bent. En je hebt dat alles gedaan met eenvoudige <code>branch</code> en <code>checkout</code> commando&#39;s.</p>
 <p><img src="http://git-scm.com/figures/18333fig0309-tn.png" alt=""></p>
 <p>Figuur 3-9. De branch-histories zijn uiteen gaan lopen.</p>
@@ -914,9 +917,9 @@
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

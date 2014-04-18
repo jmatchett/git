@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="6.2" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="6.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -849,128 +852,128 @@
                         <h1 id="-">Интерактивное индексирование</h1>
 <p>Вместе с Git&#39;ом поставляется пара сценариев (script), облегчающих выполнение некоторых задач в командной строке. Сейчас мы посмотрим на несколько интерактивных команд, которые помогут вам легко смастерить свои коммиты так, чтобы включить в них только определённые части файлов. Эти инструменты сильно помогают в случае, когда вы поменяли кучу файлов, а потом решили, что хотите, чтобы эти изменения были в нескольких сфокусированных коммитах, а не в одном большом путанном коммите. Так вы сможете убедиться, что ваши коммиты — это логически разделённые наборы изменений, которые будет легко просматривать другим разработчикам, работающим с вами.
 Если вы выполните <code>git add</code> с опцией <code>-i</code> или <code>--interactive</code>, Git перейдёт в режим интерактивной оболочки и покажет что-то похожее на это:</p>
-<pre><code>$ git <span class="hljs-keyword">add</span> -i
+<pre><code>$ git add -i
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:    unchanged        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span> index<span class="hljs-preprocessor">.html</span>
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit<span class="hljs-preprocessor">.rb</span>
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 
 *** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: <span class="hljs-keyword">add</span> untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
 What now&gt; 
 </code></pre><p>Как видите, эта команда показывает содержимое индекса, но в другом виде — по сути, ту же информацию вы получили бы при вызове <code>git status</code>, но здесь она в более сжатом и информативном виде. <code>git add -i</code> показывает проиндексированные изменения слева, а непроиндексированные — справа.</p>
 <p>Затем идёт раздел Commands (команды). Тут можно сделать многие вещи, включая добавление файлов в индекс, удаление файлов из индекса, индексирование файлов частями, добавление неотслеживаемых файлов и просмотр дельт (diff) проиндексированных изменений.</p>
 <h2 id="-">Добавление и удаление файлов из индекса</h2>
 <p>Если набрать <code>2</code> или <code>u</code> в приглашении <code>What now&gt;</code>, сценарий спросит, какие файлы вы хотите добавить в индекс:</p>
-<pre><code>What now&gt; <span class="hljs-number">2</span>
+<pre><code>What now&gt; 2
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:    unchanged        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span> index<span class="hljs-preprocessor">.html</span>
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit<span class="hljs-preprocessor">.rb</span>
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 Update&gt;&gt;
 </code></pre><p>Чтобы проиндексировать файлы TODO и index.html, нужно набрать их номера:</p>
 <pre><code>Update&gt;&gt; 1,2
-<span class="hljs-code">           staged     unstaged path</span>
-<span class="hljs-bullet">* </span>1:    unchanged        +0/-1 TODO
-<span class="hljs-bullet">* </span>2:    unchanged        +1/-1 index.html
+           staged     unstaged path
+* 1:    unchanged        +0/-1 TODO
+* 2:    unchanged        +1/-1 index.html
   3:    unchanged        +5/-1 lib/simplegit.rb
 Update&gt;&gt;
 </code></pre><p>Символ <code>*</code> рядом с каждым файлом означает, что файл выбран для индексирования. Если вы сейчас ничего не будете вводить, а нажмёте Enter в приглашении <code>Update&gt;&gt;</code>, то Git возьмёт всё, что уже выбрано, и добавит в индекс:</p>
-<pre><code><span class="hljs-operator"><span class="hljs-keyword">Update</span>&gt;&gt; 
-updated <span class="hljs-number">2</span> paths
+<pre><code>Update&gt;&gt; 
+updated 2 paths
 
 *** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: <span class="hljs-keyword">update</span>      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: <span class="hljs-keyword">add</span> untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">1</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 1
            staged     unstaged path
-  <span class="hljs-number">1</span>:        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span>      nothing TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      nothing index.html
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit.rb</span>
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 </code></pre><p>Как видите, теперь файлы TODO и index.html проиндексированы (staged), а файл simplegit.rb — всё ещё нет. Если в этот момент вы хотите удалить файл TODO из индекса, используйте опцию <code>3</code> или <code>r</code> (revert):</p>
 <pre><code>*** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: add untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">3</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 3
            staged     unstaged path
-  <span class="hljs-number">1</span>:        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> index.html
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> <span class="hljs-keyword">lib</span>/simplegit.rb
-Revert&gt;&gt; <span class="hljs-number">1</span>
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Revert&gt;&gt; 1
            staged     unstaged path
-* <span class="hljs-number">1</span>:        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> index.html
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> <span class="hljs-keyword">lib</span>/simplegit.rb
+* 1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 Revert&gt;&gt; [enter]
 reverted one path
 </code></pre><p>Взглянув на статус снова, вы увидите, что файл TODO удалён из индекса:</p>
 <pre><code>*** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: <span class="hljs-keyword">add</span> untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">1</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 1
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      nothing index<span class="hljs-preprocessor">.html</span>
-  <span class="hljs-number">3</span>:    unchanged        +<span class="hljs-number">5</span>/-<span class="hljs-number">1</span> lib/simplegit<span class="hljs-preprocessor">.rb</span>
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
 </code></pre><p>Чтобы посмотреть дельту для проиндексированных изменений, используйте команду <code>6</code> или <code>d</code> (diff). Она покажет вам список проиндексированных файлов, и вы сможете выбрать те, для которых хотите посмотреть дельту. Это почти то же, что указать <code>git diff --cached</code> в командной строке:</p>
 <pre><code>*** Commands ***
-  <span class="hljs-number">1</span>: status     <span class="hljs-number">2</span>: update      <span class="hljs-number">3</span>: revert     <span class="hljs-number">4</span>: add untracked
-  <span class="hljs-number">5</span>: patch      <span class="hljs-number">6</span>: diff        <span class="hljs-number">7</span>: quit       <span class="hljs-number">8</span>: help
-What now&gt; <span class="hljs-number">6</span>
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 6
            staged     unstaged path
-  <span class="hljs-number">1</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      nothing <span class="hljs-keyword">index</span>.html
-Review diff&gt;&gt; <span class="hljs-number">1</span>
-diff --git a/<span class="hljs-keyword">index</span>.html b/<span class="hljs-keyword">index</span>.html
-<span class="hljs-keyword">index</span> <span class="hljs-number">4</span>d07108.<span class="hljs-number">.4335</span>f49 <span class="hljs-number">100644</span>
---- a/<span class="hljs-keyword">index</span>.html
-+++ b/<span class="hljs-keyword">index</span>.html
-@@ -<span class="hljs-number">16</span>,<span class="hljs-number">7</span> +<span class="hljs-number">16</span>,<span class="hljs-number">7</span> @@ Date Finder
+  1:        +1/-1      nothing index.html
+Review diff&gt;&gt; 1
+diff --git a/index.html b/index.html
+index 4d07108..4335f49 100644
+--- a/index.html
++++ b/index.html
+@@ -16,7 +16,7 @@ Date Finder
 
- &lt;p id=<span class="hljs-string">"out"</span>&gt;...&lt;/p&gt;
+ &lt;p id=&quot;out&quot;&gt;...&lt;/p&gt;
 
--&lt;<span class="hljs-keyword">div</span> id=<span class="hljs-string">"footer"</span>&gt;contact : support@github.com&lt;/<span class="hljs-keyword">div</span>&gt;
-+&lt;<span class="hljs-keyword">div</span> id=<span class="hljs-string">"footer"</span>&gt;contact : email.support@github.com&lt;/<span class="hljs-keyword">div</span>&gt;
+-&lt;div id=&quot;footer&quot;&gt;contact : support@github.com&lt;/div&gt;
++&lt;div id=&quot;footer&quot;&gt;contact : email.support@github.com&lt;/div&gt;
 
- &lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
+ &lt;script type=&quot;text/javascript&quot;&gt;
 </code></pre><p>С помощью этих базовых команд вы можете использовать интерактивный режим для <code>git add</code>, чтобы немного проще работать со своим индексом.</p>
 <h2 id="-">Индексирование по частям</h2>
 <p>Для Git&#39;а также возможно индексировать определённые части файлов, а не всё сразу. Например, если вы сделали несколько изменений в файле simplegit.rb и хотите проиндексировать одно из них, а другое — нет, то сделать такое в Git&#39;е очень легко. В строке приглашения интерактивного режима наберите <code>5</code> или <code>p</code> (patch). Git спросит, какие файлы вы хотите индексировать частями; затем для каждой части изменений в выбранных файлах один за другим будут показываться куски дельт файла, и вас будут спрашивать, хотите ли вы занести их в индекс:</p>
-<pre><code>diff <span class="hljs-comment">--git a/lib/simplegit.rb b/lib/simplegit.rb</span>
-index dd5ecc4.<span class="hljs-number">.57399e0</span> <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/lib/simplegit.rb</span>
+<pre><code>diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index dd5ecc4..57399e0 100644
+--- a/lib/simplegit.rb
 +++ b/lib/simplegit.rb
-@@ -<span class="hljs-number">22</span>,<span class="hljs-number">7</span> +<span class="hljs-number">22</span>,<span class="hljs-number">7</span> @@ class SimpleGit
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -22,7 +22,7 @@ class SimpleGit
+   end
 
-   def <span class="hljs-built_in">log</span>(treeish = <span class="hljs-string">'master'</span>)
--    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log -n 25 #{treeish}"</span>)</span>
-+    <span class="hljs-command"><span class="hljs-keyword">command</span>(<span class="hljs-string">"git log -n 30 #{treeish}"</span>)</span>
-   <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+   def log(treeish = &#39;master&#39;)
+-    command(&quot;git log -n 25 #{treeish}&quot;)
++    command(&quot;git log -n 30 #{treeish}&quot;)
+   end
 
    def blame(path)
-Stage this hunk [y,n,<span class="hljs-operator">a</span>,d,/,j,J,g,e,?]? 
+Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 </code></pre><p>На этой стадии у вас много вариантов действий. Набрав <code>?</code>, вы получите список возможных действий:</p>
-<pre><code>Stage this hunk [y,n,<span class="hljs-operator">a</span>,d,/,j,J,g,e,?]? ?
+<pre><code>Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 y - stage this hunk (добавить этот кусок в индекс)
-n - <span class="hljs-built_in">do</span> <span class="hljs-operator">not</span> stage this hunk (не добавлять этот кусок в индекс)
-<span class="hljs-operator">a</span> - stage this <span class="hljs-operator">and</span> all <span class="hljs-operator">the</span> remaining hunks <span class="hljs-operator">in</span> <span class="hljs-operator">the</span> <span class="hljs-built_in">file</span> (добавить этот и все оставшиеся куски в этом файле в индекс)
-d - <span class="hljs-built_in">do</span> <span class="hljs-operator">not</span> stage this hunk nor <span class="hljs-keyword">any</span> <span class="hljs-operator">of</span> <span class="hljs-operator">the</span> remaining hunks <span class="hljs-operator">in</span> <span class="hljs-operator">the</span> <span class="hljs-built_in">file</span> (не добавлять в индекс ни этот, ни последующие куски в этом файле)
-g - select <span class="hljs-operator">a</span> hunk <span class="hljs-built_in">to</span> go <span class="hljs-built_in">to</span> (выбрать кусок и перейти к нему)
-/ - search <span class="hljs-keyword">for</span> <span class="hljs-operator">a</span> hunk matching <span class="hljs-operator">the</span> given regex (поиск куска по регулярному выражению)
+n - do not stage this hunk (не добавлять этот кусок в индекс)
+a - stage this and all the remaining hunks in the file (добавить этот и все оставшиеся куски в этом файле в индекс)
+d - do not stage this hunk nor any of the remaining hunks in the file (не добавлять в индекс ни этот, ни последующие куски в этом файле)
+g - select a hunk to go to (выбрать кусок и перейти к нему)
+/ - search for a hunk matching the given regex (поиск куска по регулярному выражению)
 j - leave this hunk undecided, see next undecided hunk (отложить решение для этого куска, перейти к следующему отложенному куску)
 J - leave this hunk undecided, see next hunk (отложить решение для этого куска, перейти к следующему куску)
 k - leave this hunk undecided, see previous undecided hunk (отложить решение для этого куска, перейти к предыдущему отложенному куску)
 K - leave this hunk undecided, see previous hunk (отложить решение для этого куска, перейти к предыдущему куску)
-s - <span class="hljs-built_in">split</span> <span class="hljs-operator">the</span> current hunk <span class="hljs-keyword">into</span> smaller hunks (разбить текущий кусок на меньшие части)
-e - manually edit <span class="hljs-operator">the</span> current hunk (отредактировать текущий кусок вручную)
+s - split the current hunk into smaller hunks (разбить текущий кусок на меньшие части)
+e - manually edit the current hunk (отредактировать текущий кусок вручную)
 ? - print help (вывести справку)
 </code></pre><p>Как правило, вы будете использовать <code>y</code> или <code>n</code> для индексирования каждого куска, но индексирование всех кусков сразу в некоторых файлах или откладывание решения на потом также может оказаться полезным. Если вы добавите в индекс одну часть файла, а другую часть — нет, вывод статуса будет выглядеть так:</p>
-<pre><code>What now&gt; <span class="hljs-number">1</span>
+<pre><code>What now&gt; 1
            staged     unstaged path
-  <span class="hljs-number">1</span>:    unchanged        +<span class="hljs-number">0</span>/-<span class="hljs-number">1</span> TODO
-  <span class="hljs-number">2</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>      <span class="hljs-literal">nothing</span> index.html
-  <span class="hljs-number">3</span>:        +<span class="hljs-number">1</span>/-<span class="hljs-number">1</span>        +<span class="hljs-number">4</span>/-<span class="hljs-number">0</span> <span class="hljs-keyword">lib</span>/simplegit.rb
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:        +1/-1        +4/-0 lib/simplegit.rb
 </code></pre><p>Статус файла simplegit.rb выглядит любопытно. Он показывает, что часть строк в индексе, а часть — не в индексе. Мы частично проиндексировали этот файл. Теперь вы можете выйти из интерактивного сценария и выполнить <code>git commit</code>, чтобы создать коммит из этих частично проиндексированных файлов.</p>
 <p>В заключение скажем, что нет необходимости входить в интерактивный режим <code>git add</code>, чтобы выполнять индексирование частями — вы можете запустить тот же сценарий, набрав <code>git add -p</code> или <code>git add --patch</code> в командной строке.</p>
 
@@ -991,9 +994,9 @@ e - manually edit <span class="hljs-operator">the</span> current hunk (отре�
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

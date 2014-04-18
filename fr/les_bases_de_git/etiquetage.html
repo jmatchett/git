@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.6" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.6" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_635">
+                    <section class="normal" id="section-gitbook_848">
                     
                         <h1 id="-tiquetage">Étiquetage</h1>
 <p>À l&#39;instar de la plupart des VCS, Git donne la possibilité d&#39;étiqueter un certain état dans l&#39;historique comme important.
@@ -853,19 +856,19 @@ Dans cette section, nous apprendrons comment lister les différentes étiquettes
 <h2 id="lister-vos-tiquettes">Lister vos étiquettes</h2>
 <p>Lister les étiquettes existantes dans Git est très simple.
 Tapez juste <code>git tag</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git tag
-v<span class="hljs-number">0</span>.<span class="hljs-number">1</span>
-v1.<span class="hljs-number">3</span>
+<pre><code>$ git tag
+v0.1
+v1.3
 </code></pre><p>Cette commande liste les étiquettes dans l&#39;ordre alphabétique.
 L&#39;ordre dans lequel elles apparaissent n&#39;a aucun rapport avec l&#39;historique.</p>
 <p>Vous pouvez aussi rechercher les étiquettes correspondant à un motif particulier.
 Par exemple, le dépôt des sources de Git contient plus de 240 étiquettes.
 Si vous souhaitez ne visualiser que les séries 1.4.2, vous pouvez lancer ceci :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-l</span> <span class="hljs-string">'v1.4.2.*'</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.2</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.4</span>
+<pre><code>$ git tag -l &#39;v1.4.2.*&#39;
+v1.4.2.1
+v1.4.2.2
+v1.4.2.3
+v1.4.2.4
 </code></pre><h2 id="cr-er-des-tiquettes">Créer des étiquettes</h2>
 <p>Git utilise deux types principaux d&#39;étiquettes : légères et annotées.
 Une étiquette légère ressemble beaucoup à une branche qui ne change pas, c&#39;est juste un pointeur sur un <em>commit</em> spécifique.
@@ -875,114 +878,114 @@ Il est généralement recommandé de créer des étiquettes annotées pour gén�
 <h2 id="les-tiquettes-annot-es">Les étiquettes annotées</h2>
 <p>Créer des étiquettes annotées est simple avec Git.
 Le plus simple est de spécifier l&#39;option <code>-a</code> à la commande <code>tag</code> :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.4</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my version 1.4'</span>
-$ git <span class="hljs-built_in">tag</span>
-v0<span class="hljs-number">.1</span>
-v1<span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span>
+<pre><code>$ git tag -a v1.4 -m &#39;my version 1.4&#39;
+$ git tag
+v0.1
+v1.3
+v1.4
 </code></pre><p>L&#39;option <code>-m</code> permet de spécifier le message d&#39;étiquetage qui sera stocké avec l&#39;étiquette.
 Si vous ne spécifiez pas de message en ligne pour une étiquette annotée, Git lance votre éditeur pour pouvoir le saisir.</p>
 <p>Vous pouvez visualiser les données de l&#39;étiquette à côté du <em>commit</em> qui a été marqué en utilisant la commande <code>git show</code> :</p>
-<pre><code>$ git show v1<span class="hljs-number">.4</span>
-<span class="hljs-built_in">tag</span> v1<span class="hljs-number">.4</span>
-Tagger: Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gee<span class="hljs-attribute">-mail</span><span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">14</span>:<span class="hljs-number">45</span>:<span class="hljs-number">11</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0800</span>
+<pre><code>$ git show v1.4
+tag v1.4
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 14:45:11 2009 -0800
 
-my version <span class="hljs-number">1.4</span>
-commit <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-Merge: <span class="hljs-number">4</span>a447f7<span class="hljs-attribute">...</span> a6b4c97<span class="hljs-attribute">...</span>
-Author: Scott Chacon <span class="hljs-subst">&lt;</span>schacon@gee<span class="hljs-attribute">-mail</span><span class="hljs-built_in">.</span>com<span class="hljs-subst">&gt;</span>
-<span class="hljs-built_in">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> <span class="hljs-subst">-</span><span class="hljs-number">0800</span>
+my version 1.4
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    Merge branch <span class="hljs-string">'experiment'</span>
+    Merge branch &#39;experiment&#39;
 </code></pre><p>Cette commande affiche le nom du créateur, la date de création de l&#39;étiquette et le message d&#39;annotation avant de montrer effectivement l&#39;information de validation.</p>
 <h2 id="les-tiquettes-sign-es">Les étiquettes signées</h2>
 <p>Vous pouvez aussi signer vos étiquettes avec GPG, à condition d&#39;avoir une clé privée.
 Il suffit de spécifier l&#39;option <code>-s</code> au lieu de <code>-a</code> :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-s</span> v1<span class="hljs-number">.5</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'my signed 1.5 tag'</span>
-You need a passphrase <span class="hljs-keyword">to</span> unlock the secret key for
-user: <span class="hljs-string">"Scott Chacon &lt;schacon@gee-mail.com&gt;"</span>
-<span class="hljs-number">1024</span><span class="hljs-attribute">-bit</span> DSA key, ID F721C45A, created <span class="hljs-number">2009</span><span class="hljs-subst">-</span><span class="hljs-number">02</span><span class="hljs-subst">-</span><span class="hljs-number">09</span>
+<pre><code>$ git tag -s v1.5 -m &#39;my signed 1.5 tag&#39;
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;schacon@gee-mail.com&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09
 </code></pre><p>En lançant <code>git show</code> sur cette étiquette, on peut visualiser la signature GPG attachée :</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> v1<span class="hljs-number">.5</span>
-tag v1<span class="hljs-number">.5</span>
+<pre><code>$ git show v1.5
+tag v1.5
 Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">15</span>:<span class="hljs-number">22</span>:<span class="hljs-number">20</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Mon Feb 9 15:22:20 2009 -0800
 
-my signed <span class="hljs-number">1.5</span> tag
------<span class="hljs-keyword">BEGIN</span> PGP SIGNATURE-----
-Version: GnuPG v1<span class="hljs-number">.4</span><span class="hljs-number">.8</span> (Darwin)
+my signed 1.5 tag
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.8 (Darwin)
 
 iEYEABECAAYFAkmQurIACgkQON3DxfchxFr5cACeIMN+ZxLKggJQf0QYiQBwgySN
 Ki0An2JeAVUCAiJ7Ox6ZEtK+NvZAj82/
 =WryJ
------<span class="hljs-keyword">END</span> PGP SIGNATURE-----
-<span class="hljs-keyword">commit</span> <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">4</span>a447f7... a6b4c97...
+-----END PGP SIGNATURE-----
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    <span class="hljs-keyword">Merge</span> branch <span class="hljs-string">'experiment'</span></span>
+    Merge branch &#39;experiment&#39;
 </code></pre><p>Plus loin, nous verrons comment vérifier une étiquette signée.</p>
 <h2 id="les-tiquettes-l-g-res">Les étiquettes légères</h2>
 <p>Une autre manière d&#39;étiqueter les <em>commits</em> est d&#39;utiliser les étiquettes légères.
 Celles-ci se réduisent à stocker la somme de contrôle d&#39;un <em>commit</em> dans un fichier, aucune autre information n&#39;est conservée.
 Pour créer une étiquette légère, il suffit de n&#39;utiliser aucune des option <code>-a</code>, <code>-s</code> ou <code>-m</code> :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> v1<span class="hljs-number">.4</span><span class="hljs-attribute">-lw</span>
-$ git <span class="hljs-built_in">tag</span>
-v0<span class="hljs-number">.1</span>
-v1<span class="hljs-number">.3</span>
-v1<span class="hljs-number">.4</span>
-v1<span class="hljs-number">.4</span><span class="hljs-attribute">-lw</span>
-v1<span class="hljs-number">.5</span>
+<pre><code>$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5
 </code></pre><p>Cette fois-ci, en lançant <code>git show</code> sur l&#39;étiquette, on ne voit plus aucune information complémentaire.
 La commande ne montre que l&#39;information de validation :</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">show</span> v1<span class="hljs-number">.4</span>-lw
-<span class="hljs-keyword">commit</span> <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6
-<span class="hljs-keyword">Merge</span>: <span class="hljs-number">4</span>a447f7... a6b4c97...
+<pre><code>$ git show v1.4-lw
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sun Feb <span class="hljs-number">8</span> <span class="hljs-number">19</span>:<span class="hljs-number">02</span>:<span class="hljs-number">46</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Sun Feb 8 19:02:46 2009 -0800
 
-    <span class="hljs-keyword">Merge</span> branch <span class="hljs-string">'experiment'</span></span>
+    Merge branch &#39;experiment&#39;
 </code></pre><h2 id="v-rifier-des-tiquettes">Vérifier des étiquettes</h2>
 <p>Pour vérifier une étiquette signée, il faut utiliser <code>git tag -v [nom-d&#39;étiquette]</code>.
 Cette commande utilise GPG pour vérifier la signature.
 La clé publique du signataire doit être présente dans votre trousseau :</p>
 <pre><code>$ git tag -v v1.4.2.1
 object 883653babd8ee7ea23e6a5c392bb739348b1eb61
-type <span class="hljs-operator"><span class="hljs-keyword">commit</span>
-tag v1<span class="hljs-number">.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
-tagger Junio C Hamano &lt;junkio@cox.net&gt; <span class="hljs-number">1158138501</span> -<span class="hljs-number">0700</span>
+type commit
+tag v1.4.2.1
+tagger Junio C Hamano &lt;junkio@cox.net&gt; 1158138501 -0700
 
-GIT <span class="hljs-number">1.4</span><span class="hljs-number">.2</span><span class="hljs-number">.1</span>
+GIT 1.4.2.1
 
-Minor fixes since <span class="hljs-number">1.4</span><span class="hljs-number">.2</span>, including git-mv <span class="hljs-keyword">and</span> git-http <span class="hljs-keyword">with</span> alternates.
-gpg: Signature made Wed Sep <span class="hljs-number">13</span> <span class="hljs-number">02</span>:<span class="hljs-number">08</span>:<span class="hljs-number">25</span> <span class="hljs-number">2006</span> PDT <span class="hljs-keyword">using</span> DSA <span class="hljs-keyword">key</span> ID F3119B9A
-gpg: Good signature <span class="hljs-keyword">from</span> <span class="hljs-string">"Junio C Hamano &lt;junkio@cox.net&gt;"</span>
-gpg:                 aka <span class="hljs-string">"[jpeg image of size 1513]"</span>
-<span class="hljs-keyword">Primary</span> <span class="hljs-keyword">key</span> fingerprint: <span class="hljs-number">3565</span> <span class="hljs-number">2</span>A26 <span class="hljs-number">2040</span> E066 C9A7  <span class="hljs-number">4</span>A7D C0C6 D9A4 F311 <span class="hljs-number">9</span>B9A</span>
+Minor fixes since 1.4.2, including git-mv and git-http with alternates.
+gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Good signature from &quot;Junio C Hamano &lt;junkio@cox.net&gt;&quot;
+gpg:                 aka &quot;[jpeg image of size 1513]&quot;
+Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 </code></pre><p>Si la clé publique du signataire n&#39;est pas présente dans le trousseau, la commande donne le résultat suivant :</p>
-<pre><code><span class="hljs-attribute">gpg</span>: <span class="hljs-string">Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A</span>
-<span class="hljs-attribute">gpg</span>: <span class="hljs-string">Can't check signature: public key not found</span>
-<span class="hljs-attribute">error</span>: <span class="hljs-string">could not verify the tag 'v1.4.2.1'</span>
+<pre><code>gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Can&#39;t check signature: public key not found
+error: could not verify the tag &#39;v1.4.2.1&#39;
 </code></pre><h2 id="-tiqueter-apr-s-coup">Étiqueter après coup</h2>
 <p>Vous pouvez aussi étiqueter des <em>commits</em> plus anciens.
 Supposons que l&#39;historique des <em>commits</em> ressemble à ceci :</p>
 <pre><code>$ git log --pretty=oneline
-<span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6 Fusion branche <span class="hljs-comment">'experimental'</span>
-a6b4c97498bd301d84096da251c98a07c7723e65 Début de l<span class="hljs-comment">'écriture support</span>
-<span class="hljs-number">0</span>d52aaab4479697da7686c15f77a3d64d9165190 Un truc de plus
-<span class="hljs-number">6</span>d52a271eda8725415634dd79daabbc4d9b6008e Fusion branche <span class="hljs-comment">'experimental'</span>
-<span class="hljs-number">0</span>b7434d86859cc7b8c3d5e1dddfed66ff742fcbc ajout d<span class="hljs-comment">'une fonction de validatn</span>
-<span class="hljs-number">4682</span>c3261057305bdd616e23b64b0857d832627b ajout fichier afaire
-<span class="hljs-number">166</span>ae0c4d3f420721acbb115cc33848dfcc2121a début de l<span class="hljs-comment">'ecriture support</span>
-<span class="hljs-number">9</span>fceb02d0ae598e95dc970b74767f19372d61af8 mise à jour rakefile
-<span class="hljs-number">964</span>f16d36dfccde844893cac5b347e7b3d44abbc validation afaire
-<span class="hljs-number">8</span>a5cbc430f1a9c3d00faaeffd07798508422908a mise à jour lisezmoi
+15027957951b64cf874c3557a0f3547bd83b3ff6 Fusion branche &#39;experimental&#39;
+a6b4c97498bd301d84096da251c98a07c7723e65 Début de l&#39;écriture support
+0d52aaab4479697da7686c15f77a3d64d9165190 Un truc de plus
+6d52a271eda8725415634dd79daabbc4d9b6008e Fusion branche &#39;experimental&#39;
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc ajout d&#39;une fonction de validatn
+4682c3261057305bdd616e23b64b0857d832627b ajout fichier afaire
+166ae0c4d3f420721acbb115cc33848dfcc2121a début de l&#39;ecriture support
+9fceb02d0ae598e95dc970b74767f19372d61af8 mise à jour rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc validation afaire
+8a5cbc430f1a9c3d00faaeffd07798508422908a mise à jour lisezmoi
 </code></pre><p>Maintenant, supposons que vous avez oublié d&#39;étiqueter le projet à la version <code>v1.2</code> qui correspondait au <em>commit</em> « mise à jour rakefile ».
 Vous pouvez toujours le faire après l&#39;évènement.
 Pour étiqueter ce <em>commit</em>, vous spécifiez la somme de contrôle du <em>commit</em> (ou une partie) en fin de commande :</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-a</span> v1<span class="hljs-number">.2</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">'version 1.2'</span> <span class="hljs-number">9</span>fceb02
+<pre><code>$ git tag -a v1.2 -m &#39;version 1.2&#39; 9fceb02
 </code></pre><p>Le <em>commit</em> a été étiqueté :</p>
 <pre><code>$ git tag
 v0.1
@@ -995,39 +998,39 @@ v1.5
 $ git show v1.2
 tag v1.2
 Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Feb <span class="hljs-number">9</span> <span class="hljs-number">15</span>:<span class="hljs-number">32</span>:<span class="hljs-number">16</span> <span class="hljs-number">2009</span> -<span class="hljs-number">0800</span>
+Date:   Mon Feb 9 15:32:16 2009 -0800
 
-version <span class="hljs-number">1.2</span>
+version 1.2
 commit 9fceb02d0ae598e95dc970b74767f19372d61af8
 Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;
-Date:   Sun Apr <span class="hljs-number">27</span> <span class="hljs-number">20</span>:<span class="hljs-number">43</span>:<span class="hljs-number">35</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sun Apr 27 20:43:35 2008 -0700
 
     mise à jour rakefile
-<span class="hljs-keyword">...</span>
+...
 </code></pre><h2 id="partager-les-tiquettes">Partager les étiquettes</h2>
 <p>Par défaut, la commande <code>git push</code> ne transfère pas les étiquettes vers les serveurs distants.
 Il faut explicitement pousser les étiquettes après les avoir créées localement.
 Ce processus s&#39;apparente à pousser des branches distantes — vous pouvez lancer <code>git push origin [nom-du-tag]</code>.</p>
-<pre><code>$ git push origin v1<span class="hljs-number">.5</span>
-Counting objects: <span class="hljs-number">50</span>, <span class="hljs-keyword">done</span>.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">38</span>/<span class="hljs-number">38</span>), <span class="hljs-keyword">done</span>.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-number">4.56</span> KiB, <span class="hljs-keyword">done</span>.
-Total <span class="hljs-number">44</span> (delta <span class="hljs-number">18</span>), reused <span class="hljs-number">8</span> (delta <span class="hljs-number">1</span>)
+<pre><code>$ git push origin v1.5
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
 To git@github.com:schacon/simplegit.git
-* [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.5</span> -&gt; v1<span class="hljs-number">.5</span>
+* [new tag]         v1.5 -&gt; v1.5
 </code></pre><p>Si vous avez de nombreuses étiquettes que vous souhaitez pousser en une fois, vous pouvez aussi utiliser l&#39;option <code>--tags</code> avec la commande <code>git push</code>.
 Ceci transférera toutes les nouvelles étiquettes vers le serveur distant.</p>
 <pre><code>$ git push origin --tags
-Counting <span class="hljs-attribute">objects</span>: <span class="hljs-number">50</span>, done.
-Compressing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">38</span>/<span class="hljs-number">38</span>), done.
-Writing <span class="hljs-attribute">objects</span>: <span class="hljs-number">100</span>% (<span class="hljs-number">44</span>/<span class="hljs-number">44</span>), <span class="hljs-number">4.56</span> KiB, done.
-Total <span class="hljs-number">44</span> (delta <span class="hljs-number">18</span>), reused <span class="hljs-number">8</span> (delta <span class="hljs-number">1</span>)
-To git<span class="hljs-property">@github</span>.<span class="hljs-attribute">com</span>:schacon/simplegit.git
- * [<span class="hljs-keyword">new</span> tag]         v0<span class="hljs-number">.1</span><span class="hljs-function"> -&gt;</span> v0<span class="hljs-number">.1</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.2</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.2</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.4</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.4</span>
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.4</span>-lw<span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.4</span>-lw
- * [<span class="hljs-keyword">new</span> tag]         v1<span class="hljs-number">.5</span><span class="hljs-function"> -&gt;</span> v1<span class="hljs-number">.5</span>
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To git@github.com:schacon/simplegit.git
+ * [new tag]         v0.1 -&gt; v0.1
+ * [new tag]         v1.2 -&gt; v1.2
+ * [new tag]         v1.4 -&gt; v1.4
+ * [new tag]         v1.4-lw -&gt; v1.4-lw
+ * [new tag]         v1.5 -&gt; v1.5
 </code></pre><p>À présent, lorsqu&#39;une autre personne clone ou tire depuis votre dépôt, elle obtient aussi les étiquettes.</p>
 
                     
@@ -1047,9 +1050,9 @@ To git<span class="hljs-property">@github</span>.<span class="hljs-attribute">co
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

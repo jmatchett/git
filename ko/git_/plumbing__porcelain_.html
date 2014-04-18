@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397503683046">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397847849763">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -697,7 +700,7 @@
     </div>
     <div class="chapters">
     
-        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="시작하기" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
     
         <a href="../__git_.html" title="짧게 보는 Git의 역사" class="chapter done " data-progress="1.2" style="left: 2.7777777777777777%;"></a>
     
@@ -776,14 +779,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_316">
+                    <section class="normal" id="section-gitbook_319">
                     
                         <h1 id="plumbing-porcelain-">Plumbing 명령과 Porcelain 명령</h1>
 <p>이 책에서는 <code>checkout</code>, <code>branch</code>, <code>remote</code> 같은 30여 가지의 Git 명령을 사용했다. Git은 사실 사용자 친화적인 VCS이기 보다는 VCS로도 사용할 수 있는 툴킷이다. 저수준 명령어가 매우 많아서 저수준의 일도 쉽게 처리할 수 있다. 명령어 여러 개를 Unix 스타일로 함께 엮어서 실행하거나 스크립트에서 호출할 수 있도록 설계됐다. 이러한 저수준의 명령어는 &quot;Plumbing&quot; 명령어라고 부르고 좀 더 사용자에게 친숙한 사용자용 명령어는 &quot;Porcelain&quot; 명령어라고 부른다.</p>
 <p>이 책의 앞 여덟 장은 Porcelain 명령어만 사용했다. 하지만, 이 장에서는 저수준 명령인 Plumbing 명령어을 주로 사용한다. 이 명령으로 Git의 내부구조에 접근할 수 있고 실제로 왜, 그렇게 작동하는지도 살펴볼 수 있다. Plumbing 명령어은 직접 커맨드라인에서 실행하기보다 새로운 도구를 만들거나 각자 필요한 스크립트를 작성할 때 사용한다.</p>
 <p>새로 만든 디렉토리나 이미 파일이 있는 디렉토리에서 <code>git init</code> 명령을 실행하면 Git은 데이터를 저장하고 관리하는 <code>.git</code> 디렉토리를 만든다. 이 디렉토리를 복사하기만 해도 저장소가 백업 된다. 이 장은 기본적으로 이 디렉토리에 대한 내용을 설명한다. 디렉토리 구조는 아래와 같다:</p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">HEAD</span>
+<pre><code>$ ls
+HEAD
 branches/
 config
 description
@@ -812,9 +815,9 @@ refs/
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

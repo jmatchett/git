@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.3" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.3" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -849,26 +852,26 @@
                         <h1 id="-">Просмотр истории коммитов</h1>
 <p>После того как вы создадите несколько коммитов, или же вы склонируете репозиторий с уже существующей историей коммитов, вы, вероятно, захотите оглянуться назад и узнать, что же происходило с этим репозиторием. Наиболее простой и в то же время мощный инструмент для этого — команда <code>git log</code>.</p>
 <p>Данные примеры используют очень простой проект, названный simplegit, который я часто использую для демонстраций. Чтобы получить этот проект, выполните:</p>
-<pre><code>git <span class="hljs-keyword">clone</span> git:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
+<pre><code>git clone git://github.com/schacon/simplegit-progit.git
 </code></pre><p>В результате выполнения <code>git log</code> в данном проекте, вы должны получить что-то вроде этого:</p>
 <pre><code>$ git log
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> ca82a6dff817ec66f44342007202690a93763949
+commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed the version <span class="hljs-keyword">number</span>
+    changed the version number
 
-<span class="hljs-keyword">commit</span> <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
-<span class="hljs-keyword">commit</span> a11bef06a3f659402fe7563abf99ad00de2209e6
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-<span class="hljs-keyword">Date</span>:   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
-    <span class="hljs-keyword">first</span> <span class="hljs-keyword">commit</span></span>
+    first commit
 </code></pre><p>По умолчанию, без аргументов, <code>git log</code> выводит список коммитов созданных в данном репозитории в обратном хронологическом порядке. То есть самые последние коммиты показываются первыми. Как вы можете видеть, эта команда отображает каждый коммит вместе с его контрольной суммой SHA-1, именем и электронной почтой автора, датой создания и комментарием.</p>
 <p>Существует превеликое множество параметров команды <code>git log</code> и их комбинаций, для того чтобы показать вам именно то, что вы ищете. Здесь мы покажем вам несколько наиболее часто применяемых.</p>
 <p>Один из наиболее полезных параметров — это <code>-p</code>, который показывает дельту (разницу/diff), привнесенную каждым коммитом. Вы также можете использовать <code>-2</code>, что ограничит вывод до 2-х последних записей:</p>
@@ -881,15 +884,15 @@ Date:   Mon Mar 17 21:52:11 2008 -0700
 
 diff --git a/Rakefile b/Rakefile
 index a874b73..8f94139 100644
--<span class="ruby">-- a/<span class="hljs-constant">Rakefile</span>
-</span>+++ b/Rakefile
-@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,5 +5,5 @@ require &#39;rake/gempackagetask&#39;
  spec = Gem::Specification.new do |s|
-     s.name      =   "simplegit"
--<span class="ruby">    s.version   =   <span class="hljs-string">"0.1.0"</span>
-</span>+    s.version   =   "0.1.1"
-     s.author    =   "Scott Chacon"
-     s.email     =   "schacon@gee-mail.com
+     s.name      =   &quot;simplegit&quot;
+-    s.version   =   &quot;0.1.0&quot;
++    s.version   =   &quot;0.1.1&quot;
+     s.author    =   &quot;Scott Chacon&quot;
+     s.email     =   &quot;schacon@gee-mail.com
 
 commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
@@ -899,142 +902,142 @@ Date:   Sat Mar 15 16:40:33 2008 -0700
 
 diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 index a0a60ae..47c6340 100644
--<span class="ruby">-- a/lib/simplegit.rb
-</span>+++ b/lib/simplegit.rb
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
 @@ -18,8 +18,3 @@ class SimpleGit
      end
 
  end
--<span class="ruby">
-</span>-<span class="ruby"><span class="hljs-keyword">if</span> <span class="hljs-variable">$0</span> == __FILE_<span class="hljs-number">_</span>
-</span>-<span class="ruby">  git = <span class="hljs-constant">SimpleGit</span>.new
-</span>-<span class="ruby">  puts git.show
-</span>-<span class="ruby"><span class="hljs-keyword">end</span>
-</span>\ No newline at end of file
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end
+\ No newline at end of file
 </code></pre><p>Этот параметр показывает ту же самую информацию плюс внесённые изменения, отображаемые непосредственно после каждого коммита. Это очень удобно для инспекций кода или для того, чтобы быстро посмотреть, что происходило в результате последовательности коммитов, добавленных коллегой.</p>
 <p>В некоторых ситуациях гораздо удобней просматривать внесённые изменения на уровне слов, а не на уровне строк. Чтобы получить дельту по словам вместо обычной дельты по строкам, нужно дописать после команды <code>git log -p</code> опцию <code>--word-diff</code>. Дельты на уровне слов практически бесполезны при работе над программным кодом, но они буду очень кстати при работе над длинным текстом, таким как книга или диссертация. Рассмотрим пример:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> -U1 <span class="hljs-comment">--word-diff</span>
+<pre><code>$ git log -U1 --word-diff
 commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
-Date:   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
-    changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+    changed the version number
 
-diff <span class="hljs-comment">--git a/Rakefile b/Rakefile</span>
-index a874b73.<span class="hljs-number">.8</span>f94139 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/Rakefile</span>
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
 +++ b/Rakefile
-@@ -<span class="hljs-number">7</span>,<span class="hljs-number">3</span> +<span class="hljs-number">7</span>,<span class="hljs-number">3</span> @@ spec = Gem::Specification.<span class="hljs-built_in">new</span> <span class="hljs-built_in">do</span> |s|
-    s.name      =   <span class="hljs-string">"simplegit"</span>
-    s.<span class="hljs-built_in">version</span>   =   [-<span class="hljs-string">"0.1.0"</span>-]{+<span class="hljs-string">"0.1.1"</span>+}
-    s.author    =   <span class="hljs-string">"Scott Chacon"</span>
+@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+    s.name      =   &quot;simplegit&quot;
+    s.version   =   [-&quot;0.1.0&quot;-]{+&quot;0.1.1&quot;+}
+    s.author    =   &quot;Scott Chacon&quot;
 </code></pre><p>Как видите, в этом выводе нет ни добавленных ни удалённых строк, как для обычного diff&#39;а. Вместо этого изменения показаны внутри строки. Добавленное слово заключено в <code>{+ +}</code>, а удалённое в <code>[- -]</code>. Также может быть полезно сократить обычные три строки контекста в выводе команды <code>diff</code> до одной строки, так как контекстом в данном случае являются слова, а не строки. Сделать это можно с помощью опции <code>-U1</code> как было показано в примере выше.</p>
 <p>С командой <code>git log</code> вы также можете использовать группы суммирующих параметров. Например, если вы хотите получить некоторую краткую статистику по каждому коммиту, вы можете использовать параметр <code>--stat</code>:</p>
 <pre><code>$ git log --stat
 commit ca82a6dff817ec66f44342007202690a93763949
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Mon Mar <span class="hljs-number">17</span> <span class="hljs-number">21</span>:<span class="hljs-number">52</span>:<span class="hljs-number">11</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
 
     changed the version number
 
- Rakefile |    <span class="hljs-number">2</span> +-
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+ Rakefile |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-commit <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">16</span>:<span class="hljs-number">40</span>:<span class="hljs-number">33</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
 
     removed unnecessary test code
 
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |    <span class="hljs-number">5</span> -----
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">5</span> deletions(-)
+ lib/simplegit.rb |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
 commit a11bef06a3f659402fe7563abf99ad00de2209e6
-<span class="hljs-label">Author:</span> Scott Chacon &lt;schacon@gee-mail<span class="hljs-preprocessor">.com</span>&gt;
-<span class="hljs-label">Date:</span>   Sat Mar <span class="hljs-number">15</span> <span class="hljs-number">10</span>:<span class="hljs-number">31</span>:<span class="hljs-number">28</span> <span class="hljs-number">2008</span> -<span class="hljs-number">0700</span>
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
 
     first commit
 
- README           |    <span class="hljs-number">6</span> ++++++
- Rakefile         |   <span class="hljs-number">23</span> +++++++++++++++++++++++
- lib/simplegit<span class="hljs-preprocessor">.rb</span> |   <span class="hljs-number">25</span> +++++++++++++++++++++++++
- <span class="hljs-number">3</span> files changed, <span class="hljs-number">54</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+ README           |    6 ++++++
+ Rakefile         |   23 +++++++++++++++++++++++
+ lib/simplegit.rb |   25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+), 0 deletions(-)
 </code></pre><p>Как видно из лога, параметр <code>--stat</code> выводит под каждым коммитом список изменённых файлов, количество изменённых файлов, а также количество добавленных и удалённых строк в этих файлах. Он также выводит сводную информацию в конце.
 Другой действительно полезный параметр — это <code>--pretty</code>. Он позволяет изменить формат вывода лога. Для вас доступны несколько предустановленных вариантов. Параметр <code>oneline</code> выводит каждый коммит в одну строку, что удобно если вы просматриваете большое количество коммитов. В дополнение к этому, параметры <code>short</code>, <code>full</code>, и <code>fuller</code>, практически не меняя формат вывода, позволяют выводить меньше или больше деталей соответственно:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=oneline</span>
-ca82a6dff817ec66f44342007202690a93763949 changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
-<span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
-a11bef06a3f659402fe7563abf99ad00de2209e6 <span class="hljs-keyword">first</span> commit
+<pre><code>$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 changed the version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
+a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 </code></pre><p>Наиболее интересный параметр — это <code>format</code>, который позволяет вам полностью создать собственный формат вывода лога. Это особенно полезно, когда вы создаёте отчёты для автоматического разбора (парсинга) — поскольку вы явно задаёте формат и уверены в том, что он не будет изменяться при обновлениях Git&#39;а:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-keyword">format</span>:<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%an</span>, <span class="hljs-variable">%ar</span> : <span class="hljs-variable">%s</span>"</span>
-ca82a6d - Scott Chacon, <span class="hljs-number">11</span> months ago : changed the version number
-085bb3b - Scott Chacon, <span class="hljs-number">11</span> months ago : removed unnecessary test code
-a11bef<span class="hljs-number">0</span> - Scott Chacon, <span class="hljs-number">11</span> months ago : first commit
+<pre><code>$ git log --pretty=format:&quot;%h - %an, %ar : %s&quot;
+ca82a6d - Scott Chacon, 11 months ago : changed the version number
+085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
+a11bef0 - Scott Chacon, 11 months ago : first commit
 </code></pre><p>Таблица 2-1 содержит список наиболее полезных параметров формата.</p>
 <pre><code>Параметр    Описание выводимых данных
-<span class="hljs-tag">%<span class="hljs-title">H</span></span>    Хеш коммита
-<span class="hljs-tag">%<span class="hljs-title">h</span></span>    Сокращённый хеш коммита
-<span class="hljs-tag">%<span class="hljs-title">T</span></span>    Хеш дерева
-<span class="hljs-tag">%<span class="hljs-title">t</span></span>    Сокращённый хеш дерева
-<span class="hljs-tag">%<span class="hljs-title">P</span></span>    Хеши родительских коммитов
-<span class="hljs-tag">%<span class="hljs-title">p</span></span>    Сокращённые хеши родительских коммитов
-<span class="hljs-tag">%<span class="hljs-title">an</span></span>    Имя автора
-<span class="hljs-tag">%<span class="hljs-title">ae</span></span>    Электронная почта автора
-<span class="hljs-tag">%<span class="hljs-title">ad</span></span>    Дата автора (формат соответствует параметру `--date=`)
-<span class="hljs-tag">%<span class="hljs-title">ar</span></span>    Дата автора, относительная (пр. "2 мес. назад")
-<span class="hljs-tag">%<span class="hljs-title">cn</span></span>    Имя коммитера
-<span class="hljs-tag">%<span class="hljs-title">ce</span></span>    Электронная почта коммитера
-<span class="hljs-tag">%<span class="hljs-title">cd</span></span>    Дата коммитера
-<span class="hljs-tag">%<span class="hljs-title">cr</span></span>    Дата коммитера, относительная
-<span class="hljs-tag">%<span class="hljs-title">s</span></span>    Комментарий
+%H    Хеш коммита
+%h    Сокращённый хеш коммита
+%T    Хеш дерева
+%t    Сокращённый хеш дерева
+%P    Хеши родительских коммитов
+%p    Сокращённые хеши родительских коммитов
+%an    Имя автора
+%ae    Электронная почта автора
+%ad    Дата автора (формат соответствует параметру `--date=`)
+%ar    Дата автора, относительная (пр. &quot;2 мес. назад&quot;)
+%cn    Имя коммитера
+%ce    Электронная почта коммитера
+%cd    Дата коммитера
+%cr    Дата коммитера, относительная
+%s    Комментарий
 </code></pre><p>Вас может заинтересовать, в чём же разница между <em>автором</em> и <em>коммитером</em>. Автор — это человек, изначально сделавший работу, тогда как коммитер — это человек, который последним применил эту работу. Так что если вы послали патч (заплатку) в проект и один из основных разработчиков применил этот патч, вы оба не будете забыты — вы как автор, а разработчик как коммитер. Мы чуть подробнее рассмотрим это различие в главе 5.</p>
 <p>Параметры <code>oneline</code> и <code>format</code> также полезны с другим параметром команды <code>log</code> — <code>--graph</code>. Этот параметр добавляет миленький ASCII-граф, показывающий историю ветвлений и слияний. Один из таких можно увидеть для нашей копии репозитория проекта Grit:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--pretty=format:"%h %s" --graph</span>
-* <span class="hljs-number">2</span>d3acf9 ignore errors <span class="hljs-built_in">from</span> SIGCHLD <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">trap</span></span>
-*  <span class="hljs-number">5e3</span>ee11 Merge branch <span class="hljs-string">'master'</span> <span class="hljs-operator">of</span> git://github.com/dustin/grit
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; --graph
+* 2d3acf9 ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch &#39;master&#39; of git://github.com/dustin/grit
 |\
-| * <span class="hljs-number">420</span>eac9 Added <span class="hljs-operator">a</span> method <span class="hljs-keyword">for</span> getting <span class="hljs-operator">the</span> current branch.
-* | <span class="hljs-number">30e367</span>c timeout code <span class="hljs-operator">and</span> tests
-* | <span class="hljs-number">5</span>a09431 <span class="hljs-built_in">add</span> timeout protection <span class="hljs-built_in">to</span> grit
-* | e1193f8 support <span class="hljs-keyword">for</span> heads <span class="hljs-operator">with</span> slashes <span class="hljs-operator">in</span> them
+| * 420eac9 Added a method for getting the current branch.
+* | 30e367c timeout code and tests
+* | 5a09431 add timeout protection to grit
+* | e1193f8 support for heads with slashes in them
 |/
-* d6016bc <span class="hljs-built_in">require</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">for</span> xmlschema
-*  <span class="hljs-number">11</span>d191e Merge branch <span class="hljs-string">'defunkt'</span> <span class="hljs-keyword">into</span> <span class="hljs-built_in">local</span>
+* d6016bc require time for xmlschema
+*  11d191e Merge branch &#39;defunkt&#39; into local
 </code></pre><p>Мы рассмотрели только самые простые параметры форматирования вывода для <code>git log</code> — их гораздо больше. Таблица 2-2 содержит как уже рассмотренные нами параметры, так и другие полезные параметры вместе с описанием того, как они влияют на вывод команды <code>log</code>.</p>
 <pre><code>Параметр    Описание
--<span class="ruby">p    Для каждого коммита показывать дельту внесённых им изменений.
-</span>-<span class="ruby">-word-diff    Показывать изменения на уровне слов.
-</span>-<span class="ruby">-stat    Для каждого коммита дополнительно выводить статистику по изменённым файлам.
-</span>-<span class="ruby">-shortstat    Показывать только строку changed/insertions/deletions от вывода с опцией `--stat`.
-</span>-<span class="ruby">-name-only    Показывать список изменённых файлов после информации о коммите.
-</span>-<span class="ruby">-name-status    Выводить список изменённых файлов вместе с информацией о добавлении/изменении/удалении.
-</span>-<span class="ruby">-abbrev-commit    Выводить только первые несколько символов контрольной суммы <span class="hljs-constant">SHA</span>-<span class="hljs-number">1</span> вместо всех <span class="hljs-number">40</span>.
-</span>-<span class="ruby">-relative-date    Выводить дату в относительном формате (например, <span class="hljs-string">"2 weeks ago"</span>) вместо полной даты.
-</span>-<span class="ruby">-graph    Показывать <span class="hljs-constant">ASCII</span>-граф истории ветвлений и слияний рядом с выводом лога.
-</span>-<span class="ruby">-pretty    Отображать коммиты в альтернативном формате. Возможные параметры<span class="hljs-symbol">:</span> `oneline`, `short`, `full`, `fuller` и `format` (где вы можете указать свой собственный формат).</span>
+-p    Для каждого коммита показывать дельту внесённых им изменений.
+--word-diff    Показывать изменения на уровне слов.
+--stat    Для каждого коммита дополнительно выводить статистику по изменённым файлам.
+--shortstat    Показывать только строку changed/insertions/deletions от вывода с опцией `--stat`.
+--name-only    Показывать список изменённых файлов после информации о коммите.
+--name-status    Выводить список изменённых файлов вместе с информацией о добавлении/изменении/удалении.
+--abbrev-commit    Выводить только первые несколько символов контрольной суммы SHA-1 вместо всех 40.
+--relative-date    Выводить дату в относительном формате (например, &quot;2 weeks ago&quot;) вместо полной даты.
+--graph    Показывать ASCII-граф истории ветвлений и слияний рядом с выводом лога.
+--pretty    Отображать коммиты в альтернативном формате. Возможные параметры: `oneline`, `short`, `full`, `fuller` и `format` (где вы можете указать свой собственный формат).
 </code></pre><h2 id="-log">Ограничение вывода команды log</h2>
 <p>Кроме опций для форматирования вывода, <code>git log</code> имеет ряд полезных ограничительных параметров, то есть параметров, которые дают возможность отобразить часть коммитов. Вы уже видели один из таких параметров — параметр <code>-2</code>, который отображает только два последних коммита. На самом деле, вы  можете задать <code>-&lt;n&gt;</code>, где <code>n</code> это количество отображаемых коммитов. На практике вам вряд ли придётся часто этим пользоваться потому, что по умолчанию Git через канал (pipe) отправляет весь вывод на pager, так что вы всегда будете видеть только одну страницу.</p>
 <p>А вот параметры, ограничивающие по времени, такие как <code>--since</code> и <code>--until</code>, весьма полезны. Например, следующая команда выдаёт список коммитов, сделанных за последние две недели:</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> <span class="hljs-comment">--since=2.weeks</span>
+<pre><code>$ git log --since=2.weeks
 </code></pre><p>Такая команда может работать с множеством форматов — вы можете указать точную дату (“2008-01-15”) или относительную дату, такую как “2 years 1 day 3 minutes ago”.</p>
 <p>Вы также можете отфильтровать список коммитов по какому-либо критерию поиска. Опция <code>--author</code> позволяет фильтровать по автору, опция <code>--grep</code> позволяет искать по ключевым словам в сообщении. (Заметим, что, если вы укажете и опцию <code>author</code>, и опцию <code>grep</code>, то будут найдены все коммиты, которые удовлетворяют первому ИЛИ второму критерию. Чтобы найти коммиты, которые удовлетворяют первому И второму критерию, следует добавить опцию <code>--all-match</code>.)</p>
 <p>Последняя действительно полезная опция-фильтр для <code>git log</code> — это путь. Указав имя каталога или файла, вы ограничите вывод log теми коммитами, которые вносят изменения в указанные файлы. Эта опция всегда указывается последней и обычно предваряется двумя минусами (<code>--</code>), чтобы отделить пути от остальных опций.</p>
 <p>В таблице 2-3 для справки приведён список часто употребляемых опций.</p>
 <pre><code>Опция    Описание
--<span class="ruby">(n)    Показать последние n коммитов
-</span>-<span class="ruby">-since, --after    Ограничить коммиты теми, которые сделаны после указанной даты.
-</span>-<span class="ruby">-<span class="hljs-keyword">until</span>, --before    Ограничить коммиты теми, которые сделаны до указанной даты.
-</span>-<span class="ruby">-author    Показать только те коммиты, автор которых соответствует указанной строке.
-</span>-<span class="ruby">-committer    Показать только те коммиты, коммитер которых соответствует указанной строке.</span>
+-(n)    Показать последние n коммитов
+--since, --after    Ограничить коммиты теми, которые сделаны после указанной даты.
+--until, --before    Ограничить коммиты теми, которые сделаны до указанной даты.
+--author    Показать только те коммиты, автор которых соответствует указанной строке.
+--committer    Показать только те коммиты, коммитер которых соответствует указанной строке.
 </code></pre><p>Например, если вы хотите посмотреть из истории Git&#39;а такие коммиты, которые вносят изменения в тестовые файлы, были сделаны Junio Hamano, не являются слияниями и были сделаны в октябре 2008го, вы можете выполнить что-то вроде такого:</p>
-<pre><code>$ git <span class="hljs-keyword">log</span> --pretty=<span class="hljs-string">"<span class="hljs-variable">%h</span> - <span class="hljs-variable">%s</span>"</span> --author=gitster --since=<span class="hljs-string">"2008-10-01"</span> \
-   --before=<span class="hljs-string">"2008-11-01"</span> --<span class="hljs-keyword">no</span>-merges -- t/
-<span class="hljs-number">5610</span>e3b - Fix testcase failure <span class="hljs-keyword">when</span> extended attribute
-acd3b9e - Enhance hold_lock_file_for<span class="hljs-number">_</span>{update,append}()
+<pre><code>$ git log --pretty=&quot;%h - %s&quot; --author=gitster --since=&quot;2008-10-01&quot; \
+   --before=&quot;2008-11-01&quot; --no-merges -- t/
+5610e3b - Fix testcase failure when extended attribute
+acd3b9e - Enhance hold_lock_file_for_{update,append}()
 f563754 - demonstrate breakage of detached checkout wi
-d1a43f2 - <span class="hljs-keyword">reset</span> --hard/<span class="hljs-keyword">read</span>-tree --<span class="hljs-keyword">reset</span> -u: remove un
-<span class="hljs-number">51</span>a94af - Fix <span class="hljs-string">"checkout --track -b newbranch"</span> on detac
-b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hljs-variable">$something</span>:<span class="hljs-variable">$cur</span></span>
+d1a43f2 - reset --hard/read-tree --reset -u: remove un
+51a94af - Fix &quot;checkout --track -b newbranch&quot; on detac
+b0ad11e - pull: allow &quot;git pull origin $something:$cur
 </code></pre><p>Из примерно 20 000 коммитов в истории Git&#39;а, данная команда выбрала всего 6 коммитов, соответствующих заданным критериям.</p>
 <h2 id="-">Использование графического интерфейса для визуализации истории</h2>
 <p>Если у вас есть желание использовать какой-нибудь графический инструмент для визуализации истории коммитов, можно попробовать распространяемую вместе с Git&#39;ом программу gitk, написанную на Tcl/Tk. В сущности gitk — это наглядный вариант <code>git log</code>, к тому же он принимает почти те же фильтрующие опции, что и <code>git log</code>. Если наберёте в командной строке gitk, находясь в проекте, то увидите что-то наподобие рис. 2-2.</p>
@@ -1059,9 +1062,9 @@ b0ad11e - pull: allow <span class="hljs-string">"git pull origin <span class="hl
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

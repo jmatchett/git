@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.4" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.4" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_983">
+                    <section class="normal" id="section-gitbook_911">
                     
                         <h1 id="-nderungen-r-ckg-ngig-machen">Änderungen rückgängig machen</h1>
 <!--At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always revert some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.-->
@@ -866,7 +869,7 @@
 <!--One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `-\-amend` option:-->
 
 <p>Manchmal hat man einen Commit zu früh angelegt und möglicherweise vergessen, einige Dateien hinzuzufügen, oder eine falsche Commit Meldung verwendet. Wenn Du den letzten Commit korrigieren willst, kannst Du dazu <code>git commit</code> zusammen mit der <code>--amend</code> Option verwenden:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><!--This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.-->
 
 <p>Dieser Befehl verwendet Deine Staging Area für den Commit. Wenn Du seit dem letzten Commit keine Änderungen vorgenommen hast (z.B. wenn Du den Befehl unmittelbar nach einem Commit ausführst), wird der Snapshot exakt genauso aussehen wie der vorherige – alles, was Du dann änderst, ist die Commit Meldung.</p>
@@ -876,9 +879,9 @@
 <!--As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:-->
 
 <p>Wenn Du beispielsweise einen Commit angelegt hast und dann feststellst, dass Du zuvor vergessen hast, die Änderungen in einer bestimmten Datei zur Staging Area hinzuzufügen, kannst Du folgendes tun:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
-<span class="hljs-variable">$ </span>git add forgotten_file
-<span class="hljs-variable">$ </span>git commit --amend
+<pre><code>$ git commit -m &#39;initial commit&#39;
+$ git add forgotten_file
+$ git commit --amend
 </code></pre><!--After these three commands, you end up with a single commit — the second commit replaces the results of the first.-->
 
 <p>Diese drei Befehle legen einen einzigen neuen Commit an – der letzte Befehl ersetzt dabei das Ergebnis des ersten Befehls.</p>
@@ -890,9 +893,9 @@
 <p>Die nächsten zwei Abschnitte gehen darauf ein, wie Du Änderungen in der Staging Area und dem Arbeitsverzeichnis verwalten kannst. Praktischerweise liefert Dir der Befehl <code>git status</code>, den Du verwendest, um den Status dieser beiden Bereiche zu überprüfen, zugleich auch einen Hinweis dafür, wie Du Änderungen rückgängig machen kanst. Nehmen wir beispielsweise an, Du hast zwei Dateien geändert und willst sie als zwei seperate Commits anlegen, Du hast aber versehentlich <code>git add *</code> ausgeführt und damit beide zur Staging Area hinzugefügt. Wie kannst Du jetzt eine der beiden Änderungen wieder aus der Staging Area nehmen? <code>git status</code> gibt Dir einen Hinweis:</p>
 <pre><code>$ git add .
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
         modified:   README.txt
         modified:   benchmarks.rb
@@ -900,18 +903,18 @@ Changes <span class="hljs-keyword">to</span> be committed:
 
 <p>Direkt unter der Zeile „Changes to be committed“ findest Du den Hinweis „use <code>git reset HEAD &lt;file&gt;...</code> to unstage“, d.h. „aus der Staging Area zu entfernen“. Wir verwenden nun also diesen Befehl, um die Änderungen an der Datei <code>benchmarks.rb</code> aus der Staging Area zu nehmen:</p>
 <pre><code>$ git reset HEAD benchmarks.rb
-Unstaged changes <span class="hljs-keyword">after</span> reset:
+Unstaged changes after reset:
 M       benchmarks.rb
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
         modified:   README.txt
 
-Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         modified:   benchmarks.rb
 </code></pre><!--The command is a bit strange, but it works. The `benchmarks.rb` file is modified but once again unstaged.-->
@@ -923,19 +926,19 @@ Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">
 <!--What if you realize that you don’t want to keep your changes to the `benchmarks.rb` file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:-->
 
 <p>Was aber, wenn Du die Änderungen an der Datei <code>benchmarks.rb</code> überhaupt nicht beibehalten willst? D.h., wenn Du sie in den Zustand zurückversetzen willst, in dem sie sich befand, als Du den letzten Commit angelegt hast (oder das Repository geklont hast). Das ist einfach, und glücklicherweise zeigt der <code>git status</code> Befehl ebenfalls bereits einen Hinweis dafür an. Die obige Ausgabe enthält den folgenden Text:</p>
-<pre><code>Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+<pre><code>Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         modified:   benchmarks.rb
 </code></pre><!--It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:-->
 
 <p>Das sagt ziemlich klar, was wir zu tun haben um die Änderungen an der Datei zu verwerfen (genauer gesagt, Git tut dies seit der Version 1.6.1 – wenn Du eine ältere Version hast, empfehlen wir dir, sie zu aktualisieren). Wir führen den vorgeschlagenen Befehl also aus:</p>
-<pre><code>$ git checkout <span class="hljs-comment">-- benchmarks.rb</span>
+<pre><code>$ git checkout -- benchmarks.rb
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
         modified:   README.txt
 </code></pre><!--You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.-->
@@ -962,9 +965,9 @@ Changes <span class="hljs-keyword">to</span> be committed:
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

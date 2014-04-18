@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.6" data-basepath=".." data-revision="1397503704833">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.6" data-basepath=".." data-revision="1397847862683">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,100 +847,100 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_854">
+                    <section class="normal" id="section-gitbook_712">
                     
                         <h1 id="protocolos-de-transfer-ncia">Protocolos de Transferência</h1>
 <p>Git pode transferir dados entre dois repositórios de duas maneiras principais: através de HTTP e através dos protocolos chamados inteligentes: <code>file://</code>, <code>ssh://</code> e <code>git://</code>. Esta seção irá mostrar rapidamente como esses dois principais protocolos operam.</p>
 <h2 id="o-protocolo-burro">O Protocolo Burro</h2>
 <p>HTTP é muitas vezes referido como o protocolo burro, porque não requer código Git específico do lado servidor durante o processo de transporte. O processo de fetch é uma série de solicitações GET, onde o cliente pode assumir o layout do repositório Git no servidor. Vamos ver o processo <code>http-fetch</code> para obter a biblioteca simplegit:</p>
-<pre><code><span class="hljs-variable">$ </span>git clone <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/github.com/schacon</span><span class="hljs-regexp">/simplegit-progit.git</span>
+<pre><code>$ git clone http://github.com/schacon/simplegit-progit.git
 </code></pre><p>A primeira coisa que este comando faz é obter o arquivo <code>info/refs</code>. Este arquivo é escrito pelo comando <code>update-server-info</code>, é por isso que você precisa ativar ele como um hook <code>post-receive</code> para que o transporte HTTP funcione corretamente:</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> info/refs
-</span>ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
+<pre><code>=&gt; GET info/refs
+ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 </code></pre><p>Agora você tem uma lista de referências remotas e os SHAs. Em seguida, você verifica qual é a referência HEAD para que você saiba o que deve ser obtido (check out) quando você terminar:</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> <span class="hljs-constant">HEAD</span>
-</span>ref: refs/heads/master
+<pre><code>=&gt; GET HEAD
+ref: refs/heads/master
 </code></pre><p>Você precisa fazer o check out do branch <code>master</code> quando você tiver concluído o processo.
 Neste momento, você está pronto para iniciar o processo de &quot;caminhada&quot;. Como o seu ponto de partida é o objeto commit <code>ca82a6</code> que você viu no arquivo <code>info/refs</code>, você começa obtendo ele:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/ca/<span class="hljs-number">82</span>a6dff817ec66f44342007202690a93763949
-(<span class="hljs-number">179</span> bytes <span class="hljs-keyword">of</span> binary <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/ca/82a6dff817ec66f44342007202690a93763949
+(179 bytes of binary data)
 </code></pre><p>Você obtêm um objeto — este objeto é um &quot;loose format&quot; no servidor, e você o obteu a partir de uma conexão HTTP GET estática. Você pode descompactá-lo, retirar o cabeçalho, e ver o conteúdo do commit:</p>
-<pre><code>$ git cat-<span class="hljs-built_in">file</span> -p ca82a6dff817ec66f44342007202690a93763949
+<pre><code>$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
-parent <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-author Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1205815931</span> -<span class="hljs-number">0700</span>
-committer Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1240030591</span> -<span class="hljs-number">0700</span>
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;schacon@gmail.com&gt; 1205815931 -0700
+committer Scott Chacon &lt;schacon@gmail.com&gt; 1240030591 -0700
 
-changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+changed the version number
 </code></pre><p>A seguir, você tem mais dois objetos para obter — <code>cfda3b</code>, que a árvore de conteúdo do commit que acabamos de obter referencia, e <code>085bb3</code>, que é o commit pai:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/<span class="hljs-number">08</span>/<span class="hljs-number">5</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-(<span class="hljs-number">179</span> bytes <span class="hljs-keyword">of</span> <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+(179 bytes of data)
 </code></pre><p>Isso lhe dá o seu próximo objeto commit. Obtenha o objeto árvore:</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
-</span>(404 - Not Found)
+<pre><code>=&gt; GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
+(404 - Not Found)
 </code></pre><p>Oops — parece que esse objeto árvore não está em &quot;loose format&quot; no servidor, então você recebe um erro 404. Há algumas razões para isso — o objeto pode estar em um repositório alternativo, ou poderia estar em um packfile neste repositório. Git verifica a existência de quaisquer alternativas listadas primeiro:</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> objects/info/http-alternates
-</span>(empty file)
+<pre><code>=&gt; GET objects/info/http-alternates
+(empty file)
 </code></pre><p>Se isso retornar uma lista de URLs alternativas, Git verifica a existência de &quot;loose files&quot; e packfiles lá — este é um mecanismo legal para projetos que são forks de um outro para compartilhar objetos no disco. No entanto, como não há substitutos listados neste caso, o objeto deve estar em um packfile. Para saber quais packfiles estão disponíveis neste servidor, você precisa obter o arquivo <code>objects/info/packs</code>, que contém uma lista deles (também gerado pelo <code>update-server-info</code>):</p>
-<pre><code>=<span class="ruby">&gt; <span class="hljs-constant">GET</span> objects/info/packs
-</span>P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
+<pre><code>=&gt; GET objects/info/packs
+P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 </code></pre><p>Há apenas um packfile no servidor, então o seu objeto deve estar lá, mas você vai verificar o arquivo de índice para ter certeza. Isso também é útil se você tem vários packfiles no servidor, assim você pode ver qual packfile contém o objeto que você precisa:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/pack/pack-<span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835.idx
-(<span class="hljs-number">4</span>k <span class="hljs-keyword">of</span> binary <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
+(4k of binary data)
 </code></pre><p>Agora que você tem o índice do packfile, você pode ver se o seu objeto esta nele — porque o índice lista os SHAs dos objetos contidos no packfile e os deslocamentos (offsets) desses objetos. Seu objeto está lá, então vá em frente e obtenha todo o packfile:</p>
-<pre><code>=&gt; <span class="hljs-type">GET</span> objects/pack/pack-<span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835.pack
-(<span class="hljs-number">13</span>k <span class="hljs-keyword">of</span> binary <span class="hljs-typedef"><span class="hljs-keyword">data</span>)</span>
+<pre><code>=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
+(13k of binary data)
 </code></pre><p>Você tem o seu objeto árvore, então você continua navegando em seus commits. Eles todos estão dentro do packfile que você acabou de baixar, então você não precisa fazer mais solicitações para o servidor. Git faz o check out de uma cópia de trabalho do branch <code>master</code>, que foi apontada pela referência HEAD que você baixou no início.</p>
 <p>Toda a saída deste processo é parecida com isto:</p>
-<pre><code>$ git <span class="hljs-keyword">clone</span> http:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
-Initialized <span class="hljs-keyword">empty</span> Git repository in /<span class="hljs-keyword">private</span>/tmp/simplegit-progit/.git/
+<pre><code>$ git clone http://github.com/schacon/simplegit-progit.git
+Initialized empty Git repository in /private/tmp/simplegit-progit/.git/
 got ca82a6dff817ec66f44342007202690a93763949
 walk ca82a6dff817ec66f44342007202690a93763949
-got <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-Getting alternates <span class="hljs-keyword">list</span> <span class="hljs-keyword">for</span> http:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
-Getting pack <span class="hljs-keyword">list</span> <span class="hljs-keyword">for</span> http:<span class="hljs-comment">//github.com/schacon/simplegit-progit.git</span>
-Getting index <span class="hljs-keyword">for</span> pack <span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835
-Getting pack <span class="hljs-number">816</span>a9b2334da9953e530f27bcac22082a9f5b835
+got 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Getting alternates list for http://github.com/schacon/simplegit-progit.git
+Getting pack list for http://github.com/schacon/simplegit-progit.git
+Getting index for pack 816a9b2334da9953e530f27bcac22082a9f5b835
+Getting pack 816a9b2334da9953e530f27bcac22082a9f5b835
  which contains cfda3bf379e4f8dba8717dee55aab78aef7f4daf
-walk <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+walk 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 walk a11bef06a3f659402fe7563abf99ad00de2209e6
 </code></pre><h2 id="o-protocolo-inteligente">O Protocolo Inteligente</h2>
 <p>O método HTTP é simples, mas um pouco ineficiente. Usar protocolos inteligentes é um método mais comum de transferência de dados. Estes protocolos têm um processo no sistema remoto que é inteligente em relação ao Git — ele pode ler dados locais e descobrir o que o cliente tem ou precisa e gera dados personalizados para ele. Existem dois conjuntos de processos de transferência de dados: um par para enviar dados (upload) e um par para download de dados.</p>
 <h3 id="fazendo-upload-de-dados">Fazendo Upload de Dados</h3>
 <p>Para fazer upload de dados para um processo remoto, Git usa os processos <code>send-pack</code> e <code>receive-pack</code>. O processo <code>send-pack</code> é executado no cliente e se conecta a um processo <code>receive-pack</code> no lado remoto.</p>
 <p>Por exemplo, digamos que você execute <code>git push origin master</code> em seu projeto, e <code>origin</code> é definido como uma URL que usa o protocolo SSH. Git executa o processo <code>send-pack</code>, que inicia uma conexão SSH ao seu servidor. Ele tenta executar um comando no servidor remoto através de uma chamada SSH que é parecida com isto:</p>
-<pre><code>$ ssh <span class="hljs-attribute">-x</span> git@github<span class="hljs-built_in">.</span>com <span class="hljs-string">"git-receive-pack 'schacon/simplegit-progit.git'"</span>
-<span class="hljs-number">005</span>bca82a6dff817ec66f4437202690a93763949 refs/heads/master report<span class="hljs-attribute">-status</span> delete<span class="hljs-attribute">-refs</span>
-<span class="hljs-number">003e085</span>bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
-<span class="hljs-number">0000</span>
+<pre><code>$ ssh -x git@github.com &quot;git-receive-pack &#39;schacon/simplegit-progit.git&#39;&quot;
+005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
+003e085bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
+0000
 </code></pre><p>O comando <code>git-receive-pack</code> imediatamente responde com uma linha para cada referência que tem atualmente — neste caso, apenas o branch <code>master</code> e seu SHA. A primeira linha também tem uma lista de recursos do servidor (aqui, <code>report-status</code> e <code>delete-refs</code>).</p>
 <p>Cada linha se inicia com um valor hexadecimal de 4 bytes especificando quão longo o resto da linha é. Sua primeira linha começa com 005B, que é 91 em hexadecimal, o que significa que 91 bytes permanecem nessa linha. A próxima linha começa com 003e, que é 62, então você leu os 62 bytes restantes. A próxima linha é 0000, ou seja, o servidor terminou com a sua lista de referências.</p>
 <p>Agora que ele sabe o estado do servidor, o seu processo <code>send-pack</code> determina que commits ele tem mas que o servidor não tem. Para cada referência que este push irá atualizar, o processo <code>send-pack</code> diz essa informação ao processo <code>receive-pack</code>. Por exemplo, se você está atualizando o branch <code>master</code> e está adicionando um branch <code>experiment</code>, a resposta do <code>send-pack</code> pode ser parecida com esta:</p>
-<pre><code><span class="hljs-number">0085</span>ca82a6dff817ec66f44342007202690a93763949  <span class="hljs-number">15027957951</span>b64cf874c3557a0f3547bd83b3ff6 refs/heads/master <span class="hljs-keyword">report</span>-status
-<span class="hljs-number">00670000000000000000000000000000000000000000</span> cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
-<span class="hljs-number">0000</span>
+<pre><code>0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
+00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
+0000
 </code></pre><p>O valor SHA-1 de todos os &#39;0&#39;s significa que nada estava lá antes — porque você está adicionando a referência de experiment. Se você estivesse apagando uma referência, você veria o oposto: tudo &#39;0&#39; no lado direito.</p>
 <p>Git envia uma linha para cada referência que você está atualizando com o SHA antigo, o SHA novo, e a referência que está sendo atualizada. A primeira linha também tem as capacidades do cliente. Em seguida, o cliente faz upload de um packfile com todos os objetos que o servidor não tem ainda. Finalmente, o servidor responde com uma indicação de sucesso (ou falha):</p>
-<pre><code><span class="hljs-number">000</span><span class="hljs-variable">Aunpack</span> <span class="hljs-ok">ok</span>
+<pre><code>000Aunpack ok
 </code></pre><h3 id="fazendo-download-de-dados">Fazendo Download de Dados</h3>
 <p>Quando você baixa os dados, os processos <code>fetch-pack</code> e <code>upload-pack</code> são usados. O cliente inicia um processo <code>fetch-pack</code> que se conecta a um processo <code>upload-pack</code> no lado remoto para negociar os dados que serão transferidos para a máquina local.</p>
 <p>Existem diferentes maneiras de iniciar o processo <code>upload-pack</code> no repositório remoto. Você pode fazê-lo via SSH da mesma forma que o processo <code>receive-pack</code>. Você também pode iniciar o processo, através do daemon Git, que escuta em um servidor na porta 9418 por padrão. O processo <code>fetch-pack</code> envia dados que se parecem com isso para o servidor após se conectar:</p>
-<pre><code><span class="hljs-number">003</span>fgit<span class="hljs-attribute">-upload</span><span class="hljs-attribute">-pack</span> schacon/simplegit<span class="hljs-attribute">-progit</span><span class="hljs-built_in">.</span>git<span class="hljs-subst">\</span><span class="hljs-number">0</span>host<span class="hljs-subst">=</span>myserver<span class="hljs-built_in">.</span>com<span class="hljs-subst">\</span><span class="hljs-number">0</span>
+<pre><code>003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 </code></pre><p>Ele começa com os 4 bytes que especificam a quantidade de dados enviados, seguido pelo comando a ser executado, seguido por um byte nulo e, em seguida, o hostname do servidor seguido por um ultimo byte nulo. O daemon Git verifica que o comando pode ser executado e que o repositório existe e tem permissões públicas. Se tudo estiver certo, ele aciona o processo <code>upload-pack</code> e envia o pedido para ele.</p>
 <p>Se você estiver fazendo o fetch através de SSH, <code>fetch-pack</code> executa algo como isto:</p>
-<pre><code><span class="hljs-variable">$ </span>ssh -x git<span class="hljs-variable">@github</span>.com <span class="hljs-string">"git-upload-pack 'schacon/simplegit-progit.git'"</span>
+<pre><code>$ ssh -x git@github.com &quot;git-upload-pack &#39;schacon/simplegit-progit.git&#39;&quot;
 </code></pre><p>Em todo caso, depois que <code>fetch-pack</code> conectar, <code>upload-pack</code> devolve algo como isto:</p>
-<pre><code><span class="hljs-number">0088</span>ca82a6dff817ec66f44342007202690a93763949 HEAD<span class="hljs-subst">\</span><span class="hljs-number">0</span>multi_ack thin<span class="hljs-attribute">-pack</span> <span class="hljs-subst">\</span>
-  side<span class="hljs-attribute">-band</span> side<span class="hljs-attribute">-band</span><span class="hljs-subst">-</span><span class="hljs-number">64</span>k ofs<span class="hljs-attribute">-delta</span> shallow no<span class="hljs-attribute">-progress</span> include<span class="hljs-attribute">-tag</span>
-<span class="hljs-number">003</span>fca82a6dff817ec66f44342007202690a93763949 refs/heads/master
-<span class="hljs-number">003e085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
-<span class="hljs-number">0000</span>
+<pre><code>0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
+  side-band side-band-64k ofs-delta shallow no-progress include-tag
+003fca82a6dff817ec66f44342007202690a93763949 refs/heads/master
+003e085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
+0000
 </code></pre><p>Isto é muito semelhante a resposta de <code>receive-pack</code>, mas as funcionalidades são diferentes. Além disso, ele envia de volta a referência de HEAD para que o cliente saiba o que  deve ser verificado (check out) se este for um clone.</p>
 <p>Neste momento, o processo <code>fetch-pack</code> verifica quais objetos ele possui e responde com os objetos de que necessita através do envio de &quot;want&quot; e do SHA que quer. Ele envia todos os objetos que ele já tem com &quot;have&quot; e também o SHA. No final da lista, ele escreve &quot;done&quot; para iniciar o processo <code>upload-pack</code> para começar a enviar o packfile dos dados que ele precisa:</p>
-<pre><code><span class="hljs-number">0054</span>want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
-<span class="hljs-number">0032</span>have <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-<span class="hljs-number">0000</span>
-<span class="hljs-number">0009</span><span class="hljs-keyword">done</span>
+<pre><code>0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
+0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+0000
+0009done
 </code></pre><p>Isto é um caso muito simples dos protocolos de transferência. Em casos mais complexos, o cliente suporta funcionalidades <code>multi_ack</code> ou <code>side-band</code>; mas este exemplo mostra o funcionamento de upload e download básico utilizado pelos processos de protocolo inteligentes.</p>
 
                     
@@ -957,9 +960,9 @@ walk a11bef06a3f659402fe7563abf99ad00de2209e6
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

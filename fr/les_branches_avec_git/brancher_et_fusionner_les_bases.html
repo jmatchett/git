@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="3.2" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,7 +847,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_641">
+                    <section class="normal" id="section-gitbook_854">
                     
                         <h1 id="brancher-et-fusionner-les-bases">Brancher et fusionner : les bases</h1>
 <p>Suivons un exemple simple de branche et fusion dans une utilisation que vous feriez dans le monde réel.
@@ -871,17 +874,17 @@ Pour clarifier, Git n&#39;est pas lié à un gestionnaire particulier de faits t
 Mais comme le problème #53 est un problème ciblé sur lequel vous voulez travailler, vous allez créer une nouvelle branche dédiée à sa résolution.
 Pour créer une branche et y basculer tout de suite, vous pouvez lancer la commande <code>git checkout</code> avec l&#39;option <code>-b</code> :</p>
 <pre><code>$ git checkout -b prob53
-Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">"prob53"</span>
+Switched to a new branch &quot;prob53&quot;
 </code></pre><p>C&#39;est un raccourci pour :</p>
-<pre><code><span class="hljs-variable">$ </span>git branch prob53
-<span class="hljs-variable">$ </span>git checkout prob53
+<pre><code>$ git branch prob53
+$ git checkout prob53
 </code></pre><p>La figure 3-11 illustre le résultat.</p>
 <p><img src="http://git-scm.com/figures/18333fig0311-tn.png" alt=""></p>
 <p>Figure 3-11. Création d&#39;un nouveau pointeur de branche.</p>
 <p>Vous travaillez sur votre site web et validez des modifications.
 Ce faisant, la branche <code>prob53</code> avance, parce que vous l&#39;avez extraite (c&#39;est-à-dire que votre pointeur <code>HEAD</code> pointe dessus, voir figure 3-12) :</p>
-<pre><code><span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'ajout d'</span>un pied de page [problème <span class="hljs-number">53</span>]<span class="hljs-string">'</span>
+<pre><code>$ vim index.html
+$ git commit -a -m &#39;ajout d&#39;un pied de page [problème 53]&#39;
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0312-tn.png" alt=""></p>
 <p>Figure 3-12. La branche prob53 a avancé avec votre travail.</p>
 <p>Maintenant vous recevez un appel qui vous apprend qu&#39;il y a un problème sur le site web, un problème qu&#39;il faut résoudre immédiatement.
@@ -891,29 +894,29 @@ Tout ce que vous avez à faire, c&#39;est simplement rebasculer sur la branche <
 Le mieux est d&#39;avoir votre copie de travail dans un état propre au moment de basculer de branche.
 Il y a des moyens de contourner ceci (précisément par le remisage et l&#39;amendement de <em>commit</em>) dont nous parlerons plus loin.
 Pour l&#39;instant, vous avez validé tous vos changements dans la branche <code>prob53</code> et vous pouvez donc rebasculer vers la branche <code>master</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"master"</span>
+<pre><code>$ git checkout master
+Switched to branch &quot;master&quot;
 </code></pre><p>À présent, votre répertoire de copie de travail est exactement dans l&#39;état précédent les modifications pour le problème #53 et vous pouvez vous consacrer à votre correctif.
 C&#39;est un point important : Git réinitialise le répertoire de travail pour qu&#39;il ressemble à l&#39;instantané de la validation sur laquelle la branche que vous extrayez pointe.
 Il ajoute, retire et modifie les fichiers automatiquement pour assurer que la copie de travail soit identique à ce qu&#39;elle était lors de votre dernière validation sur la branche.</p>
 <p>Ensuite, vous avez un correctif à faire.
 Créons une branche de correctif sur laquelle travailler jusqu&#39;à ce que ce soit terminé (voir figure 3-13) :</p>
-<pre><code>$ git checkout <span class="hljs-attribute">-b</span> <span class="hljs-string">'correctif'</span>
-Switched <span class="hljs-keyword">to</span> a <span class="hljs-literal">new</span> branch <span class="hljs-string">"correctif"</span>
-$ vim index<span class="hljs-built_in">.</span>html
-$ git commit <span class="hljs-attribute">-a</span> <span class="hljs-attribute">-m</span> <span class="hljs-string">"correction d'une adresse mail incorrecte"</span>
-<span class="hljs-preprocessor">[</span>correctif<span class="hljs-preprocessor">]</span><span class="hljs-markup">: created 3a0874c: "correction d'une adresse mail incorrecte"
- 1 files changed, 0 insertions(+), 1 deletions(-)</span>
+<pre><code>$ git checkout -b &#39;correctif&#39;
+Switched to a new branch &quot;correctif&quot;
+$ vim index.html
+$ git commit -a -m &quot;correction d&#39;une adresse mail incorrecte&quot;
+[correctif]: created 3a0874c: &quot;correction d&#39;une adresse mail incorrecte&quot;
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0313-tn.png" alt=""></p>
 <p>Figure 3-13. Branche de correctif basée à partir de la branche <code>master</code>.</p>
 <p>Vous pouvez lancer vos tests, vous assurer que la correction est efficace et la fusionner dans la branche <code>master</code> pour la déployer en production.
 Vous réalisez ceci au moyen de la commande <code>git merge</code> :</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout master
-<span class="hljs-variable">$ </span>git merge correctif
-<span class="hljs-constant">Updating</span> f42c576..<span class="hljs-number">3</span>a0874c
-<span class="hljs-constant">Fast</span> forward
- <span class="hljs-constant">LISEZMOI</span> |    <span class="hljs-number">1</span> -
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">0</span> insertions(+), <span class="hljs-number">1</span> deletions(-)
+<pre><code>$ git checkout master
+$ git merge correctif
+Updating f42c576..3a0874c
+Fast forward
+ LISEZMOI |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 </code></pre><p>Vous noterez la mention « Fast forward » qui signifie avance rapide dans cette fusion.
 Comme le <em>commit</em> pointé par la branche que vous avez fusionnée était directement descendant du <em>commit</em> sur lequel vous vous trouvez, Git a avancé le pointeur en avant.
 Autrement dit, lorsque l&#39;on cherche à fusionner un <em>commit</em> qui peut être joint en suivant l&#39;historique depuis le <em>commit</em> d&#39;origine, Git avance simplement le pointeur car il n&#39;y a pas de travaux divergents à réellement fusionner — ceci s&#39;appelle l&#39;avance rapide.</p>
@@ -923,15 +926,15 @@ Autrement dit, lorsque l&#39;on cherche à fusionner un <em>commit</em> qui peut
 <p>Après le déploiement de votre correction super-importante, vous voilà de nouveau prêt à travailler sur votre sujet précédent l&#39;interruption.
 Cependant, vous allez avant tout effacer la branche <code>correctif</code> parce que vous n&#39;en avez plus besoin et la branche <code>master</code> pointe au même endroit.
 Vous pouvez l&#39;effacer avec l&#39;option <code>-d</code> de la commande <code>git branch</code> :</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> correctif
-Deleted branch correctif (<span class="hljs-number">3</span>a0874c).
+<pre><code>$ git branch -d correctif
+Deleted branch correctif (3a0874c).
 </code></pre><p>Maintenant, il est temps de basculer sur la branche « travaux en cours » sur le problème #53 et de continuer à travailler dessus (voir figure 3-15) :</p>
-<pre><code><span class="hljs-variable">$ </span>git checkout prob53
-<span class="hljs-constant">Switched</span> to branch <span class="hljs-string">"prob53"</span>
-<span class="hljs-variable">$ </span>vim index.html
-<span class="hljs-variable">$ </span>git commit -a -m <span class="hljs-string">'Nouveau pied de page terminé [problème 53]'</span>
-[prob53]<span class="hljs-symbol">:</span> created <span class="hljs-symbol">ad82d7a:</span> <span class="hljs-string">"Nouveau pied de page terminé [problème 53]"</span>
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git checkout prob53
+Switched to branch &quot;prob53&quot;
+$ vim index.html
+$ git commit -a -m &#39;Nouveau pied de page terminé [problème 53]&#39;
+[prob53]: created ad82d7a: &quot;Nouveau pied de page terminé [problème 53]&quot;
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p><img src="http://git-scm.com/figures/18333fig0315-tn.png" alt=""></p>
 <p>Figure 3-15. Votre branche prob53 peut avancer indépendamment de <code>master</code>.</p>
 <p>Il est utile de noter que le travail réalisé dans <code>correctif</code> n&#39;est pas contenu dans les fichiers de la branche <code>prob53</code>.
@@ -941,10 +944,10 @@ Si vous avez besoin de les y rapatrier, vous pouvez fusionner la branche <code>m
 Pour ce faire, vous allez rapatrier votre branche <code>prob53</code> de la même manière que vous l&#39;avez fait plus tôt pour la branche <code>correctif</code>.
 Tout ce que vous avez à faire est d&#39;extraire la branche dans laquelle vous souhaitez fusionner et lancer la commande <code>git merge</code> :</p>
 <pre><code>$ git checkout master
-$ git <span class="hljs-operator"><span class="hljs-keyword">merge</span> prob53
-<span class="hljs-keyword">Merge</span> made <span class="hljs-keyword">by</span> recursive.
- README |    <span class="hljs-number">1</span> +
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)</span>
+$ git merge prob53
+Merge made by recursive.
+ README |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Le comportement semble légèrement différent de celui observé pour la fusion précédente de <code>correctif</code>. Dans ce cas, l&#39;historique de développement a divergé à un certain point.
 Comme le <em>commit</em> sur la branche sur laquelle vous vous trouvez n&#39;est plus un ancêtre direct de la branche que vous cherchez à fusionner, Git doit travailler.
 Dans ce cas, Git réalise une simple fusion à trois sources, en utilisant les deux instantanés pointés par les sommets des branches et l&#39;ancêtre commun des deux.
@@ -959,55 +962,55 @@ Cela rend la fusion beaucoup plus facile dans Git que dans les autres systèmes.
 <p>Figure 3-17. Git crée automatiquement un nouvel objet <em>commit</em> qui contient le travail fusionné.</p>
 <p>À présent que votre travail a été fusionné, vous n&#39;avez plus besoin de la branche <code>prob53</code>.
 Vous pouvez l&#39;effacer et fermer manuellement le ticket dans votre outil de suivi de faits techniques :</p>
-<pre><code>$ git branch <span class="hljs-operator">-d</span> prob53
+<pre><code>$ git branch -d prob53
 </code></pre><h2 id="conflits-de-fusion">Conflits de fusion</h2>
 <p>Quelquefois, le processus ci-dessus ne se passe pas sans accroc.
 Si vous avez modifié différemment la même partie du même fichier dans les deux branches que vous souhaitez fusionner, Git ne sera pas capable de réaliser proprement la fusion.
 Si votre résolution du problème #53 a modifié la même section de fichier que le <code>correctif</code>, vous obtiendrez une conflit de fusion qui ressemblera à ceci :</p>
-<pre><code>$ git <span class="hljs-built_in">merge</span> prob53
+<pre><code>$ git merge prob53
 Auto-merging index.html
-CONFLICT (content): Merge conflict <span class="hljs-operator">in</span> index.html
-Automatic <span class="hljs-built_in">merge</span> failed; fix conflicts <span class="hljs-operator">and</span> <span class="hljs-keyword">then</span> commit <span class="hljs-operator">the</span> <span class="hljs-built_in">result</span>.
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
 </code></pre><p>Git n&#39;a pas automatiquement créé le <em>commit</em> du fusion.
 Il a arrêté le processus le temps que vous résolviez le conflit.
 Lancez <code>git status</code>  pour voir à tout moment  après l&#39;apparition du conflit de fusion quels fichiers n&#39;ont pas été fusionnés :</p>
 <pre><code>[master*]$ git status
 index.html: needs merge
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    unmerged:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#    unmerged:   index.html
+#
 </code></pre><p>Tout ce qui comporte des conflits de fusion et n&#39;a pas été résolu est listé comme <code>unmerged</code>.
 Git ajoute des marques de conflit standard dans les fichiers qui comportent des conflits, pour que vous puissiez les ouvrir et résoudre les conflits manuellement.
 Votre fichier contient des sections qui ressemblent à ceci :</p>
 <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
-<span class="hljs-header">&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
-=======</span>
-&lt;div id="footer"&gt;
-<span class="hljs-code">  please contact us at support@github.com</span>
+&lt;div id=&quot;footer&quot;&gt;contact : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id=&quot;footer&quot;&gt;
+  please contact us at support@github.com
 &lt;/div&gt;
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; prob53:index.html
 </code></pre><p>Cela signifie que la version dans <code>HEAD</code> (votre branche <code>master</code>, parce que c&#39;est celle que vous aviez extraite quand vous avez lancé votre commande de fusion) est la partie supérieure de ce bloc (tout ce qui se trouve au dessus de la ligne <code>=======</code>), tandis que la version de la branche <code>prob53</code> se trouve en dessous.
 Pour résoudre le conflit, vous devez choisir une partie ou l&#39;autre ou bien fusionner leurs contenus par vous-même.
 Par exemple, vous pourriez choisir de résoudre ce conflit en remplaçant tout le bloc par ceci :</p>
-<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"footer"</span>&gt;
-please contact us <span class="hljs-keyword">at</span> email.support@github.com
-&lt;/<span class="hljs-keyword">div</span>&gt;
+<pre><code>&lt;div id=&quot;footer&quot;&gt;
+please contact us at email.support@github.com
+&lt;/div&gt;
 </code></pre><p>Cette résolution comporte des parties de chaque section et les lignes <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> et <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> ont été complètement effacées.
 Après avoir résolu chacune de ces sections dans chaque fichier comportant un conflit, lancez <code>git add</code> sur chaque fichier pour le marquer comme résolu.
 Placer le fichier dans l&#39;index marque le conflit comme résolu pour Git.
 Si vous souhaitez utiliser un outil graphique pour résoudre ces problèmes, vous pouvez lancer <code>git mergetool</code> qui démarre l&#39;outil graphique de fusion approprié et vous permet de naviguer dans les conflits :</p>
 <pre><code>$ git mergetool
-<span class="hljs-built_in">merge</span> tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-Merging <span class="hljs-operator">the</span> <span class="hljs-built_in">files</span>: index.html
+merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
+Merging the files: index.html
 
-Normal <span class="hljs-built_in">merge</span> conflict <span class="hljs-keyword">for</span> <span class="hljs-string">'index.html'</span>:
-  {<span class="hljs-built_in">local</span>}: modified
+Normal merge conflict for &#39;index.html&#39;:
+  {local}: modified
   {remote}: modified
-Hit <span class="hljs-constant">return</span> <span class="hljs-built_in">to</span> start <span class="hljs-built_in">merge</span> resolution tool (opendiff):
+Hit return to start merge resolution tool (opendiff):
 </code></pre><p>Si vous souhaitez utiliser un outil de fusion autre que celui par défaut (Git a choisi <code>opendiff</code> pour moi dans ce cas car j&#39;utilise la commande sous Mac), vous pouvez voir tous les outils supportés après l&#39;indication « merge tool candidates ».
 Tapez le nom de l&#39;outil que vous préfèreriez utiliser.
 Au chapitre 7, nous expliquerons comment changer cette valeur par défaut dans votre environnement.</p>
@@ -1015,24 +1018,24 @@ Au chapitre 7, nous expliquerons comment changer cette valeur par défaut dans v
 Si vous répondez par la positive à l&#39;outil, il indexe le fichier pour le marquer comme résolu.</p>
 <p>Vous pouvez lancer à nouveau la commande <code>git status</code> pour vérifier que tous les conflits ont été résolus :</p>
 <pre><code>$ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#    modified:   index.html</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#    modified:   index.html
+#
 </code></pre><p>Si cela vous convient et que vous avez vérifié que tout ce qui comportait un conflit a été indexé, vous pouvez taper la commande <code>git commit</code> pour finaliser le <em>commit</em> de fusion.
 Le message de validation ressemble d&#39;habitude à ceci :</p>
-<pre><code>Merge branch <span class="hljs-string">'prob53'</span>
+<pre><code>Merge branch &#39;prob53&#39;
 
 Conflicts:
   index.html
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># It looks like you may be committing a MERGE.</span>
-<span class="hljs-preprocessor"># If this is not correct, please remove the file</span>
-<span class="hljs-preprocessor"># .git/MERGE_HEAD</span>
-<span class="hljs-preprocessor"># and try again.</span>
-<span class="hljs-preprocessor">#</span>
+#
+# It looks like you may be committing a MERGE.
+# If this is not correct, please remove the file
+# .git/MERGE_HEAD
+# and try again.
+#
 </code></pre><p>Vous pouvez modifier ce message pour inclure les détails sur la résolution du conflit si vous pensez que cela peut être utile lors d&#39;une revue ultérieure — pourquoi vous avez fait ceci, si ce n&#39;est pas clair.</p>
 
                     
@@ -1052,9 +1055,9 @@ Conflicts:
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

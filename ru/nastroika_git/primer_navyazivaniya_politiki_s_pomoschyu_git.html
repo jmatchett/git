@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="1.4" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,57 +847,57 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_783">
+                    <section class="normal" id="section-gitbook_785">
                     
                         <h1 id="-git">Пример навязывания политики с помощью Git</h1>
 <p>В этом разделе мы используем ранее полученные знания для организации в Git&#39;е такого рабочего процесса, который проверяет сообщения коммитов на соответствие заданному формату, из обновлений разрешает только перемотки и позволяет только определённым пользователям изменять определённые подкаталоги внутри проекта. Мы создадим клиентские сценарии, которые помогут разработчикам узнать, будет ли их push отклонён, и серверные сценарии, которые будут действительно вынуждать следовать установленным правилам.</p>
 <p>Для их написания я использовал Ruby, и потому что это мой любимый язык сценариев, и потому что из всех языков сценариев он больше всего похож на псевдокод; таким образом, код должен быть вам понятен в общих чертах, даже если вы не пользуетесь Ruby. Однако любой язык сгодится. Все примеры перехватчиков, распространяемые вместе с Git&#39;ом, написаны либо на Perl, либо на Bash, так что вы сможете просмотреть достаточно примеров перехватчиков на этих языках, заглянув в примеры.</p>
 <h2 id="-">Перехватчик на стороне сервера</h2>
 <p>Вся работа для сервера будет осуществляться в файле <code>update</code> из каталога <code>hooks</code>. Файл <code>update</code> запускается по разу для каждой отправленной ветки и принимает на вход ссылку, в которую сделано отправление, старую версию, на которой ветка находилась раньше, и новую присланную версию. Кроме того, вам будет доступно имя пользователя, приславшего данные, если <code>push</code> был выполнен по SSH. Если вы позволили подключаться всем под одним пользователем (например, &quot;git&quot;) с аутентификацией по открытому ключу, то вам может понадобиться создать для этого пользователя обёртку командной оболочки, которая на основе открытого ключа будет определять, какой пользователь осуществил подключение, и записывать этого пользователя в какой-нибудь переменной окружения. Тут я буду предполагать, что имя подключившегося пользователя находится в переменной окружения <code>$USER</code>, так что начнём наш сценарий со сбора всей необходимой информации:</p>
-<pre><code><span class="hljs-comment">#!/usr/bin/env ruby</span>
+<pre><code>#!/usr/bin/env ruby
 
-<span class="hljs-variable">$refname</span> = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">0</span>]
-<span class="hljs-variable">$oldrev</span>  = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">1</span>]
-<span class="hljs-variable">$newrev</span>  = <span class="hljs-constant">ARGV</span>[<span class="hljs-number">2</span>]
-<span class="hljs-variable">$user</span>    = <span class="hljs-constant">ENV</span>[<span class="hljs-string">'USER'</span>]
+$refname = ARGV[0]
+$oldrev  = ARGV[1]
+$newrev  = ARGV[2]
+$user    = ENV[&#39;USER&#39;]
 
-puts <span class="hljs-string">"Enforcing Policies... \n(<span class="hljs-subst">#{<span class="hljs-variable">$refname</span>}</span>) (<span class="hljs-subst">#{<span class="hljs-variable">$oldrev</span>[<span class="hljs-number">0</span>,<span class="hljs-number">6</span>]}</span>) (<span class="hljs-subst">#{<span class="hljs-variable">$newrev</span>[<span class="hljs-number">0</span>,<span class="hljs-number">6</span>]}</span>)"</span>
+puts &quot;Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})&quot;
 </code></pre><p>Да, я использую глобальные переменные. Не судите строго — в таком виде получается нагляднее.</p>
 <h3 id="-">Установка особого формата сообщений коммитов</h3>
 <p>Первая наша задача — это заставить все сообщения коммитов обязательно придерживаться определённого формата. Просто чтобы было чем заняться, предположим, что каждое сообщение должно содержать строку вида &quot;ref: 1234&quot;, так как мы хотим, чтобы каждый коммит был связан с некоторым элементом в нашей системе с карточками. Нам необходимо просмотреть все присланные коммиты, выяснить, есть ли такая строка в сообщении коммита, и, если строка отсутствует в каком-либо из этих коммитов, то завершить сценарий с ненулевым кодом, чтобы <code>push</code> был отклонён.</p>
 <p>Список значений SHA-1 для всех присланных коммитов можно получить, взяв значения <code>$newrev</code> и <code>$oldrev</code> и передав их служебной команде <code>git rev-list</code>. По сути, это команда <code>git log</code>, но по умолчанию она выводит только SHA-1 значения и больше ничего. Таким образом, чтобы получить список SHA для всех коммитов, сделанных между одним SHA коммита и другим, достаточно выполнить следующее:</p>
-<pre><code>$ git rev-<span class="hljs-built_in">list</span> <span class="hljs-number">538</span>c33..d14fc7
+<pre><code>$ git rev-list 538c33..d14fc7
 d14fc7c847ab946ec39590d87783c69b031bdfb7
-<span class="hljs-number">9f</span>585da4401b0a3999e84113824d15245c13f0be
-<span class="hljs-number">234071</span>a1be950e2a8d078e6141f5cd20c1e61ad3
+9f585da4401b0a3999e84113824d15245c13f0be
+234071a1be950e2a8d078e6141f5cd20c1e61ad3
 dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
-<span class="hljs-number">17716</span>ec0f1ff5c77eff40b7fe912f9f6cfd0e475
+17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475
 </code></pre><p>Можно взять этот вывод, пройти в цикле по SHA-хешам всех этих коммитов, беря их сообщения и проверяя с помощью регулярного выражения, совпадает ли сообщение с шаблоном.</p>
 <p>Нам нужно выяснить, как из всех этих коммитов получить их сообщения, для того, чтобы их протестировать. Чтобы получить данные коммита в сыром виде, можно воспользоваться ещё одной служебной командой, которая называется <code>git cat-file</code>. Мы рассмотрим все эти служебные команды более подробно в главе 9, но пока что, вот, что эта команда нам выдала:</p>
-<pre><code>$ git cat-<span class="hljs-built_in">file</span> commit ca82a6
+<pre><code>$ git cat-file commit ca82a6
 tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
-parent <span class="hljs-number">085</span>bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
-author Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1205815931</span> -<span class="hljs-number">0700</span>
-committer Scott Chacon &lt;schacon@gmail.com&gt; <span class="hljs-number">1240030591</span> -<span class="hljs-number">0700</span>
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;schacon@gmail.com&gt; 1205815931 -0700
+committer Scott Chacon &lt;schacon@gmail.com&gt; 1240030591 -0700
 
-changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+changed the version number
 </code></pre><p>Простой способ получить сообщение коммита для коммита, чьё значение SHA-1 известно, — это дойти в выводе команды <code>git cat-file</code> до первой пустой строки и взять всё, что идёт после неё. В Unix-системах это можно сделать с помощью команды <code>sed</code>:</p>
-<pre><code>$ git cat-<span class="hljs-built_in">file</span> commit ca82a6 | sed <span class="hljs-string">'1,/^$/d'</span>
-changed <span class="hljs-operator">the</span> <span class="hljs-built_in">version</span> <span class="hljs-built_in">number</span>
+<pre><code>$ git cat-file commit ca82a6 | sed &#39;1,/^$/d&#39;
+changed the version number
 </code></pre><p>Используйте приведённую ниже абракадабру, чтобы получить для каждого отправленного коммита его сообщение и выйти, если обнаружится, что что-то не соответствует требованиям. Если хотим отклонить отправленные данные, выходим с ненулевым кодом. Весь метод целиком выглядит следующим образом:</p>
 <pre><code>$regex = /\[ref: (\d+)\]/
 
-<span class="hljs-comment"># принуждает использовать особый формат сообщений</span>
+# принуждает использовать особый формат сообщений
 def check_message_format
-  missed_revs = `git rev-list <span class="hljs-comment">#{$oldrev}..#{$newrev}`.split("\n")</span>
-  missed_revs.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |rev|
-    message = `git cat-<span class="hljs-built_in">file</span> commit <span class="hljs-comment">#{rev} | sed '1,/^$/d'`</span>
-    <span class="hljs-keyword">if</span> !$regex.match(message)
-      puts <span class="hljs-string">"[POLICY] Your message is not formatted correctly"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  missed_revs = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  missed_revs.each do |rev|
+    message = `git cat-file commit #{rev} | sed &#39;1,/^$/d&#39;`
+    if !$regex.match(message)
+      puts &quot;[POLICY] Your message is not formatted correctly&quot;
+      exit 1
+    end
+  end
+end
 check_message_format
 </code></pre><p>Добавив это в свой сценарий <code>update</code>, мы запретим обновления, содержащие коммиты, сообщения которых не соблюдают наше правило.</p>
 <h3 id="-">Настройка системы контроля доступа для пользователей</h3>
@@ -903,63 +906,63 @@ check_message_format
 <p>В нашем примере будет несколько администраторов, сколько-то занимающихся написанием документации с доступом к каталогу <code>doc</code> и один разработчик, который имеет доступ только к каталогам <code>lib</code> и <code>tests</code>, и наш файл <code>acl</code> будет выглядеть так:</p>
 <pre><code>avail|nickh,pjhyett,defunkt,tpw
 avail|usinclair,cdickens,ebronte|doc
-avail<span class="hljs-localvars">|schacon|lib
-avail|schacon|tests</span>
+avail|schacon|lib
+avail|schacon|tests
 </code></pre><p>Начнём со считывания этих данных в какую-нибудь пригодную для использования структуру. В нашем случае, чтобы не усложнять пример, мы будем применять только директивы <code>avail</code>. Вот метод, который даёт нам ассоциативный массив, где ключом является имя пользователя, а значением — массив путей, для которых пользователь имеет доступ на запись:</p>
 <pre><code>def get_acl_access_data(acl_file)
-  <span class="hljs-comment"># считывание данных ACL</span>
-  acl_file = File.<span class="hljs-built_in">read</span>(acl_file).<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).reject { |<span class="hljs-built_in">line</span>| <span class="hljs-built_in">line</span> == <span class="hljs-string">''</span> }
+  # считывание данных ACL
+  acl_file = File.read(acl_file).split(&quot;\n&quot;).reject { |line| line == &#39;&#39; }
   access = {}
-  acl_file.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |<span class="hljs-built_in">line</span>|
-    avail, users, path = <span class="hljs-built_in">line</span>.<span class="hljs-built_in">split</span>(<span class="hljs-string">'|'</span>)
-    next unless avail == <span class="hljs-string">'avail'</span>
-    users.<span class="hljs-built_in">split</span>(<span class="hljs-string">','</span>).<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |user|
+  acl_file.each do |line|
+    avail, users, path = line.split(&#39;|&#39;)
+    next unless avail == &#39;avail&#39;
+    users.split(&#39;,&#39;).each do |user|
       access[user] ||= []
       access[user] &lt;&lt; path
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+    end
+  end
   access
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+end
 </code></pre><p>Для рассмотренного ранее ACL-файла, метод <code>get_acl_access_data</code> вернёт структуру данных следующего вида:</p>
-<pre><code>{<span class="hljs-string">"defunkt"</span>=&gt;[nil],
- <span class="hljs-string">"tpw"</span>=&gt;[nil],
- <span class="hljs-string">"nickh"</span>=&gt;[nil],
- <span class="hljs-string">"pjhyett"</span>=&gt;[nil],
- <span class="hljs-string">"schacon"</span>=&gt;[<span class="hljs-string">"lib"</span>, <span class="hljs-string">"tests"</span>],
- <span class="hljs-string">"cdickens"</span>=&gt;[<span class="hljs-string">"doc"</span>],
- <span class="hljs-string">"usinclair"</span>=&gt;[<span class="hljs-string">"doc"</span>],
- <span class="hljs-string">"ebronte"</span>=&gt;[<span class="hljs-string">"doc"</span>]}
+<pre><code>{&quot;defunkt&quot;=&gt;[nil],
+ &quot;tpw&quot;=&gt;[nil],
+ &quot;nickh&quot;=&gt;[nil],
+ &quot;pjhyett&quot;=&gt;[nil],
+ &quot;schacon&quot;=&gt;[&quot;lib&quot;, &quot;tests&quot;],
+ &quot;cdickens&quot;=&gt;[&quot;doc&quot;],
+ &quot;usinclair&quot;=&gt;[&quot;doc&quot;],
+ &quot;ebronte&quot;=&gt;[&quot;doc&quot;]}
 </code></pre><p>Теперь, когда мы разобрались с правами, нам нужно выяснить, какие пути изменяются присланными коммитами, чтобы можно было убедиться, что пользователь, выполнивший <code>push</code>, имеет ко всем ним доступ.</p>
 <p>Мы довольно легко можем определить, какие файлы были изменены в одном коммите, с помощью опции <code>--name-only</code> для команды <code>git log</code> (мы упоминали о ней в главе 2):</p>
-<pre><code>$ git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> --name-only --pretty=<span class="hljs-built_in">format</span>:<span class="hljs-string">''</span> <span class="hljs-number">9</span>f585d
+<pre><code>$ git log -1 --name-only --pretty=format:&#39;&#39; 9f585d
 
 README
 lib/test.rb
 </code></pre><p>Если мы воспользуемся ACL-структурой, полученной из метода <code>get_acl_access_data</code>, и сверим её со списком файлов для каждого коммита, то мы сможем определить, имеет ли пользователь право на отправку своих коммитов:</p>
-<pre><code><span class="hljs-comment"># некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям</span>
+<pre><code># некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям
 def check_directory_perms
-  access = get_acl_access_data(<span class="hljs-string">'acl'</span>)
+  access = get_acl_access_data(&#39;acl&#39;)
 
-  <span class="hljs-comment"># проверим, что никто не пытается прислать чего-то, что ему нельзя</span>
-  new_commits = `git rev-list <span class="hljs-comment">#{$oldrev}..#{$newrev}`.split("\n")</span>
-  new_commits.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |rev|
-    files_modified = `git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> <span class="hljs-comment">--name-only --pretty=format:'' #{rev}`.split("\n")</span>
-    files_modified.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |path|
-      next <span class="hljs-keyword">if</span> path.size == <span class="hljs-number">0</span>
-      has_file_access = <span class="hljs-constant">false</span>
-      access[$user].<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |access_path|
-        <span class="hljs-keyword">if</span> !access_path || <span class="hljs-comment"># пользователь имеет полный доступ</span>
-          (path.index(access_path) == <span class="hljs-number">0</span>) <span class="hljs-comment"># доступ к этому пути</span>
-          has_file_access = <span class="hljs-constant">true</span> 
-        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-      <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-      <span class="hljs-keyword">if</span> !has_file_access
-        puts <span class="hljs-string">"[POLICY] You do not have access to push to #{path}"</span>
-        exit <span class="hljs-number">1</span>
-      <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span>  </span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  # проверим, что никто не пытается прислать чего-то, что ему нельзя
+  new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  new_commits.each do |rev|
+    files_modified = `git log -1 --name-only --pretty=format:&#39;&#39; #{rev}`.split(&quot;\n&quot;)
+    files_modified.each do |path|
+      next if path.size == 0
+      has_file_access = false
+      access[$user].each do |access_path|
+        if !access_path || # пользователь имеет полный доступ
+          (path.index(access_path) == 0) # доступ к этому пути
+          has_file_access = true 
+        end
+      end
+      if !has_file_access
+        puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+        exit 1
+      end
+    end
+  end  
+end
 
 check_directory_perms
 </code></pre><p>Большую часть этого кода должно быть не сложно понять. Мы получаем список присланных на сервер коммитов с помощью <code>git rev-list</code>. Затем для каждого из них мы узнаём, какие файлы были изменены, и убеждаемся, что пользователь, сделавший <code>push</code>, имеет доступ ко всем изменённым путям. Один Ruby&#39;изм, который может быть непонятен — это <code>path.index(access_path) == 0</code>. Это условие верно, если <code>path</code> начинается с <code>access_path</code> — оно гарантирует, что <code>access_path</code> — это не просто один из разрешённых путей, а что каждый путь, к которому запрашивается доступ, начинается с одного из разрешённых путей.</p>
@@ -967,133 +970,133 @@ check_directory_perms
 <h3 id="-">Разрешение только обновлений-перемоток</h3>
 <p>Единственное, что нам осталось — это оставить доступными только обновления-перемотки. Чтобы добиться этого, можно просто задать настройки <code>receive.denyDeletes</code> и <code>receive.denyNonFastForwards</code>. Но осуществление этого с помощью перехватчика также будет работать, и к тому же вы сможете изменить его так, чтобы запрет действовал только для определённых пользователей, или ещё как-то, как вам захочется.</p>
 <p>Логика здесь такая — мы проверяем, есть ли такие коммиты, которые достижимы из старой версии и не достижимы из новой. Если таких нет, то сделанный <code>push</code> был перемоткой; в противном случае мы его запрещаем:</p>
-<pre><code><span class="hljs-comment"># разрешаем только обновления-перемотки</span>
+<pre><code># разрешаем только обновления-перемотки
 def check_fast_forward
-  missed_refs = `git rev-list <span class="hljs-comment">#{$newrev}..#{$oldrev}`</span>
-  missed_ref_count = missed_refs.<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).size
-  <span class="hljs-keyword">if</span> missed_ref_count &gt; <span class="hljs-number">0</span>
-    puts <span class="hljs-string">"[POLICY] Cannot push a non fast-forward reference"</span>
-    exit <span class="hljs-number">1</span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
+  missed_ref_count = missed_refs.split(&quot;\n&quot;).size
+  if missed_ref_count &gt; 0
+    puts &quot;[POLICY] Cannot push a non fast-forward reference&quot;
+    exit 1
+  end
+end
 
 check_fast_forward
 </code></pre><p>Всё готово. Если вы выполните <code>chmod u+x .git/hooks/update</code> (а это тот файл, в который вы должны были поместить весь наш код) и затем попытаетесь отправить ссылку, для которой нельзя выполнить перемотку, то вы получите что-то типа такого:</p>
 <pre><code>$ git push -f origin master
-Counting objects: <span class="hljs-number">5</span>, done.
-Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), done.
-Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), <span class="hljs-number">323</span> bytes, done.
-Total <span class="hljs-number">3</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
-Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), done.
+Counting objects: 5, done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 323 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
 Enforcing Policies... 
-(refs/heads/master) (<span class="hljs-number">8338</span>c5) (c5b616)
+(refs/heads/master) (8338c5) (c5b616)
 [POLICY] Cannot push a non fast-forward reference
-<span class="hljs-keyword">error</span>: hooks/update exited <span class="hljs-keyword">with</span> <span class="hljs-keyword">error</span> code <span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: hook declined <span class="hljs-keyword">to</span> update refs/heads/master
-<span class="hljs-keyword">To</span> git@gitserver:project.git
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
+To git@gitserver:project.git
  ! [remote rejected] master -&gt; master (hook declined)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'git@gitserver:project.git'</span>
+error: failed to push some refs to &#39;git@gitserver:project.git&#39;
 </code></pre><p>Тут есть пара интересных моментов. Во-первых, когда перехватчик начинает свою работу, мы видим это:</p>
-<pre><code>Enforcing Policies<span class="hljs-attribute">...</span> 
-(refs/heads/master) (<span class="hljs-number">8338</span>c5) (c56860)
+<pre><code>Enforcing Policies... 
+(refs/heads/master) (8338c5) (c56860)
 </code></pre><p>Обратите внимание, что мы выводили это в stdout в самом начале нашего сценария <code>update</code>. Важно отметить, что всё, что сценарий выводит в stdout, будет передано клиенту.</p>
 <p>Следующая вещь, которую мы видим, это сообщение об ошибке:</p>
-<pre><code>[POLICY] Cannot push a non fast-forward <span class="hljs-keyword">reference</span>
-<span class="hljs-keyword">error</span>: hooks/update exited <span class="hljs-keyword">with</span> <span class="hljs-keyword">error</span> code <span class="hljs-number">1</span>
-<span class="hljs-keyword">error</span>: hook declined <span class="hljs-keyword">to</span> update refs/heads/master
+<pre><code>[POLICY] Cannot push a non fast-forward reference
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
 </code></pre><p>Первую строку напечатали мы, а в остальных двух Git сообщает, что сценарий <code>update</code> завершился с ненулевым кодом, и это именно то, что отклонило ваш <code>push</code>. И, наконец, мы видим это:</p>
-<pre><code><span class="hljs-keyword">To</span> git@gitserver:project.git
+<pre><code>To git@gitserver:project.git
  ! [remote rejected] master -&gt; master (hook declined)
-<span class="hljs-keyword">error</span>: failed <span class="hljs-keyword">to</span> push some refs <span class="hljs-keyword">to</span> <span class="hljs-comment">'git@gitserver:project.git'</span>
+error: failed to push some refs to &#39;git@gitserver:project.git&#39;
 </code></pre><p>Сообщение &quot;remote rejected&quot; будет появляться для каждой отклонённой перехватчиком ссылки. Оно сообщает нам, что ссылка была отклонена именно из-за сбоя в перехватчике.</p>
 <p>Кроме того, при отсутствии отметки &quot;ref&quot; в каком-либо из коммитов, вы увидите сообщение об ошибке, которое мы для этого напечатали.</p>
-<pre><code>[POLICY] Your message <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> formatted correctly
+<pre><code>[POLICY] Your message is not formatted correctly
 </code></pre><p>Или если кто-то попытается отредактировать файл, не имея к нему доступа, то, отправив коммит с этими изменениями, он получит похожее сообщение. Например, если человек, пишущий документацию, попытается отправить коммит, вносящий изменения в файлы каталога <code>lib</code>, то увидит:</p>
-<pre><code>[POLICY] You <span class="hljs-keyword">do</span> <span class="hljs-keyword">not</span> have access <span class="hljs-keyword">to</span> push <span class="hljs-keyword">to</span> <span class="hljs-keyword">lib</span>/test.rb
+<pre><code>[POLICY] You do not have access to push to lib/test.rb
 </code></pre><p>Вот и всё. С этого момента, до тех пор пока сценарий <code>update</code> находится на своём месте и имеет права на исполнение, репозиторий никогда не будет откатан назад, в нём никогда не будет коммитов с сообщениями без вашего паттерна, и пользователи будут ограничены в доступе к файлам.</p>
 <h2 id="-">Перехватчики на стороне клиента</h2>
 <p>Обратная сторона такого подхода — это многочисленные жалобы, которые неизбежно появятся, когда отправленные пользователями коммиты будут отклонены. Когда чью-то тщательно оформленную работу отклоняют в последний момент, этот человек может быть сильно расстроен и смущён. Мало того, ему придётся отредактировать свою историю, чтобы откорректировать её, а это обычно не для слабонервных.</p>
 <p>Решение данной проблемы — предоставить пользователям какие-нибудь перехватчики, которые будут работать на стороне пользователя и будут сообщать ему, если он делает что-то, что, скорее всего, будет отклонено. При таком подходе, пользователи смогут исправить любые проблемы до создания коммита и до того, как эти проблемы станет сложно исправить. Так как перехватчики не пересылаются при клонировании проекта, вам придётся распространять эти сценарии каким-то другим способом и потом сделать так, чтобы ваши пользователи скопировали их в свой каталог <code>.git/hooks</code> и сделали их исполняемыми. Эти перехватчики можно поместить в свой проект или даже в отдельный проект, но способа установить их автоматически не существует.</p>
 <p>Для начала, перед записью каждого коммита нам надо проверить его сообщение, чтобы быть уверенным, что сервер не отклонит изменения из-за плохо отформатированного сообщения коммита. Чтобы сделать это, добавим перехватчик <code>commit-msg</code>. Если мы сможем прочитать сообщение из файла, переданного в качестве первого аргумента, и сравнить его с шаблоном, то можно заставить Git прервать создание коммита при обнаружении несовпадения:</p>
-<pre><code><span class="hljs-shebang">#!/usr/bin/env ruby</span>
-message_file = ARGV[<span class="hljs-number">0</span>]
+<pre><code>#!/usr/bin/env ruby
+message_file = ARGV[0]
 message = File.read(message_file)
 
-$regex = /\[<span class="hljs-keyword">ref</span>: (\d+)\]/
+$regex = /\[ref: (\d+)\]/
 
-<span class="hljs-keyword">if</span> !$regex.match(message)
-  puts <span class="hljs-string">"[POLICY] Your message is not formatted correctly"</span>
-  exit <span class="hljs-number">1</span>
+if !$regex.match(message)
+  puts &quot;[POLICY] Your message is not formatted correctly&quot;
+  exit 1
 end
 </code></pre><p>Если этот сценарий находится на своём месте (в <code>.git/hooks/commit-msg</code>) и имеет права на исполнение, то при создании коммита с неправильно оформленным сообщением вы увидите это:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">commit</span> -am <span class="hljs-string">'test'</span>
-[POLICY] Your message <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> formatted correctly</span>
+<pre><code>$ git commit -am &#39;test&#39;
+[POLICY] Your message is not formatted correctly
 </code></pre><p>В этом случае коммит не был завершён. Однако, когда сообщение содержит правильный шаблон, Git позволяет создать коммит:</p>
-<pre><code>$ git commit -am <span class="hljs-string">'test [ref: 132]'</span>
-[master e05c914] test [<span class="hljs-keyword">ref</span>: <span class="hljs-number">132</span>]
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">1</span> insertions(+), <span class="hljs-number">0</span> deletions(-)
+<pre><code>$ git commit -am &#39;test [ref: 132]&#39;
+[master e05c914] test [ref: 132]
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 </code></pre><p>Далее мы хотим убедиться, что пользователь не модифицирует файлы вне своей области, заданной в ACL. Если в проекте в каталоге <code>.git</code> уже есть копия файла <code>acl</code>, который мы использовали ранее, то сценарий <code>pre-commit</code> следующего вида применит эти ограничения:</p>
-<pre><code><span class="hljs-comment">#!/usr/bin/env ruby</span>
+<pre><code>#!/usr/bin/env ruby
 
-$user    = ENV[<span class="hljs-string">'USER'</span>]
+$user    = ENV[&#39;USER&#39;]
 
-<span class="hljs-comment"># [ insert acl_access_data method from above ]</span>
+# [ insert acl_access_data method from above ]
 
-<span class="hljs-comment"># некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям</span>
+# некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям
 def check_directory_perms
-  access = get_acl_access_data(<span class="hljs-string">'.git/acl'</span>)
+  access = get_acl_access_data(&#39;.git/acl&#39;)
 
-  files_modified = `git diff-index <span class="hljs-comment">--cached --name-only HEAD`.split("\n")</span>
-  files_modified.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |path|
-    next <span class="hljs-keyword">if</span> path.size == <span class="hljs-number">0</span>
-    has_file_access = <span class="hljs-constant">false</span>
-    access[$user].<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |access_path|
-    <span class="hljs-keyword">if</span> !access_path || (path.index(access_path) == <span class="hljs-number">0</span>)
-      has_file_access = <span class="hljs-constant">true</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-    <span class="hljs-keyword">if</span> !has_file_access
-      puts <span class="hljs-string">"[POLICY] You do not have access to push to #{path}"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+  files_modified = `git diff-index --cached --name-only HEAD`.split(&quot;\n&quot;)
+  files_modified.each do |path|
+    next if path.size == 0
+    has_file_access = false
+    access[$user].each do |access_path|
+    if !access_path || (path.index(access_path) == 0)
+      has_file_access = true
+    end
+    if !has_file_access
+      puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+      exit 1
+    end
+  end
+end
 
 check_directory_perms
 </code></pre><p>Это примерно тот же сценарий, что и на стороне сервера, но с двумя важными отличиями. Первое — файл <code>acl</code> находится в другом месте, так как этот сценарий теперь запускается из рабочего каталога, а не из Git-каталога. Нужно изменить путь к ACL-файлу с этого:</p>
-<pre><code><span class="hljs-keyword">access</span> = get_acl_access_data(<span class="hljs-attribute">'acl</span>')
+<pre><code>access = get_acl_access_data(&#39;acl&#39;)
 </code></pre><p>на этот:</p>
-<pre><code>access = get_acl_access_data(<span class="hljs-string">'.git/acl'</span>)
+<pre><code>access = get_acl_access_data(&#39;.git/acl&#39;)
 </code></pre><p>Другое важное отличие — это способ получения списка изменённых файлов. Так как метод, действующий на стороне сервера, смотрит в лог коммитов, а сейчас коммит ещё не был записан, нам надо получить список файлов из индекса. Вместо</p>
-<pre><code>files_modified = `git <span class="hljs-built_in">log</span> -<span class="hljs-number">1</span> --name-only --pretty=<span class="hljs-built_in">format</span>:<span class="hljs-string">''</span> <span class="hljs-preprocessor">#{ref}`</span>
+<pre><code>files_modified = `git log -1 --name-only --pretty=format:&#39;&#39; #{ref}`
 </code></pre><p>мы должны использовать</p>
-<pre><code><span class="hljs-comment">files_modified</span> <span class="hljs-comment">=</span> <span class="hljs-comment">`git</span> <span class="hljs-comment">diff</span><span class="hljs-literal">-</span><span class="hljs-comment">index</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">cached</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">name</span><span class="hljs-literal">-</span><span class="hljs-comment">only</span> <span class="hljs-comment">HEAD`</span>
+<pre><code>files_modified = `git diff-index --cached --name-only HEAD`
 </code></pre><p>Но это единственные два отличия — во всём остальном этот сценарий работает точно так же. Но надо предупредить, что он предполагает, что локально вы работаете под тем же пользователем, от имени которого отправляете изменения на удалённый сервер. Если это не так, то вам необходимо задать переменную <code>$user</code> вручную.</p>
 <p>Последнее, что нам нужно сделать, — это проверить, что пользователь не пытается отправить ссылки не с перемоткой, но это случается не так часто. Чтобы получились ссылки, не являющиеся перемоткой, надо либо переместить ветку за уже отправленный коммит, либо попытаться отправить другую локальную ветку в ту же самую удалённую ветку.</p>
 <p>Так как сервер в любом случае сообщит вам о том, что нельзя отправлять обновления, не являющиеся перемоткой, а перехватчик запрещает принудительные <code>push</code>&#39;и, единственная оплошность, которую вы можете попробовать предотвратить, это перемещение коммитов, которые уже были отправлены на сервер.</p>
 <p>Вот пример сценария <code>pre-rebase</code>, который это проверяет. Он принимает на вход список всех коммитов, которые вы собираетесь переписать, и проверяет, нет ли их в какой-нибудь из ваших удалённых веток. Если найдётся такой коммит, который достижим из одной из удалённых веток, сценарий прервёт выполнение перемещения:</p>
-<pre><code><span class="hljs-comment">#!/usr/bin/env ruby</span>
+<pre><code>#!/usr/bin/env ruby
 
-base_branch = ARGV[<span class="hljs-number">0</span>]
-<span class="hljs-keyword">if</span> ARGV[<span class="hljs-number">1</span>]
-  topic_branch = ARGV[<span class="hljs-number">1</span>]
-<span class="hljs-keyword">else</span>
-  topic_branch = <span class="hljs-string">"HEAD"</span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+base_branch = ARGV[0]
+if ARGV[1]
+  topic_branch = ARGV[1]
+else
+  topic_branch = &quot;HEAD&quot;
+end
 
-target_shas = `git rev-list <span class="hljs-comment">#{base_branch}..#{topic_branch}`.split("\n")</span>
-remote_refs = `git branch -r`.<span class="hljs-built_in">split</span>(<span class="hljs-string">"\n"</span>).map { |r| r.strip }
+target_shas = `git rev-list #{base_branch}..#{topic_branch}`.split(&quot;\n&quot;)
+remote_refs = `git branch -r`.split(&quot;\n&quot;).map { |r| r.strip }
 
-target_shas.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |sha|
-  remote_refs.<span class="hljs-keyword">each</span> <span class="hljs-built_in">do</span> |remote_ref|
-    shas_pushed = `git rev-list ^<span class="hljs-comment">#{sha}^@ refs/remotes/#{remote_ref}`</span>
-    <span class="hljs-keyword">if</span> shas_pushed.<span class="hljs-built_in">split</span>(“\n”).<span class="hljs-built_in">include</span>?(sha)
-      puts <span class="hljs-string">"[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"</span>
-      exit <span class="hljs-number">1</span>
-    <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-  <span class="hljs-function"><span class="hljs-keyword">end</span></span>
-<span class="hljs-function"><span class="hljs-keyword">end</span></span>
+target_shas.each do |sha|
+  remote_refs.each do |remote_ref|
+    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
+    if shas_pushed.split(“\n”).include?(sha)
+      puts &quot;[POLICY] Commit #{sha} has already been pushed to #{remote_ref}&quot;
+      exit 1
+    end
+  end
+end
 </code></pre><p>Этот сценарий использует синтаксис, который мы не рассматривали в разделе &quot;Выбор ревизии&quot; в главе 6. Мы получили список коммитов, которые уже были отправлены на сервер, выполнив это:</p>
-<pre><code>git rev-list ^#{<span class="ruby">sha}</span>^@ refs/remotes/#{<span class="ruby">remote_ref}</span>
+<pre><code>git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 </code></pre><p>Запись <code>SHA^@</code> означает всех родителей указанного коммита. Мы ищем какой-нибудь коммит, который достижим из последнего коммита в удалённой ветке и не достижим ни из одного из родителей какого-либо SHA, который вы пытаетесь отправить на сервер — это значит, что это перемотка.</p>
 <p>Главный недостаток такого подхода — это то, что проверка может быть очень медленной и зачастую избыточной — если вы не пытаетесь отправить данные принудительно с помощью <code>-f</code>, сервер и так выдаст предупреждение и не примет данные. Однако, это интересное упражнение и теоретически может помочь вам избежать перемещения, к которому потом придётся вернуться, чтобы исправить.</p>
 
@@ -1114,9 +1117,9 @@ target_shas.<span class="hljs-keyword">each</span> <span class="hljs-built_in">d
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.4" data-basepath=".." data-revision="1397503686983">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.4" data-basepath=".." data-revision="1397847850966">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -780,59 +783,59 @@
 <p>Ad ogni stadio potresti voler annullare qualcosa. Qui, vedremo alcuni strumenti fondamentali per annullare i cambiamenti che hai fatto. Attenzione, perché non sempre puoi invertire alcuni annullamenti. Questa è una delle aree in Git dove puoi perdere qualche lavoro se sbagli.</p>
 <h2 id="modificare-il-tuo-ultimo-commit">Modificare il Tuo Ultimo Commit</h2>
 <p>Uno degli annullamenti comuni avviene quando invii troppo presto un commit e magari dimentichi di aggiungere alcuni file, o sbagli il messaggio di commit. Se vuoi provare nuovamente questo commit, puoi lanciare commit con l&#39;opzione <code>--amend</code>:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">commit</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">amend</span>
+<pre><code>$ git commit --amend
 </code></pre><p>Questo comando prende la tua area di stage e la usa per il commit. Se non hai fatto cambiamenti dal tuo ultimo commit (per esempio, lanci questo comando subito dopo il tuo commit precedente), allora il tuo snapshot sarà esattamente uguale e potrai cambiare il tuo messaggio di commit.</p>
 <p>L&#39;editor per il messaggio del commit apparirà, ma già contiene il messaggio del commit precedente. Puoi modificare il messaggio come sempre, ma sovrascriverà il commit precedente.</p>
 <p>Come esempio, se fai il commit e poi realizzi di aver dimenticato un cambiamento nella tua area di stage di un file e vuoi aggiungerlo a questo commit, puoi farlo così:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit -m <span class="hljs-string">'initial commit'</span>
-<span class="hljs-variable">$ </span>git add forgotten_file
-<span class="hljs-variable">$ </span>git commit --amend
+<pre><code>$ git commit -m &#39;initial commit&#39;
+$ git add forgotten_file
+$ git commit --amend
 </code></pre><p>Tutti e tre i comandi finisco in un singolo commit —  il secondo commit riscrive il risultato del primo.</p>
 <h2 id="disimpegnare-un-file-staged">Disimpegnare un File Staged</h2>
 <p>Le prossime due sezioni mostrano come gestire le modifiche della tua area di stage e della directory di lavoro. La parte divertente è che il comando che usi per determinare lo stato di queste due aree ricorda come annullare i cambiamenti fatti. Per esempio, supponiamo che hai modificato due file e vuoi inviarli come modifiche separate, ma accidentalmente digiti <code>git add *</code> e li parcheggi entrambi. Come puoi disimpegnare uno dei due? Il comando <code>git status</code> ti ricorda:</p>
 <pre><code>$ git add .
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   README.txt</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#       modified:   benchmarks.rb
+#
 </code></pre><p>Ora il testo sotto “Changes to be committed”, dice di usare <code>git reset HEAD &lt;file&gt;...</code> per annullare. Così, usa questo avviso per disimpegnare il file benchmarks.rb dal parcheggio:</p>
-<pre><code>$ git reset<span class="hljs-constant"> HEAD </span>benchmarks.rb
+<pre><code>$ git reset HEAD benchmarks.rb
 benchmarks.rb: locally modified
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   README.txt</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   benchmarks.rb
+#
 </code></pre><p>Il comando è un po&#39; strano, ma funziona. Il file benchmarks.rb è modificato ma non parcheggiato.</p>
 <h2 id="annullare-le-modifiche-di-un-file-modificato">Annullare le Modifiche di un File Modificato</h2>
 <p>Come fare se hai realizzato che non vuoi più tenere le modifiche che hai fatto al file <code>benchmarks.rb</code>? Come puoi annullarle facilmente — ritornare a come era al tuo ultimo commit (o alla clonazione iniziale, o come lo avevi nella tua directory di lavoro)? Fortunatamente, <code>git status</code> ci dice come farlo. Nell&#39;ultimo output di esempio, l&#39;area di unstage (file non parcheggiati) assomiglia a:</p>
-<pre><code><span class="hljs-preprocessor"># Changes not staged for commit:</span>
-<span class="hljs-preprocessor">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-<span class="hljs-preprocessor">#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+<pre><code># Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   benchmarks.rb
+#
 </code></pre><p>Ci dice abbastanza esplicitamente come annullare le modifiche fatte (al limite, le nuove versioni di Git, 1.6.1 e successive, lo fanno —  se hai una versione più vecchia è raccomandato aggiornarla per avere queste funzioni utili). Vediamo cosa ci dice:</p>
 <pre><code>$ git checkout -- benchmarks.rb
 $ git status
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor">#       modified:   README.txt</span>
-<span class="hljs-preprocessor">#</span>
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#
 </code></pre><p>Puoi vedere come le modifiche sono state annullate. Dovresti inoltre realizzare che è un comando pericoloso: ogni cambiamento fatto al file è sparito — semplicemente hai copiato un altro file su di esso. Non usare mai questo comando a meno che non sai assolutamente che non vuoi il file. Se hai bisogno solamente di toglierlo di torno, vedremo ripostigli e ramificazioni nei capitoli successivi ; queste sono generalmente le vie migliori da seguire.</p>
 <p>Ricorda, qualsiasi cosa che è stata affidata a Git può quasi sempre essere recuperata. Tutti i commit che erano su rami che sono stati cancellati o sovrascritti tramite un commit <code>--amend</code> possono essere recuperati (vedi il <em>Capitolo 9</em> per il recupero dei dati). Tuttavia, qualsiasi cosa che perdi e che non è stata affidata a Git probabilmente non sarà mai più visto.</p>
 
@@ -853,9 +856,9 @@ $ git status
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

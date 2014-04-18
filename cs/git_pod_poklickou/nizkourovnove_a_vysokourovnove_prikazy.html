@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,14 +857,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_888">
+                    <section class="normal" id="section-gitbook_959">
                     
                         <h1 id="n-zko-rov-ov-a-vysoko-rov-ov-p-kazy">Nízkoúrovňové a vysokoúrovňové příkazy</h1>
 <p>V této knize jsme dosud uvedli asi 30 příkazů, které se používají k ovládání systému Git, např. <code>checkout</code>, <code>branch</code> nebo <code>remote</code>. Protože však byl Git původně spíš soupravou nástrojů k verzování než plným, uživatelsky přívětivým systémem VCS, zná celou řadu příkazů pracujících na nižších úrovních, které byly původně spojovány ve stylu UNIXu nebo volány ze skriptů. Těmto příkazům většinou říkáme „nízkoúrovňové“ (angl. plumbing commands), zatímco uživatelsky přívětivější příkazy označujeme jako „vysokoúrovňové“ (porcelain commands).</p>
 <p>Prvních osm kapitol této knihy se zabývá téměř výhradně vysokoúrovňovými příkazy. V této kapitole se však budeme věnovat převážně nízkoúrovňovým příkazům, protože ty vám umožní nahlédnout do vnitřního fungování systému Git a pochopit, jak a proč Git dělá to, co dělá. Nepředpokládám, že byste chtěli tyto příkazy používat osamoceně na příkazovém řádku. Podíváme se na ně spíše jako na stavební kameny pro nové nástroje a skripty.</p>
 <p>Spustíte-li v novém nebo existujícím adresáři příkaz <code>git init</code>, Git vytvoří adresář <code>.git</code>, tj. místo, kde je umístěno téměř vše, co Git ukládá a s čím manipuluje. Chcete-li zazálohovat nebo naklonovat repozitář, zkopírování tohoto jediného adresáře do jiného umístění vám poskytne prakticky vše, co budete potřebovat. Celá tato kapitola se bude zabývat v podstatě jen obsahem tohoto adresáře. Ten má následující podobu:</p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">HEAD</span>
+<pre><code>$ ls
+HEAD
 branches/
 config
 description
@@ -890,9 +893,9 @@ refs/
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

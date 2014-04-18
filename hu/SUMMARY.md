@@ -1,8 +1,0 @@
-* [Első](elso/README.md)
-	* [A verziókövetésről](elso/a_verziokovetesrol.md)
-	* [A Short History of Git](elso/a_short_history_of_git.md)
-	* [Git Basics](elso/git_basics.md)
-	* [Installing Git](elso/installing_git.md)
-	* [First-Time Git Setup](elso/first_time_git_setup.md)
-	* [Getting Help](elso/getting_help.md)
-	* [Summary](elso/summary.md)

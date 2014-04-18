@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.7" data-basepath=".." data-revision="1397503704865">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.7" data-basepath=".." data-revision="1397847862773">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,48 +857,48 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_953">
+                    <section class="normal" id="section-gitbook_1025">
                     
                         <h1 id="tipy-a-triky">Tipy a triky</h1>
 <p>Než ukončíme tuto kapitolu o základech práce se systémem Git, přidáme ještě pár tipů a triků, které vám mohou usnadnit či zpříjemnit práci. Mnoho uživatelů pracuje se systémem Git, aniž by tyto triky znali a používali. V dalších částech knihy se už o nich nebudeme zmiňovat ani nebudeme předpokládat, že je používáte. Přesto pro vás mohou být užitečné.</p>
 <h2 id="automatick-dokon-ov-n-">Automatické dokončování</h2>
 <p>Jestliže používáte shell Bash, nabízí vám Git možnost zapnout si skript automatického dokončování. Stáhněte si zdrojový kód Git a podívejte se do adresáře <code>contrib/completion</code>. Měli byste tam najít soubor s názvem <code>git-completion.bash</code>. Zkopírujte tento soubor do svého domovského adresáře a přidejte ho do souboru <code>.bashrc</code>:</p>
-<pre><code>source ~/<span class="hljs-preprocessor">.git</span>-completion<span class="hljs-preprocessor">.bash</span>
+<pre><code>source ~/.git-completion.bash
 </code></pre><p>Chcete-li nastavit Git tak, aby měl automaticky dokončování pro shell Bash pro všechny uživatele, zkopírujte tento skript do adresáře <code>/opt/local/etc/bash_completion.d</code> v systémech Mac nebo do adresáře <code>/etc/bash_completion.d/</code> v systémech Linux. Toto je adresář skriptů, z nějž Bash automaticky načítá pro shellové dokončování.</p>
 <p>Pokud používáte Git Bash v systému Windows (Git Bash je výchozím programem při instalaci systému Git v OS Windows pomocí msysGit), mělo by být automatické dokončování přednastaveno.</p>
 <p>Při zadávání příkazu Git stiskněte klávesu Tab a měla by se objevit nabídka, z níž můžete zvolit příslušné dokončení:</p>
-<pre><code>$ git co<span class="hljs-tag">&lt;<span class="hljs-title">tab</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">tab</span>&gt;</span>
+<pre><code>$ git co&lt;tab&gt;&lt;tab&gt;
 commit config
 </code></pre><p>Pokud zadáte – stejně jako v našem příkladu nahoře – <code>git co</code> a dvakrát stisknete klávesu Tab, systém vám navrhne „commit“ a „config“. Doplníte-li ještě <code>m&lt;tab&gt;</code>, skript automaticky dokončí příkaz na <code>git commit</code>.</p>
 <p>Automatické dokončování pravděpodobně více využijete v případě parametrů. Pokud například zadáváte příkaz <code>git log</code> a nemůžete si vzpomenout na některý z parametrů, můžete zadat jeho začátek a stisknout klávesu Tab, aby vám systém navrhl možná dokončení.</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">log</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">s</span>&lt;<span class="hljs-comment">tab</span>&gt;
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">shortstat</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">since=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">src</span><span class="hljs-literal">-</span><span class="hljs-comment">prefix=</span>  <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">stat</span>   <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">summary</span>
+<pre><code>$ git log --s&lt;tab&gt;
+--shortstat  --since=  --src-prefix=  --stat   --summary
 </code></pre><p>Jedná se o užitečný trik, který vám může ušetřit čas a pročítání dokumentace.</p>
 <h2 id="aliasy-git">Aliasy Git</h2>
 <p>Jestliže zadáte systému Git neúplný příkaz, systém ho neakceptuje. Pokud nechcete zadávat celý text příkazů Git, můžete pomocí <code>git config</code> jednoduše nastavit pro každý příkaz tzv. alias. Uveďme několik příkladů možného nastavení:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.co checkout
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.br branch
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.ci commit
-<span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.st status
+<pre><code>$ git config --global alias.co checkout
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status
 </code></pre><p>To znamená, že například místo kompletního příkazu <code>git commit</code> stačí zadat pouze zkrácené <code>git ci</code>. Budete-li pracovat v systému Git častěji, pravděpodobně budete hojně využívat i jiné příkazy. V takovém případě neváhejte a vytvořte si nové aliasy.</p>
 <p>Tato metoda může být velmi užitečná také k vytváření příkazů, které by podle vás měly existovat. Pokud jste například narazili na problém s používáním příkazu pro vrácení souboru z oblasti připravených změn, můžete ho vyřešit zadáním vlastního aliasu:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.unstage <span class="hljs-string">'reset HEAD --'</span>
+<pre><code>$ git config --global alias.unstage &#39;reset HEAD --&#39;
 </code></pre><p>Po zadání takového příkazu budete mít k dispozici dva ekvivalentní příkazy:</p>
-<pre><code><span class="hljs-variable">$ </span>git unstage fileA
-<span class="hljs-variable">$ </span>git reset <span class="hljs-constant">HEAD</span> fileA
+<pre><code>$ git unstage fileA
+$ git reset HEAD fileA
 </code></pre><p>Příkaz unstage je o něco jasnější. Běžně se také přidává příkaz <code>last</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.last <span class="hljs-string">'log -1 HEAD'</span>
+<pre><code>$ git config --global alias.last &#39;log -1 HEAD&#39;
 </code></pre><p>Tímto způsobem snadno zobrazíte poslední revizi:</p>
 <pre><code>$ git last
-<span class="hljs-operator"><span class="hljs-keyword">commit</span> <span class="hljs-number">66938</span>dae3329c7aebe598c2246a8e6af90d04646
+commit 66938dae3329c7aebe598c2246a8e6af90d04646
 Author: Josh Goebel &lt;dreamer3@example.com&gt;
-<span class="hljs-keyword">Date</span>:   Tue Aug <span class="hljs-number">26</span> <span class="hljs-number">19</span>:<span class="hljs-number">48</span>:<span class="hljs-number">51</span> <span class="hljs-number">2008</span> +<span class="hljs-number">0800</span>
+Date:   Tue Aug 26 19:48:51 2008 +0800
 
-    test <span class="hljs-keyword">for</span> <span class="hljs-keyword">current</span> head
+    test for current head
 
-    Signed-off-<span class="hljs-keyword">by</span>: Scott Chacon &lt;schacon@example.com&gt;</span>
+    Signed-off-by: Scott Chacon &lt;schacon@example.com&gt;
 </code></pre><p>Chtělo by se tedy říci, že Git jednoduše nahradí nový příkaz jakýmkoli aliasem, který vytvoříte. Může se však stát, že budete chtít spustit externí příkaz, a ne dílčí příkaz Git. V takovém případě zadejte na začátek příkazu znak <code>!</code>. Tuto možnost využijete, pokud si píšete své vlastní nástroje, které fungují s repozitářem Git. Jako příklad můžeme uvést situaci, kdy nahradíte příkaz <code>git visual</code> aliasem <code>gitk</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global <span class="hljs-keyword">alias</span>.visual <span class="hljs-string">'!gitk'</span>
+<pre><code>$ git config --global alias.visual &#39;!gitk&#39;
 </code></pre>
                     
                     </section>
@@ -914,9 +917,9 @@ Author: Josh Goebel &lt;dreamer3@example.com&gt;
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

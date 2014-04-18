@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="2.2" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="2.2" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,7 +857,7 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_982">
+                    <section class="normal" id="section-gitbook_910">
                     
                         <h1 id="-nderungen-am-repository-nachverfolgen">Änderungen am Repository nachverfolgen</h1>
 <!--You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.-->
@@ -878,8 +881,8 @@
 
 <p>Das wichtigste Hilfsmittel, um den Zustand zu überprüfen, in dem sich die Dateien in Deinem Repository gerade befinden, ist der Befehl <code>git status</code>. Wenn Du diesen Befehl unmittelbar nach dem Klonen eines Repositorys ausführst, sollte er folgende Ausgabe liefern:</p>
 <pre><code>$ git status
-<span class="hljs-keyword">On</span> branch master
-<span class="hljs-literal">nothing</span> <span class="hljs-keyword">to</span> commit, working directory clean
+On branch master
+nothing to commit, working directory clean
 </code></pre><!--This means you have a clean working directory — in other words, no tracked files are modified. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always `master`, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.-->
 
 <p>Dieser Zustand wird auch als sauberes Arbeitsverzeichnis (engl. clean working directory) bezeichnet. Mit anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und seit dem letzten Commit geändert wurden – andernfalls würden sie hier aufgelistet werden. Außerdem teilt Dir der Befehl mit, in welchem Branch Du Dich gerade befindest. In diesem Beispiel ist dies der Branch <code>master</code>. Mach Dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches detailliert eingehen.</p>
@@ -889,12 +892,12 @@
 <pre><code>$ vim README
 $ git status
 On branch master
-Untracked <span class="hljs-built_in">files</span>:
-  (use <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-built_in">to</span> <span class="hljs-built_in">include</span> <span class="hljs-operator">in</span> what will be committed)
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
 
         README
 
-nothing added <span class="hljs-built_in">to</span> commit but untracked <span class="hljs-built_in">files</span> present (use <span class="hljs-string">"git add"</span> <span class="hljs-built_in">to</span> track)
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
 </code></pre><!--You can see that your new `README` file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.-->
 
 <p>Alle Dateien, die in der Sektion „Untracked files“ aufgelistet werden, sind Dateien, die bisher nocht nicht versioniert sind. Dort wird jetzt auch die Datei <code>README</code> angezeigt. Mit anderen Worten, die Datei <code>README</code> wird in diesem Bereich gelistet, weil sie im letzen Snapshot (Commit) von Git nicht enthalten ist. Git nimmt eine solche Datei nicht automatisch in die Versionskontrolle auf, sondern man muss Git dazu ausdrücklich auffordern. Ansonsten würden generierte Binärdateien oder andere Dateien, die Du nicht in Deinem Repository haben willst, automatisch hinzugefügt werden. Das möchte man in den meisten Fällen vermeiden. Jetzt wollen wir aber Änderungen an der Datei <code>README</code> verfolgen und fügen sie deshalb zur Versionskontrolle hinzu.</p>
@@ -904,16 +907,16 @@ nothing added <span class="hljs-built_in">to</span> commit but untracked <span c
 <!--In order to begin tracking a new file, you use the command `git add`. To begin tracking the `README` file, you can run this:-->
 
 <p>Um eine neue Datei zur Versionskontrolle hinzuzufügen, verwendest Du den Befehl <code>git add</code>. Für Deine neue <code>README</code> Datei kannst Du ihn wie folgt ausführen:</p>
-<pre><code><span class="hljs-variable">$ </span>git add <span class="hljs-constant">README</span>
+<pre><code>$ git add README
 </code></pre><!--If you run your status command again, you can see that your `README` file is now tracked and staged:-->
 
 <p>Wenn Du den <code>git status</code> Befehl erneut ausführst, siehst Du, dass sich Deine <code>README</code> Datei jetzt unter Versionskontrolle befindet und für den nächsten Commit vorgemerkt ist (gestaged ist):</p>
 <pre><code>$ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
-        <span class="hljs-keyword">new</span> <span class="hljs-keyword">file</span>:   README
+        new file:   README
 </code></pre><!--You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran `git add` is what will be in the historical snapshot. You may recall that when you ran `git init` earlier, you then ran `git add (files)` — that was to begin tracking files in your directory. The `git add` command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.-->
 
 <p>Dass die Datei für den nächsten Commit vorgemerkt ist, siehst Du daran, dass sie in der Sektion „Changes to be committed“ aufgelistet ist. Wenn Du jetzt einen Commit anlegst, wird der Snapshot den Zustand der Datei beinhalten, den sie zum Zeitpunkt des Befehls <code>git add</code> hatte. Du erinnerst Dich daran, dass Du, als Du vorhin <code>git init</code> ausgeführt hast, anschließend <code>git add</code> ausgeführt hast: an dieser Stelle hast Du die Dateien in Deinem Verzeichnis der Versionskontrolle hinzugefügt. Der <code>git add</code> Befehl akzeptiert einen Pfadnamen einer Datei oder eines Verzeichnisses. Wenn Du ein Verzeichnis angibst, fügt <code>git add</code> alle Dateien in diesem Verzeichnis und allen Unterverzeichnissen rekursiv hinzu.</p>
@@ -924,15 +927,15 @@ Changes <span class="hljs-keyword">to</span> be committed:
 
 <p>Wenn Du eine bereits versionierte Datei <code>benchmarks.rb</code> änderst und den <code>git status</code> Befehl ausführst, erhältst Du folgendes:</p>
 <pre><code>$ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
-        <span class="hljs-keyword">new</span> <span class="hljs-keyword">file</span>:   README
+        new file:   README
 
-Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         modified:   benchmarks.rb
 </code></pre><!--The `benchmarks.rb` file appears under a section named “Changes not staged for commit” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the `benchmarks.rb` file, and then run `git status` again:-->
@@ -940,27 +943,27 @@ Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">
 <p>Die Datei <code>benchmarks.rb</code> erscheint in der Sektion „Changes not staged for commit“ – d.h., dass eine versionierte Datei im Arbeitsverzeichnis verändert worden ist, aber noch nicht für den Commit vorgemerkt wurde. Um sie vorzumerken, führst Du den Befehl <code>git add</code> aus. (<code>git add</code> wird zu verschiedenen Zwecken eingesetzt. Man verwendet ihn, um neue Dateien zur Versionskontrolle hinzuzufügen, Dateien für einen Commit zu markieren und verschiedene andere Dinge – beispielsweise, einen Konflikt aus einem Merge als aufgelöst zu kennzeichnen.)</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
-        <span class="hljs-keyword">new</span> <span class="hljs-keyword">file</span>:   README
+        new file:   README
         modified:   benchmarks.rb
 </code></pre><!--Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in `benchmarks.rb` before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:-->
 
 <p>Beide Dateien sind nun für den nächsten Commit vorgemerkt. Nehmen wir an, Du willst jetzt aber noch eine weitere Änderung an der Datei <code>benchmarks.rb</code> vornehmen, bevor Du den Commit tatsächlich anlegst. Du öffnest die Datei und änderst sie. Jetzt könntest Du den Commit anlegen. Aber zuvor führen wir noch mal <code>git status</code> aus:</p>
 <pre><code>$ vim benchmarks.rb
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
-        <span class="hljs-keyword">new</span> <span class="hljs-keyword">file</span>:   README
+        new file:   README
         modified:   benchmarks.rb
 
-Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         modified:   benchmarks.rb
 </code></pre><!--What the heck? Now `benchmarks.rb` is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the `git add` command. If you commit now, the version of `benchmarks.rb` as it was when you last ran the `git add` command is how it will go into the commit, not the version of the file as it looks in your working directory when you run `git commit`. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:-->
@@ -968,11 +971,11 @@ Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">
 <p>Huch, was ist das? Jetzt wird <code>benchmarks.rb</code> sowohl in der Staging Area als auch als geändert aufgelistet. Die Erklärung dafür ist, dass Git eine Datei in exakt dem Zustand für den Commit vormerkt, in dem sie sich befindet, wenn Du den Befehl <code>git add</code> ausführst. Wenn Du den Commit jetzt anlegst, wird die Version der Datei <code>benchmarks.rb</code> diejenigen Inhalte haben, die sie hatte, als Du <code>git add</code> zuletzt ausgeführt hast – nicht diejenigen, die sie in dem Moment hat, wenn Du den Commit anlegst. Wenn Du stattdessen die gegenwärtige Version im Commit haben willst, kannst Du einfach erneut <code>git add</code> ausführen:</p>
 <pre><code>$ git add benchmarks.rb
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
-        <span class="hljs-keyword">new</span> <span class="hljs-keyword">file</span>:   README
+        new file:   README
         modified:   benchmarks.rb
 </code></pre><!--## Ignoring Files-->
 ## Dateien ignorieren
@@ -980,7 +983,7 @@ Changes <span class="hljs-keyword">to</span> be committed:
 <!--Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named `.gitignore`.  Here is an example `.gitignore` file:-->
 
 <p>Du wirst in der Regel eine Reihe von Dateien in Deinem Projektverzeichnis haben, die Du nicht versionieren bzw. im Repository haben willst, wie z.B. automatisch generierte Dateien, wie Logdateien oder Dateien, die Dein Build-System erzeugt. In solchen Fällen kannst Du in der Datei <code>.gitignore</code> alle Dateien oder Dateimuster angeben, die Du ignorieren willst.</p>
-<pre><code><span class="hljs-variable">$ </span>cat .gitignore
+<pre><code>$ cat .gitignore
 *.[oa]
 *~
 </code></pre><!--The first line tells Git to ignore any files ending in `.o` or `.a` — *object* and *archive* files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a `log`, `tmp`, or `pid` directory; automatically generated documentation; and so on. Setting up a `.gitignore` file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.-->
@@ -1020,19 +1023,19 @@ Changes <span class="hljs-keyword">to</span> be committed:
 <!--    # ignore all .txt files in the doc/ directory-->
 <!--    doc/**/*.txt-->
 
-<pre><code><span class="hljs-preprocessor"># ein Kommentar - dieser wird ignoriert</span>
-<span class="hljs-preprocessor"># ignoriert alle Dateien, die mit .a enden</span>
+<pre><code># ein Kommentar - dieser wird ignoriert
+# ignoriert alle Dateien, die mit .a enden
 *.a
-<span class="hljs-preprocessor"># nicht aber lib.a Dateien (obwohl obige Zeile *.a ignoriert)</span>
+# nicht aber lib.a Dateien (obwohl obige Zeile *.a ignoriert)
 !lib.a
-<span class="hljs-preprocessor"># ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber</span>
+# ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber
 /TODO
-<span class="hljs-preprocessor"># ignoriert alle Dateien im build/ Verzeichnis</span>
+# ignoriert alle Dateien im build/ Verzeichnis
 build/
-<span class="hljs-preprocessor"># ignoriert doc/notes.txt, aber nicht doc/server/arch.txt</span>
-doc<span class="hljs-comment">/*.txt
+# ignoriert doc/notes.txt, aber nicht doc/server/arch.txt
+doc/*.txt
 # ignoriert alle .txt Dateien unterhalb des doc/ Verzeichnis
-doc/**/</span>*.txt
+doc/**/*.txt
 </code></pre><!--A `**/` pattern is available in Git since version 1.8.2.-->
 
 <p>Die Kombination <code>**/</code> wurde in der Git Version 1.8.2 eingeführt.</p>
@@ -1046,36 +1049,36 @@ doc/**/</span>*.txt
 
 <p>Nehmen wir an, Du hast die Datei <code>README</code> geändert und für einen Commit in der Staging Area vorgemerkt. Dann änderst Du außerdem die Datei <code>benchmarks.rb</code>, fügst sie aber noch nicht zur Staging Area hinzu. Wenn Du den <code>git status</code> Befehl dann ausführst, zeigt er Dir in etwa Folgendes an:</p>
 <pre><code>$ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
-        <span class="hljs-keyword">new</span> <span class="hljs-keyword">file</span>:   README
+        new file:   README
 
-Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         modified:   benchmarks.rb
 </code></pre><!--To see what you’ve changed but not yet staged, type `git diff` with no other arguments:-->
 
 <p>Um festzustellen, welche Änderungen Du bisher nicht gestaged hast, führe <code>git diff</code> ohne irgendwelche weiteren Argumente aus:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..da65585 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..da65585 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-           @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-         <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+           @commit.parents[0].parents[0].parents[0]
+         end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-         run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-           <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-           <span class="hljs-built_in">log</span>.size
+         run_code(x, &#39;commits 2&#39;) do
+           log = git.commits(&#39;master&#39;, 15)
+           log.size
 </code></pre><!--That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.-->
 
 <p>Dieser Befehl vergleicht die Inhalte Deines Arbeitsverzeichnisses mit den Inhalten Deiner Staging Area. Das Ergebnis zeigt Dir die Änderungen, die Du an Dateien im Arbeitsverzeichnis vorgenommen, aber noch nicht für den nächsten Commit vorgemerkt hast.</p>
@@ -1086,14 +1089,14 @@ index <span class="hljs-number">3</span>cb747f..da65585 <span class="hljs-number
 diff --git a/README b/README
 new file mode 100644
 index 0000000..03902a1
-<span class="hljs-header">--- /dev/null</span>
-<span class="hljs-header">+++ b/README2</span>
-<span class="hljs-chunk">@@ -0,0 +1,5 @@</span>
-<span class="hljs-addition">+grit</span>
-<span class="hljs-addition">+ by Tom Preston-Werner, Chris Wanstrath</span>
-<span class="hljs-addition">+ http://github.com/mojombo/grit</span>
-<span class="hljs-addition">+</span>
-<span class="hljs-addition">+Grit is a Ruby library for extracting information from a Git repository</span>
+--- /dev/null
++++ b/README2
+@@ -0,0 +1,5 @@
++grit
++ by Tom Preston-Werner, Chris Wanstrath
++ http://github.com/mojombo/grit
++
++Grit is a Ruby library for extracting information from a Git repository
 </code></pre><!--It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.-->
 
 <p>Es ist wichtig, im Kopf zu behalten, dass <code>git diff</code> nicht alle Änderungen seit dem letzten Commit anzeigt – er zeigt lediglich diejenigen Änderungen an, die noch nicht in der Staging Area sind. Das kann verwirrend sein. Wenn Du all Deine Änderungen bereits für einen Commit vorgemerkt hast, zeigt <code>git diff</code> überhaupt nichts an.</p>
@@ -1101,51 +1104,51 @@ index 0000000..03902a1
 
 <p>Ein anderes Beispiel: Wenn Du Änderungen an der Datei <code>benchmarks.rb</code> bereits zur Staging Area hinzugefügt hast und sie dann anschließend noch mal änderst, kannst Du <code>git diff</code> verwenden, um diese letzten Änderungen anzuzeigen, die noch nicht in der Staging Area sind:</p>
 <pre><code>$ git add benchmarks.rb
-$ echo '# test line' &gt;&gt; benchmarks.rb
+$ echo &#39;# test line&#39; &gt;&gt; benchmarks.rb
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
         modified:   benchmarks.rb
 
-Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         modified:   benchmarks.rb
 </code></pre><!--Now you can use `git diff` to see what is still unstaged-->
 
 <p>Jetzt kannst Du <code>git diff</code> verwenden, um zu sehen, was noch nicht für den nächsten Commit vorgemerkt ist:</p>
 <pre><code>$ git diff
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index e445e28.<span class="hljs-number">.86</span>b2f7c <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+diff --git a/benchmarks.rb b/benchmarks.rb
+index e445e28..86b2f7c 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">127</span>,<span class="hljs-number">3</span> +<span class="hljs-number">127</span>,<span class="hljs-number">4</span> @@ <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -127,3 +127,4 @@ end
  main()
 
- <span class="hljs-comment">##pp Grit::GitRuby.cache_client.stats</span>
-+<span class="hljs-comment"># test line</span>
+ ##pp Grit::GitRuby.cache_client.stats
++# test line
 </code></pre><!--and `git diff -\-cached` to see what you’ve staged so far:-->
 
 <p>und <code>git diff --cached</code>, um zu sehen, was für den nächsten Commit vorgesehen ist:</p>
-<pre><code>$ git diff <span class="hljs-comment">--cached</span>
-diff <span class="hljs-comment">--git a/benchmarks.rb b/benchmarks.rb</span>
-index <span class="hljs-number">3</span>cb747f..e445e28 <span class="hljs-number">100644</span>
-<span class="hljs-comment">--- a/benchmarks.rb</span>
+<pre><code>$ git diff --cached
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..e445e28 100644
+--- a/benchmarks.rb
 +++ b/benchmarks.rb
-@@ -<span class="hljs-number">36</span>,<span class="hljs-number">6</span> +<span class="hljs-number">36</span>,<span class="hljs-number">10</span> @@ def main
-          @commit.parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>].parents[<span class="hljs-number">0</span>]
-        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
+@@ -36,6 +36,10 @@ def main
+          @commit.parents[0].parents[0].parents[0]
+        end
 
-+        run_code(x, <span class="hljs-string">'commits 1'</span>) <span class="hljs-built_in">do</span>
++        run_code(x, &#39;commits 1&#39;) do
 +          git.commits.size
-+        <span class="hljs-function"><span class="hljs-keyword">end</span></span>
++        end
 +
-        run_code(x, <span class="hljs-string">'commits 2'</span>) <span class="hljs-built_in">do</span>
-          <span class="hljs-built_in">log</span> = git.commits(<span class="hljs-string">'master'</span>, <span class="hljs-number">15</span>)
-          <span class="hljs-built_in">log</span>.size
+        run_code(x, &#39;commits 2&#39;) do
+          log = git.commits(&#39;master&#39;, 15)
+          log.size
 </code></pre><!--## Committing Your Changes-->
 ## Einen Commit erzeugen
 
@@ -1153,34 +1156,34 @@ index <span class="hljs-number">3</span>cb747f..e445e28 <span class="hljs-number
 <!--In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:-->
 
 <p>Nachdem Du jetzt alle Änderungen, die Du im nächsten Commit haben willst, in Deiner Staging Area gesammelt hast, kannst Du den Commit anlegen. Denke daran, dass Änderungen, die nicht in der Staging Area sind (also alle Änderungen, die Du vorgenommen hast, seit Du zuletzt <code>git add</code> ausgeführt hast), auch nicht in den Commit aufgenommen werden. Sie werden ganz einfach weiterhin als geänderte Dateien im Arbeitsverzeichnis verbleiben. In unserem Beispiel haben wir gesehen, dass alle Änderungen vorgemerkt waren, als wir zuletzt <code>git status</code> ausgeführt haben, also können wir den Commit jetzt anlegen. Das geht am einfachsten mit dem Befehl:</p>
-<pre><code><span class="hljs-variable">$ </span>git commit
+<pre><code>$ git commit
 </code></pre><!--Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config -\-global core.editor` command as you saw in *Chapter 1*).-->
 
 <p>Wenn Du diesen Befehl ausführst, wird Git den Texteditor Deiner Wahl starten. (D.h. denjenigen Texteditor, der durch die <code>$EDITOR</code> Variable Deiner Shell angegeben wird – normalerweise ist das vim oder emacs, aber Du kannst jeden Editor Deiner Wahl angeben. Wie in Kapitel 1 besprochen, kannst Du dazu <code>git config --global core.editor</code> verwenden.)</p>
 <!--The editor displays the following text (this example is a Vim screen):-->
 
 <p>Der Editor zeigt in etwa folgenden Text an (dies ist ein Beispiel mit vim):</p>
-<pre><code><span class="hljs-preprocessor"># Please enter the commit message for your changes. Lines starting</span>
-<span class="hljs-preprocessor"># with '#' will be ignored, and an empty message aborts the commit.</span>
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#       new file:   README</span>
-<span class="hljs-preprocessor">#       modified:   benchmarks.rb</span>
-<span class="hljs-preprocessor">#</span>
+<pre><code># Please enter the commit message for your changes. Lines starting
+# with &#39;#&#39; will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#       new file:   README
+#       modified:   benchmarks.rb
+#
 ~
 ~
 ~
-<span class="hljs-string">".git/COMMIT_EDITMSG"</span> <span class="hljs-number">10</span>L, <span class="hljs-number">283</span>C
+&quot;.git/COMMIT_EDITMSG&quot; 10L, 283C
 </code></pre><!--You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).-->
 
 <p>Du siehst, dass die vorausgefüllte Commit Meldung die Ausgabe des letzten <code>git status</code> Befehls als einen Kommentar und darüber eine leere Zeile enthält. Du kannst die Kommentare entfernen und Deine eigene Meldung einfügen. Oder Du kannst sie stehen lassen, damit Du siehst, was im Commit enthalten sein wird. (Um die Änderungen noch detaillierter sehen zu können, kannst Du den Befehl <code>git commit</code> mit der Option <code>-v</code> verwenden. Das fügt zusätzlich das Diff Deiner Änderungen im Editor ein, sodass Du exakt sehen kannst, was sich im Commit befindet.) Wenn Du den Texteditor beendest, erzeugt Git den Commit mit der gegebenen Meldung (d.h., ohne den Kommentar und das Diff).</p>
 <!--Alternatively, you can type your commit message inline with the `commit` command by specifying it after a `-m` flag, like this:-->
 
 <p>Alternativ kannst Du die Commit Meldung direkt mit dem Befehl <code>git commit</code> angeben, indem Du die Option <code>-m</code> wie folgt verwendest:</p>
-<pre><code>$ git <span class="hljs-operator"><span class="hljs-keyword">commit</span> -m <span class="hljs-string">"Story 182: Fix benchmarks for speed"</span>
-[master <span class="hljs-number">463</span>dc4f] Fix benchmarks <span class="hljs-keyword">for</span> speed
- <span class="hljs-number">2</span> files changed, <span class="hljs-number">3</span> insertions(+)
- <span class="hljs-keyword">create</span> mode <span class="hljs-number">100644</span> README</span>
+<pre><code>$ git commit -m &quot;Story 182: Fix benchmarks for speed&quot;
+[master 463dc4f] Fix benchmarks for speed
+ 2 files changed, 3 insertions(+)
+ create mode 100644 README
 </code></pre><!--Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (`master`), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.-->
 
 <p>Du hast jetzt Deinen ersten Commit angelegt! Git zeigt Dir als Rückmeldung einige Details über den neu angelegten Commit an: in welchem Branch er sich befindet (master), welche SHA-1 Checksumme er hat (<code>463dc4f</code>, in diesem Fall nur die Kurzform), wie viele Dateien geändert wurden und eine Zusammenfassung über die insgesamt neu hinzugefügten und entfernten Zeilen in diesem Commit.</p>
@@ -1194,17 +1197,17 @@ index <span class="hljs-number">3</span>cb747f..e445e28 <span class="hljs-number
 
 <p>Obwohl die Staging Area unglaublich nützlich ist, um genau diejenigen Commits anzulegen, die Du in Deiner Projekt Historie haben willst, ist sie manchmal auch ein bisschen umständlich. Git stellt Dir deshalb eine Alternative zur Verfügung, mit der Du die Staging Area überspringen kannst. Wenn Du den Befehl <code>git commit</code> mit der Option <code>-a</code> ausführst, übernimmt Git automatisch alle Änderungen an dejenigen Dateien, die sich bereits unter Versionskontrolle befinden, in den Commit – sodass Du auf diese Weise den Schritt <code>git add</code> weglassen kannst:</p>
 <pre><code>$ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+On branch master
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         modified:   benchmarks.rb
 
-no changes added <span class="hljs-keyword">to</span> commit (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add"</span> <span class="hljs-keyword">and</span>/<span class="hljs-keyword">or</span> <span class="hljs-string">"git commit -a"</span>)
-$ git commit -a -m <span class="hljs-attribute">'added</span> <span class="hljs-keyword">new</span> benchmarks'
-[master <span class="hljs-number">83e38</span>c7] added <span class="hljs-keyword">new</span> benchmarks
- <span class="hljs-number">1</span> files changed, <span class="hljs-number">5</span> insertions(+)
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+$ git commit -a -m &#39;added new benchmarks&#39;
+[master 83e38c7] added new benchmarks
+ 1 files changed, 5 insertions(+)
 </code></pre><!--Notice how you don’t have to run `git add` on the `benchmarks.rb` file in this case before you commit.-->
 
 <p>Beachte, dass Du in diesem Fall <code>git add</code> zuvor noch nicht ausgeführt hast, die Änderungen an <code>benchmarks.rb</code> aber dennoch in den Commit übernommen werden.</p>
@@ -1219,23 +1222,23 @@ $ git commit -a -m <span class="hljs-attribute">'added</span> <span class="hljs-
 <p>Wenn Du einfach nur eine Datei aus dem Arbeitsverzeichnis löschst, wird sie in der Sektion „Changes not staged for commit“ angezeigt, wenn Du <code>git status</code> ausführst:</p>
 <pre><code>$ rm grit.gemspec
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">not</span> staged <span class="hljs-keyword">for</span> commit:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add/rm &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> update what will be committed)
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git checkout -- &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> discard changes <span class="hljs-keyword">in</span> working directory)
+On branch master
+Changes not staged for commit:
+  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
         deleted:    grit.gemspec
 
-no changes added <span class="hljs-keyword">to</span> commit (<span class="hljs-keyword">use</span> <span class="hljs-string">"git add"</span> <span class="hljs-keyword">and</span>/<span class="hljs-keyword">or</span> <span class="hljs-string">"git commit -a"</span>)
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 </code></pre><!--Then, if you run `git rm`, it stages the file’s removal:-->
 
 <p>Wenn Du jetzt <code>git rm</code> ausführst, wird diese Änderung für den nächsten Commit in der Staging Area vorgemerkt:</p>
 <pre><code>$ git rm grit.gemspec
-rm <span class="hljs-attribute">'grit</span>.gemspec'
+rm &#39;grit.gemspec&#39;
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
         deleted:    grit.gemspec
 </code></pre><!--The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.-->
@@ -1244,15 +1247,15 @@ Changes <span class="hljs-keyword">to</span> be committed:
 <!--Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally staged it, like a large log file or a bunch of `.a` compiled files. To do this, use the `-\-cached` option:-->
 
 <p>Ein anderer Anwendungsfall für <code>git rm</code> ist, dass Du eine Datei in Deinem Arbeitsverzeichnis behalten, aber aus der Staging Area nehmen willst. In anderen Worten, Du willst die Datei nicht löschen, sondern aus der Versionskontrolle nehmen. Das könnte zum Beispiel der Fall sein, wenn Du vergessen hattest, eine Datei in <code>.gitignore</code> anzugeben und sie versehentlich zur Versionskontrolle hinzugefügt hast, beispielsweise eine große Logdatei oder eine Reihe kompilierter <code>.a</code> Dateien. Hierzu kannst Du dann die <code>--cached</code> Option verwenden:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">rm</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">cached</span> <span class="hljs-comment">readme</span><span class="hljs-string">.</span><span class="hljs-comment">txt</span>
+<pre><code>$ git rm --cached readme.txt
 </code></pre><!--You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as-->
 
 <p>Der <code>git rm</code> Befehl akzeptiert Dateien, Verzeichnisse und <code>glob</code> Dateimuster. D.h., Du kannst z.B. folgendes tun:</p>
-<pre><code>$ git rm <span class="hljs-keyword">log</span>/\*.<span class="hljs-keyword">log</span>
+<pre><code>$ git rm log/\*.log
 </code></pre><!--Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. On Windows with the system console, the backslash must be omitted. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:-->
 
 <p>Beachte den Backslash (<code>\</code>) vor dem Stern (<code>*</code>). Er ist nötig, weil Git Dateinamen zusätzlich zur Dateinamen-Expansion Deiner Shell selbst vervollständigt. D.h., dieser Befehl entfernt alle Dateien, die die Erweiterung <code>.log</code> haben und sich im <code>/log</code> Verzeichnis befinden. Ein anderes Beispiel ist:</p>
-<pre><code><span class="hljs-variable">$ </span>git rm \*~
+<pre><code>$ git rm \*~
 </code></pre><!--This command removes all files that end with `~`.-->
 
 <p>Dieser Befehl entfernt alle Dateien, die mit einer Tilde (<code>~</code>) aufhören.</p>
@@ -1265,15 +1268,15 @@ Changes <span class="hljs-keyword">to</span> be committed:
 <!--Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like-->
 
 <p>Es ist allerdings ein bisschen verwirrend, dass Git trotzdem einen <code>git mv</code> Befehl kennt. Wenn Du eine Datei umbenennen willst, kannst Du folgendes tun:</p>
-<pre><code><span class="hljs-variable">$ </span>git mv file_from file_to
+<pre><code>$ git mv file_from file_to
 </code></pre><!--and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:-->
 
 <p>Das funktioniert einwandfrei. Wenn Du diesen Befehl ausführst und danach den <code>git status</code> ausführst, zeigt Git an, dass die Datei umbenannt wurde:</p>
 <pre><code>$ git mv README.txt README
 $ git status
-<span class="hljs-keyword">On</span> branch master
-Changes <span class="hljs-keyword">to</span> be committed:
-  (<span class="hljs-keyword">use</span> <span class="hljs-string">"git reset HEAD &lt;file&gt;..."</span> <span class="hljs-keyword">to</span> unstage)
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 
         renamed:    README.txt -&gt; README
 </code></pre><!--However, this is equivalent to running something like this:-->
@@ -1304,9 +1307,9 @@ Allerdings kannst Du genauso folgendes tun:
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

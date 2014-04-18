@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397503694393">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="9.1" data-basepath=".." data-revision="1397847855052">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -844,14 +847,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_600">
+                    <section class="normal" id="section-gitbook_671">
                     
                         <h1 id="sanitaire-voorzieningen-en-porselein">Sanitaire voorzieningen en porselein</h1>
 <p>In dit boek wordt Git met ongeveer 30 werkwoorden zoals <code>checkout</code>, <code>branch</code>, <code>remote</code> enzovoorts behandeld. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laag-bij-de-gronds werk doen en ontworpen waren om gebruikt te worden zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando&#39;s wordt over het algemeen als &quot;plumbing&quot; (sanitaire voorzieningen) commando&#39;s gerefereerd, en de meer gebruiksvriendelijke commando&#39;s worden &quot;porcelain&quot; (porselein) commando&#39;s genoemd.</p>
 <p>In de eerste acht hoofdstukken van het boek worden bijna alleen de porcelain commando&#39;s behandeld. Maar in dit hoofdstuk zal je het meest met het laagste niveau van de plumbing commando&#39;s te maken gaan krijgen. Zij geven je toegang tot het binnenwerk van Git, en laten zien hoe en waarom Git doet wat het doet. Deze commando&#39;s zijn niet bedoeld voor normaal gebruik op de commandoregel, maar meer om als bouwstenen voor nieuwe tools en zelfgemaakte scripts gebruikt te worden.</p>
 <p>Als je <code>git init</code> uitvoert in een nieuwe of bestaande directory, zal Git de directory <code>.git</code> aanmaken, wat de plaats is waar bijna alles wordt bewaard wat Git opslaat en manipuleert. Als je een backup of kopie van je repository wilt maken, dan hoef je alleen maar die directory te kopiëren, en je hebt bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over de inhoud van deze directory. Hier zie je hoe het eruit ziet:</p>
-<pre><code><span class="hljs-variable">$ </span>ls
-<span class="hljs-constant">HEAD</span>
+<pre><code>$ ls
+HEAD
 branches/
 config
 description
@@ -880,9 +883,9 @@ refs/
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

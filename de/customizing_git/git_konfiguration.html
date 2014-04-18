@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="7.1" data-basepath=".." data-revision="1397503741041">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="7.1" data-basepath=".." data-revision="1397847862770">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -854,14 +857,14 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_966">
+                    <section class="normal" id="section-gitbook_894">
                     
                         <h1 id="git-konfiguration">Git Konfiguration</h1>
 <!--As you briefly saw in the Chapter 1, you can specify Git configuration settings with the `git config` command. One of the first things you did was set up your name and e-mail address:-->
 
 <p>Wie in Kapitel 1 schon kurz beschrieben, kann man die Konfiguration von Git mit Hilfe des Befehls <code>git config</code> steuern. Einer Deiner ersten Aktionen war es, Deinen Namen und E-Mail Adresse anzugeben:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">"John Doe"</span>
-<span class="hljs-variable">$ </span>git config --global user.email johndoe<span class="hljs-variable">@example</span>.com
+<pre><code>$ git config --global user.name &quot;John Doe&quot;
+$ git config --global user.email johndoe@example.com
 </code></pre><!--Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.-->
 
 <p>Jetzt wirst Du einige weitere, interessantere Optionen kennenlernen, die Du auf gleiche Art und Weise einsetzen kannst, um Git Deiner Arbeitsumgebung anzupassen.</p>
@@ -880,7 +883,7 @@
 <!--The configuration options recognized by Git fall into two categories: client side and server side. The majority of the options are client side—configuring your personal working preferences. Although tons of options are available, I’ll only cover the few that either are commonly used or can significantly affect your workflow. Many options are useful only in edge cases that I won’t go over here. If you want to see a list of all the options your version of Git recognizes, you can run-->
 
 <p>Einstellparameter in Git lassen sich in zwei Kategorien aufteilen: Parameter für die Client-Konfiguration und für die Server-Konfiguration. Der Großteil der Einstellungen bezieht sich auf den Client – zur Konfiguration Deines persönlichen Arbeitsablaufs. Auch wenn es eine große Anzahl an Einstellmöglichkeiten gibt, werde ich nur die wenigen besprechen, die sehr gebräuchlich sind oder Deine Arbeitsweise bedeutend beeinflussen können. Viele Optionen sind nur für Spezialfälle interessant, auf die ich hier aber nicht weiter eingehen möchte. Falls Du eine Liste aller Optionen haben willst, kannst Du folgenden Befehl ausführen:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">help</span>
+<pre><code>$ git config --help
 </code></pre><!--The manual page for `git config` lists all the available options in quite a bit of detail.-->
 
 <p>Die Hilfeseite zu <code>git config</code> listet alle verfügbaren Optionen sehr detailliert auf.</p>
@@ -890,7 +893,7 @@
 <!--By default, Git uses whatever you’ve set as your default text editor or else falls back to the Vi editor to create and edit your commit and tag messages. To change that default to something else, you can use the `core.editor` setting:-->
 
 <p>In der Grundeinstellung benutzt Git Deinen Standard Texteditor oder greift auf den Vi Editor zurück, um Deine Commit und Tag Nachrichten zu erstellen und zu bearbeiten. Um einen andern Editor als Standard einzurichten kannst Du die Option <code>core.editor</code> nutzen:</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> core.<span class="hljs-keyword">editor</span> emacs
+<pre><code>$ git config --global core.editor emacs
 </code></pre><!--Now, no matter what is set as your default shell editor variable, Git will fire up Emacs to edit messages.-->
 
 <p>Ab jetzt wird Git immer Emacs starten um Nachrichten zu editieren, unabhängig davon welcher Standard Shell-Editor gesetzt ist.</p>
@@ -900,16 +903,16 @@
 <!--If you set this to the path of a file on your system, Git will use that file as the default message when you commit. For instance, suppose you create a template file at `$HOME/.gitmessage.txt` that looks like this:-->
 
 <p>Wenn Du diese Einstellung auf einen Pfad zu einer Datei auf Deinem System einstellst, wird Git den Inhalt dieser Datei als Standard Commit Nachricht verwenden. Nehmen wir zum Beispiel an, Du erstellst eine Vorlage unter dem Namen <code>$HOME/.gitmessage.txt</code>, die den folgenden Inhalt hat:</p>
-<pre><code>subject <span class="hljs-value">line</span>
+<pre><code>subject line
 
 what happened
 
-<span class="hljs-attr_selector">[ticket: X]</span>
+[ticket: X]
 </code></pre><!--To tell Git to use it as the default message that appears in your editor when you run `git commit`, set the `commit.template` configuration value:-->
 
 <p>Damit Git diese Datei als Standard Nachricht benutzt, die in Deinem Editor erscheint, wenn Du <code>git commit</code> aufrufst, richte die Option <code>commit.template</code> ein:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global commit.template <span class="hljs-variable">$HOME</span>/.gitmessage.txt
-<span class="hljs-variable">$ </span>git commit
+<pre><code>$ git config --global commit.template $HOME/.gitmessage.txt
+$ git commit
 </code></pre><!--Then, your editor will open to something like this for your placeholder commit message when you commit:-->
 
 <p>Wenn Du dann das nächste Mal einen Commit durchführst, wird Dein Editor mit etwa der folgenden Nachricht starten:</p>
@@ -918,17 +921,17 @@ what happened
 what happened
 
 [ticket: X]
-<span class="hljs-preprocessor"># Please enter the commit message for your changes. Lines starting</span>
-<span class="hljs-preprocessor"># with '#' will be ignored, and an empty message aborts the commit.</span>
-<span class="hljs-preprocessor"># On branch master</span>
-<span class="hljs-preprocessor"># Changes to be committed:</span>
-<span class="hljs-preprocessor">#   (use "git reset HEAD &lt;file&gt;..." to unstage)</span>
-<span class="hljs-preprocessor">#</span>
-<span class="hljs-preprocessor"># modified:   lib/test.rb</span>
-<span class="hljs-preprocessor">#</span>
+# Please enter the commit message for your changes. Lines starting
+# with &#39;#&#39; will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+# modified:   lib/test.rb
+#
 ~
 ~
-<span class="hljs-string">".git/COMMIT_EDITMSG"</span> <span class="hljs-number">14</span>L, <span class="hljs-number">297</span>C
+&quot;.git/COMMIT_EDITMSG&quot; 14L, 297C
 </code></pre><!--If you have a commit-message policy in place, then putting a template for that policy on your system and configuring Git to use it by default can help increase the chance of that policy being followed regularly.-->
 
 <p>Falls eine Richtlinie für Commit Nachrichten existiert, solltest Du Git so konfigurieren, dass eine Vorlage davon bei einem Commit geladen wird. Dies erhöht die Chance, dass diese Richtlinie auch eingehalten wird.</p>
@@ -938,7 +941,7 @@ what happened
 <!--The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:-->
 
 <p>Die Einstellung <code>core.pager</code> legt fest, welche Anwendung zur Seitenanzeige benutzt wird, wenn Git Text ausgibt, wie zum Beispiel bei <code>log</code> und <code>diff</code>. Du kannst es auch auf <code>more</code> oder eine andere Seitenanzeige Deiner Wahl (der Standard ist <code>less</code>) einstellen, oder Du kannst es mittels eines leeren Strings ganz ausschalten:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global core.pager <span class="hljs-string">''</span>
+<pre><code>$ git config --global core.pager &#39;&#39;
 </code></pre><!--If you run that, Git will page the entire output of all commands, no matter how long it is.-->
 
 <p>Wenn Du dies ausführst, wird Git immer die komplette Ausgabe aller Befehle anzeigen, egal wie lange sie ist.</p>
@@ -948,11 +951,11 @@ what happened
 <!--If you’re making signed annotated tags (as discussed in Chapter 2), setting your GPG signing key as a configuration setting makes things easier. Set your key ID like so:-->
 
 <p>Falls Du signierte kommentierte Tags erstellst (wie in Kapitel 2 beschrieben), so macht es die Arbeit leichter, wenn Du Deinen GPG Signierschlüssel in Git festlegst. Du kannst Deine Schlüssel ID wie folgt festlegen:</p>
-<pre><code>$ git config <span class="hljs-subst">--</span><span class="hljs-built_in">global</span> user<span class="hljs-built_in">.</span>signingkey <span class="hljs-subst">&lt;</span>gpg<span class="hljs-attribute">-key</span><span class="hljs-attribute">-id</span><span class="hljs-subst">&gt;</span>
+<pre><code>$ git config --global user.signingkey &lt;gpg-key-id&gt;
 </code></pre><!--Now, you can sign tags without having to specify your key every time with the `git tag` command:-->
 
 <p>Beim Signieren von Tags mit Hilfe von <code>git tag</code> musst Du Deinen Schlüssel jetzt nicht mehr angeben. Es reicht folgendes auszuführen:</p>
-<pre><code>$ git <span class="hljs-built_in">tag</span> <span class="hljs-attribute">-s</span> <span class="hljs-subst">&lt;</span><span class="hljs-built_in">tag</span><span class="hljs-attribute">-name</span><span class="hljs-subst">&gt;</span>
+<pre><code>$ git tag -s &lt;tag-name&gt;
 </code></pre><!--### core.excludesfile-->
 ### core.excludesfile
 
@@ -966,7 +969,7 @@ what happened
 
 <p>Diese Option ist in Git ab Version 1.6.1 verfügbar. Wenn Du in Git einen Befehl falsch schreibst, bekommst Du eine Meldung wie diese:</p>
 <pre><code>$ git com
-git: <span class="hljs-string">'com'</span> is <span class="hljs-operator">not</span> <span class="hljs-operator">a</span> git-<span class="hljs-command"><span class="hljs-keyword">command</span>. <span class="hljs-title">See</span> <span class="hljs-string">'git --help'</span>.</span>
+git: &#39;com&#39; is not a git-command. See &#39;git --help&#39;.
 
 Did you mean this?
      commit
@@ -985,7 +988,7 @@ Did you mean this?
 <!--Git automatically colors most of its output if you ask it to. You can get very specific about what you want colored and how; but to turn on all the default terminal coloring, set `color.ui` to true:-->
 
 <p>Wenn Du Git entsprechend konfigurierst, wird es den Großteil der Ausgaben automatisch farblich darstellen. Du kannst sehr detailliert einstellen, wie und welche Farben verwendet werden sollen, aber um die Standard-Terminalfarben zu aktivieren musst Du <code>color.ui</code> auf ‚true‘ setzen:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global color.ui <span class="hljs-keyword">true</span>
+<pre><code>$ git config --global color.ui true
 </code></pre><!--When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command.-->
 
 <p>Wenn dieser Wert gesetzt wurde, benutzt Git für seine Ausgaben Farben, sofern diese zu einem Terminal geleitet werden. Weitere mögliche Einstellungen sind ‚false‘, wodurch alle Farben deaktiviert werden, sowie ‚always‘, wodurch Farben immer aktiviert sind, selbst wenn Du Git Befehle in eine Datei oder über eine Pipe zu einem anderen Befehl umleitest.</p>
@@ -998,14 +1001,14 @@ Did you mean this?
 <!--If you want to be more specific about which commands are colored and how, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:-->
 
 <p>Falls Du im Detail einstellen willst, welche Befehle wie gefärbt werden, dann stellt Git Verb-spezifische Farbeinstellungen zur Verfügung. Jede dieser Optionen kann auf <code>true</code>, <code>false</code>, oder <code>always</code> eingestellt werden:</p>
-<pre><code><span class="hljs-keyword">color</span>.branch
-<span class="hljs-keyword">color</span>.diff
-<span class="hljs-keyword">color</span>.interactive
-<span class="hljs-keyword">color</span>.status
+<pre><code>color.branch
+color.diff
+color.interactive
+color.status
 </code></pre><!--In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run-->
 
 <p>Zusätzlich hat jede dieser Einstellungen Unteroptionen, die Du benutzen kannst, um die Farbe für einzelne Teile der Ausgabe festzulegen. Um zum Beispiel die Meta Informationen in Deiner Diff Ausgabe mit blauem, fettem Text auf schwarzem Hintergrund darzustellen, kannst Du folgenden Befehl verwenden:</p>
-<pre><code>$ git config --global color<span class="hljs-preprocessor">.diff</span><span class="hljs-preprocessor">.meta</span> <span class="hljs-string">"blue black bold"</span>
+<pre><code>$ git config --global color.diff.meta &quot;blue black bold&quot;
 </code></pre><!--You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.-->
 
 <p>Du kannst als Farben jeden der folgenden Werte verwenden: <code>normal</code>, <code>black</code>, <code>red</code>, <code>green</code>, <code>yellow</code>, <code>blue</code>, <code>magenta</code>, <code>cyan</code>, oder <code>white</code>. Falls Du ein Attribut wie z.B. die Fettschrift aus dem vorigen Beispiel verwenden willst, stehen Dir folgende Werte zur Auswahl: <code>bold</code>, <code>dim</code>, <code>ul</code>, <code>blink</code>, und <code>reverse</code>.</p>
@@ -1024,50 +1027,50 @@ Did you mean this?
 <!--You can download P4Merge here:-->
 
 <p>Du kannst P4Merge hier herunterladen:</p>
-<pre><code><span class="hljs-label">http:</span>//www<span class="hljs-preprocessor">.perforce</span><span class="hljs-preprocessor">.com</span>/perforce/downloads/component<span class="hljs-preprocessor">.html</span>
+<pre><code>http://www.perforce.com/perforce/downloads/component.html
 </code></pre><!--To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided:-->
 
 <p>Als erstes solltest Du einige Wrapper Skripte erstellen um Deine Befehle auszuführen. Ich verwende hier die Pfade, die für einen Mac gelten. Auf anderen Systemen muss der Pfad zur ausführbaren Datei von P4Merge entsprechend angepasst werden. Mit den folgenden Befehlen erzeugen wir ein Skript mit dem Namen <code>extMerge</code>, welches die Anwendung mit allen angegebenen Argumenten aufruft:</p>
 <pre><code>$ cat /usr/local/bin/extMerge
-<span class="hljs-shebang">#!/bin/sh</span>
+#!/bin/sh
 /Applications/p4merge.app/Contents/MacOS/p4merge $*
 </code></pre><!--The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program:-->
 
 <p>Das Wrapper Skript für den Diff Befehl stellt sicher, dass es mit sieben Parametern aufgerufen wird und leitet zwei von diesen an das Merge Skript weiter. Standardmäßig übergibt Git die folgenden Argumente an das Diff-Werkzeug:</p>
-<pre><code>path old<span class="hljs-attribute">-file</span> old<span class="hljs-attribute">-hex</span> old<span class="hljs-attribute">-mode</span> <span class="hljs-literal">new</span><span class="hljs-attribute">-file</span> <span class="hljs-literal">new</span><span class="hljs-attribute">-hex</span> <span class="hljs-literal">new</span><span class="hljs-attribute">-mode</span>
+<pre><code>path old-file old-hex old-mode new-file new-hex new-mode
 </code></pre><!--Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need.-->
 
 <p>Da nur die Parameter <code>old-file</code> und <code>new-file</code> benötigt werden, verwenden wir das Wrapper Skript um nur die notwendigen Parameter weiterzugeben.</p>
 <pre><code>$ cat /usr/local/bin/extDiff
-<span class="hljs-shebang">#!/bin/sh</span>
-[ <span class="hljs-variable">$#</span> <span class="hljs-operator">-eq</span> <span class="hljs-number">7</span> ] &amp;&amp; /usr/local/bin/extMerge <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$5</span>"</span>
+#!/bin/sh
+[ $# -eq 7 ] &amp;&amp; /usr/local/bin/extMerge &quot;$2&quot; &quot;$5&quot;
 </code></pre><!--You also need to make sure these tools are executable:-->
 
 <p>Außerdem muss sichergestellt werden, dass die Skripte ausführbar sind::</p>
-<pre><code>$ sudo <span class="hljs-keyword">chmod</span> +<span class="hljs-keyword">x</span> /usr/<span class="hljs-keyword">local</span>/bin/extMerge
-$ sudo <span class="hljs-keyword">chmod</span> +<span class="hljs-keyword">x</span> /usr/<span class="hljs-keyword">local</span>/bin/extDiff
+<pre><code>$ sudo chmod +x /usr/local/bin/extMerge
+$ sudo chmod +x /usr/local/bin/extDiff
 </code></pre><!--Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands-->
 
 <p>Jetzt kannst Du Git so konfigurieren, dass es Deine persönlichen Merge- und Diff-Werkzeuge benutzt. Dazu sind einige weitere Einstellungen nötig: <code>merge.tool</code>, um die von Git verwendete Merge Strategie festzulegen, <code>mergetool.*.cmd</code>, um festzulegen, wie der Befehl auszuführen ist, <code>mergetool.trustExitCode</code>, damit Git weiß, ob der Exit-Code des Programms eine erfolgreiche Merge Auflösung anzeigt oder nicht, und <code>diff.external</code>, um einzustellen welches Diff Kommando Git benutzen soll. Du kannst also entweder die vier folgenden Befehle ausführen</p>
-<pre><code>$ git config --<span class="hljs-keyword">global</span> merge.tool extMerge
-$ git config --<span class="hljs-keyword">global</span> mergetool.extMerge.cmd \
-    'extMerge <span class="hljs-string">"$BASE"</span> <span class="hljs-string">"$LOCAL"</span> <span class="hljs-string">"$REMOTE"</span> <span class="hljs-string">"$MERGED"</span>'
-$ git config --<span class="hljs-keyword">global</span> mergetool.trustExitCode <span class="hljs-keyword">false</span>
-$ git config --<span class="hljs-keyword">global</span> diff.external extDiff
+<pre><code>$ git config --global merge.tool extMerge
+$ git config --global mergetool.extMerge.cmd \
+    &#39;extMerge &quot;$BASE&quot; &quot;$LOCAL&quot; &quot;$REMOTE&quot; &quot;$MERGED&quot;&#39;
+$ git config --global mergetool.trustExitCode false
+$ git config --global diff.external extDiff
 </code></pre><!--or you can edit your `~/.gitconfig` file to add these lines:-->
 
 <p>oder Du bearbeitest Deine <code>~/.gitconfig</code> Datei und fügst dort folgende Zeilen hinzu:</p>
-<pre><code><span class="hljs-special">[</span>merge<span class="hljs-special">]</span>
+<pre><code>[merge]
   tool = extMerge
-<span class="hljs-special">[</span>mergetool "extMerge"<span class="hljs-special">]</span>
-  cmd = extMerge <span class="hljs-command">\"</span><span class="hljs-formula">$BASE<span class="hljs-command">\"</span> <span class="hljs-command">\"</span>$</span>LOCAL<span class="hljs-command">\"</span> <span class="hljs-command">\"</span><span class="hljs-formula">$REMOTE<span class="hljs-command">\"</span> <span class="hljs-command">\"</span>$</span>MERGED<span class="hljs-command">\"</span>
+[mergetool &quot;extMerge&quot;]
+  cmd = extMerge \&quot;$BASE\&quot; \&quot;$LOCAL\&quot; \&quot;$REMOTE\&quot; \&quot;$MERGED\&quot;
   trustExitCode = false
-<span class="hljs-special">[</span>diff<span class="hljs-special">]</span>
+[diff]
   external = extDiff
 </code></pre><!--After all this is set, if you run diff commands such as this:-->
 
 <p>Nach Setzen dieser Einstellungen und beim Ausführen eines Diff Befehls wie den folgenden:</p>
-<pre><code><span class="hljs-variable">$ </span>git diff <span class="hljs-number">32</span>d1776b1^ <span class="hljs-number">32</span>d1776b1
+<pre><code>$ git diff 32d1776b1^ 32d1776b1
 </code></pre><!--Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.-->
 
 <p>wird Git P4Merge starten, anstatt den Vergleich in der Kommandozeile auszugeben. Abbildung 7-1 zeigt hierzu ein Beispiel.</p>
@@ -1083,7 +1086,7 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 
 <p>Das Tolle an dem Wrapper Ansatz ist, dass Du Deine Diff- und Merge-Werkzeuge sehr leicht wechseln kannst. Wenn Du zum Beispiel für <code>extDiff</code> und <code>extMerge</code> statt P4Merge, KDiff3 verwenden willst, musst Du lediglich Dein Wrapper Skript <code>extMerge</code> anpassen:</p>
 <pre><code>$ cat /usr/local/bin/extMerge
-<span class="hljs-shebang">#!/bin/sh</span>
+#!/bin/sh
 /Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 </code></pre><!--Now, Git will use the KDiff3 tool for diff viewing and merge conflict resolution.-->
 
@@ -1091,7 +1094,7 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 <!--Git comes preset to use a number of other merge-resolution tools without your having to set up the cmd configuration. You can set your merge tool to kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, or gvimdiff. If you’re not interested in using KDiff3 for diff but rather want to use it just for merge resolution, and the kdiff3 command is in your path, then you can run-->
 
 <p>Git wird bereits mit Standard-Einstellungen für verschiedene Merge-Auflösungswerkzeuge ausgeliefert, sodass Du diese nicht extra konfigurieren musst. Als Merge-Werkzeug kann Du kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff oder gvimdiff einstellen. Wenn Du KDiff3 nur zum Auflösen von Konflikten und nicht für einen Diff verwenden willst, kannst Du den folgenden Befehl ausführen (vorausgesetzt KDiff3 befindet sich im Standard-Pfad):</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">merge</span><span class="hljs-string">.</span><span class="hljs-comment">tool</span> <span class="hljs-comment">kdiff3</span>
+<pre><code>$ git config --global merge.tool kdiff3
 </code></pre><!--If you run this instead of setting up the `extMerge` and `extDiff` files, Git will use KDiff3 for merge resolution and the normal Git diff tool for diffs.-->
 
 <p>Wenn Du diesen Befehl ausführst, anstatt die <code>extMerge</code> und <code>extDiff</code> Skripte zu erstellen, dann wird Git KDiff3 zum Auflösen von Merge Konflikten verwenden. Für einen Vergleich verwendet Git weiterhin das integrierte Diff-Werkzeug.</p>
@@ -1110,18 +1113,18 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 <!--Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:-->
 
 <p>Git kann dies vermeiden, indem es CRLF am Zeilenende automatisch zu LF konvertiert, wenn Du ein Commit durchführst, und umgekehrt wenn es Code in Dein lokales Dateisystem auscheckt. Du kannst diese Funktionalität mittels der Option <code>core.autocrlf</code> aktivieren. Falls Du auf einem Windows System arbeitest, setze sie auf <code>true</code> — dies konvertiert LF zu CRLF, wenn Du Code auscheckst:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global core.autocrlf <span class="hljs-keyword">true</span>
+<pre><code>$ git config --global core.autocrlf true
 </code></pre><!--If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input:-->
 
 <p>Falls Du auf einem Linux oder Mac System arbeitest, welches LF Zeilenenden verwendet, dann soll Git keine Datei automatisch konvertieren, wenn sie ausgecheckt wird. Wenn allerdings versehentlich eine Datei mit CRLF in das Repository eingeführt wurde, dann möchtest Du vielleicht, dass Git dies automatisch für Dich repariert. Wenn Du den Parameter <code>core.autocrlf</code> auf input setzt, wird Git bei einem Commit automatisch CRLF in LF umwandeln. Allerdings nicht in die andere Richtung bei einem Checkout:</p>
-<pre><code><span class="hljs-comment">$</span> <span class="hljs-comment">git</span> <span class="hljs-comment">config</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">global</span> <span class="hljs-comment">core</span><span class="hljs-string">.</span><span class="hljs-comment">autocrlf</span> <span class="hljs-comment">input</span>
+<pre><code>$ git config --global core.autocrlf input
 </code></pre><!--This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository.-->
 
 <p>Mit dieser Einstellung solltest Du CRLF Zeilenenden in unter Windows ausgecheckten Dateien haben und LF Zeilenenden auf Mac und Linux Sytemen und im Repository.</p>
 <!--If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`:-->
 
 <p>Falls Du ein Windows Programmierer bist und an einem Projekt arbeitest, welches nur unter Windows entwickelt wird, dann kannst Du diese Funktionalität auch deaktivieren. In diesem Fall werden Zeilenenden mit CRLF im Repository gespeichert. Dazu setzt Du die Option auf <code>false</code>:</p>
-<pre><code><span class="hljs-variable">$ </span>git config --global core.autocrlf <span class="hljs-keyword">false</span>
+<pre><code>$ git config --global core.autocrlf false
 </code></pre><!--### core.whitespace-->
 ### core.whitespace
 
@@ -1137,16 +1140,16 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 <!--You can tell Git which of these you want enabled by setting `core.whitespace` to the values you want on or off, separated by commas. You can disable settings by either leaving them out of the setting string or prepending a `-` in front of the value. For example, if you want all but `cr-at-eol` to be set, you can do this:-->
 
 <p>Du kannst Git mitteilen, welche dieser Optionen es aktivieren soll, indem Du <code>core.whitespace</code> auf die Werte setzt, die Du an- oder abgeschaltet haben möchtest. Die jeweiligen Werte werden mit einem Komma getrennt. Du kannst Optionen deaktivieren, indem Du sie entweder aus der Parameterliste entfernst, oder ihnen ein <code>-</code> Zeichen voranstellst. Wenn Du zum Beispiel alle Optionen außer <code>cr-at-eol</code> aktivieren willst, kannst Du folgenden Befehl ausführen:</p>
-<pre><code>$ git config <span class="hljs-comment">--global core.whitespace \</span>
-    trailing-<span class="hljs-constant">space</span>,<span class="hljs-constant">space</span>-<span class="hljs-keyword">before</span>-<span class="hljs-constant">tab</span>,indent-<span class="hljs-operator">with</span>-non-<span class="hljs-constant">tab</span>
+<pre><code>$ git config --global core.whitespace \
+    trailing-space,space-before-tab,indent-with-non-tab
 </code></pre><!--Git will detect these issues when you run a `git diff` command and try to color them so you can possibly fix them before you commit. It will also use these values to help you when you apply patches with `git apply`. When you’re applying patches, you can ask Git to warn you if it’s applying patches with the specified whitespace issues:-->
 
 <p>Git wird die möglichen Problemstellen erkennen, wenn Du den <code>git diff</code> Befehl ausführst, und es wird versuchen, sie farblich hervorzuheben, damit Du sie vor einem Commit beheben kannst. Git wird diese Einstellungen auch benutzen, um Dir zu helfen, wenn Du mit <code>git apply</code> Patches anwendest. Wenn Du Patches anwendest, kannst Du Git anweisen eine Warnung auszugeben, falls es beim Patchen die spezifizierten Leerzeichenprobleme erkennt:</p>
-<pre><code><span class="hljs-attribute">$ git apply --whitespace</span>=<span class="hljs-string">warn &lt;patch&gt;</span>
+<pre><code>$ git apply --whitespace=warn &lt;patch&gt;
 </code></pre><!--Or you can have Git try to automatically fix the issue before applying the patch:-->
 
 <p>Oder Du kannst Git versuchen lassen, diese Probleme automatisch zu beheben, bevor es den Patch anwendet:</p>
-<pre><code><span class="hljs-attribute">$ git apply --whitespace</span>=<span class="hljs-string">fix &lt;patch&gt;</span>
+<pre><code>$ git apply --whitespace=fix &lt;patch&gt;
 </code></pre><!--These options apply to the `git rebase` command as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `-\-whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.-->
 
 <p>Diese Optionen gelten auch für den Rebase Befehl. Falls Du einen Commit gemacht hast, der problematische Leerzeichen enthält, aber Du die Änderungen noch nicht auf den Server gepusht hast, kannst Du ein <code>rebase</code> mit dem Parameter <code>--whitespace=fix</code> ausführen. Damit behebt Git automatisch die Leerzeichenfehler während des Rebase-Vorgangs.</p>
@@ -1162,7 +1165,7 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 <!--By default, Git doesn’t check for consistency all the objects it receives during a push. Although Git can check to make sure each object still matches its SHA-1 checksum and points to valid objects, it doesn’t do that by default on every push. This is a relatively expensive operation and may add a lot of time to each push, depending on the size of the repository or the push. If you want Git to check object consistency on every push, you can force it to do so by setting `receive.fsckObjects` to true:-->
 
 <p>Die Objekte, die Git durch einen Push empfängt, werden von Haus aus nicht auf Konsistenz geprüft. Auch wenn Git sicherstellen kann, dass jedes Objekt mit dessen SHA-1 Checksumme übereinstimmt und auf gültige Objekte verweist, so wird dies standardmäßig nicht bei jedem Push durchgeführt. Das ist eine aufwändige Operation und kann abhängig von der Größe des Repositorys oder dem Push eine Menge Zeit kosten. Wenn Du die Objektkonsistenz bei jedem Push durch Git prüfen lassen willst, so kannst Du das erzwingen, indem Du <code>receive.fsckObjects</code> auf ‚true‘ setzt:</p>
-<pre><code>$ git config --system <span class="hljs-keyword">receive</span>.fsck<span class="hljs-variable">Objects</span> <span class="hljs-literal">true</span>
+<pre><code>$ git config --system receive.fsckObjects true
 </code></pre><!--Now, Git will check the integrity of your repository before each push is accepted to make sure faulty clients aren’t introducing corrupt data.-->
 
 <p>Ab jetzt prüft Git die Integrität des Repositorys bevor der Push akzeptiert wird. Damit ist sichergestellt, dass kein Client korrupte Daten einspeist.</p>
@@ -1175,7 +1178,7 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 <!--To disable the ability to force-update remote branches to non-fast-forward references, set `receive.denyNonFastForwards`:-->
 
 <p>Aktualisierungen auf dem Remote Branch, welche nicht einem Fast-Forward entsprechen können durch Setzen des Parameters <code>receive.denyNonFastForward</code> auf den Wert ‚true‘ deaktiviert werden:</p>
-<pre><code>$ git config --system <span class="hljs-keyword">receive</span>.deny<span class="hljs-variable">NonFastForwards</span> <span class="hljs-literal">true</span>
+<pre><code>$ git config --system receive.denyNonFastForwards true
 </code></pre><!--The other way you can do this is via server-side receive hooks, which I’ll cover in a bit. That approach lets you do more complex things like deny non-fast-forwards to a certain subset of users.-->
 
 <p>Eine andere Möglichkeit ist die Einrichtung von serverseitigen Hooks, die ich etwas später noch beschreiben werde. Dieser Ansatz erlaubt noch komplexere Szenarien. Man kann z.B. die Pushes, welche nicht einem Fast-Forward entsprechen nur für bestimmte Benutzergruppen verweigern.</p>
@@ -1185,7 +1188,7 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 <!--One of the workarounds to the `denyNonFastForwards` policy is for the user to delete the branch and then push it back up with the new reference. In newer versions of Git (beginning with version 1.6.1), you can set `receive.denyDeletes` to true:-->
 
 <p>Es ist möglich die Option <code>denyNonFastForwards</code> zu umgehen, indem man den Remote Branch zuerst löscht und dann mit einer neuen Referenz pusht. In neueren Versionen von Git (ab Version 1.6.1) kann man den Parameter  <code>receive.denyDeletes</code> auf ‚true‘ setzen:</p>
-<pre><code>$ git config --system <span class="hljs-keyword">receive</span>.deny<span class="hljs-variable">Deletes</span> <span class="hljs-literal">true</span>
+<pre><code>$ git config --system receive.denyDeletes true
 </code></pre><!--This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.-->
 
 <p>Dies verbietet grundsätzlich jedem Benutzer das Löschen eines Branches oder Tags. Um einen Remote Branch zu löschen müssen die ref Dateien manuell vom Server entfernt werden. Es gibt aber auch noch andere interessantere Wege dies auf Benutzerbasis über Zugriffssteuerungslisten (ACL) durchzuführen. Ich werde dies am Ende dieses Kapitel noch vorstellen.</p>
@@ -1207,9 +1210,9 @@ $ git config --<span class="hljs-keyword">global</span> diff.external extDiff
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>

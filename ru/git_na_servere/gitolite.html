@@ -36,7 +36,10 @@
     </head>
     <body>
         
-    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397503694686">
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+        
+    <div class="book" data-github="GitbookIO/git" data-level="4.8" data-basepath=".." data-revision="1397847862765">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -853,51 +856,51 @@
 <p>Установить Gitolite очень просто, даже не читая идущую с ним обширную документацию. Вам понадобится аккаунт на сервере с каким-нибудь Unix&#39;ом. Вам не нужен root-доступ, если Git, Perl и OpenSSH-совместимый SSH-сервер уже установлены. Далее в примерах мы будем использовать аккаунт <code>git</code> на хосте с именем <code>gitserver</code>.</p>
 <p>Gitolite несколько необычен, по крайней мере, в сравнении с другим &quot;серверным&quot; ПО — доступ осуществляется по SSH, и, следовательно, каждый пользователь на сервере является потенциальным &quot;gitolite-хостом&quot;. В этом разделе мы рассмотрим самый простой метод установки; про остальные методы можно прочитать в документации.</p>
 <p>Для начала, создайте пользователя с именем <code>git</code> на своём сервере и войдите в систему под этим пользователем. Скопируйте свой открытый ключ (это файл <code>~/.ssh/id_rsa.pub</code>, если вы сгенерировали его с помощью просто <code>ssh-keygen</code> без изменения параметров) со своего рабочего компьютера и переименуйте его в <code>&lt;вашеимя&gt;.pub</code> (в нашем примере это будет файл <code>scott.pub</code>). Затем выполните следующие команды:</p>
-<pre><code><span class="hljs-char">$ </span>git clone <span class="hljs-method">git:</span>//github.com/sitaramc/gitolite
-<span class="hljs-char">$ </span>gitolite/install -ln
-    # предполагает, что <span class="hljs-char">$H</span>OME/bin существует и находится в <span class="hljs-char">$P</span>ATH
-<span class="hljs-char">$ </span>gitolite setup -pk <span class="hljs-char">$H</span>OME/scott.pub
+<pre><code>$ git clone git://github.com/sitaramc/gitolite
+$ gitolite/install -ln
+    # предполагает, что $HOME/bin существует и находится в $PATH
+$ gitolite setup -pk $HOME/scott.pub
 </code></pre><p>Последняя из команд создаст на сервере новый Git-репозиторий с именем <code>gitolite-admin</code>.</p>
 <p>В завершение, вернитесь на свой рабочий компьютер и выполните там <code>git clone git@gitserver:gitolite-admin</code>. И всё! Gitolite теперь установлен на сервере, а на вашей рабочей станции теперь есть новый репозиторий, который называется <code>gitolite-admin</code>. Администрировать свой установленный Gitolite нужно, внося изменения в этот репозиторий и отправляя их на сервер.</p>
 <h2 id="-">Изменение параметров установки</h2>
 <p>Хотя быстрая установка с параметрами по умолчанию подходит для большинства людей, есть несколько способов изменения параметров установки, если вам это нужно. Если опустить опцию <code>-q</code>, вы получите &quot;подробную&quot; установку с детальной информацией о том, что происходит на каждом шаге. Подробный режим также позволяет изменить некоторые параметры на стороне сервера такие, как расположение репозиториев, с помощью редактирования &quot;rc&quot; файла, используемого сервером. Этот &quot;rc&quot; файл содержит развёрнутые комментарии так, чтобы вы легко смогли сделать любые изменения, сохранить их и продолжить. Этот файл также содержит различные настройки, которые вы можете изменить, чтобы активировать или выключить некоторые &quot;продвинутые&quot; функции Gitolite&#39;а.</p>
 <h2 id="-">Конфигурационный файл и правила контроля доступа</h2>
 <p>Теперь, когда установка завершена, перейдите в клон репозитория <code>gitolite-admin</code> на вашем рабочем компьютере и осмотритесь, чтобы выяснить, что же вы получили:</p>
-<pre><code><span class="hljs-variable">$ </span>cd ~<span class="hljs-regexp">/gitolite-admin/</span>
-<span class="hljs-variable">$ </span>ls
+<pre><code>$ cd ~/gitolite-admin/
+$ ls
 conf/  keydir/
-<span class="hljs-variable">$ </span>find conf keydir -type f
+$ find conf keydir -type f
 conf/gitolite.conf
 keydir/scott.pub
-<span class="hljs-variable">$ </span>cat conf/gitolite.conf
+$ cat conf/gitolite.conf
 
 repo gitolite-admin
-    <span class="hljs-constant">RW</span>+                 = scott
+    RW+                 = scott
 
 repo testing
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@all</span>
+    RW+                 = @all
 </code></pre><p>Заметьте, что &quot;scott&quot; (имя файла открытого ключа, использовавшееся ранее при запуске команды <code>gitolite setup</code>) имеет права на чтение и запись в репозиторий <code>gitolite-admin</code>, а также файл с открытым ключом с таким же именем.</p>
 <p>Добавить нового пользователя просто. Чтобы добавить пользователя &quot;alice&quot;, возьмите её ключ, переименуйте его в <code>alice.pub</code> и положите в каталог <code>keydir</code> клона репозитория <code>gitolite-admin</code> на вашем компьютере. Выполните <code>add</code>, <code>commit</code>, отправьте изменения, и пользователь добавлен.</p>
 <p>Синтаксис конфигурационного файла для Gitolite&#39;а подробно продокументирован, так что мы рассмотрим здесь только основные моменты.</p>
 <p>Вы можете сгруппировать пользователей или репозитории для удобства. Имена групп совсем как макросы; когда вы их определяете, даже неважно, определяют ли они проекты или пользователей; это различие делается, только когда вы <em>используете</em> &quot;макрос&quot;.</p>
-<pre><code><span class="hljs-variable">@oss_repos</span>      = linux perl rakudo git gitolite
-<span class="hljs-variable">@secret_repos</span>   = fenestra pear
+<pre><code>@oss_repos      = linux perl rakudo git gitolite
+@secret_repos   = fenestra pear
 
-<span class="hljs-variable">@admins</span>         = scott
-<span class="hljs-variable">@interns</span>        = ashok
-<span class="hljs-variable">@engineers</span>      = sitaram dilbert wally alice
-<span class="hljs-variable">@staff</span>          = <span class="hljs-variable">@admins</span> <span class="hljs-variable">@engineers</span> <span class="hljs-variable">@interns</span>
+@admins         = scott
+@interns        = ashok
+@engineers      = sitaram dilbert wally alice
+@staff          = @admins @engineers @interns
 </code></pre><p>Вы можете контролировать права доступа на уровне &quot;ссылок&quot; (то, что находится в .git/refs/). В следующем примере стажёры (группа @interns) могут отправлять (push) только ветку &quot;int&quot;. Инженеры (группа @engineers) могут отправлять любую ветку, чьё имя начинается с &quot;eng-&quot;, а также метки, начинающиеся с &quot;rc&quot; и затем содержащие цифры. Администраторы (группа @admins) могут делать всё с любыми ссылками (в том числе откатывать назад).</p>
-<pre><code>repo <span class="hljs-variable">@oss_repos</span>
-    <span class="hljs-constant">RW</span>  int<span class="hljs-variable">$ </span>               = <span class="hljs-variable">@interns</span>
-    <span class="hljs-constant">RW</span>  eng-                = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>  refs/tags/rc[<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]   = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                     = <span class="hljs-variable">@admins</span>
+<pre><code>repo @oss_repos
+    RW  int$                = @interns
+    RW  eng-                = @engineers
+    RW  refs/tags/rc[0-9]   = @engineers
+    RW+                     = @admins
 </code></pre><p>Выражение после <code>RW</code> или <code>RW+</code> — это регулярное выражение (regex), с которым сопоставляется имя отправляемой ссылки (ref). Поэтому мы называем его &quot;refex&quot;! Конечно, &quot;refex&quot; может быть гораздо более сложным, чем показано здесь, так что не переусердствуйте с ними, если вы не очень хорошо знакомы с регулярными выражениями Perl.</p>
 <p>К тому же, как вы уже, наверное, догадались, Gitolite для удобства дописывает в начале регулярного выражения <code>refs/heads/</code>, если оно не начинается с <code>refs/</code>.</p>
 <p>Важной особенностью синтаксиса конфигурационного файла является то, что все правила для репозитория не обязательно должны находиться в одном месте. Вы можете держать все общие вещи вместе, как, например, правила для всех <code>oss_repos</code> выше, а потом добавить уточняющие правила для отдельных случаев следующим образом:</p>
-<pre><code><span class="hljs-attribute">repo gitolite
-    RW+                     </span>=<span class="hljs-string"> sitaram</span>
+<pre><code>repo gitolite
+    RW+                     = sitaram
 </code></pre><p>Это правило будет добавлено к набору правил для репозитория <code>gitolite</code>.</p>
 <p>В данный момент вы, возможно, задаётесь вопросом: &quot;Каким образом правила контроля доступа применяются на самом деле?&quot; — так что давайте вкратце рассмотрим это.</p>
 <p>В Gitolite&#39;е есть два уровня контроля доступа. Первый — на уровне репозитория; если у вас есть доступ на чтение (или запись) к <em>любой</em> ссылке в репозитории, то у вас есть доступ на чтение (или запись) к этому репозиторию.</p>
@@ -905,16 +908,16 @@ repo testing
 <h2 id="-">Продвинутый контроль доступа с запрещающими правилами</h2>
 <p>До сих пор у нас были только права вида <code>R</code>, <code>RW</code> или <code>RW+</code>. Однако в Gitolite&#39;е есть другие права доступа: <code>-</code> означающий &quot;запретить&quot;. Это даёт гораздо больше возможностей в обмен на большую сложность, так как теперь отсутствие разрешающего правила — не <em>единственный</em> вариант, при котором пользователю может быть отказано в доступе, так что <em>порядок правил теперь имеет значение</em>!</p>
 <p>Предположим, в описанной выше ситуации мы хотим, чтобы инженеры могли откатить назад любую ветку, <em>кроме</em> <code>master</code> и <code>integ</code>. Вот как это сделать:</p>
-<pre><code>    <span class="hljs-constant">RW</span>  master integ    = <span class="hljs-variable">@engineers</span>
-    -   master integ    = <span class="hljs-variable">@engineers</span>
-    <span class="hljs-constant">RW</span>+                 = <span class="hljs-variable">@engineers</span>
+<pre><code>    RW  master integ    = @engineers
+    -   master integ    = @engineers
+    RW+                 = @engineers
 </code></pre><p>Снова, вы просто идёте по правилам сверху вниз, пока не наткнётесь на соответствующее вашему режиму доступа или на запрет. Неоткатывающий push в <code>master</code> или <code>integ</code> разрешается первым правилом. Откатывающий push для этих ссылок не соответствует первому правилу, переходит ко второму и поэтому запрещается. Любой push (откатывающий или неоткатывающий) по ссылкам, отличным от <code>master</code> и <code>integ</code>, не совпадёт с первыми двумя правилами, а третье правило его разрешает.</p>
 <h2 id="-push-">Ограничение push&#39;ей на основе изменённых файлов</h2>
 <p>Вдобавок к ограничению веток, в которые пользователю можно отправлять изменения, вы можете также ограничить файлы, которые он может трогать. Например, возможно, Makefile (или какая-то другая программа) не предназначен для изменения кем угодно, так как многие вещи зависят от него или сломаются, если изменения не будут сделаны <em>правильно</em>. Вы можете сказать Gitolite&#39;у:</p>
 <pre><code>repo foo
-    <span class="hljs-constant">RW</span>                      =   <span class="hljs-variable">@junior_devs</span> <span class="hljs-variable">@senior_devs</span>
+    RW                      =   @junior_devs @senior_devs
 
-    -   <span class="hljs-constant">VREF</span>/<span class="hljs-constant">NAME</span>/<span class="hljs-constant">Makefile</span>  =   <span class="hljs-variable">@junior_devs</span>
+    -   VREF/NAME/Makefile  =   @junior_devs
 </code></pre><p>Стоит предостеречь тех, кто пользовался старыми версиями Gitolite&#39;а, о том, что в новых версиях поведение этой функции было сильно изменено. Подробнее об этих изменениях можно узнать в руководстве по миграции.</p>
 <h2 id="-">Персональные ветки</h2>
 <p>Gitolite также имеет средство, которое называется &quot;персональные ветки&quot; (или даже &quot;персональное пространство имён веток&quot;), которое может быть весьма полезным в корпоративных средах.</p>
@@ -927,13 +930,13 @@ repo testing
 <p>Мы закончим это обсуждение рассмотрением подборки других функций, все они и многие другие описаны в мельчайших подробностях в документации.</p>
 <p><strong>Логирование</strong>: Gitolite регистрирует все успешные действия. Если вы несколько легкомысленно раздали людям права на откатывание изменений (<code>RW+</code>) и кто-то снёс <code>master</code>, лог-файл спасёт вам жизнь, и вы легко и быстро найдёте потерянный SHA.</p>
 <p><strong>Уведомление о правах доступа</strong>: Другая удобная функция проявляется в момент, когда вы просто проверяете и заходите по ssh на сервер. Gitolite показывает, к каким репозиториям у вас есть доступ и какого типа доступ может быть получен. Вот пример:</p>
-<pre><code>    hello scott, this is git@git running gitolite3 v3<span class="hljs-number">.01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span><span class="hljs-attribute">-g9609868</span> <span class="hljs-keyword">on</span> git <span class="hljs-number">1.7</span><span class="hljs-number">.4</span><span class="hljs-number">.4</span>
+<pre><code>    hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
-         R     anu<span class="hljs-attribute">-wsd</span>
+         R     anu-wsd
          R     entrans
-         R  W  git<span class="hljs-attribute">-notes</span>
+         R  W  git-notes
          R  W  gitolite
-         R  W  gitolite<span class="hljs-attribute">-admin</span>
+         R  W  gitolite-admin
          R     indic_web_input
          R     shreelipi_converter
 </code></pre><p><strong>Делегирование</strong>: При действительно больших установках вы можете делегировать ответственность за группы репозиториев различным людям, которые будут независимо управлять этими частями. Это уменьшает нагрузку на главного админа и делает его не таким критичным элементом.</p>
@@ -956,9 +959,9 @@ repo testing
 </div>
 
         
-        <link rel="stylesheet" href="../gitbook/style.css">
-        
-        
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
         <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
