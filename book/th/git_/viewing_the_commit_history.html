@@ -1,0 +1,533 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
+        
+        <meta charset="UTF-8">
+        <title>Viewing the Commit History | Learn Git</title>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="jmatchett">
+        <meta name="description" content="This is a GitBook version of the Scott Chacon&#39;s book: [Pro Git](https://github.com/progit/progit).">
+        <meta name="keywords" content="gitbook,github" >
+        <meta name="generator" content="www.gitbook.io">
+
+        
+        <link rel="next" href="../git_/undoing_things.html" />
+        
+        
+        <link rel="prev" href="../git_/_repository.html" />
+        
+
+        <meta property="og:title" content="Viewing the Commit History | Learn Git">
+        <meta property="og:site_name" content="Learn Git">
+        <meta property="og:type" content="book">
+        <meta property="og:locale" content="en_US">
+
+        <meta property="book:author" content="https://github.com/jmatchett">
+        <meta property="book:tag" content="GitBook">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    </head>
+    <body>
+        
+
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+
+
+        
+    <div class="book" data-github="jmatchett/git" data-level="2.3" data-basepath=".." data-revision="1398354131521">
+    <div class="book-header">
+    <!-- Actions Left -->
+    
+    <a href="https://github.com/jmatchett/git" target="_blank" class="btn pull-left"><i class="fa fa-github-alt"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+	<div class="dropdown-caret">
+  <span class="caret-outer"></span>
+  <span class="caret-inner"></span>
+</div>
+
+	<div class="btn-group btn-block">
+		<button id="reduce-font-size" class="btn btn-default">A</button>
+		<button id="enlarge-font-size" class="btn btn-default">A</button>
+	</div>
+
+	<ul class="list-group font-family-list">
+		<li class="list-group-item" data-font="0">Serif</li>
+		<li class="list-group-item" data-font="1">Sans</li>
+	</ul>
+
+	<div class="btn-group btn-group-xs btn-block color-theme-list">
+	  <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+	  <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+	  <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+	</div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="google-plus"><i class="fa fa-google-plus"></i></a>
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="facebook"><i class="fa fa-facebook"></i></a>
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="twitter"><i class="fa fa-twitter"></i></a>
+
+    
+    <a href="https://github.com/jmatchett/git/stargazers" target="_blank" class="btn pull-right count-star"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/jmatchett/git/watchers" target="_blank" class="btn pull-right count-watch"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1><a href="../" >Learn Git</a></h1>
+</div>
+
+    <div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        <li>
+            <a href="https://github.com/jmatchett" target="blank">About the author</a>
+        </li>
+        <li>
+            <a href="https://github.com/jmatchett/git/issues" target="blank">Questions and Issues</a>
+        </li>
+        <li>
+            <a href="https://github.com/jmatchett/git/edit/master/git_/viewing_the_commit_history.md" target="blank">Edit and Contribute</a>
+        </li>
+        <li class="divider"></li>
+        
+        <li data-level="0" data-path="index.html">
+            <a href="../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+            <li  data-level="1" data-path="index.html">
+                
+                <a href="../index.html">
+                    <i class="fa fa-check"></i> <b>1.</b> เริ่มต้นใช้งาน
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="1.1" data-path="_version_control.html">
+                            
+                            <a href="../_version_control.html">
+                                <i class="fa fa-check"></i> <b>1.1.</b> เกี่ยวกับ Version Control
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.2" data-path="_git.html">
+                            
+                            <a href="../_git.html">
+                                <i class="fa fa-check"></i> <b>1.2.</b> ประวัติย่อของ Git
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.3" data-path="git_.html">
+                            
+                            <a href="../git_.html">
+                                <i class="fa fa-check"></i> <b>1.3.</b> Git ขั้นพื้นฐาน
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.4" data-path="_git.html">
+                            
+                            <a href="../_git.html">
+                                <i class="fa fa-check"></i> <b>1.4.</b> การติดตั้ง Git
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.5" data-path="first_time_git_setup.html">
+                            
+                            <a href="../first_time_git_setup.html">
+                                <i class="fa fa-check"></i> <b>1.5.</b> First-Time Git Setup
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.6" data-path="getting_help.html">
+                            
+                            <a href="../getting_help.html">
+                                <i class="fa fa-check"></i> <b>1.6.</b> Getting Help
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.7" data-path=".html">
+                            
+                            <a href="../.html">
+                                <i class="fa fa-check"></i> <b>1.7.</b> สรุป
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li  data-level="2" data-path="git_/README.html">
+                
+                <a href="../git_/README.html">
+                    <i class="fa fa-check"></i> <b>2.</b> Git ขั้นพื้นฐาน
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="2.1" data-path="git_/_git_repository.html">
+                            
+                            <a href="../git_/_git_repository.html">
+                                <i class="fa fa-check"></i> <b>2.1.</b> เริ่มต้นใช้งาน Git Repository
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.2" data-path="git_/_repository.html">
+                            
+                            <a href="../git_/_repository.html">
+                                <i class="fa fa-check"></i> <b>2.2.</b> การบันทึกการแก้ไขใน Repository
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.3" data-path="git_/viewing_the_commit_history.html">
+                            
+                            <a href="../git_/viewing_the_commit_history.html">
+                                <i class="fa fa-check"></i> <b>2.3.</b> Viewing the Commit History
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.4" data-path="git_/undoing_things.html">
+                            
+                            <a href="../git_/undoing_things.html">
+                                <i class="fa fa-check"></i> <b>2.4.</b> Undoing Things
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.5" data-path="git_/working_with_remotes.html">
+                            
+                            <a href="../git_/working_with_remotes.html">
+                                <i class="fa fa-check"></i> <b>2.5.</b> Working with Remotes
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.6" data-path="git_/tagging.html">
+                            
+                            <a href="../git_/tagging.html">
+                                <i class="fa fa-check"></i> <b>2.6.</b> Tagging
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.7" data-path="git_/tips_and_tricks.html">
+                            
+                            <a href="../git_/tips_and_tricks.html">
+                                <i class="fa fa-check"></i> <b>2.7.</b> Tips and Tricks
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.8" data-path="git_/summary.html">
+                            
+                            <a href="../git_/summary.html">
+                                <i class="fa fa-check"></i> <b>2.8.</b> Summary
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 66.66666666666667%;min-width: 60%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../index.html" title="เริ่มต้นใช้งาน" class="chapter done new-chapter" data-progress="1" style="left: 0%;"></a>
+    
+        <a href="../_version_control.html" title="เกี่ยวกับ Version Control" class="chapter done " data-progress="1.1" style="left: 6.666666666666667%;"></a>
+    
+        <a href="../git_.html" title="Git ขั้นพื้นฐาน" class="chapter done " data-progress="1.3" style="left: 13.333333333333334%;"></a>
+    
+        <a href="../_git.html" title="การติดตั้ง Git" class="chapter done " data-progress="1.4" style="left: 20%;"></a>
+    
+        <a href="../first_time_git_setup.html" title="First-Time Git Setup" class="chapter done " data-progress="1.5" style="left: 26.666666666666668%;"></a>
+    
+        <a href="../getting_help.html" title="Getting Help" class="chapter done " data-progress="1.6" style="left: 33.333333333333336%;"></a>
+    
+        <a href="../.html" title="สรุป" class="chapter done " data-progress="1.7" style="left: 40%;"></a>
+    
+        <a href="../git_/README.html" title="Git ขั้นพื้นฐาน" class="chapter done new-chapter" data-progress="2" style="left: 46.666666666666664%;"></a>
+    
+        <a href="../git_/_git_repository.html" title="เริ่มต้นใช้งาน Git Repository" class="chapter done " data-progress="2.1" style="left: 53.333333333333336%;"></a>
+    
+        <a href="../git_/_repository.html" title="การบันทึกการแก้ไขใน Repository" class="chapter done " data-progress="2.2" style="left: 60%;"></a>
+    
+        <a href="../git_/viewing_the_commit_history.html" title="Viewing the Commit History" class="chapter done " data-progress="2.3" style="left: 66.66666666666667%;"></a>
+    
+        <a href="../git_/undoing_things.html" title="Undoing Things" class="chapter  " data-progress="2.4" style="left: 73.33333333333333%;"></a>
+    
+        <a href="../git_/working_with_remotes.html" title="Working with Remotes" class="chapter  " data-progress="2.5" style="left: 80%;"></a>
+    
+        <a href="../git_/tagging.html" title="Tagging" class="chapter  " data-progress="2.6" style="left: 86.66666666666667%;"></a>
+    
+        <a href="../git_/tips_and_tricks.html" title="Tips and Tricks" class="chapter  " data-progress="2.7" style="left: 93.33333333333333%;"></a>
+    
+        <a href="../git_/summary.html" title="Summary" class="chapter  " data-progress="2.8" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_51">
+                    
+                        <h1 id="viewing-the-commit-history">Viewing the Commit History</h1>
+<p>After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the <code>git log</code> command.</p>
+<p>These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run </p>
+<pre><code>git clone git://github.com/schacon/simplegit-progit.git
+</code></pre><p>When you run <code>git log</code> in this project, you should get output that looks something like this:</p>
+<pre><code>$ git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+</code></pre><p>By default, with no arguments, <code>git log</code> lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.</p>
+<p>A huge number and variety of options to the <code>git log</code> command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.</p>
+<p>One of the more helpful options is <code>-p</code>, which shows the diff introduced in each commit. You can also use <code>-2</code>, which limits the output to only the last two entries:</p>
+<pre><code>$ git log –p -2
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,7 +5,7 @@ require &#39;rake/gempackagetask&#39;
+ spec = Gem::Specification.new do |s|
+-    s.version   =   &quot;0.1.0&quot;
++    s.version   =   &quot;0.1.1&quot;
+     s.author    =   &quot;Scott Chacon&quot;
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index a0a60ae..47c6340 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -18,8 +18,3 @@ class SimpleGit
+     end
+
+ end
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end
+\ No newline at end of file
+</code></pre><p>This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
+You can also use a series of summarizing options with <code>git log</code>. For example, if you want to see some abbreviated stats for each commit, you can use the <code>--stat</code> option:</p>
+<pre><code>$ git log --stat 
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+ Rakefile |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+ lib/simplegit.rb |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+
+ README           |    6 ++++++
+ Rakefile         |   23 +++++++++++++++++++++++
+ lib/simplegit.rb |   25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+), 0 deletions(-)
+</code></pre><p>As you can see, the <code>--stat</code> option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
+Another really useful option is <code>--pretty</code>. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the <code>short</code>, <code>full</code>, and <code>fuller</code> options show the output in roughly the same format but with less or more information, respectively:</p>
+<pre><code>$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 changed the version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
+a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
+</code></pre><p>The most interesting option is <code>format</code>, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:</p>
+<pre><code>$ git log --pretty=format:&quot;%h - %an, %ar : %s&quot;
+ca82a6d - Scott Chacon, 11 months ago : changed the version number
+085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
+a11bef0 - Scott Chacon, 11 months ago : first commit
+</code></pre><p>Table 2-1 lists some of the more useful options that format takes.</p>
+<pre><code>Option    Description of Output
+%H    Commit hash
+%h    Abbreviated commit hash
+%T    Tree hash
+%t    Abbreviated tree hash
+%P    Parent hashes
+%p    Abbreviated parent hashes
+%an    Author name
+%ae    Author e-mail
+%ad    Author date (format respects the –date= option)
+%ar    Author date, relative
+%cn    Committer name
+%ce    Committer email
+%cd    Committer date
+%cr    Committer date, relative
+%s    Subject
+</code></pre><p>You may be wondering what the difference is between <em>author</em> and <em>committer</em>. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.</p>
+<p>The oneline and format options are particularly useful with another <code>log</code> option called <code>--graph</code>. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:</p>
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; --graph
+* 2d3acf9 ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch &#39;master&#39; of git://github.com/dustin/grit
+|\  
+| * 420eac9 Added a method for getting the current branch.
+* | 30e367c timeout code and tests
+* | 5a09431 add timeout protection to grit
+* | e1193f8 support for heads with slashes in them
+|/  
+* d6016bc require time for xmlschema
+*  11d191e Merge branch &#39;defunkt&#39; into local
+</code></pre><p>Those are only some simple output-formatting options to <code>git log</code> — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.</p>
+<pre><code>Option    Description
+-p    Show the patch introduced with each commit.
+--stat    Show statistics for files modified in each commit.
+--shortstat    Display only the changed/insertions/deletions line from the --stat command.
+--name-only    Show the list of files modified after the commit information.
+--name-status    Show the list of files affected with added/modified/deleted information as well.
+--abbrev-commit    Show only the first few characters of the SHA-1 checksum instead of all 40.
+--relative-date    Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
+--graph    Display an ASCII graph of the branch and merge history beside the log output.
+--pretty    Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+</code></pre><h2 id="limiting-log-output">Limiting Log Output</h2>
+<p>In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the <code>-2</code> option, which show only the last two commits. In fact, you can do <code>-&lt;n&gt;</code>, where <code>n</code> is any integer to show the last <code>n</code> commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.</p>
+<p>However, the time-limiting options such as <code>--since</code> and <code>--until</code> are very useful. For example, this command gets the list of commits made in the last two weeks:</p>
+<pre><code>$ git log --since=2.weeks
+</code></pre><p>This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.</p>
+<p>You can also filter the list to commits that match some search criteria. The <code>--author</code> option allows you to filter on a specific author, and the <code>--grep</code> option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add <code>--all-match</code> or the command will match commits with either.)</p>
+<p>The last really useful option to pass to <code>git log</code> as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (<code>--</code>) to separate the paths from the options.</p>
+<p>In Table 2-3 we’ll list these and a few other common options for your reference.</p>
+<pre><code>Option    Description
+-(n)    Show only the last n commits
+--since, --after    Limit the commits to those made after the specified date.
+--until, --before    Limit the commits to those made before the specified date.
+--author    Only show commits in which the author entry matches the specified string.
+--committer    Only show commits in which the committer entry matches the specified string.
+</code></pre><p>For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:</p>
+<pre><code>$ git log --pretty=&quot;%h - %s&quot; --author=gitster --since=&quot;2008-10-01&quot; \
+   --before=&quot;2008-11-01&quot; --no-merges -- t/
+5610e3b - Fix testcase failure when extended attribute
+acd3b9e - Enhance hold_lock_file_for_{update,append}()
+f563754 - demonstrate breakage of detached checkout wi
+d1a43f2 - reset --hard/read-tree --reset -u: remove un
+51a94af - Fix &quot;checkout --track -b newbranch&quot; on detac
+b0ad11e - pull: allow &quot;git pull origin $something:$cur
+</code></pre><p>Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.</p>
+<h2 id="using-a-gui-to-visualize-history">Using a GUI to Visualize History</h2>
+<p>If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual <code>git log</code> tool, and it accepts nearly all the filtering options that <code>git log</code> does. If you type gitk on the command line in your project, you should see something like Figure 2-2.</p>
+<p><img src="http://git-scm.com/figures/18333fig0202-tn.png" alt=""></p>
+<p>Figure 2-2. The gitk history visualizer.</p>
+<p>You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../git_/_repository.html" class="navigation navigation-prev"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../git_/undoing_things.html" class="navigation navigation-next"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../gitbook/app.js"></script>
+        
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
+        
+        <meta charset="UTF-8">
+        <title>Gitin asennus | Learn Git</title>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="jmatchett">
+        <meta name="description" content="This is a GitBook version of the Scott Chacon&#39;s book: [Pro Git](https://github.com/progit/progit).">
+        <meta name="keywords" content="gitbook,github" >
+        <meta name="generator" content="www.gitbook.io">
+
+        
+        <link rel="next" href="../alkusanat/ensikerran_git_asetukset.html" />
+        
+        
+        <link rel="prev" href="../alkusanat/gitin_perusteet.html" />
+        
+
+        <meta property="og:title" content="Gitin asennus | Learn Git">
+        <meta property="og:site_name" content="Learn Git">
+        <meta property="og:type" content="book">
+        <meta property="og:locale" content="en_US">
+
+        <meta property="book:author" content="https://github.com/jmatchett">
+        <meta property="book:tag" content="GitBook">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    </head>
+    <body>
+        
+
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+
+
+        
+    <div class="book" data-github="jmatchett/git" data-level="1.4" data-basepath=".." data-revision="1398354131913">
+    <div class="book-header">
+    <!-- Actions Left -->
+    
+    <a href="https://github.com/jmatchett/git" target="_blank" class="btn pull-left"><i class="fa fa-github-alt"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+	<div class="dropdown-caret">
+  <span class="caret-outer"></span>
+  <span class="caret-inner"></span>
+</div>
+
+	<div class="btn-group btn-block">
+		<button id="reduce-font-size" class="btn btn-default">A</button>
+		<button id="enlarge-font-size" class="btn btn-default">A</button>
+	</div>
+
+	<ul class="list-group font-family-list">
+		<li class="list-group-item" data-font="0">Serif</li>
+		<li class="list-group-item" data-font="1">Sans</li>
+	</ul>
+
+	<div class="btn-group btn-group-xs btn-block color-theme-list">
+	  <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+	  <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+	  <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+	</div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="google-plus"><i class="fa fa-google-plus"></i></a>
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="facebook"><i class="fa fa-facebook"></i></a>
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="twitter"><i class="fa fa-twitter"></i></a>
+
+    
+    <a href="https://github.com/jmatchett/git/stargazers" target="_blank" class="btn pull-right count-star"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/jmatchett/git/watchers" target="_blank" class="btn pull-right count-watch"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1><a href="../" >Learn Git</a></h1>
+</div>
+
+    <div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        <li>
+            <a href="https://github.com/jmatchett" target="blank">About the author</a>
+        </li>
+        <li>
+            <a href="https://github.com/jmatchett/git/issues" target="blank">Questions and Issues</a>
+        </li>
+        <li>
+            <a href="https://github.com/jmatchett/git/edit/master/alkusanat/gitin_asennus.md" target="blank">Edit and Contribute</a>
+        </li>
+        <li class="divider"></li>
+        
+        <li data-level="0" data-path="index.html">
+            <a href="../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+            <li  data-level="1" data-path="alkusanat/README.html">
+                
+                <a href="../alkusanat/README.html">
+                    <i class="fa fa-check"></i> <b>1.</b> Alkusanat
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="1.1" data-path="alkusanat/versionhallinnasta.html">
+                            
+                            <a href="../alkusanat/versionhallinnasta.html">
+                                <i class="fa fa-check"></i> <b>1.1.</b> Versionhallinnasta
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.2" data-path="alkusanat/gitin_lyhyt_historia.html">
+                            
+                            <a href="../alkusanat/gitin_lyhyt_historia.html">
+                                <i class="fa fa-check"></i> <b>1.2.</b> Gitin lyhyt historia
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.3" data-path="alkusanat/gitin_perusteet.html">
+                            
+                            <a href="../alkusanat/gitin_perusteet.html">
+                                <i class="fa fa-check"></i> <b>1.3.</b> Gitin perusteet
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.4" data-path="alkusanat/gitin_asennus.html">
+                            
+                            <a href="../alkusanat/gitin_asennus.html">
+                                <i class="fa fa-check"></i> <b>1.4.</b> Gitin asennus
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.5" data-path="alkusanat/ensikerran_git_asetukset.html">
+                            
+                            <a href="../alkusanat/ensikerran_git_asetukset.html">
+                                <i class="fa fa-check"></i> <b>1.5.</b> Ensikerran Git-asetukset
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.6" data-path="alkusanat/avunsaanti.html">
+                            
+                            <a href="../alkusanat/avunsaanti.html">
+                                <i class="fa fa-check"></i> <b>1.6.</b> Avunsaanti
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.7" data-path="alkusanat/yhteenveto.html">
+                            
+                            <a href="../alkusanat/yhteenveto.html">
+                                <i class="fa fa-check"></i> <b>1.7.</b> Yhteenveto
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li  data-level="2" data-path="gitin_perusteet/README.html">
+                
+                <a href="../gitin_perusteet/README.html">
+                    <i class="fa fa-check"></i> <b>2.</b> Gitin perusteet
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="2.1" data-path="gitin_perusteet/git_tietolahteen_hankinta.html">
+                            
+                            <a href="../gitin_perusteet/git_tietolahteen_hankinta.html">
+                                <i class="fa fa-check"></i> <b>2.1.</b> Git-tietolähteen hankinta
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.2" data-path="gitin_perusteet/muutosten_tallennus_tietolahteeseen.html">
+                            
+                            <a href="../gitin_perusteet/muutosten_tallennus_tietolahteeseen.html">
+                                <i class="fa fa-check"></i> <b>2.2.</b> Muutosten tallennus tietolähteeseen
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.3" data-path="gitin_perusteet/pysyvien_muutosten_historian_tarkasteleminen.html">
+                            
+                            <a href="../gitin_perusteet/pysyvien_muutosten_historian_tarkasteleminen.html">
+                                <i class="fa fa-check"></i> <b>2.3.</b> Pysyvien muutosten historian tarkasteleminen
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.4" data-path="gitin_perusteet/asioiden_kumoaminen.html">
+                            
+                            <a href="../gitin_perusteet/asioiden_kumoaminen.html">
+                                <i class="fa fa-check"></i> <b>2.4.</b> Asioiden kumoaminen
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.5" data-path="gitin_perusteet/working_with_remotes.html">
+                            
+                            <a href="../gitin_perusteet/working_with_remotes.html">
+                                <i class="fa fa-check"></i> <b>2.5.</b> Working with Remotes
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.6" data-path="gitin_perusteet/tagging.html">
+                            
+                            <a href="../gitin_perusteet/tagging.html">
+                                <i class="fa fa-check"></i> <b>2.6.</b> Tagging
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.7" data-path="gitin_perusteet/tips_and_tricks.html">
+                            
+                            <a href="../gitin_perusteet/tips_and_tricks.html">
+                                <i class="fa fa-check"></i> <b>2.7.</b> Tips and Tricks
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.8" data-path="gitin_perusteet/summary.html">
+                            
+                            <a href="../gitin_perusteet/summary.html">
+                                <i class="fa fa-check"></i> <b>2.8.</b> Summary
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 29.41176470588235%;min-width: 23.529411764705884%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+    
+        <a href="../alkusanat/README.html" title="Alkusanat" class="chapter done new-chapter" data-progress="1" style="left: 5.882352941176471%;"></a>
+    
+        <a href="../alkusanat/versionhallinnasta.html" title="Versionhallinnasta" class="chapter done " data-progress="1.1" style="left: 11.764705882352942%;"></a>
+    
+        <a href="../alkusanat/gitin_lyhyt_historia.html" title="Gitin lyhyt historia" class="chapter done " data-progress="1.2" style="left: 17.647058823529413%;"></a>
+    
+        <a href="../alkusanat/gitin_perusteet.html" title="Gitin perusteet" class="chapter done " data-progress="1.3" style="left: 23.529411764705884%;"></a>
+    
+        <a href="../alkusanat/gitin_asennus.html" title="Gitin asennus" class="chapter done " data-progress="1.4" style="left: 29.41176470588235%;"></a>
+    
+        <a href="../alkusanat/ensikerran_git_asetukset.html" title="Ensikerran Git-asetukset" class="chapter  " data-progress="1.5" style="left: 35.294117647058826%;"></a>
+    
+        <a href="../alkusanat/avunsaanti.html" title="Avunsaanti" class="chapter  " data-progress="1.6" style="left: 41.1764705882353%;"></a>
+    
+        <a href="../alkusanat/yhteenveto.html" title="Yhteenveto" class="chapter  " data-progress="1.7" style="left: 47.05882352941177%;"></a>
+    
+        <a href="../gitin_perusteet/README.html" title="Gitin perusteet" class="chapter  new-chapter" data-progress="2" style="left: 52.94117647058823%;"></a>
+    
+        <a href="../gitin_perusteet/git_tietolahteen_hankinta.html" title="Git-tietolähteen hankinta" class="chapter  " data-progress="2.1" style="left: 58.8235294117647%;"></a>
+    
+        <a href="../gitin_perusteet/muutosten_tallennus_tietolahteeseen.html" title="Muutosten tallennus tietolähteeseen" class="chapter  " data-progress="2.2" style="left: 64.70588235294117%;"></a>
+    
+        <a href="../gitin_perusteet/pysyvien_muutosten_historian_tarkasteleminen.html" title="Pysyvien muutosten historian tarkasteleminen" class="chapter  " data-progress="2.3" style="left: 70.58823529411765%;"></a>
+    
+        <a href="../gitin_perusteet/asioiden_kumoaminen.html" title="Asioiden kumoaminen" class="chapter  " data-progress="2.4" style="left: 76.47058823529412%;"></a>
+    
+        <a href="../gitin_perusteet/working_with_remotes.html" title="Working with Remotes" class="chapter  " data-progress="2.5" style="left: 82.3529411764706%;"></a>
+    
+        <a href="../gitin_perusteet/tagging.html" title="Tagging" class="chapter  " data-progress="2.6" style="left: 88.23529411764706%;"></a>
+    
+        <a href="../gitin_perusteet/tips_and_tricks.html" title="Tips and Tricks" class="chapter  " data-progress="2.7" style="left: 94.11764705882354%;"></a>
+    
+        <a href="../gitin_perusteet/summary.html" title="Summary" class="chapter  " data-progress="2.8" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_110">
+                    
+                        <h1 id="gitin-asennus">Gitin asennus</h1>
+<p>Ryhdytäänpä käyttämään Gitiä. Ensimmäiset asiat ensin - sinun täytyy asentaa se. Voit saada sen monella tavalla; kaksi yleisintä tapaa on asentaa se suoraan lähdekoodista tai asentaa jo olemassa oleva paketti sovellusalustallesi.</p>
+<h2 id="asennus-suoraan-l-hdekoodista">Asennus suoraan lähdekoodista</h2>
+<p>Jos voit, on yleensä hyödyllistä asentaa Git suoraan lähdekoodista, koska näin saat kaikkein viimeisimmän version. Jokainen Gitin versio tapaa sisältää hyödyllisiä käyttöliittymäparannuksia, joten uusimman version hakeminen on yleensä paras reitti, jos tunnet olosi turvalliseksi kääntäessäsi ohjelmistoa sen lähdekoodista. On yleinen tilanne, että moni Linux-jakelu sisältää erittäin vanhoja paketteja; joten, jollet käytä erittäin päivitettyä jakelua tai backportteja, lähdekoodista asennus voi olla paras ratkaisu.</p>
+<p>Asentaaksesi Gitin, tarvitset seuraavat kirjastot joista Git on riippuvainen: curl, zlib, openssl, expat, ja libiconv. Esimerkiksi, jos olet järjestelmässä, jossa on yum (kuten Fedora) tai apt-get (kuten Debian-pohjaiset järjestelmät), voit käyttää yhtä näistä komennoista asentaaksesi kaikki riippuvaisuudet:</p>
+<pre><code>$ yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
+
+$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+  libz-dev libssl-dev
+</code></pre><p>Kun sinulla on kaikki tarvittavat riippuvuudet, voit mennä eteenpäin ja kiskaista uusimman tilannekuvan Gitin verkkosivuilta:</p>
+<pre><code>http://git-scm.com/download
+</code></pre><p>Tämän jälkeen käännä ja asenna:</p>
+<pre><code>$ tar -zxf git-1.7.2.2.tar.gz
+$ cd git-1.7.2.2
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install
+</code></pre><p>Kun tämä on tehty, voit myös ottaa Gitin päivitykset Gitin itsensä kautta:</p>
+<pre><code>$ git clone git://git.kernel.org/pub/scm/git/git.git
+</code></pre><h2 id="asennus-linuxissa">Asennus Linuxissa</h2>
+<p>Jos haluat asentaa Gitin Linuxissa binääriasennusohjelman kautta, voit yleensä tehdä näin yksinkertaisella paketinhallintaohjelmalla, joka tulee julkaisusi mukana. Jos olet Fedorassa, voit käyttää yumia:</p>
+<pre><code>$ yum install git-core
+</code></pre><p>Tai jos olet Debian-pohjaisessa julkaisussa kuten Ubuntussa, kokeile apt-getiä:</p>
+<pre><code>$ apt-get install git
+</code></pre><h2 id="asennus-maciss-">Asennus Macissä</h2>
+<p>On olemassa kaksi helppoa tapaa asentaa Git Macissä. Helpoin on käyttää graafista Git-asennusohjelmaa, jonka voit ladata Googlen Code -verkkosivuilta (katso Kuva 1-7):</p>
+<pre><code>http://code.google.com/p/git-osx-installer
+</code></pre><p><img src="http://git-scm.com/figures/18333fig0107-tn.png" alt=""></p>
+<p>Kuva 1-7. Git OS X -asennusohjelma.</p>
+<p>Toinen pääasiallinen tapa on asentaa Git MacPortsin kautta (<code>http://www.macports.org</code>). Jos sinulla on MacPorts asennettuna, asenna Git näin:</p>
+<pre><code>$ sudo port install git-core +svn +doc +bash_completion +gitweb
+</code></pre><p>Sinun ei tarvitse asentaa kaikkia ekstroista, mutta varmaankin haluat sisältää +svn-ekstran tapauksessa, jossa sinun täytyy joskus käyttää Gitiä Subversion-tietolähteiden kanssa (katso Luku 8).</p>
+<h2 id="asennus-windowsissa">Asennus Windowsissa</h2>
+<p>Gitin asennus Windowsissa on erittäin helppoa. MsysGit-projektilla on yksi helpoimmista asennusmenetelmistä. Yksinkertaisesti lataa asennus-exe-tiedosto GitHub-verkkosivulta ja suorita se:</p>
+<pre><code>http://msysgit.github.com/
+</code></pre><p>Asennuksen jälkeen sinulla on sekä komentoriviversio (sisältäen SSH-asiakasohjelman, joka osoittautuu hyödylliseksi myöhemmin) että standardi graafinen käyttöliittymä.</p>
+<p>Huomioitavaa Windowsin käytössä: sinun tulisi käyttää Gitiä tarjotulla msysGitin komentorivillä (Unix-tyylinen). Se sallii käytettävän tässä kirjassa annettuja monirivisiä komentoja. Jos sinun täytyy jostakin syystä käyttää natiivia Windows-komentoriviä tai konsolia, sinun täytyy käyttää lainausmerkkejä heittomerkkien sijaan (parametreille, joissa on välejä) ja ympäröidä lainausmerkeillä sirkumfleksiaksenttiin (^) päättyvät parametrit, jos ne ovat rivillä viimeisinä, koska se on jatkumissymboli Windowsissa.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../alkusanat/gitin_perusteet.html" class="navigation navigation-prev"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../alkusanat/ensikerran_git_asetukset.html" class="navigation navigation-next"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../gitbook/app.js"></script>
+        
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

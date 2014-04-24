@@ -1,0 +1,678 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
+        
+        <meta charset="UTF-8">
+        <title>Pysyvien muutosten historian tarkasteleminen | Learn Git</title>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="jmatchett">
+        <meta name="description" content="This is a GitBook version of the Scott Chacon&#39;s book: [Pro Git](https://github.com/progit/progit).">
+        <meta name="keywords" content="gitbook,github" >
+        <meta name="generator" content="www.gitbook.io">
+
+        
+        <link rel="next" href="../gitin_perusteet/asioiden_kumoaminen.html" />
+        
+        
+        <link rel="prev" href="../gitin_perusteet/muutosten_tallennus_tietolahteeseen.html" />
+        
+
+        <meta property="og:title" content="Pysyvien muutosten historian tarkasteleminen | Learn Git">
+        <meta property="og:site_name" content="Learn Git">
+        <meta property="og:type" content="book">
+        <meta property="og:locale" content="en_US">
+
+        <meta property="book:author" content="https://github.com/jmatchett">
+        <meta property="book:tag" content="GitBook">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    </head>
+    <body>
+        
+
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+
+
+        
+    <div class="book" data-github="jmatchett/git" data-level="2.3" data-basepath=".." data-revision="1398354131913">
+    <div class="book-header">
+    <!-- Actions Left -->
+    
+    <a href="https://github.com/jmatchett/git" target="_blank" class="btn pull-left"><i class="fa fa-github-alt"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+	<div class="dropdown-caret">
+  <span class="caret-outer"></span>
+  <span class="caret-inner"></span>
+</div>
+
+	<div class="btn-group btn-block">
+		<button id="reduce-font-size" class="btn btn-default">A</button>
+		<button id="enlarge-font-size" class="btn btn-default">A</button>
+	</div>
+
+	<ul class="list-group font-family-list">
+		<li class="list-group-item" data-font="0">Serif</li>
+		<li class="list-group-item" data-font="1">Sans</li>
+	</ul>
+
+	<div class="btn-group btn-group-xs btn-block color-theme-list">
+	  <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+	  <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+	  <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+	</div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="google-plus"><i class="fa fa-google-plus"></i></a>
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="facebook"><i class="fa fa-facebook"></i></a>
+    <a href="#" target="_blank" class="btn pull-right" data-sharing="twitter"><i class="fa fa-twitter"></i></a>
+
+    
+    <a href="https://github.com/jmatchett/git/stargazers" target="_blank" class="btn pull-right count-star"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/jmatchett/git/watchers" target="_blank" class="btn pull-right count-watch"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1><a href="../" >Learn Git</a></h1>
+</div>
+
+    <div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        <li>
+            <a href="https://github.com/jmatchett" target="blank">About the author</a>
+        </li>
+        <li>
+            <a href="https://github.com/jmatchett/git/issues" target="blank">Questions and Issues</a>
+        </li>
+        <li>
+            <a href="https://github.com/jmatchett/git/edit/master/gitin_perusteet/pysyvien_muutosten_historian_tarkasteleminen.md" target="blank">Edit and Contribute</a>
+        </li>
+        <li class="divider"></li>
+        
+        <li data-level="0" data-path="index.html">
+            <a href="../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+            <li  data-level="1" data-path="alkusanat/README.html">
+                
+                <a href="../alkusanat/README.html">
+                    <i class="fa fa-check"></i> <b>1.</b> Alkusanat
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="1.1" data-path="alkusanat/versionhallinnasta.html">
+                            
+                            <a href="../alkusanat/versionhallinnasta.html">
+                                <i class="fa fa-check"></i> <b>1.1.</b> Versionhallinnasta
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.2" data-path="alkusanat/gitin_lyhyt_historia.html">
+                            
+                            <a href="../alkusanat/gitin_lyhyt_historia.html">
+                                <i class="fa fa-check"></i> <b>1.2.</b> Gitin lyhyt historia
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.3" data-path="alkusanat/gitin_perusteet.html">
+                            
+                            <a href="../alkusanat/gitin_perusteet.html">
+                                <i class="fa fa-check"></i> <b>1.3.</b> Gitin perusteet
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.4" data-path="alkusanat/gitin_asennus.html">
+                            
+                            <a href="../alkusanat/gitin_asennus.html">
+                                <i class="fa fa-check"></i> <b>1.4.</b> Gitin asennus
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.5" data-path="alkusanat/ensikerran_git_asetukset.html">
+                            
+                            <a href="../alkusanat/ensikerran_git_asetukset.html">
+                                <i class="fa fa-check"></i> <b>1.5.</b> Ensikerran Git-asetukset
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.6" data-path="alkusanat/avunsaanti.html">
+                            
+                            <a href="../alkusanat/avunsaanti.html">
+                                <i class="fa fa-check"></i> <b>1.6.</b> Avunsaanti
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.7" data-path="alkusanat/yhteenveto.html">
+                            
+                            <a href="../alkusanat/yhteenveto.html">
+                                <i class="fa fa-check"></i> <b>1.7.</b> Yhteenveto
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li  data-level="2" data-path="gitin_perusteet/README.html">
+                
+                <a href="../gitin_perusteet/README.html">
+                    <i class="fa fa-check"></i> <b>2.</b> Gitin perusteet
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="2.1" data-path="gitin_perusteet/git_tietolahteen_hankinta.html">
+                            
+                            <a href="../gitin_perusteet/git_tietolahteen_hankinta.html">
+                                <i class="fa fa-check"></i> <b>2.1.</b> Git-tietolähteen hankinta
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.2" data-path="gitin_perusteet/muutosten_tallennus_tietolahteeseen.html">
+                            
+                            <a href="../gitin_perusteet/muutosten_tallennus_tietolahteeseen.html">
+                                <i class="fa fa-check"></i> <b>2.2.</b> Muutosten tallennus tietolähteeseen
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.3" data-path="gitin_perusteet/pysyvien_muutosten_historian_tarkasteleminen.html">
+                            
+                            <a href="../gitin_perusteet/pysyvien_muutosten_historian_tarkasteleminen.html">
+                                <i class="fa fa-check"></i> <b>2.3.</b> Pysyvien muutosten historian tarkasteleminen
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.4" data-path="gitin_perusteet/asioiden_kumoaminen.html">
+                            
+                            <a href="../gitin_perusteet/asioiden_kumoaminen.html">
+                                <i class="fa fa-check"></i> <b>2.4.</b> Asioiden kumoaminen
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.5" data-path="gitin_perusteet/working_with_remotes.html">
+                            
+                            <a href="../gitin_perusteet/working_with_remotes.html">
+                                <i class="fa fa-check"></i> <b>2.5.</b> Working with Remotes
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.6" data-path="gitin_perusteet/tagging.html">
+                            
+                            <a href="../gitin_perusteet/tagging.html">
+                                <i class="fa fa-check"></i> <b>2.6.</b> Tagging
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.7" data-path="gitin_perusteet/tips_and_tricks.html">
+                            
+                            <a href="../gitin_perusteet/tips_and_tricks.html">
+                                <i class="fa fa-check"></i> <b>2.7.</b> Tips and Tricks
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.8" data-path="gitin_perusteet/summary.html">
+                            
+                            <a href="../gitin_perusteet/summary.html">
+                                <i class="fa fa-check"></i> <b>2.8.</b> Summary
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 70.58823529411765%;min-width: 64.70588235294117%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+    
+        <a href="../alkusanat/README.html" title="Alkusanat" class="chapter done new-chapter" data-progress="1" style="left: 5.882352941176471%;"></a>
+    
+        <a href="../alkusanat/versionhallinnasta.html" title="Versionhallinnasta" class="chapter done " data-progress="1.1" style="left: 11.764705882352942%;"></a>
+    
+        <a href="../alkusanat/gitin_lyhyt_historia.html" title="Gitin lyhyt historia" class="chapter done " data-progress="1.2" style="left: 17.647058823529413%;"></a>
+    
+        <a href="../alkusanat/gitin_perusteet.html" title="Gitin perusteet" class="chapter done " data-progress="1.3" style="left: 23.529411764705884%;"></a>
+    
+        <a href="../alkusanat/gitin_asennus.html" title="Gitin asennus" class="chapter done " data-progress="1.4" style="left: 29.41176470588235%;"></a>
+    
+        <a href="../alkusanat/ensikerran_git_asetukset.html" title="Ensikerran Git-asetukset" class="chapter done " data-progress="1.5" style="left: 35.294117647058826%;"></a>
+    
+        <a href="../alkusanat/avunsaanti.html" title="Avunsaanti" class="chapter done " data-progress="1.6" style="left: 41.1764705882353%;"></a>
+    
+        <a href="../alkusanat/yhteenveto.html" title="Yhteenveto" class="chapter done " data-progress="1.7" style="left: 47.05882352941177%;"></a>
+    
+        <a href="../gitin_perusteet/README.html" title="Gitin perusteet" class="chapter done new-chapter" data-progress="2" style="left: 52.94117647058823%;"></a>
+    
+        <a href="../gitin_perusteet/git_tietolahteen_hankinta.html" title="Git-tietolähteen hankinta" class="chapter done " data-progress="2.1" style="left: 58.8235294117647%;"></a>
+    
+        <a href="../gitin_perusteet/muutosten_tallennus_tietolahteeseen.html" title="Muutosten tallennus tietolähteeseen" class="chapter done " data-progress="2.2" style="left: 64.70588235294117%;"></a>
+    
+        <a href="../gitin_perusteet/pysyvien_muutosten_historian_tarkasteleminen.html" title="Pysyvien muutosten historian tarkasteleminen" class="chapter done " data-progress="2.3" style="left: 70.58823529411765%;"></a>
+    
+        <a href="../gitin_perusteet/asioiden_kumoaminen.html" title="Asioiden kumoaminen" class="chapter  " data-progress="2.4" style="left: 76.47058823529412%;"></a>
+    
+        <a href="../gitin_perusteet/working_with_remotes.html" title="Working with Remotes" class="chapter  " data-progress="2.5" style="left: 82.3529411764706%;"></a>
+    
+        <a href="../gitin_perusteet/tagging.html" title="Tagging" class="chapter  " data-progress="2.6" style="left: 88.23529411764706%;"></a>
+    
+        <a href="../gitin_perusteet/tips_and_tricks.html" title="Tips and Tricks" class="chapter  " data-progress="2.7" style="left: 94.11764705882354%;"></a>
+    
+        <a href="../gitin_perusteet/summary.html" title="Summary" class="chapter  " data-progress="2.8" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_119">
+                    
+                        <h1 id="pysyvien-muutosten-historian-tarkasteleminen">Pysyvien muutosten historian tarkasteleminen</h1>
+<p>Kun olet luonut useita pysyviä muutoksia tai kloonannut tietovaraston, jonka historiassa on pysyviä muutoksia, haluat todennäköisesti katsoa taaksepäin nähdäksesi, mitä on tapahtunut. Yksinkertaisin ja tehokkain työkalu tähän on <code>git log</code> -komento.</p>
+<p>Nämä esimerkit käyttävät erittäin yksinkertaista projektia nimeltä <code>simplegit</code>, jota käytän useasti havainnollistamisessa. Saadaksesi projektin, aja</p>
+<pre><code>git clone git://github.com/schacon/simplegit-progit.git
+</code></pre><p>Kun ajat <code>git log</code> tässä projektissa, sinun tulisi saada vastaavanlainen tuloste:</p>
+<pre><code>$ git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+</code></pre><p>Oletuksena, ilman argumentteja, <code>git log</code> listaa tietovarastoon tehdyt pysyvät muutokset käänteisessä aikajärjestyksessä. Se tarkoittaa, että uusin pysyvä muutos tulee ensimmäiseksi. Kuten voit nähdä, tämä komento listaa kustakin pysyvästä muutoksesta sen SHA-1-tarkisteen,  tekijän nimen ja sähköpostin, luontipäiväyksen sekä viestin.</p>
+<p><code>Git log</code> -komennolle on saatavilla valtava määrä ja lajitelma optioita näyttääkseen sinulle tarkalleen etsimäsi. Näytämme tässä sinulle joitakin käytetyimpiä optioita.</p>
+<p>Yksi hyödyllisimmistä optioista on <code>-p</code>, joka näyttää kunkin pysyvän muutoksen eroavaisuuden. Voit myös käyttää <code>-2</code>, joka rajaa tulosteen ainoastaan kahteen viimeisimpään kirjaukseen:</p>
+<pre><code>$ git log -p -2
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,5 +5,5 @@ require &#39;rake/gempackagetask&#39;
+ spec = Gem::Specification.new do |s|
+     s.name      =   &quot;simplegit&quot;
+-    s.version   =   &quot;0.1.0&quot;
++    s.version   =   &quot;0.1.1&quot;
+     s.author    =   &quot;Scott Chacon&quot;
+     s.email     =   &quot;schacon@gee-mail.com
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index a0a60ae..47c6340 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -18,8 +18,3 @@ class SimpleGit
+     end
+
+ end
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end
+\ No newline at end of file
+</code></pre><p>Tämä optio näyttää saman informaation, mutta jokaista kirjausta seuraavalla eroavaisuudella. Tämä on erittäin hyödyllinen koodin katselmoinnissa tai nopeasti tarkistettaessa, mitä tapahtui pysyvien muutosten sarjassa, jonka työtoveri on lisännyt.</p>
+<p>Joskus on helpompaa katselmoida muutoksia sanatasolla kuin rivitasolla. Gitissä on saatavilla <code>--word-diff</code>-optio, jonka voit lisätä <code>git log -p</code> -komentoon saadaksesi sanatason eroavaisuuden normaalin rivitasoisen eroavaisuuden sijaan. Sanatason eroavaisuuden formaatti on melko hyödytön käytettäessä sitä lähdekoodiin, mutta siitä tulee kätevä käytettäessä sitä isoihin tekstitiedostoihin, kuten kirjoihin tai väitöskirjaasi. Tässä on esimerkki:</p>
+<pre><code>$ git log -U1 --word-diff
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+    s.name      =   &quot;simplegit&quot;
+    s.version   =   [-&quot;0.1.0&quot;-]{+&quot;0.1.1&quot;+}
+    s.author    =   &quot;Scott Chacon&quot;
+</code></pre><p>Kuten voit nähdä, tässä tulosteessa ei ole lisättyjä ja poistettuja rivejä, kuten normaalissa eroavaisuudessa. Muutokset esitetään sen sijaan rivin sisällä. Voit nähdä lisätyn sanan ympäröitynä <code>{+ +}</code> -merkeillä ja poistetun ympäröitynä <code>[- -]</code> -merkeillä. Voit myös haluta vähentää tavallisen kolmen rivin kontekstin eroavaisuustulosteessa vain yhden rivin kontekstiksi, koska asiayhteys on nyt sanatasolla ei rivitasolla. Voit tehdä tämän <code>-U1</code>-optiolla, kuten teimme esimerkissä yläpuolella.</p>
+<p>Voit myös käyttää yhteenveto-optioiden sarjaa <code>git log</code>in kanssa. Esimerkiksi, jos haluat nähdä hieman lyhennettyjä tilastoja kustakin pysyvästä muutoksesta, voit käyttää <code>--stat</code>-optiota:</p>
+<pre><code>$ git log --stat
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+ Rakefile |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+ lib/simplegit.rb |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+
+ README           |    6 ++++++
+ Rakefile         |   23 +++++++++++++++++++++++
+ lib/simplegit.rb |   25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+), 0 deletions(-)
+</code></pre><p>Kuten voit nähdä, <code>--stat</code>-optio tulostaa kunkin pysyvän muutoksen alapuolelle listan muokatuista tiedostoista, kuinka montaa tiedostoa muutettiin ja kuinka monta riviä lisättiin ja poistettiin näissä tiedostoissa. Se esittää myös lopuksi yhteenvedon tiedoista.
+Toinen todella hyödyllinen optio on <code>--pretty</code>. Tämä optio muuttaa lokitulosteen oletuksesta poikkeaviin muotoihin. Saatavilla on muutama esikäännetty optio käytettäväksesi. <code>Oneline</code>-optio tulostaa kunkin pysyvän muutoksen yhdelle riville,  mikä on hyödyllistä, jos katselet monia pysyviä muutoksia. Lisäksi <code>short</code>-, <code>full</code>- ja <code>fuller</code>-optiot näyttävät tulosteen karkeasti ottaen alkuperäisessä muodossa, mutta vastaavasti vähemmillä tai enemmillä tiedoilla:</p>
+<pre><code>$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 changed the version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
+a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
+</code></pre><p>Kiinnostavin optio on <code>format</code>, joka antaa sinun määritellä oman formaatin lokitulosteelle. Tämä on hyödyllinen varsinkin, kun  luot tulostetta koneellista parsimista varten — koska sinä määrittelet formaatin eksplisiittisesti, tiedät, ettei se muutu Gitin päivitysten myötä:</p>
+<pre><code>$ git log --pretty=format:&quot;%h - %an, %ar : %s&quot;
+ca82a6d - Scott Chacon, 11 months ago : changed the version number
+085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
+a11bef0 - Scott Chacon, 11 months ago : first commit
+</code></pre><p>Taulukko 2-1 listaa joitakin hyödyllisempiä optioita, joita format hyväksyy.</p>
+<table>
+<thead>
+<tr>
+<th>Optio</th>
+<th>Tulosteen kuvaus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%H</td>
+<td>Pysyvän muutoksen tarkiste</td>
+</tr>
+<tr>
+<td>%h</td>
+<td>Lyhennetty pysyvän muutoksen tarkiste</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>Puun tarkiste</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>Lyhennetty puun tarkiste</td>
+</tr>
+<tr>
+<td>%P</td>
+<td>Vanhempien tarkisteet</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>Lyhennetyt vanhempien tarkisteet</td>
+</tr>
+<tr>
+<td>%an</td>
+<td>Tekijän nimi</td>
+</tr>
+<tr>
+<td>%ae</td>
+<td>Tekijän sähköpostiosoite</td>
+</tr>
+<tr>
+<td>%ad</td>
+<td>Tekijän päiväys (muoto riippuu --date=-optiosta)</td>
+</tr>
+<tr>
+<td>%ar</td>
+<td>Tekijän päiväys, suhteellinen</td>
+</tr>
+<tr>
+<td>%cn</td>
+<td>Hyväksyjän nimi</td>
+</tr>
+<tr>
+<td>%ce</td>
+<td>Hyväksyjän sähköpostiosoite</td>
+</tr>
+<tr>
+<td>%cd</td>
+<td>Hyväksyjän päiväys</td>
+</tr>
+<tr>
+<td>%cr</td>
+<td>Hyväksyjän päiväys, suhteellinen</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>Aihe</td>
+</tr>
+</tbody>
+</table>
+<p>Saatat ihmetellä, mitä eroa on <em>tekijällä</em> ja <em>hyväksyjällä</em>. <em>Tekijä</em> on henkilö, joka alunperin kirjoitti muutoksen, kun taas <em>hyväksyjä</em> on henkilö, joka lopulta otti muutoksen käyttöön. Joten, jos sinä lähetät muutoksen projektiin ja joku ydinjäsenistä ottaa muutoksen käyttöön, te saatte molemmat kunniaa — sinä tekijänä ja ydinjäsen hyväksyjänä. Käsittelemme tätä eroa enemmän <em>Luvussa 5</em>.</p>
+<p><code>Oneline</code>- ja <code>format</code>-optiot ovat  erityisen hyödyllisiä yhdessä toisen <code>--graph</code>-nimisen <code>log</code>-komennon option kanssa. Tämä optio lisää kivan pienen ASCII-kaavion esittämään haarasi ja yhdistämisten historiaa, jonka voimme nähdä Grit-projektin tietovaraston kopiossamme:</p>
+<pre><code>$ git log --pretty=format:&quot;%h %s&quot; --graph
+* 2d3acf9 ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch &#39;master&#39; of git://github.com/dustin/grit
+|\
+| * 420eac9 Added a method for getting the current branch.
+* | 30e367c timeout code and tests
+* | 5a09431 add timeout protection to grit
+* | e1193f8 support for heads with slashes in them
+|/
+* d6016bc require time for xmlschema
+*  11d191e Merge branch &#39;defunkt&#39; into local
+</code></pre><p>Ne ovat vain joitakin yksinkertaisia tulosteenmuotoiluoptioita <code>git log</code>ille — monia muitakin on olemassa. Taulukko 2-2 listaa optiot, jotka olemme käsitelleet tähän mennessä sekä joitakin muita yleisiä muotoiluoptioita, jotka voivat olla hyödyllisiä, yhdessä sen kanssa, miten ne muuttavat <code>log</code>-komennon tulostetta.</p>
+<table>
+<thead>
+<tr>
+<th>Optio</th>
+<th>Kuvaus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-p</td>
+<td>Näyttää tehdyt muutokset kunkin pysyvän muutoksen yhteydessä.</td>
+</tr>
+<tr>
+<td>--word-diff</td>
+<td>Näyttää tehdyt muutokset sanatason eroavaisuuksina.</td>
+</tr>
+<tr>
+<td>--stat</td>
+<td>Näyttää kussakin pysyvässä muutoksessa muutetuista tiedostoista tilaston.</td>
+</tr>
+<tr>
+<td>--shortstat</td>
+<td>Näyttää vain muuttuneet/lisätyt/poistetut-rivin –stat-komennosta.</td>
+</tr>
+<tr>
+<td>--name-only</td>
+<td>Näyttää muutettujen tiedostojen listan pysyvän muutoksen tietojen jälkeen.</td>
+</tr>
+<tr>
+<td>--name-status</td>
+<td>Näyttää lisäksi listan vaikutetuista tiedostoista lisätty/muokattu/poistettu-tiedon kera.</td>
+</tr>
+<tr>
+<td>--abbrev-commit</td>
+<td>Näyttää vain muutaman ensimmäisen merkin SHA-1-tarkistesummasta kaikkien 40 merkin sijaan.</td>
+</tr>
+<tr>
+<td>--relative-date</td>
+<td>Näyttää päiväykset suhteellisessa muodossa (esimerkiksi, ”2 viikkoa sitten”) täyden päiväysmuotoilun käyttämisen sijaan.</td>
+</tr>
+<tr>
+<td>--graph</td>
+<td>Näyttää ASCII-kaavion haarasi ja yhdistämisten historiasta lokitulosteen vieressä.</td>
+</tr>
+<tr>
+<td>--pretty</td>
+<td>Näyttää pysyvät muutokset vaihtoehtoisessa muodossa. Vaihtoehtoihin kuuluu oneline, short, full, fuller ja format (jossa voit määritellä oman muotoilusi).</td>
+</tr>
+<tr>
+<td>--oneline</td>
+<td>Helppokäyttöoptio <code>--pretty=oneline –abbrev-commit</code>ille.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tulosteen-rajaaminen">Tulosteen rajaaminen</h2>
+<p>Lisäyksenä tulosteen muotoiluoptioihin, <code>git log</code> hyväksyy useita hyödyllisiä rajaamisoptioita — optioita, jotka antavat sinun näyttää vain osajoukon pysyvistä muutoksista. Olet nähnyt yhden sellaisen option ennestään — <code>-2</code>-option, joka näyttää vain kaksi viimeisintä pysyvää muutosta. Itse asiassa, voit käyttää <code>-&lt;n&gt;</code>:tä, jossa <code>n</code> on mikä tahansa kokonaisluku näyttääksesi viimeiset <code>n</code> pysyvää muutosta. Todellisuudessa käytät sitä epätodennäköisesti usein, koska oletuksena Git putkittaa kaiken tulosteen sivuttajan läpi, joten näet vain yhden sivun lokitulosteesta kerralla.</p>
+<p>Aikarajausoptiot, kuten <code>--since</code> ja <code>--until</code>, ovat kuitenkin erittäin hyödyllisiä. Esimerkiksi tämä komento hakee listan pysyvistä muutoksista, jotka on tehty kahden viimeisen viikon aikana.</p>
+<pre><code>$ git log --since=2.weeks
+</code></pre><p>Tämä komento toimii useilla muodoilla — voit määritellä tietyn päivämäärän (”15. 1. 2008”) tai suhteellisen päiväyksen, kuten ”2 vuotta 1 päivä ja 3 minuuttia sitten”.</p>
+<p>Voit myös suodattaa listan pysyviin muutoksiin, joihin sopii  jokin hakukriteeri. <code>--author</code>-optio antaa sinun suodattaa tietyllä tekijällä ja <code>--grep</code>-optio etsiä avainsanoja pysyvän muutoksen viestistä (Huomaa, että jos haluat määritellä sekä tekijä- että grep-optiot, täytyy sinun lisätä <code>--all-match</code> tai komento sopii pysyviin muutoksiin, jotka täyttävät vain toisen ehdon.)</p>
+<p>Viimeinen todella hyödyllinen <code>git log</code>ille suodattimena annettava optio on hakemistopolku (path). Jos määrittelet hakemiston tai tiedoston nimen, voit rajata lokitulosteen pysyviin muutoksiin, jotka esittelivät muutokset niihin tiedostoihin. Tämä on aina viimeinen optio ja yleensä varustettu kahden viivan (<code>--</code>) etuliitteellä, jotta hakemistopolut erotettaisiin optioista.</p>
+<p>Taulukossa 2-3 listaamme nämä ja muutaman muun yleisen option referenssiksesi.</p>
+<table>
+<thead>
+<tr>
+<th>Optio</th>
+<th>Kuvaus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-(n)</td>
+<td>Näyttää vain viimeisimmät n pysyvää muutosta</td>
+</tr>
+<tr>
+<td>--since, --after</td>
+<td>Rajaa pysyvät muutokset tietyn päivämäärän jälkeen tehtyihin.</td>
+</tr>
+<tr>
+<td>--until, --before</td>
+<td>Rajaa pysyvät muutokset tiettyä päivämäärää ennen tehtyihin.</td>
+</tr>
+<tr>
+<td>--author</td>
+<td>Näyttää vain pysyvät muutokset, joiden tekijämerkintä sopii tiettyyn merkkijonoon.</td>
+</tr>
+<tr>
+<td>--committer</td>
+<td>Näyttää vain pysyvät muutokset, joiden hyväksyjämerkintä sopii tiettyyn merkkijonoon.</td>
+</tr>
+</tbody>
+</table>
+<p>Esimerkiksi, jos haluat nähdä, mitkä testitiedostoja muokanneet pysyvät muutokset Gitin lähdekoodihistoriassa Junio Hamano teki lokakuussa 2008, joita ei ole yhdistetty, voit ajaa jotakuinkin seuraavasti:</p>
+<pre><code>$ git log --pretty=&quot;%h - %s&quot; --author=gitster --since=&quot;2008-10-01&quot; \
+   --before=&quot;2008-11-01&quot; --no-merges -- t/
+5610e3b - Fix testcase failure when extended attribute
+acd3b9e - Enhance hold_lock_file_for_{update,append}()
+f563754 - demonstrate breakage of detached checkout wi
+d1a43f2 - reset --hard/read-tree --reset -u: remove un
+51a94af - Fix &quot;checkout --track -b newbranch&quot; on detac
+b0ad11e - pull: allow &quot;git pull origin $something:$cur
+</code></pre><p>Tämä komento näyttää melkein 20 000 pysyvän muutoksen Gitin lähdekoodihistoriasta 6 näihin ehtoihin sopivaa pysyvää muutosta.</p>
+<h2 id="gui-n-k-ytt-minen-historian-visualisointiin">GUI:n käyttäminen historian visualisointiin</h2>
+<p>Jos haluat käyttää graafisempaa työkalua visualisoidaksesi pysyvien muutosten historiaasi, voit haluta katsoa <code>gitk</code>:ksi kutsuttua Tcl/Tk-ohjelmaa, jota levitetään Gitin kanssa. Gitk on periaatteessa visuaalinen <code>git log</code> -työkalu ja se hyväksyy lähes kaikki suodatusoptiot, joita <code>git log</code>kin hyväksyy. Jos kirjoitat projektissasi komentoriville <code>gitk</code>, sinun pitäisi saada Kuvaa 2-2 vastaava tulos.</p>
+<p><img src="http://git-scm.com/figures/18333fig0202-tn.png" alt=""></p>
+<p>Kuva 2-2. Gitk -historian visualisoija.</p>
+<p>Voit nähdä pysyvien muutosten historian ikkunan ylemmässä puoliskossa yhdessä kivan syntyperäkaavion kanssa. Vertailuohjelma ikkunan alemmassa puoliskossa näyttää sinulle napsauttamassasi pysyvässä muutoksessa esitellyt muutokset.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../gitin_perusteet/muutosten_tallennus_tietolahteeseen.html" class="navigation navigation-prev"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../gitin_perusteet/asioiden_kumoaminen.html" class="navigation navigation-next"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../gitbook/app.js"></script>
+        
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>
